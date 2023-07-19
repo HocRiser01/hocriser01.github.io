@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"47.99.133.133","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV164411S78V 1.线性回归(Linear Regression)与梯度下降(Gradient Descent) 记号： \(m\) &#x3D; 训练样本数，\(n\) &#x3D; 特征数，\(x\) &#x3D; 输入变量&#x2F;特征，\(y\) &#x3D; 输出变量&#x2F;目标变量 \((x, y)\) &#x3D; 训练样本。第i个: \((x^{(i)},y^{(i)})\">
+  <meta name="description" content="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV164411S78V 线性回归(Linear Regression)与梯度下降(Gradient Descent) 记号： \(m\) &#x3D; 训练样本数，\(n\) &#x3D; 特征数，\(x\) &#x3D; 输入变量&#x2F;特征，\(y\) &#x3D; 输出变量&#x2F;目标变量 \((x, y)\) &#x3D; 训练样本。第i个: \((x^{(i)},y^{(i)})\)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Cousera吴恩达机器学习笔记">
 <meta property="og:url" content="http://47.99.133.133/2023/07/19/Cousera%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="朝汐">
-<meta property="og:description" content="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV164411S78V 1.线性回归(Linear Regression)与梯度下降(Gradient Descent) 记号： \(m\) &#x3D; 训练样本数，\(n\) &#x3D; 特征数，\(x\) &#x3D; 输入变量&#x2F;特征，\(y\) &#x3D; 输出变量&#x2F;目标变量 \((x, y)\) &#x3D; 训练样本。第i个: \((x^{(i)},y^{(i)})\">
+<meta property="og:description" content="https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV164411S78V 线性回归(Linear Regression)与梯度下降(Gradient Descent) 记号： \(m\) &#x3D; 训练样本数，\(n\) &#x3D; 特征数，\(x\) &#x3D; 输入变量&#x2F;特征，\(y\) &#x3D; 输出变量&#x2F;目标变量 \((x, y)\) &#x3D; 训练样本。第i个: \((x^{(i)},y^{(i)})\)">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-07-19T08:42:55.000Z">
-<meta property="article:modified_time" content="2023-07-19T09:12:00.267Z">
+<meta property="article:modified_time" content="2023-07-19T09:12:58.643Z">
 <meta property="article:author" content="HocRiser">
 <meta property="article:tag" content="机器学习">
 <meta name="twitter:card" content="summary">
@@ -191,7 +191,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-07-19 16:42:55 / 修改时间：17:12:00" itemprop="dateCreated datePublished" datetime="2023-07-19T16:42:55+08:00">2023-07-19</time>
+              <time title="创建时间：2023-07-19 16:42:55 / 修改时间：17:12:58" itemprop="dateCreated datePublished" datetime="2023-07-19T16:42:55+08:00">2023-07-19</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -209,7 +209,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5.4k</span>
+              <span>5.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -230,7 +230,7 @@
       
         <p>https://www.bilibili.com/video/BV164411S78V</p>
 <h3
-id="线性回归linear-regression与梯度下降gradient-descent">1.线性回归(Linear
+id="线性回归linear-regression与梯度下降gradient-descent">线性回归(Linear
 Regression)与梯度下降(Gradient Descent)</h3>
 <p><strong>记号</strong>：</p>
 <p><span class="math inline">\(m\)</span> = 训练样本数，<span
@@ -273,8 +273,7 @@ class="math inline">\(\theta = (X^TX)^{-1}X^Ty\)</span></p>
 class="math inline">\(\mu_i\)</span> 为<span
 class="math inline">\(x_i\)</span>平均数，<span
 class="math inline">\(s_i\)</span> 为极差或标准差）</p>
-<h3 id="逻辑回归logistic-regression">2.逻辑回归(Logistic
-Regression)</h3>
+<h3 id="逻辑回归logistic-regression">逻辑回归(Logistic Regression)</h3>
 <p><strong>二分类</strong>：</p>
 <p><span class="math inline">\(h_\theta(x) = \frac{1}{1 +
 e^{-\theta^TX}}\)</span>，但若仍使用原先代价函数会得到非凸图像，容易收敛至非最值点。</p>
@@ -316,7 +315,7 @@ class="math inline">\(\theta_0\)</span>不需要）。</p>
 class="math inline">\((n+1)\times(n+1)\)</span></p>
 <p>若<span class="math inline">\(m \leqslant n\)</span>且<span
 class="math inline">\(\lambda &gt; 0\)</span>，那么此矩阵可逆。</p>
-<h3 id="神经网络neural-networks">3.神经网络(Neural Networks)</h3>
+<h3 id="神经网络neural-networks">神经网络(Neural Networks)</h3>
 <p><span class="math inline">\(L\)</span>：网络层数，<span
 class="math inline">\(s_l\)</span>：神经元数量（不包括偏差单元bias
 unit）</p>
@@ -370,7 +369,7 @@ J(\theta_1, \cdots, \theta_i - \epsilon, \cdots
 <p>随机初始化：每个<span
 class="math inline">\(\theta_{ij}^{(l)}\)</span>都在<span
 class="math inline">\([-\epsilon, \epsilon]\)</span>范围内随机。</p>
-<h3 id="机器学习诊断法diagnostics">4.机器学习诊断法(Diagnostics)：</h3>
+<h3 id="机器学习诊断法diagnostics">机器学习诊断法(Diagnostics)：</h3>
 <p><strong>0/1分类错误(0/1 Misclassfication error)</strong></p>
 <p><span class="math inline">\(err(h_\theta(x), y) = \begin{cases} 1
 &amp; \text{if } h_\theta(x) \geqslant 0.5 &amp; , y = 0 \\ &amp;
@@ -405,7 +404,7 @@ class="math inline">\(\frac{True\ positives}{\# actual\ positives} =
 \frac{True\ pos}{True\ pos + False\ neg}\)</span></p>
 <p>常用评估值：<span class="math inline">\(F_1\ Score: \frac{2PR}{P +
 R}\)</span></p>
-<h3 id="支持向量机support-vector-machine">5.支持向量机(Support Vector
+<h3 id="支持向量机support-vector-machine">支持向量机(Support Vector
 Machine)</h3>
 <p>逻辑回归：</p>
 <p><span class="math inline">\(J(\theta) = \frac{1}{m}[\sum_{i = 1}^m
@@ -508,9 +507,8 @@ class="math inline">\(n = m\)</span>）</p>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92linear-regression%E4%B8%8E%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8Dgradient-descent"><span class="nav-number">1.</span> <span class="nav-text">1.线性回归(Linear
-Regression)与梯度下降(Gradient Descent)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92logistic-regression"><span class="nav-number">2.</span> <span class="nav-text">2.逻辑回归(Logistic
-Regression)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9Cneural-networks"><span class="nav-number">3.</span> <span class="nav-text">3.神经网络(Neural Networks)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%AF%8A%E6%96%AD%E6%B3%95diagnostics"><span class="nav-number">4.</span> <span class="nav-text">4.机器学习诊断法(Diagnostics)：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BAsupport-vector-machine"><span class="nav-number">5.</span> <span class="nav-text">5.支持向量机(Support Vector
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92linear-regression%E4%B8%8E%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8Dgradient-descent"><span class="nav-number">1.</span> <span class="nav-text">线性回归(Linear
+Regression)与梯度下降(Gradient Descent)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92logistic-regression"><span class="nav-number">2.</span> <span class="nav-text">逻辑回归(Logistic Regression)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9Cneural-networks"><span class="nav-number">3.</span> <span class="nav-text">神经网络(Neural Networks)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%AF%8A%E6%96%AD%E6%B3%95diagnostics"><span class="nav-number">4.</span> <span class="nav-text">机器学习诊断法(Diagnostics)：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BAsupport-vector-machine"><span class="nav-number">5.</span> <span class="nav-text">支持向量机(Support Vector
 Machine)</span></a></li></ol></div>
       </div>
       <!--/noindex-->
