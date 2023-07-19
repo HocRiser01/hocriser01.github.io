@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Andrew Ng - Machine Learning - Stanford</title>
+    <url>/2023/07/19/Andrew-Ng-Machine-Learning-Stanford/</url>
+    <content><![CDATA[<p>https://open.163.com/newview/movie/free?pid=IEU2H8NIJ&amp;mid=VEU2H8NKA</p>
+<h2 id="supervised-learning-gradient-descent">1.Supervised Learning
+&amp; Gradient Descent</h2>
+<p>Notation:</p>
+<ul>
+<li><span class="math inline">\(m\)</span> = #training examples.</li>
+<li><span class="math inline">\(n\)</span> = #features</li>
+<li><span class="math inline">\(x\)</span> = input variables /
+features.</li>
+<li><span class="math inline">\(y\)</span> = output variable / target
+variable</li>
+<li><span class="math inline">\((x, y)\)</span> = training example
+<ul>
+<li>The i-th: <span
+class="math inline">\((x^{(i)},y^{(i)})\)</span></li>
+</ul></li>
+</ul>
+<span id="more"></span>
+<p><span
+class="math inline">\(h(x)=h_\theta(x)=\theta_0+\theta_1x_1+\theta_2x_2+...+\theta_nx_n\)</span></p>
+<p>let <span class="math inline">\(x_0\)</span> be 1,then</p>
+<p><span class="math inline">\(h(x) = \sum_{i=0}^{n}\theta_ix_i=\theta^T
+x\)</span></p>
+<p><span class="math inline">\(Minimize_{\theta}\ \ J(\theta) =
+\frac{1}{2} \sum_{i=1}^m(h_\theta(x^{(i)})-y^{(i)})^2\)</span></p>
+<p>(Least squares linear regression)</p>
+<p>Start with <span class="math inline">\(\theta =
+\boldsymbol{0}\)</span></p>
+<p>Notice:<span class="math inline">\(\theta,x,y\)</span> are all
+<em>vectors</em> now.</p>
+<p><strong>Batch Gradient Descent</strong>:<span
+class="math inline">\(\theta_i := \theta_i -
+\alpha\frac{\partial}{\partial\theta_i}J(\theta) = \theta_i -
+\alpha(h_\theta(x)-y)x_i = \theta_i - \alpha \sum_{j = 1}^n
+(h_\theta(x^{(j)}) - y^{(j)})x_i^{(j)}\)</span></p>
+<p>(Repeat until convergence)</p>
+<p><strong>Stochastic Gradient Descent</strong>:</p>
+<p>For j:=1 to m <span class="math inline">\(\theta_i := \theta_i -
+\alpha(h_\theta(x^{(j)})-y^{(j)})x_i^{(j)}\ (For\ all\ i)\)</span></p>
+<p>(one <span class="math inline">\((x,y)\)</span> for one step)</p>
+<p><strong>Def</strong>:<span class="math display">\[\nabla_\theta
+J=\left[ \begin{array}\\ \frac{\partial J}{\partial \theta_0} \\ \vdots
+\\ \frac{\partial J}{\partial \theta_n} \end{array}\right]\]</span></p>
+<p>So:Gradient Descent:<span class="math inline">\(\theta :=\theta -
+\alpha \nabla_\theta J\ \ (\theta,\nabla J \in
+\mathbb{R^{n+1}})\)</span></p>
+<p><span class="math inline">\(f(A):\mathbb{R^{m \times n}} \mapsto
+\mathbb{R}\)</span></p>
+<p><strong>Def</strong>:<span class="math inline">\(\nabla_A f(A)=\left[
+\begin{array}\\ \frac{\partial f}{\partial A_{1,1}} &amp; \cdots &amp;
+\frac{\partial f }{\partial A_{1,n}} \\ \vdots &amp; \ddots &amp; \vdots
+\\ \frac{\partial f}{\partial A_{m,1}} &amp; \cdots &amp; \frac{\partial
+f}{\partial A_{m,n}}\end{array} \right]\)</span></p>
+<p><span class="math inline">\(tr\ A = \sum_{i=1}^{n} A_{i,i}\ \ (A \in
+\mathbb{R^{n*n}})\)</span></p>
+<p><strong>Fact</strong>:</p>
+<p><span class="math inline">\(tr\ AB=tr\ BA\)</span></p>
+<p><span class="math inline">\(tr\ ABC = tr\ CAB = tr\ BCA\)</span></p>
+<p><span class="math inline">\(f(A) = tr\ AB,\nabla_A tr\ AB =
+B^T\)</span></p>
+<p><span class="math inline">\(\nabla_A tr\ ABA^TC = CAB +
+C^TAB^T\)</span></p>
+<p><span class="math inline">\(X = \left[\begin{array}\\(x^{(i)})^T \\
+\vdots \\ (x^{(m)})^T\end{array}\right]\)</span></p>
+<p><span class="math inline">\(\frac{1}{2}(X \theta - y)^T(X\theta - y)
+= \frac{1}{2}\sum_{i=1}^{m}(h(x^{(i)})-y^{(i)})^2 =
+J(\theta)\)</span></p>
+<p><span class="math inline">\(\begin{aligned} &amp;\nabla_\theta
+J(\theta)\\ =&amp; \nabla_\theta \frac{1}{2}(X \theta - y)^T(X\theta -
+y) \\ =&amp; \frac{1}{2} \nabla_\theta tr (\theta^TX^TX\theta - \theta^T
+X^Ty-y^TX\theta +y^Ty) \\ =&amp; \frac{1}{2}(\nabla_\theta tr\
+\theta\theta^TX^TX-\nabla_\theta tr\ y^TX\theta - \nabla_\theta
+y^TX\theta)\\ =&amp; X^TX\theta - X^Ty \end{aligned}\)</span></p>
+<p>Let it be 0,then</p>
+<p><span class="math inline">\(\theta = (X^TX)^{-1}X^Ty\)</span></p>
+<p>Vector Scaling:<span class="math inline">\(x_i = \frac{x_i -
+\mu_i}{s_i}\)</span></p>
+<p>Where <span class="math inline">\(\mu_i\)</span> is the average of
+all the values for feature (i) and <span
+class="math inline">\(s_i\)</span> is the range of values (max - min),
+or <span class="math inline">\(s_i\)</span> is the standard
+deviation.</p>
+<h2 id="underfitting-and-overfitting">2.Underfitting and
+Overfitting</h2>
+<p><strong>Parametric Learning Algorithm</strong>:The number of
+parameters grows with m.</p>
+<p>A non-parametric learning Algorithm:<strong>Locally Weighted
+Regression</strong> (LOESS)</p>
+<p>To evaluate <span class="math inline">\(h\)</span> at a certain <span
+class="math inline">\(x\)</span></p>
+<p>LR(Linear Regression):Fit <span class="math inline">\(\theta\)</span>
+to minimize <span
+class="math inline">\(\sum_{i}(y^{(i)}-\theta^Tx^{(i)})^2\)</span>
+,return <span class="math inline">\(\theta^TX\)</span></p>
+<p>LWR:Fit <span class="math inline">\(\theta\)</span> to minimize <span
+class="math inline">\(\sum_i
+w^{(i)}(y^{(i)}-\theta^Tx^{(i)})^2\)</span></p>
+<p>where <span
+class="math inline">\(w^{(i)}=exp(-\frac{(x^{(i)}-x)^2}{2\tau^2})\)</span>
+(<span class="math inline">\(\tau\)</span>:bandwidth parameter)</p>
+<p>If <span class="math inline">\(|x^{(i)}-x|\)</span> small, then <span
+class="math inline">\(w^{(i)}\approx 1\)</span></p>
+<p>If <span class="math inline">\(|x^{(i)}-x|\)</span> large, then <span
+class="math inline">\(w^{(i)}\approx 0\)</span></p>
+<p>One way to proof that the <strong>Least Squares</strong> works
+correctly.</p>
+<p>Assume <span class="math inline">\(y^{(i)} =
+\theta^Tx^{(i)}+\varepsilon^{(i)}\)</span></p>
+<p><span class="math inline">\(\varepsilon^{(i)} =
+error,\varepsilon^{(i)} \sim \mathscr{N}(O,\sigma^2)\)</span></p>
+<p><span class="math inline">\(P(\varepsilon^{(i)}) =
+\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(y^{(i)}-\theta^Tx^{(i)})^2}{2\sigma^2}}\sim
+\mathscr{N}(\theta^Tx^{(i)},\sigma^2)\)</span></p>
+<p>p.s.From Central Limit Theorem,we can know that <span
+class="math inline">\(y^{(i)}\)</span> given <span
+class="math inline">\(x^{(i)}\)</span> and parameterized by <span
+class="math inline">\(\theta\)</span> is distributed Gaussian。</p>
+<p><span class="math inline">\(\varepsilon^{(i)}\)</span>s are
+<strong>IID</strong> (Independently ,Identically Distributed)</p>
+<p><span class="math inline">\(L(\theta) =
+P(\overrightarrow{y}|X;\theta) = \prod_{i=1}^{m}
+P(y^{(i)}|x^{(i)};\theta) = \prod_{i=1}^m
+\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(y^{(i)}-\theta^Tx^{(i)})^2}{2\sigma^2}}\)</span>
+(Likelihood)</p>
+<p>The priciple of maximun likelihood:</p>
+<p><span class="math inline">\(\begin{aligned} l(\theta) =&amp; \log
+L(\theta) \\ =&amp; \log \prod_{i=1}^m
+\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(y^{(i)}-\theta^Tx^{(i)})^2}{2\sigma^2}}
+\\ =&amp; m\log\frac{1}{\sqrt{2\pi}\sigma} +
+\sum_{i=1}^m-\frac{(y^{(i)}-\theta^Tx^{(i)})^2}{2\sigma^2}\end{aligned}\)</span></p>
+<p>So maximize <span class="math inline">\(l(\theta)\)</span> is the
+same as minimizing <span
+class="math inline">\(\frac{\sum_{i=1}^m(y^{(i)} - \theta^Tx)^2}{2} =
+J(\theta)\)</span></p>
+<p><strong>Logistic Regression</strong>:<strong>Binary
+Classification</strong> (LR can't work well)</p>
+<p><span class="math inline">\(y\in\{0,1\},h_\theta
+(x)\in[0,1]\)</span></p>
+<p>choose:<span class="math inline">\(h_\theta(x) = g(\theta^TX) =
+\frac{1}{1+e^{-\theta^TX}}\)</span></p>
+<p><span class="math inline">\(g(z) = \frac{1}{1+e^{-z}}\)</span>
+(sigmoid function)</p>
+<p><span class="math inline">\(P(y = 1 | x; \theta) = h_\theta (x),P(y =
+0 | x ; \theta) = 1 - h_\theta(x)\)</span></p>
+<p>So <span class="math inline">\(P(y | x; \theta) = h_\theta(x)^y(1 -
+h_\theta(x))^{1-y}\)</span></p>
+<p><span class="math inline">\(L(\theta) = P(\overrightarrow{y} | x;
+\theta) = \prod_{i}P(y^{(i)} | x^{(i)}; \theta) = \prod_i
+h(x^{(i)})^{y(i)}(1 - h(x^{(i)}))^{1 - y^{(i)}}\)</span></p>
+<p><span class="math inline">\(l(\theta) = \log L(\theta) = \sum_{i=1}^m
+y^{(i)}\log h_\theta(x^{(i)}) + (1 - y^{(i)})\log (1 -
+h_\theta(x^{(i)}))\)</span></p>
+<p><span class="math inline">\(\theta := \theta + \alpha \nabla_\theta
+l(\theta)\)</span></p>
+<p><strong>Batch Gradient Ascent</strong></p>
+<p><span
+class="math inline">\(\frac{\partial}{\partial\theta_j}l(\theta) =
+\sum_{i=1}^m (y^{(i)} - h_\theta(x^{(i)}))x_j^{(i)}\)</span></p>
+<p><span class="math inline">\(\theta_j := \theta_j + \alpha\sum_{i=1}^m
+(y^{(i)} - h_\theta{(i)})x_j^{(i)}\)</span></p>
+<p><strong>Stochastic Gradient Descent</strong></p>
+<p><span class="math inline">\(\theta_j := \theta_j + \alpha(y^{(i)} -
+h(x^{(i)}))x_j^{(i)}\)</span></p>
+<p><span class="math inline">\(g(z) = \begin{cases} 1 &amp; if\
+z\geqslant 0 \\ 0 &amp; if\ otherwise\end{cases}\)</span></p>
+<p><span class="math inline">\(h_\theta(x) = g(\theta^Tx)\)</span></p>
+<p><span class="math inline">\(\theta_j := \theta_j +
+\alpha(y^{(i)}-h_\theta(x^{(i)}))x_j^{(i)}\)</span></p>
+<h2 id="newtons-methodnot-finished">3.Newton's Method(Not Finished)</h2>
+<p><span class="math inline">\(f(\theta)\)</span>,Find <span
+class="math inline">\(\theta\)</span> s.t. <span
+class="math inline">\(f(\theta) = 0\)</span></p>
+<p><span class="math inline">\(\Delta = \theta^{(t)} - \theta^{(t+1)} =
+\frac{f(\theta^{(t)})}{f&#39;(\theta^{(t)})}\)</span></p>
+<p><span class="math inline">\(l(\theta)\)</span> Want <span
+class="math inline">\(\theta\)</span> s.t. <span
+class="math inline">\(l(\theta) = 0\)</span></p>
+<p><span class="math inline">\(\theta^{(t+1)} = \theta^{(t)} -
+\frac{l&#39;(\theta^{(t)})}{l&#39;&#39;(\theta^{(t)})}\)</span></p>
+<p>More generally:</p>
+<p><span class="math inline">\(\theta^{(t+1)} = \theta^{(t)} -
+H^{-1}\nabla_\theta l\)</span></p>
+<p>Where H is the Hessian matrix</p>
+<p><span class="math inline">\(H_j = \frac{\partial^2 l}{\partial
+\theta_i \partial \theta_j}\)</span></p>
+<p><strong>Generalized Linear Methods</strong></p>
+<p><strong>Exponential Family Distributions</strong></p>
+<p><span class="math inline">\(P(y|x; \theta)\)</span></p>
+<p><span class="math inline">\(y \in \mathbb{R}\)</span>: Gaussian -&gt;
+Least Square</p>
+<p><span class="math inline">\(y \in \{0,1\}\)</span>:Bernoulli -&gt;
+Logisitic regression</p>
+<p><span class="math inline">\(Bernoulli(\Phi)\)</span> <span
+class="math inline">\(P(y = 1; \Phi) = \Phi\)</span> <span
+class="math inline">\(\mathscr{N}(\mu,\sigma^2)\)</span></p>
+<p><span class="math inline">\(P(y;\eta) = b(y)\exp(\eta^T T(y) -
+a(\eta))\)</span></p>
+<p><span class="math inline">\(\eta\)</span>-natural parameter</p>
+<p><span class="math inline">\(T(y)\)</span>-sufficient
+statistic(Usually <span class="math inline">\(T(y) = y\)</span>)</p>
+<p><span class="math inline">\(Ber(\Phi)\)</span> :</p>
+<p><span class="math inline">\(P(y;\Phi) = \Phi^y(1-\Phi)^{1-y} = \exp(y
+\log \Phi + (1 - y) \log (1 - \Phi)) = \exp(\log \frac{\Phi}{1 - \Phi} y
++ \log (1 - \Phi))\)</span></p>
+<p><span class="math inline">\(\eta = \log \frac{\Phi}{1 -
+\Phi}\)</span>,<span class="math inline">\(y = T(y)\)</span>,<span
+class="math inline">\(-a(\eta) = \log(1 - \Phi)\)</span></p>
+<p><span class="math inline">\(\Rightarrow \Phi = \frac{1}{1 +
+e^{-\eta}} \Rightarrow a(\eta) = -\log (1 - \Phi) = \log(1 +
+e^\eta)\)</span></p>
+<p><span class="math inline">\(T(y) = y\)</span>, <span
+class="math inline">\(b(y) = 1\)</span></p>
+<p><span class="math inline">\(\mathscr{N}(\mu, \sigma^2)\)</span> set
+<span class="math inline">\(\sigma^2 = 1\)</span></p>
+<p><span class="math inline">\(\frac{1}{\sqrt{2\pi}} \exp(-\frac{1}{2}(y
+- \mu)^2) =\frac{1}{\sqrt{2\pi}}\exp(-\frac{1}{2}y^2)\exp(\mu
+y-\frac{1}{2}\mu^2)\)</span></p>
+<p><span class="math inline">\(b(y) =
+\frac{1}{\sqrt{2\pi}}\exp(-\frac{1}{2}y^2)\)</span>, <span
+class="math inline">\(\mu = \eta\)</span>, <span
+class="math inline">\(T(y) = y\)</span>, <span
+class="math inline">\(a(\eta) = \frac{1}{2}\mu^2 =
+\frac{1}{2}\eta^2\)</span></p>
+<p><strong>Generalized Linear Models(GLM)</strong></p>
+<p>Assume:</p>
+<ol type="1">
+<li><p><span class="math inline">\(y|x;\theta \sim \text{Exp Family}
+(\eta)\)</span></p></li>
+<li><p>Given <span class="math inline">\(x\)</span>,goal is to output
+<span class="math inline">\(E[T(y)|x]\)</span>, Want <span
+class="math inline">\(h(x) = E[T(y)|x]\)</span></p></li>
+<li><p><span class="math inline">\(\eta = \theta^T x\)</span> (<span
+class="math inline">\(\eta_i = \theta_i^T x\)</span> if <span
+class="math inline">\(y \in \mathbb{R}^l\)</span>)</p></li>
+</ol>
+<p>Bernoulli: For fixed <span
+class="math inline">\(x,\theta\)</span>,algorithm output</p>
+<p><span class="math inline">\(h_\theta(x) = E[y|x;\theta] = P(y = 1 |
+x;\theta) = \Phi = \frac{1}{1+e^{-\eta}} = \frac{1}{1+e^{-\theta^T
+X}}\)</span></p>
+<p><span class="math inline">\(g(\eta) = E[y;\eta] =
+\frac{1}{1+e^{-\eta}}\)</span> (<strong>Canonical Response
+Function</strong>)</p>
+<p><span class="math inline">\(g^{-1}\)</span>:<strong>Canonical Link
+Function</strong></p>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo个人网站搭建</title>
+    <url>/2023/07/13/Hexo%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA/</url>
+    <content><![CDATA[<h2 id="本机配置">本机配置</h2>
+<p><a href="https://nodejs.org/en">官网</a>下载Node.js，换成淘宝源：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 换成淘宝源（可能需要sudo su进入root模式）：</span></span><br><span class="line">npm install -g cnpm --registry==https://registry.npm.taobao.org</span><br><span class="line">cnpm -v</span><br><span class="line">cnpm install -g hexo-cli</span><br><span class="line"><span class="built_in">mkdir</span> Hexo &amp;&amp; <span class="built_in">cd</span> Hexo</span><br><span class="line">hexo init</span><br><span class="line">hexo s</span><br><span class="line"><span class="comment"># 此时可在http://localhost:4000/访问主页</span></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h2 id="服务器与域名配置">服务器与域名配置</h2>
+<ul>
+<li>阿里云ECS轻量应用服务器2核2G￥108/年；买域名、ICP备案</li>
+<li>选择CentOS系统镜像，设置密码；</li>
+<li>创建新用户并设置ssh免密登录<a
+href="http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html">[原理链接]</a>，方便后续hexo部署：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">adduser git</span><br><span class="line"><span class="built_in">chmod</span> 740 /etc/sudoers</span><br><span class="line">vim /etc/sudoers</span><br><span class="line"><span class="comment"># 在root ALL=(ALL) ALL下添加：</span></span><br><span class="line">git ALL=(ALL) ALL</span><br><span class="line"><span class="built_in">chmod</span> 400 /etc/sudoers</span><br><span class="line">sudo passwd git</span><br><span class="line"></span><br><span class="line">su git</span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line"><span class="built_in">mkdir</span> .ssh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查本地~/.ssh下是否已有公钥，若没有：</span></span><br><span class="line">ssh-keygen</span><br><span class="line"><span class="comment"># 在服务器git用户~/.ssh下生成authorized_key</span></span><br><span class="line">ssh-copy-id user@host</span><br></pre></td></tr></table></figure>
+<h2 id="服务器nginx配置">服务器nginx配置</h2>
+<ul>
+<li>RedHat系（RedHat、CentOS、Fedora等）包管理工具为rpm，依赖管理工具为yum，Debian系（Debian、Ubuntu等）包管理工具为dpkg，依赖管理工具为apt。</li>
+<li>安装nginx依赖环境，下载解压nginx安装包：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 确认此时在root用户下：</span></span><br><span class="line">yum install gcc-c++</span><br><span class="line">yum install -y pcre pcre-devel</span><br><span class="line">yum install -y zlib zlib-devel</span><br><span class="line">yum install -y openssl openssl-devel</span><br><span class="line"></span><br><span class="line">wget -c https://nginx.org/download/nginx-1.10.1.tar.gz</span><br><span class="line">tar -xvf nginx-1.10.1.tar.gz -C /usr/local</span><br><span class="line"><span class="built_in">cd</span> /usr/local/nginx-1.10.1</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 若Make报错：</span></span><br><span class="line">vim ./objs/Makefile</span><br><span class="line"><span class="comment"># 删除CFLAGS中的-Werror：</span></span><br><span class="line">CFLAGS =  -pipe  -O -W -Wall -Wpointer-arith -Wno-unused -g</span><br><span class="line">vim ./src/os/unix/ngx_user.c</span><br><span class="line"><span class="comment"># 注释掉此行：</span></span><br><span class="line">cd.current_salt[0] = ~salt[0];</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装、配置nginx：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 确认此时在root用户下：</span></span><br><span class="line"><span class="built_in">cd</span> /usr/local/nginx/sbin</span><br><span class="line">./nginx</span><br><span class="line"><span class="comment"># 此时可用host:80访问nginx欢迎页</span></span><br><span class="line"><span class="comment"># 可用./nginx -s stop停止服务</span></span><br><span class="line"><span class="comment"># 若服务器不开放80端口：</span></span><br><span class="line">/sbin/iptables -I INPUT -p tcp –dport 80 -j ACCEPT</span><br><span class="line"></span><br><span class="line"><span class="built_in">mkdir</span> -p /home/www/hexo</span><br><span class="line"><span class="built_in">cd</span> /usr/local/nginx/conf</span><br><span class="line">vim nginx.conf</span><br><span class="line"><span class="comment"># 将其中的部署根目录/的location的root修改为/home/www/hexo</span></span><br><span class="line"><span class="comment"># 将server_name修改为域名，若没有域名则改为公网ip</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">curl -sL https://rpm.nodesource.com/setup_10.x | bash -</span><br><span class="line">yum install -y nodejs</span><br><span class="line">node -v</span><br><span class="line">npm -v</span><br><span class="line">yum install git</span><br><span class="line">git --version</span><br></pre></td></tr></table></figure>
+<h2 id="服务器hexo配置">服务器Hexo配置</h2>
+<p>配置git仓库</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 确认此时在git用户下：</span></span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">git init --bare hexo.git</span><br><span class="line">vim ~/hexo.git/hooks/post-receive</span><br><span class="line"><span class="comment"># 写入：git --work-tree=/home/www/hexo --git-dir=/home/git/hexo.git checkout -f</span></span><br><span class="line"><span class="built_in">chmod</span> +x ~/hexo.git/hooks/post-receive</span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">sudo <span class="built_in">chmod</span> -R 777 /home/www/hexo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 回到本地对应Hexo目录：</span></span><br><span class="line"><span class="built_in">cd</span> ~/Documents/Hexo</span><br><span class="line">sudo vim _config.yml</span><br><span class="line"><span class="comment"># 将url改成https://&#123;服务器IP&#125;/</span></span><br><span class="line"><span class="comment"># 修改末尾deploy部分：</span></span><br><span class="line">deploy:</span><br><span class="line">	<span class="built_in">type</span>: git</span><br><span class="line">	repo: git@ip:/home/git/hexo.git</span><br><span class="line">	branch: master</span><br><span class="line"></span><br><span class="line">npm install hexo-deployer-git --save</span><br><span class="line">npm install hexo-server</span><br><span class="line"></span><br><span class="line"><span class="comment"># 若首次使用git：</span></span><br><span class="line">git config --global user.name <span class="string">&quot;your-username&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;your-email-address&quot;</span></span><br><span class="line"></span><br><span class="line">hexo clean &amp;&amp; hexo g -d</span><br></pre></td></tr></table></figure>
+<h2 id="next主题配置">NeXT主题配置</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 更换主题：https://hexo.io/themes/</span></span><br><span class="line">git <span class="built_in">clone</span> --depth=1 https://github.com/theme-next/hexo-theme-next.git themes/next</span><br><span class="line"><span class="comment"># 将_config.yml中themes改为next</span></span><br><span class="line"></span><br><span class="line">hexo n <span class="string">&quot;name.md&quot;</span></span><br><span class="line">hexo clean &amp;&amp; hexo g -d</span><br><span class="line"><span class="comment"># 在Hexo和themes下各有一个_config.yml，在此自定义</span></span><br><span class="line"><span class="comment"># markdown中插入图片：</span></span><br><span class="line"><span class="comment"># 将Hexo根目录下_config.yml文件中post_asset_folder设为true，即可使用相对路径引用图片：</span></span><br><span class="line"><span class="comment"># 注意：.开头的隐藏文件不会被保留</span></span><br><span class="line">![](image.jpg)</span><br></pre></td></tr></table></figure>
+<p><a href="https://zhuanlan.zhihu.com/p/618864711">配置教程</a>，<a
+href="https://zhuanlan.zhihu.com/p/30836436">另一篇</a>，<a
+href="https://siriusq.top/Next%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96?tdsourcetag=s_pctim_aiomsg">另一篇</a></p>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>网站</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Mac工作环境配置</title>
+    <url>/2023/07/13/Mac%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<p>外部文件：</p>
+<p><a href="vimrc">.vimrc</a></p>
+<h2 id="基础配置">基础配置</h2>
+<p>系统偏好正常设置即可。</p>
+<p>super+shift+. 显示隐藏文件。</p>
+<p>软件：搜狗输入法，Chrome，XCode，Parallel
+Desktop/Toolbox，LaTeX，ForkLift，The Unarchiver，Steam，Github
+Desktop，Clean One Pro，WPS，MS Office，Typora，<a
+href="https://www.qbittorrent.org/download">qBittorrent</a>， <a
+href="https://help.ghelper.net/shou-ji-dai-li/clashx">ClashX</a></p>
+<span id="more"></span>
+<h2 id="shell">Shell</h2>
+<p><a
+href="https://cloud.tencent.com/developer/article/1639115">一篇教程</a>，<a
+href="https://zhuanlan.zhihu.com/p/550022490">另一篇教程</a></p>
+<ol type="1">
+<li>安装<a
+href="notion://www.notion.so/brew.sh">homebrew</a>：复制主页命令直接执行即可；</li>
+<li>安装iTerm2：brew install iterm2；</li>
+<li>安装zsh：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cat</span> etc/shells</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$SHELL</span></span><br><span class="line"><span class="comment">#若没有zsh：</span></span><br><span class="line">brew install zsh</span><br><span class="line"><span class="comment">#若默认不是zsh：</span></span><br><span class="line">chsh -s /bin/zsh</span><br><span class="line"></span><br><span class="line">vim ~/.zshrc</span><br><span class="line"><span class="built_in">source</span> ~/.bash_profile</span><br></pre></td></tr></table></figure>
+<ol type="1">
+<li>安装<a href="notion://www.notion.so/ohmyz.sh">oh my
+zsh</a>：复制主页命令直接执行即可</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.oh-my-zsh/custom/plugins/</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-syntax-highlighting.git</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-autosuggestions.git</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-completions.git</span><br><span class="line"><span class="comment"># brew默认安装至/usr/local/Cellar/故以下命令可能无效：</span></span><br><span class="line">brew install zsh-autosuggestions zsh-syntax-highlighting zsh-completions</span><br><span class="line"></span><br><span class="line">vim ~/.zshrc <span class="comment"># 找到plugins=(git)</span></span><br><span class="line">plugins=(</span><br><span class="line">     git</span><br><span class="line">     zsh-syntax-highlighting</span><br><span class="line">     zsh-autosuggestions</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<ol type="1">
+<li>安装powerlevel10k主题：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ./oh-my-zsh/themes</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/romkatv/powerlevel10k.git</span><br><span class="line"></span><br><span class="line">vim ~/.zshrc</span><br><span class="line">ZSH_THEME=<span class="string">&quot;powerlevel10k/powerlevel10k&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 退出，重新进入配置powerlevel10k</span></span><br><span class="line"><span class="comment"># 如果powerlevel下载字体失败：</span></span><br><span class="line">brew tap homebrew/cask-fonts</span><br><span class="line">brew install --cask font-sauce-code-pro-nerd-font</span><br></pre></td></tr></table></figure>
+<ol type="1">
+<li>vim配置：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">复制.vimrc</span><br><span class="line"></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim</span><br><span class="line"></span><br><span class="line">将 https://github.com/w0ng/vim-hybrid/blob/master/colors/hybrid.vim 复制到：</span><br><span class="line">~/.vim/colors/hybrid.vim</span><br><span class="line"></span><br><span class="line">:PluginUpdate</span><br></pre></td></tr></table></figure>
+<h2 id="语言环境">语言环境</h2>
+<h3 id="c">C++</h3>
+<p>Mac OS自带Clang+LLVM版G++。</p>
+<h3 id="python">Python</h3>
+<p>Mac自带非最新版本Python，用brew install python下载最新。</p>
+<h3 id="java">Java</h3>
+<p><a
+href="https://www.oracle.com/java/technologies/downloads/">Oracle官网</a>下载JDK，然后修改环境变量。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">/usr/libexec/java_home <span class="comment">#获取安装目录</span></span><br><span class="line">/Library/Java/JavaVirtualMachines/jdk-20.jdk/Contents/Home</span><br><span class="line"></span><br><span class="line">vim ~/.bash_profile</span><br><span class="line"><span class="built_in">export</span> JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-20.jdk/Contents/Home</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
+<h3 id="c-1">C</h3>
+<p><a href="https://dotnet.microsoft.com/zh-cn/download">下载</a>或brew
+install dotnet</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> csharp &amp;&amp; <span class="built_in">cd</span> csharp</span><br><span class="line">dotnet new console</span><br><span class="line">dotnet restore</span><br><span class="line">dotnet run</span><br><span class="line"></span><br><span class="line"><span class="comment"># 若出错：</span></span><br><span class="line">brew update</span><br><span class="line">brew install openssl</span><br><span class="line"><span class="built_in">ln</span> -s /usr/local/opt/openssl/lib/libcrypto.1.0.0.dylib /usr/local/lib/</span><br><span class="line"><span class="built_in">ln</span> -s /usr/local/opt/openssl/lib/libssl.1.0.0.dylib /usr/local/lib/</span><br><span class="line">brew <span class="built_in">link</span> --force openssl</span><br></pre></td></tr></table></figure>
+<h2 id="ide">IDE</h2>
+<h2 id="sublime">Sublime</h2>
+<p><a
+href="https://www.sublimetext.com/download_thanks?target=mac">官网下载</a></p>
+<p><a href="https://packagecontrol.io/installation">Package
+Control</a>，若失败：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ln</span> -sf /usr/local/Cellar/openssl@1.1/1.1.1o/lib/libcrypto.dylib /usr/local/lib<span class="comment">##/</span></span><br></pre></td></tr></table></figure>
+<h3 id="vscode">VScode</h3>
+<p><a href="https://code.visualstudio.com/">官网下载</a></p>
+<p>换用国内源：将下载地址中的<strong>az764295.vo.msecnd.net</strong>
+更换为  <strong>vscode.cdn.azure.cn</strong> 。</p>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Makefile和CMake初级使用</title>
+    <url>/2023/07/19/Makefile%E5%92%8CCMake%E5%88%9D%E7%BA%A7%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="makefile">Makefile</h2>
+<ul>
+<li>Makefile三部分：目标、依赖、执行语句；</li>
+<li>递归执行：若不存在目标文件或目标文件修改时间早于依赖文件，则先产生对应依赖文件，再执行语句；</li>
+<li>所有.o文件均由对应.c文件生成，<code>$&lt;</code>为第一个依赖文件，<code>$@</code>为目标，<code>$^</code>为所有不重复的依赖文件，以空格分开；</li>
+<li><code>src = $(wildcard ./*.c)</code>得到空格隔开的所有.c文件名；<code>obj = $(patsubst %.c, %.o, $(src))</code>
+代表将src中的所有.c替换成.o；<code>obj = $(src: %.c=%.o)</code>
+能得到同样效果；</li>
+<li><code>.PHONY</code>代表clean为伪目标</li>
+</ul>
+<span id="more"></span>
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line">src = <span class="variable">$(<span class="built_in">wildcard</span> ./*.c)</span>  </span><br><span class="line">obj = <span class="variable">$(<span class="built_in">patsubst</span> %.c, %.o, <span class="variable">$(src)</span>)</span>  </span><br><span class="line"><span class="comment">#obj = $(src:%.c=%.o)  </span></span><br><span class="line">target = app  </span><br><span class="line">CC = gcc  </span><br><span class="line"></span><br><span class="line"><span class="variable">$(target)</span>: <span class="variable">$(obj)</span>  </span><br><span class="line">    <span class="variable">$(CC)</span> <span class="variable">$(obj)</span> -o <span class="variable">$(target)</span>  </span><br><span class="line"></span><br><span class="line"><span class="section">%.o: %.c  </span></span><br><span class="line">    <span class="variable">$(CC)</span> -c <span class="variable">$&lt;</span> -o <span class="variable">$@</span>  </span><br><span class="line"></span><br><span class="line"><span class="meta"><span class="keyword">.PHONY</span>: clean  </span></span><br><span class="line"><span class="section">clean:  </span></span><br><span class="line">    rm -rf <span class="variable">$(obj)</span> <span class="variable">$(target)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line">CC := clang</span><br><span class="line">CXX := clang++</span><br><span class="line"></span><br><span class="line">.PHONY all</span><br><span class="line"><span class="section">all: answer</span></span><br><span class="line"></span><br><span class="line">objects := main.o answer.o</span><br><span class="line"><span class="section">answer: <span class="variable">$(objects)</span></span></span><br><span class="line">	<span class="variable">$(CXX)</span> -o <span class="variable">$@</span> <span class="variable">$(objects)</span></span><br><span class="line"></span><br><span class="line"><span class="section">main.o: answer.hpp</span></span><br><span class="line"><span class="section">answer.o: answer.hpp</span></span><br><span class="line"></span><br><span class="line">.PHONY clean</span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	rm -f answer(objects)</span><br></pre></td></tr></table></figure>
+<h2 id="cmake">CMake</h2>
+<ul>
+<li><a
+href="https://www.bilibili.com/video/BV14h41187FZ/?vd_source=9282f15e6d326725afd47615733d4bd1">视频教程</a></li>
+<li>在my_project目录下存放源文件和CMakeLists.txt，另新建文件夹build，进入后执行<code>cmake ..</code>在build目录下生成Makefile文件，再执行<code>cmake —-build .</code>生成可执行文件；上述命令等价于<code>cmake -B build &amp;&amp; cmake —-build build</code>
+；</li>
+<li>VSCode配置：<code>brew install cmake</code> 后安装CMake和CMake
+Tools，先编写CMakeLists.txt，再<code>Cmd+Shift+P</code> 调出CMake: Quick
+Start即可；</li>
+<li>文件目录形式：</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">- my_project/</span><br><span class="line">  - build/</span><br><span class="line">    - Makefile</span><br><span class="line">    - helloworld.exe</span><br><span class="line">  - CmakeLists.txt</span><br><span class="line">  - helloworld.cpp</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cmake_minimum_required</span>(VERSION <span class="number">3.5</span>)</span><br><span class="line"># Versions after <span class="number">3.5</span> <span class="function">are called Modern CMake</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">project</span><span class="params">(hello_library)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"># Create a library</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"># Generate the <span class="type">static</span> library from the library sources</span></span><br><span class="line"><span class="function"><span class="title">add_library</span><span class="params">(hello_library STATIC </span></span></span><br><span class="line"><span class="params"><span class="function">    src/Hello.cpp</span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">target_include_directories</span><span class="params">(hello_library</span></span></span><br><span class="line"><span class="params"><span class="function">    PUBLIC </span></span></span><br><span class="line"><span class="params"><span class="function">        $&#123;PROJECT_SOURCE_DIR&#125;/include</span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"># Create an executable</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"># Add an executable with the above sources</span></span><br><span class="line"><span class="function"><span class="title">add_executable</span><span class="params">(hello_binary </span></span></span><br><span class="line"><span class="params"><span class="function">    src/main.cpp</span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="meta"># link the new hello_library target with the hello_binary target</span></span></span><br><span class="line"><span class="function"><span class="title">target_link_libraries</span><span class="params">(hello_binary</span></span></span><br><span class="line"><span class="params"><span class="function">    PRIVATE </span></span></span><br><span class="line"><span class="params"><span class="function">        hello_library</span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+  </entry>
+</search>
