@@ -18,6 +18,7 @@
 <li>Windows下文件结束符为<code>Ctrl+Z</code>后<code>Enter</code>，Linux下为<code>Ctrl+D</code>；</li>
 <li>用户自定义的标识符不能连续出现两个下划线，也不能以下划线紧连大写字母开头，定义在函数体外的标识符不能以下划线开头；</li>
 </ul>
+<span id="more"></span>
 <h2 id="第一部分-c基础">第一部分 C++基础</h2>
 <h3 id="第二章-变量和基本类型">第二章 变量和基本类型</h3>
 <ul>
@@ -923,8 +924,6 @@ href="https://zhuanlan.zhihu.com/p/381508379">知乎</a></p></li>
 <li><p>添加置顶：</p></li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm uninstall hexo-generator-index --save</span><br><span class="line">npm instal hexo-generator-index-pin-top --save</span><br></pre></td></tr></table></figure>
-<p>在/themes/next/layout/_macro目录下的post.swig文件后添加：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">&#123;% if post.top %&#125;</span><br><span class="line"><span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">&quot;fa fa-thumb-tack&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">font</span> <span class="attr">color</span>=<span class="string">7D26CD</span>&gt;</span>置顶<span class="tag">&lt;/<span class="name">font</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;post-meta-divider&quot;</span>&gt;</span>|<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">&#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
 <p>在置顶文章的Front-matter中加上top: true即可。</p>
 ]]></content>
       <categories>
