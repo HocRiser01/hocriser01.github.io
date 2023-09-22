@@ -328,6 +328,7 @@ href="https://github.com/xiaoweiChen/CPP-Concurrency-In-Action-2ed-2019">https:/
 <h2 id="pthread.h">&lt;pthread.h&gt;</h2>
 <p>&lt;pthread.h&gt;是贴近底层的 POSIX 线程接口：</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">pthread_create</span>()：创建一个新的线程。</span><br><span class="line"><span class="built_in">pthread_join</span>()：等待指定的线程退出，并回收其资源。</span><br><span class="line"><span class="built_in">pthread_detach</span>()：将指定的线程设置为分离状态，使其资源在退出时自动回收。</span><br><span class="line"><span class="built_in">pthread_exit</span>()：使当前线程退出，并返回指定的状态值。</span><br><span class="line"><span class="built_in">pthread_mutex_init</span>()：初始化互斥锁。</span><br><span class="line"><span class="built_in">pthread_mutex_destroy</span>()：销毁互斥锁。</span><br><span class="line"><span class="built_in">pthread_mutex_lock</span>()：尝试获取互斥锁，如果已经被其他线程占用，则阻塞等待。</span><br><span class="line"><span class="built_in">pthread_mutex_unlock</span>()：释放互斥锁。</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
 <h2 id="thread">&lt;thread&gt;</h2>
 <p>C++11 提供<code>#include &lt;thread&gt;</code>
 头文件支持多线程，对C语言的<code>&lt;pthread.h&gt;</code>
