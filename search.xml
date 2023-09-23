@@ -318,6 +318,152 @@ href="https://changkun.de/modern-cpp/zh-cn/01-intro/#1-2-%E4%B8%8E-C-%E7%9A%84%E
       </tags>
   </entry>
   <entry>
+    <title>Go 语法笔记</title>
+    <url>/2023/09/23/Go-%E8%AF%AD%E6%B3%95%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<ul>
+<li>Go 是静态、强类型语言；</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main <span class="comment">// 定义包名</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span> <span class="comment">// 引入包</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 没有 init() 时的程序入口，可执行程序必须包含</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123; <span class="comment">// 注意大括号不能换行</span></span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	 当标识符以一个大写字母开头，就可以被外部包的代码所使用（public），</span></span><br><span class="line"><span class="comment">	 否则对包外不可见（protected）</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	fmt.Println(<span class="string">&quot;Hello, World!&quot;</span>) <span class="comment">// 不需要分号，除非一行多条语句</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<ul>
+<li><strong>运行</strong>：
+<ul>
+<li>使用 <code>go run main.go</code> 直接执行，或使用
+<code>go build main.go</code> 生成可执行文件 ；</li>
+</ul></li>
+<li><strong>数据类型</strong>：
+<ul>
+<li><code>bool</code> 、 <code>int</code> 、 <code>uint</code> 、
+<code>float32</code> 、 <code>float64</code> 、 <code>complex64</code>
+、 <code>complex128</code> 、 <code>string</code> （UTF-8）等；</li>
+<li>指针、数组、 <code>struct</code> 、 <code>Channel</code>
+、函数、切片、接口、 <code>Map</code> ；</li>
+<li>类似 Java，基础类型为值类型，高级类型为引用；</li>
+<li>交换值： <code>a, b = b, a</code> ；</li>
+</ul></li>
+<li><strong>变量声明</strong>：
+<ul>
+<li><code>var identifier1, identifier2 [type] [= value1, value2]</code>
+（不赋初值自动赋零值），可以根据赋初值自动判定类型；</li>
+<li>可以用 <code>a := 50</code> 直接声明（只能在函数体内）；</li>
+</ul></li>
+<li><strong>表达式</strong>：
+<ul>
+<li>基本类似于 C
+语言；自增自减运算只能单独作为表达式，不能用于赋值语句；</li>
+</ul></li>
+<li><strong>常量定义</strong>：
+<ul>
+<li><code>const identifier [type] = value</code> ；</li>
+</ul></li>
+<li><strong>条件、循环语句</strong>：
+<ul>
+<li>基本相当于 C 语言删去条件括号；</li>
+<li><strong>范围（range）</strong>： for-each 型循环：
+<code>for key, value := range oldMap</code></li>
+</ul></li>
+<li><strong>函数声明</strong>：
+<ul>
+<li><code>func myFunction(a, b int, s *string) (int, string) &#123;&#125;</code>
+，无返回值则省略；</li>
+<li>传参均为传值（包括数组等，切片为传引用），想传引用只能
+<code>s *string</code> ，调用 <code>*s</code> ；</li>
+</ul></li>
+<li><strong>匿名函数作闭包</strong>：
+<ul>
+<li><code>func add(x int) func(x int)(string, int) &#123; return func(x int)(string, int) &#123; ... &#125; &#125;</code>
+；</li>
+</ul></li>
+<li><strong>方法</strong>：
+<ul>
+<li>包含了接受者的函数；</li>
+<li><code>func (c Circle) getArea() float64 &#123; ... &#125;</code> ，调用
+<code>c.getArea()</code> ；</li>
+<li>没有 <code>this</code> 指针，直接使用参数名 <code>c</code> ；</li>
+</ul></li>
+<li><strong>数组</strong>：
+<ul>
+<li><code>var value = [3][2]int&#123;&#123;1, 2&#125;, &#123;3, 4&#125;, &#123;5, 6&#125;&#125;</code> ；</li>
+<li>可以用 <code>[...]</code> 自动获取初始化列表个数；</li>
+</ul></li>
+<li><strong>指针</strong>：
+<ul>
+<li>类似 C，输出为一个整数，空值为 <code>nil</code> ；</li>
+<li>类型声明从左往右读，右侧是左侧的定语（与 C 相反）；</li>
+</ul></li>
+<li><strong>struct 类型</strong>：
+<ul>
+<li>不包含方法，可以转换为 JSON；</li>
+<li>指向 <code>struct</code> 的指针获取成员变量可以不带星号：
+<code>ptr.a</code>
+，但这个自动解引用只做了一级，多级需要手动解引用到一级；</li>
+</ul></li>
+<li><strong>切片（slice）</strong>：
+<ul>
+<li><code>var identifier []type</code> ，可以使用
+<code>make([]T, length, [capacity])</code> ，length 为实际长度（即
+r-l），capacity 为最大容量（即数组长度-l） ，对应有 <code>len()</code>
+和 <code>cap()</code> 函数；</li>
+<li>使用 <code>s := arr[:]</code>
+创建数组<strong><em>引用</em></strong>，左闭右开类似 Python Numpy；</li>
+<li>未初始化时为 <code>nil</code> ；</li>
+<li>直接修改切片会影响它相关联的其余切片或原数组，但 <code>append</code>
+会让切片和与它相关的切片和数组脱钩，而地址不变；</li>
+<li>切片的 capacity 增长<strong><em>大致</em></strong>为每次两倍；</li>
+</ul></li>
+</ul>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">slices = <span class="built_in">append</span>(slices, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>); </span><br><span class="line">slices1 = <span class="built_in">make</span>([]<span class="type">int</span>, <span class="built_in">len</span>(slices), <span class="built_in">cap</span>(slices) * <span class="number">2</span>)</span><br><span class="line"><span class="built_in">copy</span>(slices1, slices) <span class="comment">// slices 拷贝进 slices1</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>集合（Map）</strong>：无序键值对集合，</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">v1 := m[<span class="string">&quot;apple&quot;</span>]</span><br><span class="line">v2, ok := m[<span class="string">&quot;pear&quot;</span>]  <span class="comment">// 如果键不存在，ok 的值为 false，v2 的值为该类型的零值</span></span><br><span class="line">m[<span class="string">&quot;apple&quot;</span>] = <span class="number">5</span> <span class="comment">// 插入/修改</span></span><br><span class="line"><span class="keyword">for</span> key, value := <span class="keyword">range</span> m &#123;</span><br><span class="line">	<span class="built_in">delete</span>(m, key) <span class="comment">// 删除</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>接口</strong>：
+<ul>
+<li>一个类型实现了一个接口包含的所有函数，它就实现了这个接口，从而可以实现多态；</li>
+<li>本质是一个指针，可以指向任何实现了它的类对象；</li>
+</ul></li>
+</ul>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> interface_name <span class="keyword">interface</span> &#123;</span><br><span class="line">   method_name1 [return_type]</span><br><span class="line">   ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(struct_name_variable struct_name)</span></span> method_name1() [return_type] &#123; ... &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Phone <span class="keyword">interface</span> &#123; call() &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> NokiaPhone <span class="keyword">struct</span> &#123; &#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(nokiaPhone NokiaPhone)</span></span> call() &#123; ... &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> IPhone <span class="keyword">struct</span> &#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(iPhone *IPhone)</span></span> call() &#123; ... &#125; <span class="comment">// 修改 iphone 内属性</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> phone Phone</span><br><span class="line"></span><br><span class="line">phone = <span class="built_in">new</span>(NokiaPhone)</span><br><span class="line">phone.call()</span><br><span class="line"></span><br><span class="line">phone = <span class="built_in">new</span>(IPhone)</span><br><span class="line">phone.call()</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>异常</strong>：
+<ul>
+<li>是一个接口， <code>type error interface &#123; Error() string &#125;</code>
+，实现了 <code>Error()</code> 的类即可抛出异常；</li>
+<li>可通过 <code>return errors.New("...")</code> 生成错误信息；</li>
+<li><code>panic-recover</code> 机制：类似
+<code>try-catch</code>，发生异常时立即向上逐层返回并执行
+<code>defer</code>（ <code>defer</code> 中也可以抛出
+<code>panic</code>），直到被 <code>recover</code>
+捕获或退出到最外层；</li>
+<li><code>defer</code> 可以多次声明（需要在 <code>panic</code>
+之前声明），在发生异常或正常结束时执行，按先进后出（后声明的先执行）；</li>
+</ul></li>
+</ul>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 以下代码执行输出 three</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> err := <span class="built_in">recover</span>() ; err != <span class="literal">nil</span> &#123;</span><br><span class="line">            fmt.Println(err)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;()</span><br><span class="line">    <span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span>&#123; <span class="built_in">panic</span>(<span class="string">&quot;three&quot;</span>) &#125;()</span><br><span class="line">    <span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span>&#123; <span class="built_in">panic</span>(<span class="string">&quot;two&quot;</span>) &#125;()</span><br><span class="line">    <span class="built_in">panic</span>(<span class="string">&quot;one&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>并发（Goroutine）</strong>：
+<ul>
+<li><code>go func(params)</code> 开启轻量级线程；</li>
+<li><strong>通道（Channel）</strong>： <code>ch &lt;- v</code> 把
+<code>v</code> 送给通道 <code>ch</code> ，
+<code>v[, ok] := &lt;- ch</code> 从通道接收数据给 <code>v</code> ；</li>
+<li>通道声明： <code>ch := make(chan int[, 100])</code>
+，默认无缓冲区；发送方在缓冲区满时会阻塞，接收方在缓冲区为空时会阻塞；</li>
+<li><code>close(c)</code> 关闭通道（缓冲区仍然存在）后接收方的
+<code>ok</code> 会得到 <code>false</code> ，否则会一直阻塞，据此可使用
+<code>for i := range c</code> ；</li>
+</ul></li>
+</ul>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>Go语言</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>C++ Concurrency in Action - SECOND EDITION</title>
     <url>/2023/09/22/C-Concurrency-in-Action-SECOND-EDITION/</url>
     <content><![CDATA[<h1 id="c-concurrency-in-action---second-edition">C++ Concurrency in
