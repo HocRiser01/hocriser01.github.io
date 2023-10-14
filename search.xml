@@ -250,7 +250,14 @@ const；<code>auto it = v.cbegin();</code>
 <li>如果一个类会被派生，应该将其析构函数定义为虚函数；</li>
 </ul>
 <h3 id="第十六章-模板与泛型编程">第十六章 模板与泛型编程</h3>
-<p>略</p>
+<ul>
+<li>有关模板、实例化、包扩展、转发、特例化、<code>std::move</code>
+等内容；</li>
+<li>推荐阅读 <strong><em>Effective Modern C++</em></strong>，<a
+href="https://zhuanlan.zhihu.com/p/649667647">缩略版</a>；</li>
+<li><a
+href="https://zhuanlan.zhihu.com/p/455848360">关于移动语义</a>；</li>
+</ul>
 <h2 id="第四部分-高级主题">第四部分 高级主题</h2>
 <h3 id="第十七章-标准库特殊设施">第十七章 标准库特殊设施</h3>
 <ul>
