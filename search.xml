@@ -894,6 +894,7 @@ href="https://changkun.de/modern-cpp/zh-cn/01-intro/#1-2-%E4%B8%8E-C-%E7%9A%84%E
 得到的函数对象；它们继承的 <code>binary_function</code> 和
 <code>unary_function</code> 已在 C++11 被废弃；</li>
 </ul>
+<span id="more"></span>
 <h2 id="右值引用和移动语义">右值引用和移动语义</h2>
 <ul>
 <li>生命周期延长：若一个 prvalue
