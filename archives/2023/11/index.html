@@ -20,20 +20,17 @@
     var CONFIG = {"hostname":"47.99.133.133","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="裸指针（不安全）： *const T 和 *mut T ； 单字节字符 b&#39;H&#39; ，单字节字符串 b&#39;Hello&#39; ，仅限 ASCII 字符； r#&quot;...&quot;# 表示不转义字符串； String → &amp;str 很廉价，而反之涉及分配内存，代价相对更高； 即使结构体是公有的，成员仍然默认私有；枚举如果是公有的则其成员均为公有； 可以在 match 中通过 ref 和 ref mut 获取对">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Rust Primer 读书笔记">
-<meta property="og:url" content="http://47.99.133.133/2023/10/21/Rust-Primer-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/index.html">
+  <meta name="description" content="平凡即是喜乐">
+<meta property="og:type" content="website">
+<meta property="og:title" content="朝汐">
+<meta property="og:url" content="http://47.99.133.133/archives/2023/11/index.html">
 <meta property="og:site_name" content="朝汐">
-<meta property="og:description" content="裸指针（不安全）： *const T 和 *mut T ； 单字节字符 b&#39;H&#39; ，单字节字符串 b&#39;Hello&#39; ，仅限 ASCII 字符； r#&quot;...&quot;# 表示不转义字符串； String → &amp;str 很廉价，而反之涉及分配内存，代价相对更高； 即使结构体是公有的，成员仍然默认私有；枚举如果是公有的则其成员均为公有； 可以在 match 中通过 ref 和 ref mut 获取对">
+<meta property="og:description" content="平凡即是喜乐">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-10-20T16:30:48.000Z">
-<meta property="article:modified_time" content="2023-10-20T16:31:46.442Z">
 <meta property="article:author" content="HocRiser">
-<meta property="article:tag" content="Rust">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://47.99.133.133/2023/10/21/Rust-Primer-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">
+<link rel="canonical" href="http://47.99.133.133/archives/2023/11/">
 
 
 <script id="page-configurations">
@@ -41,12 +38,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : true,
+    isPost : false,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>Rust Primer 读书笔记 | 朝汐</title>
+  <title>归档 | 朝汐</title>
   
 
 
@@ -160,178 +157,90 @@
         <div class="content-wrap">
           
 
-          <div class="content post posts-expand">
+          <div class="content archive">
             
 
-    
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://47.99.133.133/2023/10/21/Rust-Primer-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="HocRiser">
-      <meta itemprop="description" content="平凡即是喜乐">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="朝汐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          Rust Primer 读书笔记
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2023-10-21 00:30:48 / 修改时间：00:31:46" itemprop="dateCreated datePublished" datetime="2023-10-21T00:30:48+08:00">2023-10-21</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>2k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>4 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+  
+  <div class="post-block">
+    <div class="posts-collapse">
+      <div class="collection-title">
+        <span class="collection-header">嗯..! 目前共计 14 篇日志。 继续努力。</span>
+      </div>
 
       
-        <ul>
-<li>裸指针（不安全）： <code>*const T</code> 和 <code>*mut T</code>
-；</li>
-<li>单字节字符 <code>b'H'</code> ，单字节字符串 <code>b'Hello'</code>
-，仅限 ASCII 字符； <code>r#"..."#</code> 表示不转义字符串；</li>
-<li><code>String</code> → <code>&amp;str</code>
-很廉价，而反之涉及分配内存，代价相对更高；</li>
-<li>即使结构体是公有的，成员仍然默认私有；枚举如果是公有的则其成员均为公有；</li>
-<li>可以在 <code>match</code> 中通过 <code>ref</code> 和
-<code>ref mut</code> 获取对应变量的引用；</li>
-<li><code>try!</code> 宏在 <code>Ok</code> 时提取内部值，否则直接
-<code>return</code> 期望返回的 Error 类型；现在可以直接使用
-<code>?</code> ；</li>
-<li>使用 <code>io::stdin.read_line(&amp;mut String)</code> 读入；</li>
-</ul>
-<span id="more"></span>
-<ul>
-<li>Rust 项目结构：</li>
-</ul>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Project/</span><br><span class="line">|-- cargo.toml</span><br><span class="line">|-- cargo.lock</span><br><span class="line">|-- src/</span><br><span class="line">|-- |-- main.rs</span><br><span class="line">|-- |-- lib.rs</span><br><span class="line">|-- |-- bin/</span><br><span class="line">|-- tests/</span><br><span class="line">|-- examples/</span><br></pre></td></tr></table></figure>
-<ul>
-<li><code>for (i, j) in (5..10).enumerate()</code> 使 <code>i</code>
-为循环次数下标；</li>
-<li>使用 <code>#derive[(...)]</code> 为类型自动添加一些 trait，常用：
-<code>Clone</code> ， <code>Copy</code> ， <code>Debug</code> ，
-<code>Default</code> ， <code>Eq</code> ， <code>PartiaEq</code> ，
-<code>Ord</code> ， <code>PartialOrd</code> ， <code>Hash</code> ；</li>
-<li><code>Eq</code> trait 表示任意两个值要么 <code>==</code> 要么
-<code>!=</code> ，它不包含方法，仅用作标记； <code>PartialEq</code>
-提供部分等价关系，包含一个 <code>eq</code> 方法；实现了 <code>Eq</code>
-的必然实现了 <code>PartialEq</code> ； <code>&lt;</code> 、
-<code>&gt;</code> 、 <code>&gt;=</code> 、 <code>&lt;=</code> 实现的是
-<code>PartialOrd</code> ；</li>
-<li>所有硬编码字符串均为 <code>&amp;'static str</code> ；</li>
-<li><code>+</code> 、 <code>-</code> 、 <code>*</code> 、 <code>/</code>
-、 <code>%</code> 分别实现在 <code>std::ops::Add/Sub/Mul/Div/Rem</code>
-； <code>&amp;</code> 、 <code>|</code> 、 <code>^</code> 、
-<code>&lt;&lt;</code> 、 <code>&gt;&gt;</code> 分别实现在
-<code>std::ops::BitAnd/BitOr/BitXor/Shl/Shr</code>；</li>
-<li>函数参数支持模式匹配：
-<code>fn print_age((_, age): (&amp;str, i32));</code> ；</li>
-<li>发散函数（Diverging function）不返回值，返回值处使用 <code>!</code>
-；</li>
-<li>trait 可以继承： <code>trait Son : Parent</code> ，之后实现
-<code>Son</code> 的类型也要实现 <code>Parent</code> ；</li>
-<li><code>Copy</code> trait 继承 <code>Clone</code> trait：
-<code>pub trait Copy: Clone;</code> ；</li>
-<li>Rust 为 <code>Vec</code> 、 <code>HashMap</code> 实现了
-<code>IntoIterator</code> trait，从而支持直接 <code>for a in vec</code>
-循环；无限迭代器： <code>let inf_seq = (1..).into_iter();</code> ；
-<code>Vec</code> 、 <code>HashMap</code> 实现了
-<code>FromIterator</code> trait，以支持 <code>(1..10).collect()</code>
-等操作；</li>
-<li><code>fold</code> 和 <code>reduce</code> 的区别：后者带初始值；取前
-n 个：
-<code>let v_take = v.iter().cloned().take(2).collect::&lt;Vec&lt;_&gt;&gt;();</code>
-， <code>skip(n)</code> 跳过前 n 个；</li>
-<li>Prelude 的一部分：</li>
-</ul>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">std::marker::&#123;<span class="built_in">Copy</span>, <span class="built_in">Send</span>, <span class="built_in">Sized</span>, <span class="built_in">Sync</span>&#125;</span><br><span class="line">std::ops::&#123;<span class="built_in">Drop</span>, <span class="built_in">Fn</span>, <span class="built_in">FnMut</span>, <span class="built_in">FnOnce</span>&#125;</span><br><span class="line">std::mem::drop</span><br><span class="line">std::boxed::<span class="type">Box</span></span><br><span class="line">std::borrow::<span class="built_in">ToOwned</span></span><br><span class="line">std::clone::<span class="built_in">Clone</span></span><br><span class="line">std::cmp::&#123;<span class="built_in">PartialEq</span>, <span class="built_in">PartialOrd</span>, <span class="built_in">Eq</span>, <span class="built_in">Ord</span>&#125;</span><br><span class="line">std::convert::&#123;<span class="built_in">AsRef</span>, <span class="built_in">AsMut</span>, <span class="built_in">Into</span>, <span class="built_in">From</span>&#125;</span><br><span class="line">std::default::<span class="built_in">Default</span></span><br><span class="line">std::iter::&#123;<span class="built_in">Iterator</span>, <span class="built_in">Extend</span>, <span class="built_in">IntoIterator</span>, <span class="built_in">DoubleEndedIterator</span>, <span class="built_in">ExactSizeIterator</span>&#125;</span><br><span class="line">std::option::<span class="type">Option</span>::&#123;<span class="keyword">self</span>, <span class="literal">Some</span>, <span class="literal">None</span>&#125;</span><br><span class="line">std::result::<span class="type">Result</span>::&#123;<span class="keyword">self</span>, <span class="literal">Ok</span>, <span class="literal">Err</span>&#125;</span><br><span class="line">std::slice::<span class="built_in">SliceConcatExt</span></span><br><span class="line">std::string::&#123;<span class="type">String</span>, <span class="built_in">ToString</span>&#125;</span><br><span class="line">std::vec::<span class="type">Vec</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li><code>Into/From</code> trait 分别实现了 <code>U::from(T)</code> 和
-<code>U::into(T)</code> ，会消耗所有权；实现了 <code>From</code>
-会自动实现 <code>Into</code> ； <code>TryFrom</code> 和
-<code>TryInto</code> 返回 <code>Result</code> ；同样还有
-<code>ToString</code> 和 <code>FromStr</code> ；</li>
-<li><code>AsRef&lt;U&gt;</code> 实现了将 <code>T</code> 类型对象
-<code>a</code> 通过 <code>a.as_ref()</code> 得到 <code>&amp;U</code>
-，不消耗所有权； <code>AsMut</code> 同理；</li>
-<li>实现了 <code>Deref&lt;Target=U&gt;</code> 的类型 <code>T</code>
-可以通过 <code>&amp;T</code> 传参给 <code>&amp;U</code>
-；调用函数时，Rust 会提供任意多层自动解引用；</li>
-</ul>
-
+    <div class="collection-year">
+      <span class="collection-header">2023</span>
     </div>
 
-    
-    
-    
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
 
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/Rust/" rel="tag"># Rust</a>
-          </div>
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2023-11-20T17:51:23+08:00"
+              content="2023-11-20">
+          11-20
+        </time>
+      </div>
 
-        
+      <div class="post-title">
+          <a class="post-title-link" href="/2023/11/20/Rust-%E7%AC%94%E8%AE%B0/" itemprop="url">
+            <span itemprop="name">Rust 笔记</span>
+          </a>
+      </div>
 
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2023/10/21/The-Rust-Programming-Language-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="prev" title="The Rust Programming Language 读书笔记">
-      <i class="fa fa-chevron-left"></i> The Rust Programming Language 读书笔记
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2023/10/27/Modern-C-11-20-%E7%AC%94%E8%AE%B0/" rel="next" title="Modern C++ (11~20) 笔记">
-      Modern C++ (11~20) 笔记 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
+    </header>
   </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2023-11-20T17:50:13+08:00"
+              content="2023-11-20">
+          11-20
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/2023/11/20/Pine-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" itemprop="url">
+            <span itemprop="name">Pine 源码阅读笔记</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2023-11-20T17:48:44+08:00"
+              content="2023-11-20">
+          11-20
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/2023/11/20/Modern-C-%EF%BC%8811-26%EF%BC%89%E7%AC%94%E8%AE%B0/" itemprop="url">
+            <span itemprop="name">Modern C++（11~26）笔记</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+
+    </div>
+  </div>
   
   
+  
+
   
 
 
@@ -399,7 +308,7 @@ n 个：
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -412,7 +321,7 @@ n 个：
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -479,13 +388,13 @@ n 个：
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">80k</span>
+    <span title="站点总字数">89k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">2:26</span>
+    <span title="站点阅读时长">2:42</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>

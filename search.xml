@@ -872,9 +872,263 @@ href="https://changkun.de/modern-cpp/zh-cn/01-intro/#1-2-%E4%B8%8E-C-%E7%9A%84%E
       </tags>
   </entry>
   <entry>
-    <title>Modern C++ (11~20) 笔记</title>
-    <url>/2023/10/27/Modern-C-11-20-%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h2 id="堆栈raii容器">堆、栈、RAII、容器</h2>
+    <title>Rust 笔记</title>
+    <url>/2023/11/20/Rust-%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h1 id="rust-笔记">Rust 笔记</h1>
+<p><strong>参考</strong>：</p>
+<p><em>《Rust Primer》</em></p>
+<p><em>《Rust 编程之道》</em></p>
+<p><em>《Rust Course》（Rust 语言圣经）</em></p>
+<p>THU<em>《程序设计训练（Rust）》</em>课件</p>
+<ul>
+<li>裸指针（不安全）： <code>*const T</code> 和 <code>*mut T</code>
+；</li>
+<li>单字节字符 <code>b'H'</code> ，单字节字符串 <code>b'Hello'</code>
+，仅限 ASCII 字符； <code>r#"..."#</code> 表示不转义字符串；</li>
+<li><code>String</code> → <code>&amp;str</code>
+很廉价，而反之涉及分配内存，代价相对更高；</li>
+<li>即使结构体是公有的，成员仍然默认私有；枚举如果是公有的则其成员均为公有；</li>
+<li>可以在 <code>match</code> 中通过 <code>ref</code> 和
+<code>ref mut</code> 获取对应变量的引用；</li>
+<li><code>try!</code> 宏在 <code>Ok</code> 时提取内部值，否则直接
+<code>return</code> 期望返回的 Error 类型；现在可以直接使用
+<code>?</code> ；</li>
+<li>使用 <code>io::stdin.read_line(&amp;mut String)</code> 读入；</li>
+<li>Rust 项目结构：</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line">Project/</span><br><span class="line">|-- cargo.toml</span><br><span class="line">|-- cargo.lock</span><br><span class="line">|-- src/</span><br><span class="line">|-- |-- main.rs</span><br><span class="line">|-- |-- lib.rs</span><br><span class="line">|-- |-- bin/</span><br><span class="line">|-- tests/</span><br><span class="line">|-- examples/</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>for (i, j) in (5..10).enumerate()</code> 使 <code>i</code>
+为循环次数下标；</li>
+<li>使用 <code>#derive[(...)]</code> 为类型自动添加一些 trait，常用：
+<code>Clone</code> ， <code>Copy</code> ， <code>Debug</code> ，
+<code>Default</code> ， <code>Eq</code> ， <code>PartiaEq</code> ，
+<code>Ord</code> ， <code>PartialOrd</code> ， <code>Hash</code> ；</li>
+<li><code>Eq</code> trait 表示任意两个值要么 <code>==</code> 要么
+<code>!=</code> ，它不包含方法，仅用作标记； <code>PartialEq</code>
+提供部分等价关系，包含一个 <code>eq</code> 方法；实现了 <code>Eq</code>
+的必然实现了 <code>PartialEq</code> ； <code>&lt;</code> 、
+<code>&gt;</code> 、 <code>&gt;=</code> 、 <code>&lt;=</code> 实现的是
+<code>PartialOrd</code> ； <code>PartialEq</code> 满足对称性与传递性，
+<code>Eq</code> 还满足自反性；</li>
+<li>所有硬编码字符串均为 <code>&amp;'static str</code> ；</li>
+<li><code>+</code> 、 <code>-</code> 、 <code>*</code> 、 <code>/</code>
+、 <code>%</code> 分别实现在 <code>std::ops::Add/Sub/Mul/Div/Rem</code>
+； <code>&amp;</code> 、 <code>|</code> 、 <code>^</code> 、
+<code>&lt;&lt;</code> 、 <code>&gt;&gt;</code> 分别实现在
+<code>std::ops::BitAnd/BitOr/BitXor/Shl/Shr</code>；</li>
+<li>函数参数支持模式匹配：
+<code>fn print_age((_, age): (&amp;str, i32));</code> ；</li>
+<li>发散函数（Diverging function）不返回值，返回值处使用 <code>!</code>
+；</li>
+<li>trait 可以继承： <code>trait Son : Parent</code> ，之后实现
+<code>Son</code> 的类型也要实现 <code>Parent</code> ；</li>
+<li><code>Copy</code> trait 继承 <code>Clone</code> trait：
+<code>pub trait Copy: Clone;</code> ；</li>
+<li>Rust 为 <code>Vec</code> 、 <code>HashMap</code> 实现了
+<code>IntoIterator</code> trait，从而支持直接 <code>for a in vec</code>
+循环；无限迭代器： <code>let inf_seq = (1..).into_iter();</code> ；
+<code>Vec</code> 、 <code>HashMap</code> 实现了
+<code>FromIterator</code> trait，以支持 <code>(1..10).collect()</code>
+等操作；</li>
+<li><code>fold</code> 和 <code>reduce</code> 的区别：后者带初始值；取前
+n 个：
+<code>let v_take = v.iter().cloned().take(2).collect::&lt;Vec&lt;_&gt;&gt;();</code>
+， <code>skip(n)</code> 跳过前 n 个；</li>
+<li>Prelude 的一部分：</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line">std::marker::&#123;<span class="built_in">Copy</span>, <span class="built_in">Send</span>, <span class="built_in">Sized</span>, <span class="built_in">Sync</span>&#125;</span><br><span class="line">std::ops::&#123;<span class="built_in">Drop</span>, <span class="built_in">Fn</span>, <span class="built_in">FnMut</span>, <span class="built_in">FnOnce</span>&#125;</span><br><span class="line">std::mem::drop</span><br><span class="line">std::boxed::<span class="type">Box</span></span><br><span class="line">std::borrow::<span class="built_in">ToOwned</span></span><br><span class="line">std::clone::<span class="built_in">Clone</span></span><br><span class="line">std::cmp::&#123;<span class="built_in">PartialEq</span>, <span class="built_in">PartialOrd</span>, <span class="built_in">Eq</span>, <span class="built_in">Ord</span>&#125;</span><br><span class="line">std::convert::&#123;<span class="built_in">AsRef</span>, <span class="built_in">AsMut</span>, <span class="built_in">Into</span>, <span class="built_in">From</span>&#125;</span><br><span class="line">std::default::<span class="built_in">Default</span></span><br><span class="line">std::iter::&#123;<span class="built_in">Iterator</span>, <span class="built_in">Extend</span>, <span class="built_in">IntoIterator</span>, <span class="built_in">DoubleEndedIterator</span>, <span class="built_in">ExactSizeIterator</span>&#125;</span><br><span class="line">std::option::<span class="type">Option</span>::&#123;<span class="keyword">self</span>, <span class="literal">Some</span>, <span class="literal">None</span>&#125;</span><br><span class="line">std::result::<span class="type">Result</span>::&#123;<span class="keyword">self</span>, <span class="literal">Ok</span>, <span class="literal">Err</span>&#125;</span><br><span class="line">std::slice::<span class="built_in">SliceConcatExt</span></span><br><span class="line">std::string::&#123;<span class="type">String</span>, <span class="built_in">ToString</span>&#125;</span><br><span class="line">std::vec::<span class="type">Vec</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>Into/From</code> trait 分别实现了 <code>U::from(T)</code> 和
+<code>U::into(T)</code> ，会消耗所有权；实现了 <code>From</code>
+会自动实现 <code>Into</code> ； <code>TryFrom</code> 和
+<code>TryInto</code> 返回 <code>Result</code> ；同样还有
+<code>ToString</code> 和 <code>FromStr</code> ；</li>
+<li><code>AsRef&lt;U&gt;</code> 实现了将 <code>T</code> 类型对象
+<code>a</code> 通过 <code>a.as_ref()</code> 得到 <code>&amp;U</code>
+，不消耗所有权； <code>AsMut</code> 同理；</li>
+<li>实现了 <code>Deref&lt;Target=U&gt;</code> 的类型 <code>T</code>
+可以通过 <code>&amp;T</code> 传参给 <code>&amp;U</code>
+；调用函数时，Rust 会提供任意多层自动解引用；</li>
+<li>不可以使用 <code>i32/i64</code> 作为下标，需要 <code>as usize</code>
+；</li>
+<li>不同于 C++，Rust 的块注释 <code>/* */</code> 可以嵌套；</li>
+<li>变量有引用存在时，不能移交其绑定数据的所有权；</li>
+<li>结构体有域级的访问控制，但没有域级的可变性控制，因此可以对内部变量标记
+<code>pub</code> 而不能标记 <code>mut</code>
+；结构体的域访问控制是针对模块而非结构体本身的，即其私有成员可以被同模块的其它函数访问；</li>
+<li>使用 <code>s.chars().nth(i)</code> 访问 <code>String</code> ；</li>
+<li>常用 <code>Option&lt;T&gt;</code> 相关函数：</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">unwrap</span>&lt;T&gt;(<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> T &#123;</span><br><span class="line">	<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">		<span class="literal">None</span> =&gt; <span class="built_in">panic!</span>(<span class="string">&quot;Called `Option::unwrap()` on a `None` value&quot;</span>),</span><br><span class="line">		<span class="title function_ invoke__">Some</span>(value) =&gt; value,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">map</span>&lt;U, F&gt;(<span class="keyword">self</span>, f: F) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;U&gt;</span><br><span class="line">		<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>(T) <span class="punctuation">-&gt;</span> U &#123;</span><br><span class="line">	<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">		<span class="literal">None</span> =&gt; <span class="literal">None</span>,</span><br><span class="line">		<span class="title function_ invoke__">Some</span>(x) =&gt; <span class="title function_ invoke__">Some</span>(<span class="title function_ invoke__">f</span>(x))</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">and_then</span>&lt;U, F&gt;(<span class="keyword">self</span>, f: F) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;U&gt;</span><br><span class="line">		<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>(T) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;U&gt; &#123;</span><br><span class="line">	<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">		<span class="title function_ invoke__">Some</span>(x) =&gt; <span class="title function_ invoke__">f</span>(x),</span><br><span class="line">		<span class="literal">None</span> =&gt; <span class="literal">None</span>,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T&gt; <span class="type">Option</span>&lt;T&gt; &#123;</span><br><span class="line">	<span class="keyword">fn</span> <span class="title function_">unwrap_or</span>&lt;T&gt;(<span class="keyword">self</span>, default: T) <span class="punctuation">-&gt;</span> T &#123;</span><br><span class="line">		<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">			<span class="literal">None</span> =&gt; default,</span><br><span class="line">			<span class="title function_ invoke__">Some</span>(value) =&gt; value,</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T&gt; <span class="type">Option</span>&lt;T&gt; &#123;</span><br><span class="line">	<span class="keyword">fn</span> <span class="title function_">unwrap_or_else</span>&lt;T&gt;(<span class="keyword">self</span>, f: F) <span class="punctuation">-&gt;</span> T</span><br><span class="line">			<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>() <span class="punctuation">-&gt;</span> T &#123;</span><br><span class="line">		<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">			<span class="literal">None</span> =&gt; <span class="title function_ invoke__">f</span>(),</span><br><span class="line">			<span class="title function_ invoke__">Some</span>(value) =&gt; value,</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">is_some</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">bool</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">is_none</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">bool</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">map_or</span>&lt;U, F&gt;(<span class="keyword">self</span>, default: U, f: F) <span class="punctuation">-&gt;</span> U <span class="comment">// U 类型的默认值</span></span><br><span class="line">		<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>(T) <span class="punctuation">-&gt;</span> U</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">map_or_else</span>&lt;U, D, F&gt;(<span class="keyword">self</span>, default: D, f: F) <span class="punctuation">-&gt;</span> U <span class="comment">// D 类型的闭包用于计算默认值</span></span><br><span class="line">		<span class="keyword">where</span> D: <span class="title function_ invoke__">FnOnce</span>() <span class="punctuation">-&gt;</span> U, F: <span class="title function_ invoke__">FnOnce</span>(T) <span class="punctuation">-&gt;</span> U</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">ok_or</span>(<span class="keyword">self</span>, err: E) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;T, E&gt;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">ok_or_else</span>(<span class="keyword">self</span>, default: F) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;T, E&gt; <span class="comment">// 与 unwrap_or 相似，用于错误处理。</span></span><br><span class="line">		<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>() <span class="punctuation">-&gt;</span> E</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">and</span>&lt;U&gt;(<span class="keyword">self</span>, optb: <span class="type">Option</span>&lt;U&gt;) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;U&gt; <span class="comment">// 如果 self 是 None，则返回 None，否则返回 optb。</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">or</span>(<span class="keyword">self</span>, optb: <span class="type">Option</span>&lt;T&gt;) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;T&gt; <span class="comment">// 如果 self 是 Some(_)，则返回 self，否则返回 optb。</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">xor</span>(<span class="keyword">self</span>, optb: <span class="type">Option</span>&lt;T&gt;) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;T&gt; <span class="comment">// 如果 self 和 optb 恰好有一个是 Some(_)，则返回这个 Some，否则返回 None。</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Rust 提供的容器： <code>Vec&lt;T&gt;</code> ，
+<code>VecDeque&lt;T&gt;</code> ， <code>LinkedList&lt;T&gt;</code> ，
+<code>HashMap&lt;K, V&gt;</code> ， <code>BTreeMap&lt;K, V&gt;</code> ，
+<code>HashSet&lt;T&gt;</code> ， <code>BTreeSet&lt;T&gt;</code> ，
+<code>BinaryHeap&lt;T&gt;</code> ；</li>
+<li>Rust
+的线程发生恐慌，和创建此线程的线程无关，其它线程能读取恐慌线程的信息；</li>
+<li>所有不带内部可变性的类型和只包含 Sync 类型的复合类型会自动获得
+Sync；</li>
+<li>为一个结构体实现 <code>Hash</code> trait，会将 <code>name</code> 和
+<code>age</code> 传播给一个实现了 Hasher
+的对象的可变引用（state）中，state 将它们组合后算出对应哈希值：</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">impl</span> <span class="title class_">Hash</span> <span class="keyword">for</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">hash</span>&lt;H: Hasher&gt;(&amp;<span class="keyword">self</span>, state: &amp;<span class="keyword">mut</span> H) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name.<span class="title function_ invoke__">hash</span>(state);</span><br><span class="line">        <span class="keyword">self</span>.age.<span class="title function_ invoke__">hash</span>(state);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>有时需要用大括号制造一个新域来使用某变量可变引用，从而不妨碍之后再获得某变量的其它引用；</li>
+<li><code>for line in &amp;texts</code> 是
+<code>for line in texts.iter()</code> 的语法糖；</li>
+<li>Trait 对象隐式具有 <code>'static</code>
+生命周期，但当闭包捕获的变量具有更短生命周期时，闭包生命周期也随之缩小；</li>
+<li>编译器只考虑被调用函数的签名而不会深入函数体，因此改变函数实现而不改变签名不会影响编译结果；</li>
+<li>迭代器的 <code>clone()</code>
+仅拷贝一个栈上的引用，因此非常高效；</li>
+<li>枚举成员占用的内存空间大小跟最大的成员对齐；</li>
+<li><code>borrow</code> 得到的是 <code>Ref</code>
+类型，其生命周期与调用者（可能是引用）的生命周期相同；它通过
+<code>Deref</code> 实现和 <code>&amp;T</code>
+相同效果的自动解引用；</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">borrow</span>&lt;<span class="symbol">&#x27;a</span>&gt;(&amp;<span class="symbol">&#x27;a</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> Ref&lt;<span class="symbol">&#x27;a</span>, T&gt;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">borrow_mut</span>&lt;<span class="symbol">&#x27;a</span>&gt;(&amp;<span class="symbol">&#x27;a</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> RefMut&lt;<span class="symbol">&#x27;a</span>, T&gt;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>Rust</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Pine 源码阅读笔记</title>
+    <url>/2023/11/20/Pine-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h1 id="pine-源码阅读笔记">Pine 源码阅读笔记</h1>
+<p>Pine 是一个使用 C++17 编写的高并发框架，支持 Linux / MacOS
+跨平台；它也是 <a
+href="https://github.com/yuesong-feng/30dayMakeCppServer/tree/main">30
+天自制 C++ 服务器</a>（目前更至第十六天）的配套代码。</p>
+<p>本文为 <a href="https://github.com/yuesong-feng/pine">Github 源码</a>
+阅读笔记。</p>
+<p>前置技能：</p>
+<ul>
+<li>Modern C++ （包括并行库）；</li>
+<li>网络编程基础
+<ul>
+<li><strong>《Linux 高性能服务器编程》——
+游双</strong>：服务器编程必读；</li>
+<li><strong>《Linux 多线程服务端编程：使用 muduo C++ 网络库》——
+陈硕</strong>：经典网络库 muduo 作者，本框架采用类 muduo 架构；</li>
+<li><strong>《C++ 服务器开发精髓》——
+张远龙</strong>：类似以上两本书的组合，编写年份较新，对部分技术做了相应更新；</li>
+<li><strong>《UNIX网络编程卷1：套接字联网API》、《UNIX网络编程卷2：进程间通信》</strong>：可以作为字典书；</li>
+</ul></li>
+</ul>
+<span id="more"></span>
+<h2 id="框架介绍">框架介绍</h2>
+<ul>
+<li>程序采用类 muduo 结构，one loop per thread，多 Reactor
+多线程模式，支持同步 / 异步 Socket I/O（仅代表 Socket
+无操作时是否立即返回，本质均为同步 IO，均在应用进程中占用 CPU
+时间）；常使用 ET + 非阻塞 Socket IO 模式；</li>
+<li>Server 是核心类，持有
+main-Reactor、sub-Reactors、Acceptor、Connection、线程池；</li>
+<li>Socket 为 socket 底层操作的封装，Poller 为对一系列 fd 及其 epoll
+相关操作的封装（对每个管理的 fd 持有其对应的 Channel），Channel
+为对每个文件描述符的具体操作的封装；Buffer 为 I/O 缓冲区的封装；</li>
+<li>每个事件循环 EventLoop 与一个 Poller 对应，支持随时增删需要管理的
+fd；</li>
+<li>main-Reactor 对应 Acceptor，在主线程中执行；</li>
+<li>每个 Connection 维护一个连接，随机将其分配给一个 sub-Reactor
+持有的事件循环；</li>
+<li>每个 Reactor 即一个事件循环；线程池中每个线程对应一个
+sub-Reactor，从有锁任务队列中取出一个 task；每个 task
+与一个事件循环对应；</li>
+<li>可能存在某时刻一个线程恰好完成了它的事件循环维护的所有连接，也没有再给它分配新的连接；此时它可以再从有锁任务队列中取一个
+task；但由于目前设计为一个线程对应一个
+task，因此实际上它会立即返回；</li>
+<li>任务、事件循环、Reactor、线程、Poller 在此框架中一一对应；</li>
+</ul>
+<h2 id="各模块分析">各模块分析</h2>
+<h3 id="socket">Socket</h3>
+<ul>
+<li>直接持有一个文件描述符 fd；</li>
+<li>支持设置 fd，获取 addr，设置 Socket I/O
+阻塞模式，获取缓冲区中可读取字节数，socket()、bind()、listen()、accept()、connect()
+的函数封装；</li>
+</ul>
+<h3 id="channel">Channel</h3>
+<ul>
+<li>直接持有
+fd，监听事件功能二进制状态，准备事件功能二进制状态，是否存在，由
+Acceptor 与 Connection
+指定的读回调、写回调；以裸指针形式指向其所在事件循环；</li>
+<li>支持对直接持有的成员进行设置；根据准备事件二进制状态执行对应回调；</li>
+</ul>
+<h3 id="poller">Poller</h3>
+<ul>
+<li>直接持有一个 fd 和一个 epoll_event 指针（Linux）或一个 kevent
+指针（MacOS）；</li>
+<li>支持创建 epoll，拉取 epoll 并相应设置 Channel
+二进制状态（返回有更新的 Channel 序列），根据 Channel
+注册、删除事件（同时删除 Channel）；</li>
+</ul>
+<h3 id="buffer">Buffer</h3>
+<ul>
+<li>直接持有一个 <code>std::string</code>
+缓冲区，封装了对它的赋值、取长度、清空操作；</li>
+</ul>
+<h3 id="eventloop">EventLoop</h3>
+<ul>
+<li>以 <code>unique_ptr</code> 形式持有一个 Poller；</li>
+<li>支持无限循环地执行 epoll 中有更新的各个 Channel
+的回调，以及更新与删除某个 Channel；</li>
+</ul>
+<h3 id="threadpool">ThreadPool</h3>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ThreadPool.h</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ThreadPool</span> &#123;</span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="built_in">DISALLOW_COPY_AND_MOVE</span>(ThreadPool);</span><br><span class="line">  <span class="function"><span class="keyword">explicit</span> <span class="title">ThreadPool</span><span class="params">(<span class="type">unsigned</span> <span class="type">int</span> size = std::thread::hardware_concurrency())</span></span>;</span><br><span class="line">  ~<span class="built_in">ThreadPool</span>();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">F</span>, <span class="keyword">class</span>... Args&gt;</span><br><span class="line">  <span class="function"><span class="keyword">auto</span> <span class="title">Add</span><span class="params">(F &amp;&amp;f, Args &amp;&amp;...args)</span> -&gt; std::future&lt;<span class="keyword">typename</span> std::invoke_result&lt;F, Args...&gt;::type&gt;</span>;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">  std::vector&lt;std::thread&gt; workers_; <span class="comment">// 每个 worker 持有一个 lambda 函数，循环处理每个 task，某一时刻发现队列空则返回</span></span><br><span class="line">  std::queue&lt;std::function&lt;<span class="type">void</span>()&gt;&gt; tasks_; <span class="comment">// 每个 task 持有一个 package_task，在 worker 中的循环中被调用</span></span><br><span class="line">  std::mutex queue_mtx_; <span class="comment">// 对 task 队列的互斥锁</span></span><br><span class="line">  std::condition_variable queue_cv_; <span class="comment">// 对 task 队列的条件变量</span></span><br><span class="line">  std::atomic&lt;<span class="type">bool</span>&gt; stop_&#123;<span class="literal">false</span>&#125;; <span class="comment">// 是否停止该线程池运行，析构时直接设为 true 并逐个 worker 调用 join()</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不能放在cpp文件，C++编译器不支持模版的分离编译</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">F</span>, <span class="keyword">class</span>... Args&gt;</span><br><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">ThreadPool::Add</span><span class="params">(F &amp;&amp;f, Args &amp;&amp;...args)</span> -&gt; std::future&lt;<span class="keyword">typename</span> std::invoke_result&lt;F, Args...&gt;::type&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">using</span> return_type = <span class="keyword">typename</span> std::invoke_result&lt;F, Args...&gt;::type;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">auto</span> task = std::make_shared&lt;std::packaged_task&lt;<span class="built_in">return_type</span>()&gt;&gt;(std::<span class="built_in">bind</span>(std::forward&lt;F&gt;(f), std::forward&lt;Args&gt;(args)...));</span><br><span class="line"></span><br><span class="line">  std::future&lt;return_type&gt; res = task-&gt;<span class="built_in">get_future</span>();</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(queue_mtx_)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// don&#x27;t allow enqueueing after stopping the pool</span></span><br><span class="line">    <span class="keyword">if</span> (stop_) &#123;</span><br><span class="line">      <span class="keyword">throw</span> std::<span class="built_in">runtime_error</span>(<span class="string">&quot;enqueue on stopped ThreadPool&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    tasks_.<span class="built_in">emplace</span>([task]()&#123; (*task)(); &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  queue_cv_.<span class="built_in">notify_one</span>();</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ThreadPool.cpp</span></span><br><span class="line">ThreadPool::<span class="built_in">ThreadPool</span>(<span class="type">unsigned</span> <span class="type">int</span> size) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">    workers_.<span class="built_in">emplace_back</span>([<span class="keyword">this</span>]() &#123;</span><br><span class="line">      <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        std::function&lt;<span class="built_in">void</span>()&gt; task;</span><br><span class="line">        &#123;</span><br><span class="line">          std::unique_lock&lt;std::mutex&gt; <span class="built_in">lock</span>(queue_mtx_);</span><br><span class="line">          queue_cv_.<span class="built_in">wait</span>(lock, [<span class="keyword">this</span>]() &#123; <span class="keyword">return</span> stop_ || !tasks_.<span class="built_in">empty</span>(); &#125;);</span><br><span class="line">          <span class="keyword">if</span> (stop_ &amp;&amp; tasks_.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">          &#125;</span><br><span class="line">          task = std::<span class="built_in">move</span>(tasks_.<span class="built_in">front</span>());</span><br><span class="line">          tasks_.<span class="built_in">pop</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">task</span>();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ThreadPool::~<span class="built_in">ThreadPool</span>() &#123;</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(queue_mtx_)</span></span>;</span><br><span class="line">    stop_ = <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  queue_cv_.<span class="built_in">notify_all</span>();</span><br><span class="line">  <span class="keyword">for</span> (std::thread &amp;th : workers_) &#123;</span><br><span class="line">    <span class="keyword">if</span> (th.<span class="built_in">joinable</span>()) &#123;</span><br><span class="line">      th.<span class="built_in">join</span>();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="acceptor">Acceptor</h3>
+<ul>
+<li>每个 Acceptor 以 <code>unique_ptr</code> 形式持有一个 Socket 和一个
+Channel 用于管理监听端口行为，直接持有一个由 Server 指定的连接回调
+new_connection_callback()；</li>
+<li>构造时，构造一个新的 Socket 绑定到固定端口 127.0.0.1:1234
+并开启监听，并为其构造一个对应 Channel，将自己的连接函数
+AcceptConnection()（包含接受客户端连接操作和
+new_connection_callback()）设为 Channel 的读回调；</li>
+</ul>
+<h3 id="connection">Connection</h3>
+<ul>
+<li>每个 Connection 以 <code>unique_ptr</code> 形式持有一个 Socket
+和一个 Channel，以 <code>unique_ptr</code>
+形式持有读缓冲和写缓冲；直接持有由 Server 指定的一个 delete_connection()
+回调和一个 on_recv()
+回调；持有一个状态：非法、连接中、已连接、已关闭四个之一；</li>
+<li>构造时新建一个 Channel 并将 Server 指定的 fd 与 EventLoop 指定给新
+Channel，开启 ET 读；</li>
+<li>支持阻塞 / 非阻塞连接读 / 写；</li>
+</ul>
+<h3 id="tcpserver">TcpServer</h3>
+<ul>
+<li>以 <code>unique_ptr</code> 形式持有一个 main-Reactor（即
+EventLoop）、多个 sub-Reactors、一个 Acceptor、一个 ThreadPool；</li>
+<li>直接持有一个 map&lt;int,
+unique_ptr<Connection>&gt;，以及由程序员指定的 on_connect() 与 on_recv()
+回调；</li>
+</ul>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
+        <tag>网络编程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Modern C++（11~26）笔记</title>
+    <url>/2023/11/20/Modern-C-%EF%BC%8811-26%EF%BC%89%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h1 id="modern-c1126笔记">Modern C++（11~26）笔记</h1>
+<h2 id="堆栈raii容器">堆、栈、RAII、容器</h2>
 <ul>
 <li><code>delete</code> 一个空指针是合法的，但不能多次
 <code>delete</code>；</li>
@@ -1162,35 +1416,57 @@ href="https://github.com/0voice/cpp_new_features/blob/main/C%2B%2B%2020%E8%AF%AD
 <code>co_yield</code> ；</li>
 </ul>
 <p><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// sample 1</span></span><br><span class="line"><span class="function">generator&lt;<span class="type">int</span>&gt; <span class="title">range</span><span class="params">(<span class="type">int</span> start, <span class="type">int</span> end)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">while</span> (start &lt; end) &#123;</span><br><span class="line">    <span class="keyword">co_yield</span> start;</span><br><span class="line">    start++;</span><br><span class="line">  &#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// co_return;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> n : <span class="built_in">range</span>(<span class="number">0</span>, <span class="number">10</span>)) &#123;...&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// sample 2</span></span><br><span class="line"><span class="function">task&lt;<span class="type">void</span>&gt; <span class="title">echo</span><span class="params">(socket s)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">auto</span> data = <span class="keyword">co_await</span> s.<span class="built_in">async_read</span>();</span><br><span class="line">    <span class="function"><span class="keyword">co_await</span> <span class="title">async_write</span><span class="params">(s, data)</span></span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// co_return;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p></li>
-<li><p><strong>概念</strong>（Concept）：</p>
+<li><p><strong>概念</strong>（Concepts）：</p>
 <ul>
 <li><code>requires Numeric&lt;T&gt;</code> 约束（任意）模板，其中
 <code>concept Numeric = integral&lt;T&gt; || floating_point&lt;T&gt;;</code>
 ；运算数结果为 <code>bool</code> ，结果需要为 <code>true</code> ；</li>
 <li>可以直接写 <code>template &lt;Numeric T&gt;</code> ，或写入参数
 <code>auto func(Numeric auto &amp;arg);</code> ；</li>
-<li>可以在函数、 <code>lambda</code> 中使用；</li>
-</ul></li>
-<li><p><strong>模块</strong>（Modual）：</p>
+<li>可以在函数、 <code>lambda</code>
+中使用；三种约束的逻辑操作符：合取式（conjunctions）、析取式（disjunctions）、原子约束（atomic
+constraints），使用短路；</li>
+<li>以下代码可以一定程度代替虚函数，提供更好的 ABI 稳定性：</li>
+</ul>
+<p><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span></span><br><span class="line"><span class="keyword">concept</span> DerivedOfBaseClass = std::is_base_of_v&lt;BaseClass, T&gt;;</span><br></pre></td></tr></table></figure></p>
+<p><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">concept</span> Histogram = <span class="built_in">requires</span>(T h1, T h2) &#123;</span><br><span class="line">    h1.<span class="built_in">getMoments</span>();         <span class="comment">// 要求有getMoments接口</span></span><br><span class="line">    T::count;                <span class="comment">// 要求有静态变量count</span></span><br><span class="line">    h1.moments;              <span class="comment">// 要求有成员变量moments</span></span><br><span class="line">    h1 + h2;                 <span class="comment">// 要求对象能够进行+操作</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">typename</span> T::type;        <span class="comment">// 要求存在类型成员type</span></span><br><span class="line">    <span class="keyword">typename</span> std::vector&lt;T&gt;; <span class="comment">// 要求能够模板实例化并与std::vector组合使用</span></span><br><span class="line">    </span><br><span class="line">    &#123; h1.<span class="built_in">getSubHistogram</span>() &#125; -&gt; same_as&lt;T&gt;;    <span class="comment">// 要求接口返回类型与T一致</span></span><br><span class="line">    &#123; h1.<span class="built_in">getUnit</span>() &#125; -&gt; convertible_to&lt;<span class="type">float</span>&gt;; <span class="comment">// 要求接口返回类型能转换成float，本质上接口返回类型可能是double</span></span><br><span class="line">    &#123; h1 = std::<span class="built_in">move</span>(h2) &#125; <span class="keyword">noexcept</span>;          <span class="comment">// 要求表达式不能抛出异常</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">requires</span> <span class="title">sizeof</span><span class="params">(T)</span> &gt; 4</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p></li>
+<li><p><strong>模块</strong>（Modules）：</p>
 <ul>
-<li>使用 <code>export module my_module</code> 导出，
-<code>import my_module</code> 导入；</li>
-<li>若模块需要 <code>#include&lt;&gt;</code>
+<li>一个编译单元默认为普通单元，使用 <code>module</code>
+则为模块单元；使用 <code>export module my_module</code>
+的称为模块接口单元（对应传统头文件），使用 <code>module my_module</code>
+称为模块实现单元（对应传统实现文件）；使用 <code>import my_module</code>
+导入模块；</li>
+<li>需要在函数签名、命名空间等前使用 <code>export</code> 对外公开；使用
+<code>export import one_module</code> 重导出模块（类似 Rust 中的
+<code>pub use</code> ）；</li>
+<li>若模块单元需要 <code>#include&lt;&gt;</code>
 ，或其它全局代码段，则需要在开头写一句 <code>module;</code>
 引入全局模块，然后写预处理指令，写完后立即声明一个标准模块
 <code>export module my_module</code> ；</li>
-<li>可以导出声明符号（函数、变量等）、代码块、命名空间；</li>
+<li>实现部分和接口部分可以放在同一个文件中，接口部分前使用
+<code>export module my_module</code> ，实现部分前使用
+<code>module: private</code> ；</li>
+<li>模块分区： <code>module A:B;</code> ，导入时只需要指定分区名称：
+<code>export import :A;</code> ；模块分区的所有声明均对模块本身公开，
+<code>export</code>
+使其<strong><em>可以</em></strong>对模块外公开，但最终还需要主模块接口单元决定，即模块分区单元中的符号必须通过主模块的接口单元使用
+<code>export</code> 控制对外可见性；</li>
+<li>可以使用 <code>A.B</code> 式模块名，但与 <code>A</code>
+之间并没有父子模块关系；</li>
+<li>Module 并没有解决符号冲突问题，仍然需要与 namespace
+配合使用，二者保持正交设计；同样不能解决二进制分发与 ABI 对齐问题；</li>
 </ul></li>
 <li><p><strong>范围</strong>（Ranges）：</p>
 <ul>
-<li>可迭代对象的集合，支持 <code>begin()</code> 和 <code>end()</code>
-迭代器的结构都是范围；</li>
+<li>Range 是一个 Concept，要求是可迭代对象的集合，且支持
+<code>begin()</code> 和 <code>end()</code> 迭代器；</li>
 <li><strong>视图</strong>是惰性迭代操作，从底层返回而不拥有任何数据，复杂度为
 O(1)；</li>
 <li>使用 <code>ranges::take_view(ranges, n)</code> 返回前 n
 个元素的视图，支持只读操作，同时支持 <code>for (int i: tv)</code>
 ；</li>
-<li>视图适配器版本：
+<li>视图适配器对函数式编程的支持：视图管道
 <code>auto ****result = nums | views::take(5) | views::reverse;</code>
 获取 <code>nums</code> 前五个元素的翻转；</li>
 <li><code>nums | views::filter(lambda)</code> ，
@@ -1227,7 +1503,42 @@ O(1)；</li>
 <li><code>std::midpoint(1, 3) == 2</code> 不溢出地计算两个值的中点；
 <code>std::to_array</code> 将 array-like 对象转换为
 <code>std::array</code> ；</li>
-<li>新增一系列新库函数；</li>
+<li>新增一系列新库函数； <code>jthread</code> ；编译时源代码分析
+<code>source_location</code> 库； <code>u8string</code> ；</li>
+</ul>
+<h2 id="c23-新特性">C++23 新特性</h2>
+<ul>
+<li>显式 <code>this</code> 参数： <code>this Self&amp; self</code>
+，搭配模板实现同时定义函数的 const 和非 const 版本，也可以实现递归
+lambda 函数；</li>
+<li>多元 <code>operator[]</code>
+：支持逗号分隔的多维下标，可以搭配参数包转发；同时提供多维数组视图
+<code>mdspan</code> ，可以用于包装一维数组模拟多维数组；</li>
+<li>标准模块 <code>std</code> 与 <code>std.compact</code> ；</li>
+<li><code>unexpected()</code> 、 <code>and_then</code> 、
+<code>or_else</code> 等借鉴自 Rust 等语言的函数，错误码类型类似
+optional；</li>
+<li>进一步扩展 Ranges：转换函数 <code>to</code> ；</li>
+<li><code>print()</code> 和 <code>println()</code> ：配合
+<code>format</code> 输出；</li>
+<li>堆栈跟踪库 <code>stacktrace</code> ；</li>
+<li>C++26 新特性（猜测）：
+<ul>
+<li>静态反射；</li>
+<li>Executors：获取线程池对象，并分配任务；</li>
+<li>Sender / Receiver：Sender 创建后不立即执行调度任务，传递给 Receiver
+后在执行；支持使用通用异步算法实现链式调用；Scheduler 返回 Sender
+工厂；</li>
+<li>标准网络库 Network；</li>
+<li>高性能计算（线性代数等）；</li>
+<li>Coroutines 扩展： <code>std::lazy</code> ；</li>
+<li>进一步扩展 Ranges；</li>
+<li>Hive：Bucket Array
+容器框架，用于高性能交易、游戏编程等场景的大量数据块操作；</li>
+<li>多线程无锁内存模型；</li>
+<li>CPO
+定制点对象：若引入的命名空间中仅有一个此函数名则无需写命名空间前缀；</li>
+</ul></li>
 </ul>
 ]]></content>
       <categories>
@@ -1235,90 +1546,6 @@ O(1)；</li>
       </categories>
       <tags>
         <tag>C++</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Rust Primer 读书笔记</title>
-    <url>/2023/10/21/Rust-Primer-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<ul>
-<li>裸指针（不安全）： <code>*const T</code> 和 <code>*mut T</code>
-；</li>
-<li>单字节字符 <code>b'H'</code> ，单字节字符串 <code>b'Hello'</code>
-，仅限 ASCII 字符； <code>r#"..."#</code> 表示不转义字符串；</li>
-<li><code>String</code> → <code>&amp;str</code>
-很廉价，而反之涉及分配内存，代价相对更高；</li>
-<li>即使结构体是公有的，成员仍然默认私有；枚举如果是公有的则其成员均为公有；</li>
-<li>可以在 <code>match</code> 中通过 <code>ref</code> 和
-<code>ref mut</code> 获取对应变量的引用；</li>
-<li><code>try!</code> 宏在 <code>Ok</code> 时提取内部值，否则直接
-<code>return</code> 期望返回的 Error 类型；现在可以直接使用
-<code>?</code> ；</li>
-<li>使用 <code>io::stdin.read_line(&amp;mut String)</code> 读入；</li>
-</ul>
-<span id="more"></span>
-<ul>
-<li>Rust 项目结构：</li>
-</ul>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line">Project/</span><br><span class="line">|-- cargo.toml</span><br><span class="line">|-- cargo.lock</span><br><span class="line">|-- src/</span><br><span class="line">|-- |-- main.rs</span><br><span class="line">|-- |-- lib.rs</span><br><span class="line">|-- |-- bin/</span><br><span class="line">|-- tests/</span><br><span class="line">|-- examples/</span><br></pre></td></tr></table></figure>
-<ul>
-<li><code>for (i, j) in (5..10).enumerate()</code> 使 <code>i</code>
-为循环次数下标；</li>
-<li>使用 <code>#derive[(...)]</code> 为类型自动添加一些 trait，常用：
-<code>Clone</code> ， <code>Copy</code> ， <code>Debug</code> ，
-<code>Default</code> ， <code>Eq</code> ， <code>PartiaEq</code> ，
-<code>Ord</code> ， <code>PartialOrd</code> ， <code>Hash</code> ；</li>
-<li><code>Eq</code> trait 表示任意两个值要么 <code>==</code> 要么
-<code>!=</code> ，它不包含方法，仅用作标记； <code>PartialEq</code>
-提供部分等价关系，包含一个 <code>eq</code> 方法；实现了 <code>Eq</code>
-的必然实现了 <code>PartialEq</code> ； <code>&lt;</code> 、
-<code>&gt;</code> 、 <code>&gt;=</code> 、 <code>&lt;=</code> 实现的是
-<code>PartialOrd</code> ；</li>
-<li>所有硬编码字符串均为 <code>&amp;'static str</code> ；</li>
-<li><code>+</code> 、 <code>-</code> 、 <code>*</code> 、 <code>/</code>
-、 <code>%</code> 分别实现在 <code>std::ops::Add/Sub/Mul/Div/Rem</code>
-； <code>&amp;</code> 、 <code>|</code> 、 <code>^</code> 、
-<code>&lt;&lt;</code> 、 <code>&gt;&gt;</code> 分别实现在
-<code>std::ops::BitAnd/BitOr/BitXor/Shl/Shr</code>；</li>
-<li>函数参数支持模式匹配：
-<code>fn print_age((_, age): (&amp;str, i32));</code> ；</li>
-<li>发散函数（Diverging function）不返回值，返回值处使用 <code>!</code>
-；</li>
-<li>trait 可以继承： <code>trait Son : Parent</code> ，之后实现
-<code>Son</code> 的类型也要实现 <code>Parent</code> ；</li>
-<li><code>Copy</code> trait 继承 <code>Clone</code> trait：
-<code>pub trait Copy: Clone;</code> ；</li>
-<li>Rust 为 <code>Vec</code> 、 <code>HashMap</code> 实现了
-<code>IntoIterator</code> trait，从而支持直接 <code>for a in vec</code>
-循环；无限迭代器： <code>let inf_seq = (1..).into_iter();</code> ；
-<code>Vec</code> 、 <code>HashMap</code> 实现了
-<code>FromIterator</code> trait，以支持 <code>(1..10).collect()</code>
-等操作；</li>
-<li><code>fold</code> 和 <code>reduce</code> 的区别：后者带初始值；取前
-n 个：
-<code>let v_take = v.iter().cloned().take(2).collect::&lt;Vec&lt;_&gt;&gt;();</code>
-， <code>skip(n)</code> 跳过前 n 个；</li>
-<li>Prelude 的一部分：</li>
-</ul>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line">std::marker::&#123;<span class="built_in">Copy</span>, <span class="built_in">Send</span>, <span class="built_in">Sized</span>, <span class="built_in">Sync</span>&#125;</span><br><span class="line">std::ops::&#123;<span class="built_in">Drop</span>, <span class="built_in">Fn</span>, <span class="built_in">FnMut</span>, <span class="built_in">FnOnce</span>&#125;</span><br><span class="line">std::mem::drop</span><br><span class="line">std::boxed::<span class="type">Box</span></span><br><span class="line">std::borrow::<span class="built_in">ToOwned</span></span><br><span class="line">std::clone::<span class="built_in">Clone</span></span><br><span class="line">std::cmp::&#123;<span class="built_in">PartialEq</span>, <span class="built_in">PartialOrd</span>, <span class="built_in">Eq</span>, <span class="built_in">Ord</span>&#125;</span><br><span class="line">std::convert::&#123;<span class="built_in">AsRef</span>, <span class="built_in">AsMut</span>, <span class="built_in">Into</span>, <span class="built_in">From</span>&#125;</span><br><span class="line">std::default::<span class="built_in">Default</span></span><br><span class="line">std::iter::&#123;<span class="built_in">Iterator</span>, <span class="built_in">Extend</span>, <span class="built_in">IntoIterator</span>, <span class="built_in">DoubleEndedIterator</span>, <span class="built_in">ExactSizeIterator</span>&#125;</span><br><span class="line">std::option::<span class="type">Option</span>::&#123;<span class="keyword">self</span>, <span class="literal">Some</span>, <span class="literal">None</span>&#125;</span><br><span class="line">std::result::<span class="type">Result</span>::&#123;<span class="keyword">self</span>, <span class="literal">Ok</span>, <span class="literal">Err</span>&#125;</span><br><span class="line">std::slice::<span class="built_in">SliceConcatExt</span></span><br><span class="line">std::string::&#123;<span class="type">String</span>, <span class="built_in">ToString</span>&#125;</span><br><span class="line">std::vec::<span class="type">Vec</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li><code>Into/From</code> trait 分别实现了 <code>U::from(T)</code> 和
-<code>U::into(T)</code> ，会消耗所有权；实现了 <code>From</code>
-会自动实现 <code>Into</code> ； <code>TryFrom</code> 和
-<code>TryInto</code> 返回 <code>Result</code> ；同样还有
-<code>ToString</code> 和 <code>FromStr</code> ；</li>
-<li><code>AsRef&lt;U&gt;</code> 实现了将 <code>T</code> 类型对象
-<code>a</code> 通过 <code>a.as_ref()</code> 得到 <code>&amp;U</code>
-，不消耗所有权； <code>AsMut</code> 同理；</li>
-<li>实现了 <code>Deref&lt;Target=U&gt;</code> 的类型 <code>T</code>
-可以通过 <code>&amp;T</code> 传参给 <code>&amp;U</code>
-；调用函数时，Rust 会提供任意多层自动解引用；</li>
-</ul>
-]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>Rust</tag>
       </tags>
   </entry>
   <entry>
