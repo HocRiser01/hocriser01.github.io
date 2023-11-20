@@ -410,7 +410,7 @@ target="_blank" rel="noopener" href="https://github.com/sunface/rust-by-practice
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-11-20 17:51:23 / 修改时间：17:51:43" itemprop="dateCreated datePublished" datetime="2023-11-20T17:51:23+08:00">2023-11-20</time>
+              <time title="创建时间：2023-11-20 17:51:23 / 修改时间：18:05:04" itemprop="dateCreated datePublished" datetime="2023-11-20T17:51:23+08:00">2023-11-20</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -447,8 +447,7 @@ target="_blank" rel="noopener" href="https://github.com/sunface/rust-by-practice
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="rust-笔记">Rust 笔记</h1>
-<p><strong>参考</strong>：</p>
+          <p><strong>参考</strong>：</p>
 <p><em>《Rust Primer》</em></p>
 <p><em>《Rust 编程之道》</em></p>
 <p><em>《Rust Course》（Rust 语言圣经）</em></p>
@@ -469,103 +468,14 @@ target="_blank" rel="noopener" href="https://github.com/sunface/rust-by-practice
 <li>使用 <code>io::stdin.read_line(&amp;mut String)</code> 读入；</li>
 <li>Rust 项目结构：</li>
 </ul>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Project/</span><br><span class="line">|-- cargo.toml</span><br><span class="line">|-- cargo.lock</span><br><span class="line">|-- src/</span><br><span class="line">|-- |-- main.rs</span><br><span class="line">|-- |-- lib.rs</span><br><span class="line">|-- |-- bin/</span><br><span class="line">|-- tests/</span><br><span class="line">|-- examples/</span><br></pre></td></tr></table></figure>
-<ul>
-<li><code>for (i, j) in (5..10).enumerate()</code> 使 <code>i</code>
-为循环次数下标；</li>
-<li>使用 <code>#derive[(...)]</code> 为类型自动添加一些 trait，常用：
-<code>Clone</code> ， <code>Copy</code> ， <code>Debug</code> ，
-<code>Default</code> ， <code>Eq</code> ， <code>PartiaEq</code> ，
-<code>Ord</code> ， <code>PartialOrd</code> ， <code>Hash</code> ；</li>
-<li><code>Eq</code> trait 表示任意两个值要么 <code>==</code> 要么
-<code>!=</code> ，它不包含方法，仅用作标记； <code>PartialEq</code>
-提供部分等价关系，包含一个 <code>eq</code> 方法；实现了 <code>Eq</code>
-的必然实现了 <code>PartialEq</code> ； <code>&lt;</code> 、
-<code>&gt;</code> 、 <code>&gt;=</code> 、 <code>&lt;=</code> 实现的是
-<code>PartialOrd</code> ； <code>PartialEq</code> 满足对称性与传递性，
-<code>Eq</code> 还满足自反性；</li>
-<li>所有硬编码字符串均为 <code>&amp;'static str</code> ；</li>
-<li><code>+</code> 、 <code>-</code> 、 <code>*</code> 、 <code>/</code>
-、 <code>%</code> 分别实现在 <code>std::ops::Add/Sub/Mul/Div/Rem</code>
-； <code>&amp;</code> 、 <code>|</code> 、 <code>^</code> 、
-<code>&lt;&lt;</code> 、 <code>&gt;&gt;</code> 分别实现在
-<code>std::ops::BitAnd/BitOr/BitXor/Shl/Shr</code>；</li>
-<li>函数参数支持模式匹配：
-<code>fn print_age((_, age): (&amp;str, i32));</code> ；</li>
-<li>发散函数（Diverging function）不返回值，返回值处使用 <code>!</code>
-；</li>
-<li>trait 可以继承： <code>trait Son : Parent</code> ，之后实现
-<code>Son</code> 的类型也要实现 <code>Parent</code> ；</li>
-<li><code>Copy</code> trait 继承 <code>Clone</code> trait：
-<code>pub trait Copy: Clone;</code> ；</li>
-<li>Rust 为 <code>Vec</code> 、 <code>HashMap</code> 实现了
-<code>IntoIterator</code> trait，从而支持直接 <code>for a in vec</code>
-循环；无限迭代器： <code>let inf_seq = (1..).into_iter();</code> ；
-<code>Vec</code> 、 <code>HashMap</code> 实现了
-<code>FromIterator</code> trait，以支持 <code>(1..10).collect()</code>
-等操作；</li>
-<li><code>fold</code> 和 <code>reduce</code> 的区别：后者带初始值；取前
-n 个：
-<code>let v_take = v.iter().cloned().take(2).collect::&lt;Vec&lt;_&gt;&gt;();</code>
-， <code>skip(n)</code> 跳过前 n 个；</li>
-<li>Prelude 的一部分：</li>
-</ul>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">std::marker::&#123;<span class="built_in">Copy</span>, <span class="built_in">Send</span>, <span class="built_in">Sized</span>, <span class="built_in">Sync</span>&#125;</span><br><span class="line">std::ops::&#123;<span class="built_in">Drop</span>, <span class="built_in">Fn</span>, <span class="built_in">FnMut</span>, <span class="built_in">FnOnce</span>&#125;</span><br><span class="line">std::mem::drop</span><br><span class="line">std::boxed::<span class="type">Box</span></span><br><span class="line">std::borrow::<span class="built_in">ToOwned</span></span><br><span class="line">std::clone::<span class="built_in">Clone</span></span><br><span class="line">std::cmp::&#123;<span class="built_in">PartialEq</span>, <span class="built_in">PartialOrd</span>, <span class="built_in">Eq</span>, <span class="built_in">Ord</span>&#125;</span><br><span class="line">std::convert::&#123;<span class="built_in">AsRef</span>, <span class="built_in">AsMut</span>, <span class="built_in">Into</span>, <span class="built_in">From</span>&#125;</span><br><span class="line">std::default::<span class="built_in">Default</span></span><br><span class="line">std::iter::&#123;<span class="built_in">Iterator</span>, <span class="built_in">Extend</span>, <span class="built_in">IntoIterator</span>, <span class="built_in">DoubleEndedIterator</span>, <span class="built_in">ExactSizeIterator</span>&#125;</span><br><span class="line">std::option::<span class="type">Option</span>::&#123;<span class="keyword">self</span>, <span class="literal">Some</span>, <span class="literal">None</span>&#125;</span><br><span class="line">std::result::<span class="type">Result</span>::&#123;<span class="keyword">self</span>, <span class="literal">Ok</span>, <span class="literal">Err</span>&#125;</span><br><span class="line">std::slice::<span class="built_in">SliceConcatExt</span></span><br><span class="line">std::string::&#123;<span class="type">String</span>, <span class="built_in">ToString</span>&#125;</span><br><span class="line">std::vec::<span class="type">Vec</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li><code>Into/From</code> trait 分别实现了 <code>U::from(T)</code> 和
-<code>U::into(T)</code> ，会消耗所有权；实现了 <code>From</code>
-会自动实现 <code>Into</code> ； <code>TryFrom</code> 和
-<code>TryInto</code> 返回 <code>Result</code> ；同样还有
-<code>ToString</code> 和 <code>FromStr</code> ；</li>
-<li><code>AsRef&lt;U&gt;</code> 实现了将 <code>T</code> 类型对象
-<code>a</code> 通过 <code>a.as_ref()</code> 得到 <code>&amp;U</code>
-，不消耗所有权； <code>AsMut</code> 同理；</li>
-<li>实现了 <code>Deref&lt;Target=U&gt;</code> 的类型 <code>T</code>
-可以通过 <code>&amp;T</code> 传参给 <code>&amp;U</code>
-；调用函数时，Rust 会提供任意多层自动解引用；</li>
-<li>不可以使用 <code>i32/i64</code> 作为下标，需要 <code>as usize</code>
-；</li>
-<li>不同于 C++，Rust 的块注释 <code>/* */</code> 可以嵌套；</li>
-<li>变量有引用存在时，不能移交其绑定数据的所有权；</li>
-<li>结构体有域级的访问控制，但没有域级的可变性控制，因此可以对内部变量标记
-<code>pub</code> 而不能标记 <code>mut</code>
-；结构体的域访问控制是针对模块而非结构体本身的，即其私有成员可以被同模块的其它函数访问；</li>
-<li>使用 <code>s.chars().nth(i)</code> 访问 <code>String</code> ；</li>
-<li>常用 <code>Option&lt;T&gt;</code> 相关函数：</li>
-</ul>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">unwrap</span>&lt;T&gt;(<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> T &#123;</span><br><span class="line">	<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">		<span class="literal">None</span> =&gt; <span class="built_in">panic!</span>(<span class="string">&quot;Called `Option::unwrap()` on a `None` value&quot;</span>),</span><br><span class="line">		<span class="title function_ invoke__">Some</span>(value) =&gt; value,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">map</span>&lt;U, F&gt;(<span class="keyword">self</span>, f: F) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;U&gt;</span><br><span class="line">		<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>(T) <span class="punctuation">-&gt;</span> U &#123;</span><br><span class="line">	<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">		<span class="literal">None</span> =&gt; <span class="literal">None</span>,</span><br><span class="line">		<span class="title function_ invoke__">Some</span>(x) =&gt; <span class="title function_ invoke__">Some</span>(<span class="title function_ invoke__">f</span>(x))</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">and_then</span>&lt;U, F&gt;(<span class="keyword">self</span>, f: F) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;U&gt;</span><br><span class="line">		<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>(T) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;U&gt; &#123;</span><br><span class="line">	<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">		<span class="title function_ invoke__">Some</span>(x) =&gt; <span class="title function_ invoke__">f</span>(x),</span><br><span class="line">		<span class="literal">None</span> =&gt; <span class="literal">None</span>,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T&gt; <span class="type">Option</span>&lt;T&gt; &#123;</span><br><span class="line">	<span class="keyword">fn</span> <span class="title function_">unwrap_or</span>&lt;T&gt;(<span class="keyword">self</span>, default: T) <span class="punctuation">-&gt;</span> T &#123;</span><br><span class="line">		<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">			<span class="literal">None</span> =&gt; default,</span><br><span class="line">			<span class="title function_ invoke__">Some</span>(value) =&gt; value,</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T&gt; <span class="type">Option</span>&lt;T&gt; &#123;</span><br><span class="line">	<span class="keyword">fn</span> <span class="title function_">unwrap_or_else</span>&lt;T&gt;(<span class="keyword">self</span>, f: F) <span class="punctuation">-&gt;</span> T</span><br><span class="line">			<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>() <span class="punctuation">-&gt;</span> T &#123;</span><br><span class="line">		<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">			<span class="literal">None</span> =&gt; <span class="title function_ invoke__">f</span>(),</span><br><span class="line">			<span class="title function_ invoke__">Some</span>(value) =&gt; value,</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">is_some</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">bool</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">is_none</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">bool</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">map_or</span>&lt;U, F&gt;(<span class="keyword">self</span>, default: U, f: F) <span class="punctuation">-&gt;</span> U <span class="comment">// U 类型的默认值</span></span><br><span class="line">		<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>(T) <span class="punctuation">-&gt;</span> U</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">map_or_else</span>&lt;U, D, F&gt;(<span class="keyword">self</span>, default: D, f: F) <span class="punctuation">-&gt;</span> U <span class="comment">// D 类型的闭包用于计算默认值</span></span><br><span class="line">		<span class="keyword">where</span> D: <span class="title function_ invoke__">FnOnce</span>() <span class="punctuation">-&gt;</span> U, F: <span class="title function_ invoke__">FnOnce</span>(T) <span class="punctuation">-&gt;</span> U</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">ok_or</span>(<span class="keyword">self</span>, err: E) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;T, E&gt;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">ok_or_else</span>(<span class="keyword">self</span>, default: F) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;T, E&gt; <span class="comment">// 与 unwrap_or 相似，用于错误处理。</span></span><br><span class="line">		<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>() <span class="punctuation">-&gt;</span> E</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">and</span>&lt;U&gt;(<span class="keyword">self</span>, optb: <span class="type">Option</span>&lt;U&gt;) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;U&gt; <span class="comment">// 如果 self 是 None，则返回 None，否则返回 optb。</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">or</span>(<span class="keyword">self</span>, optb: <span class="type">Option</span>&lt;T&gt;) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;T&gt; <span class="comment">// 如果 self 是 Some(_)，则返回 self，否则返回 optb。</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">xor</span>(<span class="keyword">self</span>, optb: <span class="type">Option</span>&lt;T&gt;) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;T&gt; <span class="comment">// 如果 self 和 optb 恰好有一个是 Some(_)，则返回这个 Some，否则返回 None。</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>Rust 提供的容器： <code>Vec&lt;T&gt;</code> ，
-<code>VecDeque&lt;T&gt;</code> ， <code>LinkedList&lt;T&gt;</code> ，
-<code>HashMap&lt;K, V&gt;</code> ， <code>BTreeMap&lt;K, V&gt;</code> ，
-<code>HashSet&lt;T&gt;</code> ， <code>BTreeSet&lt;T&gt;</code> ，
-<code>BinaryHeap&lt;T&gt;</code> ；</li>
-<li>Rust
-的线程发生恐慌，和创建此线程的线程无关，其它线程能读取恐慌线程的信息；</li>
-<li>所有不带内部可变性的类型和只包含 Sync 类型的复合类型会自动获得
-Sync；</li>
-<li>为一个结构体实现 <code>Hash</code> trait，会将 <code>name</code> 和
-<code>age</code> 传播给一个实现了 Hasher
-的对象的可变引用（state）中，state 将它们组合后算出对应哈希值：</li>
-</ul>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span> <span class="title class_">Hash</span> <span class="keyword">for</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">hash</span>&lt;H: Hasher&gt;(&amp;<span class="keyword">self</span>, state: &amp;<span class="keyword">mut</span> H) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name.<span class="title function_ invoke__">hash</span>(state);</span><br><span class="line">        <span class="keyword">self</span>.age.<span class="title function_ invoke__">hash</span>(state);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>有时需要用大括号制造一个新域来使用某变量可变引用，从而不妨碍之后再获得某变量的其它引用；</li>
-<li><code>for line in &amp;texts</code> 是
-<code>for line in texts.iter()</code> 的语法糖；</li>
-<li>Trait 对象隐式具有 <code>'static</code>
-生命周期，但当闭包捕获的变量具有更短生命周期时，闭包生命周期也随之缩小；</li>
-<li>编译器只考虑被调用函数的签名而不会深入函数体，因此改变函数实现而不改变签名不会影响编译结果；</li>
-<li>迭代器的 <code>clone()</code>
-仅拷贝一个栈上的引用，因此非常高效；</li>
-<li>枚举成员占用的内存空间大小跟最大的成员对齐；</li>
-<li><code>borrow</code> 得到的是 <code>Ref</code>
-类型，其生命周期与调用者（可能是引用）的生命周期相同；它通过
-<code>Deref</code> 实现和 <code>&amp;T</code>
-相同效果的自动解引用；</li>
-</ul>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">borrow</span>&lt;<span class="symbol">&#x27;a</span>&gt;(&amp;<span class="symbol">&#x27;a</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> Ref&lt;<span class="symbol">&#x27;a</span>, T&gt;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">borrow_mut</span>&lt;<span class="symbol">&#x27;a</span>&gt;(&amp;<span class="symbol">&#x27;a</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> RefMut&lt;<span class="symbol">&#x27;a</span>, T&gt;</span><br></pre></td></tr></table></figure>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/11/20/Rust-%E7%AC%94%E8%AE%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -609,7 +519,7 @@ Sync；</li>
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-11-20 17:50:13 / 修改时间：17:50:58" itemprop="dateCreated datePublished" datetime="2023-11-20T17:50:13+08:00">2023-11-20</time>
+              <time title="创建时间：2023-11-20 17:50:13 / 修改时间：18:04:56" itemprop="dateCreated datePublished" datetime="2023-11-20T17:50:13+08:00">2023-11-20</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -646,8 +556,7 @@ Sync；</li>
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="pine-源码阅读笔记">Pine 源码阅读笔记</h1>
-<p>Pine 是一个使用 C++17 编写的高并发框架，支持 Linux / MacOS
+          <p>Pine 是一个使用 C++17 编写的高并发框架，支持 Linux / MacOS
 跨平台；它也是 <a
 target="_blank" rel="noopener" href="https://github.com/yuesong-feng/30dayMakeCppServer/tree/main">30
 天自制 C++ 服务器</a>（目前更至第十六天）的配套代码。</p>
@@ -718,7 +627,7 @@ target="_blank" rel="noopener" href="https://github.com/yuesong-feng/30dayMakeCp
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-11-20 17:48:44 / 修改时间：17:49:31" itemprop="dateCreated datePublished" datetime="2023-11-20T17:48:44+08:00">2023-11-20</time>
+              <time title="创建时间：2023-11-20 17:48:44 / 修改时间：18:04:19" itemprop="dateCreated datePublished" datetime="2023-11-20T17:48:44+08:00">2023-11-20</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -755,8 +664,7 @@ target="_blank" rel="noopener" href="https://github.com/yuesong-feng/30dayMakeCp
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="modern-c1126笔记">Modern C++（11~26）笔记</h1>
-<h2 id="堆栈raii容器">堆、栈、RAII、容器</h2>
+          <h2 id="堆栈raii容器">堆、栈、RAII、容器</h2>
 <ul>
 <li><code>delete</code> 一个空指针是合法的，但不能多次
 <code>delete</code>；</li>

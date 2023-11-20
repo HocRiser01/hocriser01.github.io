@@ -874,8 +874,7 @@ href="https://changkun.de/modern-cpp/zh-cn/01-intro/#1-2-%E4%B8%8E-C-%E7%9A%84%E
   <entry>
     <title>Rust 笔记</title>
     <url>/2023/11/20/Rust-%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h1 id="rust-笔记">Rust 笔记</h1>
-<p><strong>参考</strong>：</p>
+    <content><![CDATA[<p><strong>参考</strong>：</p>
 <p><em>《Rust Primer》</em></p>
 <p><em>《Rust 编程之道》</em></p>
 <p><em>《Rust Course》（Rust 语言圣经）</em></p>
@@ -896,6 +895,7 @@ href="https://changkun.de/modern-cpp/zh-cn/01-intro/#1-2-%E4%B8%8E-C-%E7%9A%84%E
 <li>使用 <code>io::stdin.read_line(&amp;mut String)</code> 读入；</li>
 <li>Rust 项目结构：</li>
 </ul>
+<span id="more"></span>
 <figure class="highlight rust"><table><tr><td class="code"><pre><span class="line">Project/</span><br><span class="line">|-- cargo.toml</span><br><span class="line">|-- cargo.lock</span><br><span class="line">|-- src/</span><br><span class="line">|-- |-- main.rs</span><br><span class="line">|-- |-- lib.rs</span><br><span class="line">|-- |-- bin/</span><br><span class="line">|-- tests/</span><br><span class="line">|-- examples/</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>for (i, j) in (5..10).enumerate()</code> 使 <code>i</code>
@@ -1003,8 +1003,7 @@ Sync；</li>
   <entry>
     <title>Pine 源码阅读笔记</title>
     <url>/2023/11/20/Pine-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h1 id="pine-源码阅读笔记">Pine 源码阅读笔记</h1>
-<p>Pine 是一个使用 C++17 编写的高并发框架，支持 Linux / MacOS
+    <content><![CDATA[<p>Pine 是一个使用 C++17 编写的高并发框架，支持 Linux / MacOS
 跨平台；它也是 <a
 href="https://github.com/yuesong-feng/30dayMakeCppServer/tree/main">30
 天自制 C++ 服务器</a>（目前更至第十六天）的配套代码。</p>
@@ -1127,8 +1126,7 @@ unique_ptr<Connection>&gt;，以及由程序员指定的 on_connect() 与 on_rec
   <entry>
     <title>Modern C++（11~26）笔记</title>
     <url>/2023/11/20/Modern-C-%EF%BC%8811-26%EF%BC%89%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h1 id="modern-c1126笔记">Modern C++（11~26）笔记</h1>
-<h2 id="堆栈raii容器">堆、栈、RAII、容器</h2>
+    <content><![CDATA[<h2 id="堆栈raii容器">堆、栈、RAII、容器</h2>
 <ul>
 <li><code>delete</code> 一个空指针是合法的，但不能多次
 <code>delete</code>；</li>
