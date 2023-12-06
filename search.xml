@@ -895,24 +895,15 @@ C++ Programming Guide</a>；</p>
 <span id="more"></span>
 <ul>
 <li><p>GPU vs CPU：</p>
-<figure>
-<img src="0.png" alt="Untitled" />
-<figcaption aria-hidden="true">Untitled</figcaption>
-</figure></li>
+<p><img src="0.png" /></p></li>
 <li><p>GPU 微体系结构层次（硬件层面）：</p>
 <ul>
 <li>其中 SM 为 Streaming MultiProcessor，SP 为 Streaming Processor；一个
 GPU 通常有数百个 SM，每个 SM 有数百个 SP；</li>
 </ul></li>
 </ul>
-<figure>
-<img src="1.png" alt="Untitled" />
-<figcaption aria-hidden="true">Untitled</figcaption>
-</figure>
-<figure>
-<img src="2.png" alt="Untitled" />
-<figcaption aria-hidden="true">Untitled</figcaption>
-</figure>
+<p><img src="1.png" /></p>
+<p><img src="2.png" /></p>
 <ul>
 <li>GPU 程序层次（软件层面）：
 <ul>
@@ -926,14 +917,8 @@ thread），目前一个 block 中最多包含 1024 个 thread；</li>
 warp，被调度器集体调度，<em>通常</em>对程序员透明；</li>
 </ul></li>
 </ul>
-<figure>
-<img src="3.png" alt="Untitled" />
-<figcaption aria-hidden="true">Untitled</figcaption>
-</figure>
-<figure>
-<img src="4.png" alt="Untitled" />
-<figcaption aria-hidden="true">Untitled</figcaption>
-</figure>
+<p><img src="3.png" /></p>
+<p><img src="4.png" /></p>
 <h2 id="cuda-入门">CUDA 入门</h2>
 <ul>
 <li>CUDA = Compute Unified Device Architecture，统一计算设备架构，由
@@ -969,10 +954,7 @@ L1 Cache；</li>
 进行路障（Barrier）同步；</li>
 </ul></li>
 </ul>
-<figure>
-<img src="5.png" alt="Untitled" />
-<figcaption aria-hidden="true">Untitled</figcaption>
-</figure>
+<p><img src="5.png" /></p>
 <ul>
 <li>内存操作：
 <ul>
