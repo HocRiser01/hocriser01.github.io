@@ -872,6 +872,233 @@ href="https://changkun.de/modern-cpp/zh-cn/01-intro/#1-2-%E4%B8%8E-C-%E7%9A%84%E
       </tags>
   </entry>
   <entry>
+    <title>CUDA 编程笔记</title>
+    <url>/2023/12/06/CUDA-%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<p>参考：</p>
+<p><a
+href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/contents.html">CUDA
+C++ Programming Guide</a>；</p>
+<p>《CUDA 编程：基础与实践》</p>
+<p>《GPGPU 异构高性能计算》</p>
+<h2 id="gpu-介绍">GPU 介绍</h2>
+<ul>
+<li>一个典型的 GPU 参数，以 NVIDIA H100 GPU 为例：
+<ul>
+<li>16896 FP32 CUDA cores；</li>
+<li>66.9 TFLOPS (FP64 Tensor core)；</li>
+<li>33.5 TFLOPS (FP64)；</li>
+<li>3352 GB/s memory bandwidth；</li>
+<li>700W TDP；</li>
+<li>TSMC’s 4N customized for NVIDIA；</li>
+</ul></li>
+</ul>
+<span id="more"></span>
+<ul>
+<li><p>GPU vs CPU：</p>
+<figure>
+<img src="0.png" alt="Untitled" />
+<figcaption aria-hidden="true">Untitled</figcaption>
+</figure></li>
+<li><p>GPU 微体系结构层次（硬件层面）：</p>
+<ul>
+<li>其中 SM 为 Streaming MultiProcessor，SP 为 Streaming Processor；一个
+GPU 通常有数百个 SM，每个 SM 有数百个 SP；</li>
+</ul></li>
+</ul>
+<figure>
+<img src="1.png" alt="Untitled" />
+<figcaption aria-hidden="true">Untitled</figcaption>
+</figure>
+<figure>
+<img src="2.png" alt="Untitled" />
+<figcaption aria-hidden="true">Untitled</figcaption>
+</figure>
+<ul>
+<li>GPU 程序层次（软件层面）：
+<ul>
+<li>一个程序 kernel 由多个 block 组成，一个 block 由多个 thread
+组成；</li>
+<li>数个 block 分配（映射）到一个 SM 中（block 与 SM 同等大小，某一时刻
+SM 中仅存放一个 block）；</li>
+<li>数个 thread 与一个 SP 对应（某一时刻 SP 中仅负责一个
+thread），目前一个 block 中最多包含 1024 个 thread；</li>
+<li>同一个 block 中编号相邻的 32 个 thread 组成一个
+warp，被调度器集体调度，<em>通常</em>对程序员透明；</li>
+</ul></li>
+</ul>
+<figure>
+<img src="3.png" alt="Untitled" />
+<figcaption aria-hidden="true">Untitled</figcaption>
+</figure>
+<figure>
+<img src="4.png" alt="Untitled" />
+<figcaption aria-hidden="true">Untitled</figcaption>
+</figure>
+<h2 id="cuda-入门">CUDA 入门</h2>
+<ul>
+<li>CUDA = Compute Unified Device Architecture，统一计算设备架构，由
+NVIDIA 提出的通用并行计算平台和编程模型；Use parallelization to hide the
+latency；</li>
+<li>直接使用 <code>nvcc</code> 代替 <code>g++</code>
+即可编译（需要后缀名为 .cu），Host Code 将调用 Host C
+Compiler/Linker，Device Code 调用 Device Just-In-Time Compiler；</li>
+<li>区分：SPMD 编程模型（CUDA、MPI、OpenMP），SIMD 编程模型（Intel
+MMX、SSE、AVX）；</li>
+<li>SPMD 是 GPU 的编程模型，SIMT 是 GPU 的执行方式，SIMD 是 GPU
+计算单元的处理方式；</li>
+<li>一个并行函数是一个 kernel，使用
+<code>&lt;&lt;&lt;gridDim, blockDim&gt;&gt;&gt;</code> 指定 thread
+数目与排布；</li>
+<li>host 代表本机，device 代表并行计算设备（GPU）：
+<ul>
+<li>host 调用 device 执行，函数加上前缀
+<code>__global__</code>（必须返回 <code>void</code>）；</li>
+<li>host 调用 host 执行，函数加上前缀 <code>__host__</code> ；</li>
+<li>device 调用 device 执行，函数加上前缀 <code>__device__</code>
+，可以与 <code>__host__</code> 同时使用，但不能与
+<code>__global__</code> 同时使用；</li>
+</ul></li>
+<li>内存布局：
+<ul>
+<li>每个 thread 有自己的寄存器和 local memory；</li>
+<li>同一个 block 中的 thread 可以通过 shared memory 共享数据，速度类似
+L1 Cache；</li>
+<li>所有 thread 可以通过 global memory 共享数据；</li>
+<li>另外还有只读的 texture memory 和 constant memory；</li>
+<li>同一个 block 中 thread 可以通过 <code>__syncthreads()</code>
+进行路障（Barrier）同步；</li>
+</ul></li>
+</ul>
+<figure>
+<img src="5.png" alt="Untitled" />
+<figcaption aria-hidden="true">Untitled</figcaption>
+</figure>
+<ul>
+<li>内存操作：
+<ul>
+<li>使用 <code>cudaMalloc((void**)&amp;addr, n * sizeof(float))</code>
+在 device 的 global memory 中分配空间，其中 addr 为 <code>float*</code>
+；</li>
+<li>使用 <code>cudaFree(addr)</code> 释放空间；</li>
+<li>使用
+<code>cudaMemcpy(h_addr, d_addr, size, cudaMemcpyDeviceToHost)</code>
+实现 device 与 host 之间的内存拷贝；参数可选
+<code>cudaMemcpyHostToHost</code>、 <code>cudaMemcpyHostToDevice</code>
+、 <code>cudaMemcpyDeviceToHost</code> 、
+<code>cudaMemcpyDeviceToDevice</code> 、 <code>cudaMemcpyDefault</code>
+，不符合实际情况将导致错误；</li>
+<li>可以使用 <code>cudaMemcpyToSymbol()</code> 和
+<code>cudaMemcpyToSymbol()</code>
+在设备与设备静态内存区（定义在核函数之外，使用 <code>__device__</code>
+前缀）之间交换数据，而不使用参数传递；</li>
+<li>均返回一个 <code>cudaError_t</code> ，成功时值为
+<code>cudaSuccess</code> ；</li>
+</ul></li>
+<li>核函数中可以使用的变量： <code>gridDim.x</code>、
+<code>blockDim.x</code> 、 <code>blockIdx.x</code>、
+<code>threadIdx.x</code> ；可以使用 <code>dim3 grid_size(3, 3)</code> 或
+<code>dim3 grid_size(1, 2, 3)</code> 定义成二维或三维，此时可以使用相应
+y 或 z；</li>
+<li>变量声明默认在 register 中，放不下则在 local memory
+中，生命周期与访问性均为 thread；加上 <code>__shared__</code> 、
+<code>__device__</code> 、 <code>__constant__</code> 分别分配到 shared
+memory（生命周期和访问性为 block）、global memory、constant memory
+上；</li>
+</ul>
+<h2 id="cuda-进阶">CUDA 进阶</h2>
+<ul>
+<li>Memory Coalescing：一次性将同一时刻一个 warp
+要访问的内存全部取出；因为这个技术，CPU 的 SIMD
+往往一个线程处理的数据是相邻的，而 GPU 中往往不相邻，GPU
+中相邻线程处理相邻数据；</li>
+<li>一个共享内存被分为 32 个 bank，与内建变量 warpSize
+值相等；同一线程束内多个线程不同时访问同一个 bank
+中不同层的数据，则只需要一次内存事务（memory transaction）；</li>
+<li>原子操作： <code>AtomicAdd(&amp;a, b)</code> ；</li>
+<li>CUDA 在 host 使用固定内存（调用特殊系统 API，保证不会换出，
+<code>cudaMemcpy()</code> 速度快一倍，不可过度使用），可以使用
+<code>cudaHostAlloc(&amp;data, size, cudaHostAllocDefault)</code> 或
+<code>cudaMallocHost(&amp;data, size)</code> 和
+<code>cudaFreeHost(data)</code> 操作，与 <code>cudaMemcpyAsync()</code>
+配合，才能达到异步数据传输效果；</li>
+<li>默认流中 host 与 device 的运算是并行的（因此需要核函数结果时应执行
+<code>cudaDeviceSynchronize()</code>
+；使用非默认流实现多个核函数并行，以及核函数与数据传递的并行（良好设计下，流越多，并行度越高，直到达到硬件资源上限）：</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">cudaStream_t stream0, stream1;</span><br><span class="line"><span class="built_in">cudaStreamCreate</span>(&amp;stream0);</span><br><span class="line"><span class="built_in">cudaStreamCreate</span>(&amp;stream1);</span><br><span class="line"><span class="built_in">cudaMemcpyAsync</span>(d_A0, hA + i, SegSize * <span class="built_in">sizeof</span>(<span class="type">float</span>), stream1); <span class="comment">// 注意需要 Async，且不在同一个流</span></span><br><span class="line">vecAdd&lt;&lt;&lt;SegSize/<span class="number">256</span>, <span class="number">256</span>, <span class="number">0</span>, stream0&gt;&gt;&gt;(d_A0, d_B0);</span><br><span class="line"><span class="built_in">cudaStreamQuery</span>(stream0) <span class="comment">// 用于非阻塞地查询是否全部执行完毕</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cudaStreamSynchonize</span>(stream0); <span class="comment">// 或 cudaDeviceSynchronize(); 等待 device 所有流任务完成</span></span><br><span class="line"><span class="built_in">cudaStreamDestroy</span>(stream0);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>进行非合并<em>只读</em>读取（即不连续只读读取）global memory
+时，会自动使用 <code>__ldg()</code> 进行优化；</li>
+<li>统一内存编程：CPU 与 GPU 均可访问，使用
+<code>cudaMallocManaged(&amp;data, size, flags = cudaMemAttachGlobal)</code>
+分配， <code>cudaFree()</code>
+释放；静态统一内存：在核函数外定义，加上前缀
+<code>__device__ __managed__</code> ；</li>
+<li>统一内存数据预取 API：
+<code>cudaMemPrefetchAsync(data, N * sizeof(int), myGpuId, stream)</code>
+；</li>
+<li>统一内存建议 API：</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cudaMemAdvise</span>(data, N * <span class="built_in">sizeof</span>(<span class="type">int</span>), cudamemadvisesetreadmost, cudaCpuDeviceId);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 可用内存提示与取消：</span></span><br><span class="line">cudamemadvisesetreadmost / cudamemadviseunsetreadmost</span><br><span class="line">cudaMemAdviseSetPreferredLocation / cudaMemAdviseUnsetPreferredLocation</span><br><span class="line">cudaMemAdviceSetAccessedBy / cudaMemAdviceUnsetAccessedBy</span><br></pre></td></tr></table></figure>
+<ul>
+<li>若分支能写成 <code>c = flag ? a : b</code> 或
+<code>if (condition) &#123;...&#125;</code> 的形式，则并行性良好，否则
+<code>then</code> 与 <code>else</code> 的线程之间为串行执行；</li>
+</ul>
+<h2 id="cuda-并行计算模式">CUDA 并行计算模式</h2>
+<ul>
+<li>Tile 模式：每次从 global memory 中加载一段到 shared memory，使用
+barrier synchronization 进行线程开始与结束同步，再进入下一个
+Tile；以矩阵乘法为例，每个 block
+负责结果矩阵中的一个子矩阵，每次将计算这个子矩阵需要的部分数据（两个乘数矩阵分别取一块）载入并计算（每个
+thread 负责结果子矩阵的一格），下一个 Tile
+再取下一批计算此结果子矩阵的部分数据，最后再累加得到最终此结果子矩阵；具体编码较为繁琐；</li>
+<li>Convolution 卷积模式：正常计算，注意处理边界即可；可以使用
+Tile；</li>
+<li>Histogram 直方图模式： <code>for i bin[arr[i]]++;</code>
+问题，加速技巧：
+<ul>
+<li>block_size 设为与 SM 内线程数相等，注意 coalescing；</li>
+<li>shared memory 中做 Atomic 操作速度很快，但 global memory
+中很慢；</li>
+<li>胖内核、contiguous unrolling：循环展开；</li>
+</ul></li>
+<li>Reduction 规约模式：类 Map Reduce，使用规约树以 log(n) 步执行
+Max、Min、Sum、Product 等满足交换结合律的运算；每次循环开始均需要
+<code>__syncthreads()</code> ；</li>
+<li>Scan 前缀和模式：每次迭代
+<code>stride *= 2; a[i] += a[i - stride];</code>，需要
+<code>__syncthreads()</code> ；更优秀的做法：使用树状数组；</li>
+</ul>
+<h2 id="其它">其它</h2>
+<ul>
+<li><code>gridDim</code>
+要足够，通常上取整，因此可能出现最后超出范围的情况，需要判断；</li>
+<li>尽量使用 shared memory，最后返回结果时再使用 global memory；</li>
+<li>注意栅栏同步函数 <code>__syncthreads()</code> 仅能进行同一 block 中
+threads 的同步；</li>
+<li>一些常用 CUDA 库（应尽量使用）：
+<ul>
+<li>Thrust：类似 C++ STL；</li>
+<li>cuBLAS：线性代数；</li>
+<li>cuFFT：快速傅里叶变换；</li>
+<li>cuSPARSE：稀疏矩阵；</li>
+<li>cuRAND：随机数生成器；</li>
+<li>cuSolver：稠密矩阵与稀疏矩阵；</li>
+<li>cuDNN：深度神经网络；</li>
+</ul></li>
+<li>使用 cuda-gdb 调试，nvprof（nsight compute） 测速，nsight system
+分析硬件资源占用情况；</li>
+</ul>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>并行计算</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Rust 笔记</title>
     <url>/2023/11/20/Rust-%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<p><strong>参考</strong>：</p>

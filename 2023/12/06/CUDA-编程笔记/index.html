@@ -20,20 +20,27 @@
     var CONFIG = {"hostname":"47.99.133.133","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="本机配置 官网下载Node.js，换成淘宝源： 12345678# 换成淘宝源（可能需要sudo su进入root模式）：npm install -g cnpm --registry&#x3D;&#x3D;https:&#x2F;&#x2F;registry.npm.taobao.orgcnpm -vcnpm install -g hexo-climkdir Hexo &amp;&amp; cd Hexohexo inithexo s#">
+  <meta name="description" content="参考： CUDA C++ Programming Guide； 《CUDA 编程：基础与实践》 《GPGPU 异构高性能计算》 GPU 介绍  一个典型的 GPU 参数，以 NVIDIA H100 GPU 为例：  16896 FP32 CUDA cores； 66.9 TFLOPS (FP64 Tensor core)； 33.5 TFLOPS (FP64)； 3352 GB&#x2F;s memory">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo个人网站搭建">
-<meta property="og:url" content="http://47.99.133.133/2023/07/13/Hexo%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA/index.html">
+<meta property="og:title" content="CUDA 编程笔记">
+<meta property="og:url" content="http://47.99.133.133/2023/12/06/CUDA-%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="朝汐">
-<meta property="og:description" content="本机配置 官网下载Node.js，换成淘宝源： 12345678# 换成淘宝源（可能需要sudo su进入root模式）：npm install -g cnpm --registry&#x3D;&#x3D;https:&#x2F;&#x2F;registry.npm.taobao.orgcnpm -vcnpm install -g hexo-climkdir Hexo &amp;&amp; cd Hexohexo inithexo s#">
+<meta property="og:description" content="参考： CUDA C++ Programming Guide； 《CUDA 编程：基础与实践》 《GPGPU 异构高性能计算》 GPU 介绍  一个典型的 GPU 参数，以 NVIDIA H100 GPU 为例：  16896 FP32 CUDA cores； 66.9 TFLOPS (FP64 Tensor core)； 33.5 TFLOPS (FP64)； 3352 GB&#x2F;s memory">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-07-13T02:43:54.000Z">
-<meta property="article:modified_time" content="2023-08-12T01:41:13.015Z">
+<meta property="og:image" content="http://47.99.133.133/2023/12/06/CUDA-%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/0.png">
+<meta property="og:image" content="http://47.99.133.133/2023/12/06/CUDA-%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/1.png">
+<meta property="og:image" content="http://47.99.133.133/2023/12/06/CUDA-%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/2.png">
+<meta property="og:image" content="http://47.99.133.133/2023/12/06/CUDA-%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/3.png">
+<meta property="og:image" content="http://47.99.133.133/2023/12/06/CUDA-%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/4.png">
+<meta property="og:image" content="http://47.99.133.133/2023/12/06/CUDA-%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/5.png">
+<meta property="article:published_time" content="2023-12-06T15:35:26.000Z">
+<meta property="article:modified_time" content="2023-12-06T15:40:02.239Z">
 <meta property="article:author" content="HocRiser">
-<meta property="article:tag" content="电脑配置">
+<meta property="article:tag" content="并行计算">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://47.99.133.133/2023/12/06/CUDA-%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/0.png">
 
-<link rel="canonical" href="http://47.99.133.133/2023/07/13/Hexo%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA/">
+<link rel="canonical" href="http://47.99.133.133/2023/12/06/CUDA-%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/">
 
 
 <script id="page-configurations">
@@ -46,7 +53,7 @@
   };
 </script>
 
-  <title>Hexo个人网站搭建 | 朝汐</title>
+  <title>CUDA 编程笔记 | 朝汐</title>
   
 
 
@@ -167,7 +174,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://47.99.133.133/2023/07/13/Hexo%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA/">
+    <link itemprop="mainEntityOfPage" href="http://47.99.133.133/2023/12/06/CUDA-%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -180,7 +187,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Hexo个人网站搭建
+          CUDA 编程笔记
         </h1>
 
         <div class="post-meta">
@@ -189,16 +196,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2023-07-13 10:43:54" itemprop="dateCreated datePublished" datetime="2023-07-13T10:43:54+08:00">2023-07-13</time>
+              <time title="创建时间：2023-12-06 23:35:26 / 修改时间：23:40:02" itemprop="dateCreated datePublished" datetime="2023-12-06T23:35:26+08:00">2023-12-06</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-08-12 09:41:13" itemprop="dateModified" datetime="2023-08-12T09:41:13+08:00">2023-08-12</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -215,14 +216,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.7k</span>
+              <span>4.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>5 分钟</span>
+              <span>8 分钟</span>
             </span>
 
         </div>
@@ -234,44 +235,222 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="本机配置">本机配置</h2>
-<p><a target="_blank" rel="noopener" href="https://nodejs.org/en">官网</a>下载Node.js，换成淘宝源：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 换成淘宝源（可能需要sudo su进入root模式）：</span></span><br><span class="line">npm install -g cnpm --registry==https://registry.npm.taobao.org</span><br><span class="line">cnpm -v</span><br><span class="line">cnpm install -g hexo-cli</span><br><span class="line"><span class="built_in">mkdir</span> Hexo &amp;&amp; <span class="built_in">cd</span> Hexo</span><br><span class="line">hexo init</span><br><span class="line">hexo s</span><br><span class="line"><span class="comment"># 此时可在http://localhost:4000/访问主页</span></span><br></pre></td></tr></table></figure>
+        <p>参考：</p>
+<p><a
+target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/contents.html">CUDA
+C++ Programming Guide</a>；</p>
+<p>《CUDA 编程：基础与实践》</p>
+<p>《GPGPU 异构高性能计算》</p>
+<h2 id="gpu-介绍">GPU 介绍</h2>
+<ul>
+<li>一个典型的 GPU 参数，以 NVIDIA H100 GPU 为例：
+<ul>
+<li>16896 FP32 CUDA cores；</li>
+<li>66.9 TFLOPS (FP64 Tensor core)；</li>
+<li>33.5 TFLOPS (FP64)；</li>
+<li>3352 GB/s memory bandwidth；</li>
+<li>700W TDP；</li>
+<li>TSMC’s 4N customized for NVIDIA；</li>
+</ul></li>
+</ul>
 <span id="more"></span>
-<h2 id="服务器与域名配置">服务器与域名配置</h2>
 <ul>
-<li>阿里云ECS轻量应用服务器2核2G￥108/年；买域名、ICP备案</li>
-<li>选择CentOS系统镜像，设置密码；</li>
-<li>创建新用户并设置ssh免密登录<a
-target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html">[原理链接]</a>，方便后续hexo部署：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">adduser git</span><br><span class="line"><span class="built_in">chmod</span> 740 /etc/sudoers</span><br><span class="line">vim /etc/sudoers</span><br><span class="line"><span class="comment"># 在root ALL=(ALL) ALL下添加：</span></span><br><span class="line">git ALL=(ALL) ALL</span><br><span class="line"><span class="built_in">chmod</span> 400 /etc/sudoers</span><br><span class="line">sudo passwd git</span><br><span class="line"></span><br><span class="line">su git</span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line"><span class="built_in">mkdir</span> .ssh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查本地~/.ssh下是否已有公钥，若没有：</span></span><br><span class="line">ssh-keygen</span><br><span class="line"><span class="comment"># 在服务器git用户~/.ssh下生成authorized_key</span></span><br><span class="line">ssh-copy-id user@host</span><br></pre></td></tr></table></figure>
-<h2 id="服务器nginx配置">服务器nginx配置</h2>
+<li><p>GPU vs CPU：</p>
+<figure>
+<img src="0.png" alt="Untitled" />
+<figcaption aria-hidden="true">Untitled</figcaption>
+</figure></li>
+<li><p>GPU 微体系结构层次（硬件层面）：</p>
 <ul>
-<li>RedHat系（RedHat、CentOS、Fedora等）包管理工具为rpm，依赖管理工具为yum，Debian系（Debian、Ubuntu等）包管理工具为dpkg，依赖管理工具为apt。</li>
-<li>安装nginx依赖环境，下载解压nginx安装包：</li>
+<li>其中 SM 为 Streaming MultiProcessor，SP 为 Streaming Processor；一个
+GPU 通常有数百个 SM，每个 SM 有数百个 SP；</li>
+</ul></li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 确认此时在root用户下：</span></span><br><span class="line">yum install gcc-c++</span><br><span class="line">yum install -y pcre pcre-devel</span><br><span class="line">yum install -y zlib zlib-devel</span><br><span class="line">yum install -y openssl openssl-devel</span><br><span class="line"></span><br><span class="line">wget -c https://nginx.org/download/nginx-1.10.1.tar.gz</span><br><span class="line">tar -xvf nginx-1.10.1.tar.gz -C /usr/local</span><br><span class="line"><span class="built_in">cd</span> /usr/local/nginx-1.10.1</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 若Make报错：</span></span><br><span class="line">vim ./objs/Makefile</span><br><span class="line"><span class="comment"># 删除CFLAGS中的-Werror：</span></span><br><span class="line">CFLAGS =  -pipe  -O -W -Wall -Wpointer-arith -Wno-unused -g</span><br><span class="line">vim ./src/os/unix/ngx_user.c</span><br><span class="line"><span class="comment"># 注释掉此行：</span></span><br><span class="line">cd.current_salt[0] = ~salt[0];</span><br></pre></td></tr></table></figure>
+<figure>
+<img src="1.png" alt="Untitled" />
+<figcaption aria-hidden="true">Untitled</figcaption>
+</figure>
+<figure>
+<img src="2.png" alt="Untitled" />
+<figcaption aria-hidden="true">Untitled</figcaption>
+</figure>
 <ul>
-<li>安装、配置nginx：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 确认此时在root用户下：</span></span><br><span class="line"><span class="built_in">cd</span> /usr/local/nginx/sbin</span><br><span class="line">./nginx</span><br><span class="line"><span class="comment"># 此时可用host:80访问nginx欢迎页</span></span><br><span class="line"><span class="comment"># 可用./nginx -s stop停止服务</span></span><br><span class="line"><span class="comment"># 若服务器不开放80端口：</span></span><br><span class="line">/sbin/iptables -I INPUT -p tcp –dport 80 -j ACCEPT</span><br><span class="line"></span><br><span class="line"><span class="built_in">mkdir</span> -p /home/www/hexo</span><br><span class="line"><span class="built_in">cd</span> /usr/local/nginx/conf</span><br><span class="line">vim nginx.conf</span><br><span class="line"><span class="comment"># 将其中的部署根目录/的location的root修改为/home/www/hexo</span></span><br><span class="line"><span class="comment"># 将server_name修改为域名，若没有域名则改为公网ip</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">curl -sL https://rpm.nodesource.com/setup_10.x | bash -</span><br><span class="line">yum install -y nodejs</span><br><span class="line">node -v</span><br><span class="line">npm -v</span><br><span class="line">yum install git</span><br><span class="line">git --version</span><br></pre></td></tr></table></figure>
-<h2 id="服务器hexo配置">服务器Hexo配置</h2>
-<p>配置git仓库</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 确认此时在git用户下：</span></span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">git init --bare hexo.git</span><br><span class="line">vim ~/hexo.git/hooks/post-receive</span><br><span class="line"><span class="comment"># 写入：git --work-tree=/home/www/hexo --git-dir=/home/git/hexo.git checkout -f</span></span><br><span class="line"><span class="built_in">chmod</span> +x ~/hexo.git/hooks/post-receive</span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">sudo <span class="built_in">chmod</span> -R 777 /home/www/hexo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 回到本地对应Hexo目录：</span></span><br><span class="line"><span class="built_in">cd</span> ~/Documents/Hexo</span><br><span class="line">sudo vim _config.yml</span><br><span class="line"><span class="comment"># 将url改成https://&#123;服务器IP&#125;/</span></span><br><span class="line"><span class="comment"># 修改末尾deploy部分：</span></span><br><span class="line">deploy:</span><br><span class="line">	<span class="built_in">type</span>: git</span><br><span class="line">	repo: git@ip:/home/git/hexo.git</span><br><span class="line">	branch: master</span><br><span class="line"></span><br><span class="line">npm install hexo-deployer-git --save</span><br><span class="line">npm install hexo-server</span><br><span class="line"></span><br><span class="line"><span class="comment"># 若首次使用git：</span></span><br><span class="line">git config --global user.name <span class="string">&quot;your-username&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;your-email-address&quot;</span></span><br><span class="line"></span><br><span class="line">hexo clean &amp;&amp; hexo g -d</span><br></pre></td></tr></table></figure>
-<h2 id="next主题配置">NeXT主题配置</h2>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 更换主题：https://hexo.io/themes/</span></span><br><span class="line">git <span class="built_in">clone</span> --depth=1 https://github.com/theme-next/hexo-theme-next.git themes/next</span><br><span class="line"><span class="comment"># 将_config.yml中themes改为next</span></span><br><span class="line"></span><br><span class="line">hexo n <span class="string">&quot;name.md&quot;</span></span><br><span class="line">hexo clean &amp;&amp; hexo g -d</span><br><span class="line"><span class="comment"># 在Hexo和themes下各有一个_config.yml，在此自定义</span></span><br><span class="line"><span class="comment"># markdown中插入图片：</span></span><br><span class="line"><span class="comment"># 将Hexo根目录下_config.yml文件中post_asset_folder设为true，即可使用相对路径引用图片：</span></span><br><span class="line"><span class="comment"># 注意：.开头的隐藏文件不会被保留</span></span><br><span class="line">![](image.jpg)</span><br></pre></td></tr></table></figure>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/618864711">配置教程</a>，<a
-target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/30836436">另一篇</a>，<a
-target="_blank" rel="noopener" href="https://siriusq.top/Next%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96?tdsourcetag=s_pctim_aiomsg">另一篇</a></p>
+<li>GPU 程序层次（软件层面）：
 <ul>
-<li><p>删除文章：删除对应.md和文件夹，以及Hexo根目录下.deploy_git即可。</p></li>
-<li><p><span class="math inline">\(\LaTeX\)</span>支持：<a
-target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/381508379">知乎</a></p></li>
-<li><p>添加置顶：</p></li>
+<li>一个程序 kernel 由多个 block 组成，一个 block 由多个 thread
+组成；</li>
+<li>数个 block 分配（映射）到一个 SM 中（block 与 SM 同等大小，某一时刻
+SM 中仅存放一个 block）；</li>
+<li>数个 thread 与一个 SP 对应（某一时刻 SP 中仅负责一个
+thread），目前一个 block 中最多包含 1024 个 thread；</li>
+<li>同一个 block 中编号相邻的 32 个 thread 组成一个
+warp，被调度器集体调度，<em>通常</em>对程序员透明；</li>
+</ul></li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm uninstall hexo-generator-index --save</span><br><span class="line">npm instal hexo-generator-index-pin-top --save</span><br></pre></td></tr></table></figure>
-<p>在置顶文章的Front-matter中加上top: true即可。</p>
+<figure>
+<img src="3.png" alt="Untitled" />
+<figcaption aria-hidden="true">Untitled</figcaption>
+</figure>
+<figure>
+<img src="4.png" alt="Untitled" />
+<figcaption aria-hidden="true">Untitled</figcaption>
+</figure>
+<h2 id="cuda-入门">CUDA 入门</h2>
+<ul>
+<li>CUDA = Compute Unified Device Architecture，统一计算设备架构，由
+NVIDIA 提出的通用并行计算平台和编程模型；Use parallelization to hide the
+latency；</li>
+<li>直接使用 <code>nvcc</code> 代替 <code>g++</code>
+即可编译（需要后缀名为 .cu），Host Code 将调用 Host C
+Compiler/Linker，Device Code 调用 Device Just-In-Time Compiler；</li>
+<li>区分：SPMD 编程模型（CUDA、MPI、OpenMP），SIMD 编程模型（Intel
+MMX、SSE、AVX）；</li>
+<li>SPMD 是 GPU 的编程模型，SIMT 是 GPU 的执行方式，SIMD 是 GPU
+计算单元的处理方式；</li>
+<li>一个并行函数是一个 kernel，使用
+<code>&lt;&lt;&lt;gridDim, blockDim&gt;&gt;&gt;</code> 指定 thread
+数目与排布；</li>
+<li>host 代表本机，device 代表并行计算设备（GPU）：
+<ul>
+<li>host 调用 device 执行，函数加上前缀
+<code>__global__</code>（必须返回 <code>void</code>）；</li>
+<li>host 调用 host 执行，函数加上前缀 <code>__host__</code> ；</li>
+<li>device 调用 device 执行，函数加上前缀 <code>__device__</code>
+，可以与 <code>__host__</code> 同时使用，但不能与
+<code>__global__</code> 同时使用；</li>
+</ul></li>
+<li>内存布局：
+<ul>
+<li>每个 thread 有自己的寄存器和 local memory；</li>
+<li>同一个 block 中的 thread 可以通过 shared memory 共享数据，速度类似
+L1 Cache；</li>
+<li>所有 thread 可以通过 global memory 共享数据；</li>
+<li>另外还有只读的 texture memory 和 constant memory；</li>
+<li>同一个 block 中 thread 可以通过 <code>__syncthreads()</code>
+进行路障（Barrier）同步；</li>
+</ul></li>
+</ul>
+<figure>
+<img src="5.png" alt="Untitled" />
+<figcaption aria-hidden="true">Untitled</figcaption>
+</figure>
+<ul>
+<li>内存操作：
+<ul>
+<li>使用 <code>cudaMalloc((void**)&amp;addr, n * sizeof(float))</code>
+在 device 的 global memory 中分配空间，其中 addr 为 <code>float*</code>
+；</li>
+<li>使用 <code>cudaFree(addr)</code> 释放空间；</li>
+<li>使用
+<code>cudaMemcpy(h_addr, d_addr, size, cudaMemcpyDeviceToHost)</code>
+实现 device 与 host 之间的内存拷贝；参数可选
+<code>cudaMemcpyHostToHost</code>、 <code>cudaMemcpyHostToDevice</code>
+、 <code>cudaMemcpyDeviceToHost</code> 、
+<code>cudaMemcpyDeviceToDevice</code> 、 <code>cudaMemcpyDefault</code>
+，不符合实际情况将导致错误；</li>
+<li>可以使用 <code>cudaMemcpyToSymbol()</code> 和
+<code>cudaMemcpyToSymbol()</code>
+在设备与设备静态内存区（定义在核函数之外，使用 <code>__device__</code>
+前缀）之间交换数据，而不使用参数传递；</li>
+<li>均返回一个 <code>cudaError_t</code> ，成功时值为
+<code>cudaSuccess</code> ；</li>
+</ul></li>
+<li>核函数中可以使用的变量： <code>gridDim.x</code>、
+<code>blockDim.x</code> 、 <code>blockIdx.x</code>、
+<code>threadIdx.x</code> ；可以使用 <code>dim3 grid_size(3, 3)</code> 或
+<code>dim3 grid_size(1, 2, 3)</code> 定义成二维或三维，此时可以使用相应
+y 或 z；</li>
+<li>变量声明默认在 register 中，放不下则在 local memory
+中，生命周期与访问性均为 thread；加上 <code>__shared__</code> 、
+<code>__device__</code> 、 <code>__constant__</code> 分别分配到 shared
+memory（生命周期和访问性为 block）、global memory、constant memory
+上；</li>
+</ul>
+<h2 id="cuda-进阶">CUDA 进阶</h2>
+<ul>
+<li>Memory Coalescing：一次性将同一时刻一个 warp
+要访问的内存全部取出；因为这个技术，CPU 的 SIMD
+往往一个线程处理的数据是相邻的，而 GPU 中往往不相邻，GPU
+中相邻线程处理相邻数据；</li>
+<li>一个共享内存被分为 32 个 bank，与内建变量 warpSize
+值相等；同一线程束内多个线程不同时访问同一个 bank
+中不同层的数据，则只需要一次内存事务（memory transaction）；</li>
+<li>原子操作： <code>AtomicAdd(&amp;a, b)</code> ；</li>
+<li>CUDA 在 host 使用固定内存（调用特殊系统 API，保证不会换出，
+<code>cudaMemcpy()</code> 速度快一倍，不可过度使用），可以使用
+<code>cudaHostAlloc(&amp;data, size, cudaHostAllocDefault)</code> 或
+<code>cudaMallocHost(&amp;data, size)</code> 和
+<code>cudaFreeHost(data)</code> 操作，与 <code>cudaMemcpyAsync()</code>
+配合，才能达到异步数据传输效果；</li>
+<li>默认流中 host 与 device 的运算是并行的（因此需要核函数结果时应执行
+<code>cudaDeviceSynchronize()</code>
+；使用非默认流实现多个核函数并行，以及核函数与数据传递的并行（良好设计下，流越多，并行度越高，直到达到硬件资源上限）：</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cudaStream_t stream0, stream1;</span><br><span class="line"><span class="built_in">cudaStreamCreate</span>(&amp;stream0);</span><br><span class="line"><span class="built_in">cudaStreamCreate</span>(&amp;stream1);</span><br><span class="line"><span class="built_in">cudaMemcpyAsync</span>(d_A0, hA + i, SegSize * <span class="built_in">sizeof</span>(<span class="type">float</span>), stream1); <span class="comment">// 注意需要 Async，且不在同一个流</span></span><br><span class="line">vecAdd&lt;&lt;&lt;SegSize/<span class="number">256</span>, <span class="number">256</span>, <span class="number">0</span>, stream0&gt;&gt;&gt;(d_A0, d_B0);</span><br><span class="line"><span class="built_in">cudaStreamQuery</span>(stream0) <span class="comment">// 用于非阻塞地查询是否全部执行完毕</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cudaStreamSynchonize</span>(stream0); <span class="comment">// 或 cudaDeviceSynchronize(); 等待 device 所有流任务完成</span></span><br><span class="line"><span class="built_in">cudaStreamDestroy</span>(stream0);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>进行非合并<em>只读</em>读取（即不连续只读读取）global memory
+时，会自动使用 <code>__ldg()</code> 进行优化；</li>
+<li>统一内存编程：CPU 与 GPU 均可访问，使用
+<code>cudaMallocManaged(&amp;data, size, flags = cudaMemAttachGlobal)</code>
+分配， <code>cudaFree()</code>
+释放；静态统一内存：在核函数外定义，加上前缀
+<code>__device__ __managed__</code> ；</li>
+<li>统一内存数据预取 API：
+<code>cudaMemPrefetchAsync(data, N * sizeof(int), myGpuId, stream)</code>
+；</li>
+<li>统一内存建议 API：</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cudaMemAdvise</span>(data, N * <span class="built_in">sizeof</span>(<span class="type">int</span>), cudamemadvisesetreadmost, cudaCpuDeviceId);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 可用内存提示与取消：</span></span><br><span class="line">cudamemadvisesetreadmost / cudamemadviseunsetreadmost</span><br><span class="line">cudaMemAdviseSetPreferredLocation / cudaMemAdviseUnsetPreferredLocation</span><br><span class="line">cudaMemAdviceSetAccessedBy / cudaMemAdviceUnsetAccessedBy</span><br></pre></td></tr></table></figure>
+<ul>
+<li>若分支能写成 <code>c = flag ? a : b</code> 或
+<code>if (condition) &#123;...&#125;</code> 的形式，则并行性良好，否则
+<code>then</code> 与 <code>else</code> 的线程之间为串行执行；</li>
+</ul>
+<h2 id="cuda-并行计算模式">CUDA 并行计算模式</h2>
+<ul>
+<li>Tile 模式：每次从 global memory 中加载一段到 shared memory，使用
+barrier synchronization 进行线程开始与结束同步，再进入下一个
+Tile；以矩阵乘法为例，每个 block
+负责结果矩阵中的一个子矩阵，每次将计算这个子矩阵需要的部分数据（两个乘数矩阵分别取一块）载入并计算（每个
+thread 负责结果子矩阵的一格），下一个 Tile
+再取下一批计算此结果子矩阵的部分数据，最后再累加得到最终此结果子矩阵；具体编码较为繁琐；</li>
+<li>Convolution 卷积模式：正常计算，注意处理边界即可；可以使用
+Tile；</li>
+<li>Histogram 直方图模式： <code>for i bin[arr[i]]++;</code>
+问题，加速技巧：
+<ul>
+<li>block_size 设为与 SM 内线程数相等，注意 coalescing；</li>
+<li>shared memory 中做 Atomic 操作速度很快，但 global memory
+中很慢；</li>
+<li>胖内核、contiguous unrolling：循环展开；</li>
+</ul></li>
+<li>Reduction 规约模式：类 Map Reduce，使用规约树以 log(n) 步执行
+Max、Min、Sum、Product 等满足交换结合律的运算；每次循环开始均需要
+<code>__syncthreads()</code> ；</li>
+<li>Scan 前缀和模式：每次迭代
+<code>stride *= 2; a[i] += a[i - stride];</code>，需要
+<code>__syncthreads()</code> ；更优秀的做法：使用树状数组；</li>
+</ul>
+<h2 id="其它">其它</h2>
+<ul>
+<li><code>gridDim</code>
+要足够，通常上取整，因此可能出现最后超出范围的情况，需要判断；</li>
+<li>尽量使用 shared memory，最后返回结果时再使用 global memory；</li>
+<li>注意栅栏同步函数 <code>__syncthreads()</code> 仅能进行同一 block 中
+threads 的同步；</li>
+<li>一些常用 CUDA 库（应尽量使用）：
+<ul>
+<li>Thrust：类似 C++ STL；</li>
+<li>cuBLAS：线性代数；</li>
+<li>cuFFT：快速傅里叶变换；</li>
+<li>cuSPARSE：稀疏矩阵；</li>
+<li>cuRAND：随机数生成器；</li>
+<li>cuSolver：稠密矩阵与稀疏矩阵；</li>
+<li>cuDNN：深度神经网络；</li>
+</ul></li>
+<li>使用 cuda-gdb 调试，nvprof（nsight compute） 测速，nsight system
+分析硬件资源占用情况；</li>
+</ul>
 
     </div>
 
@@ -281,7 +460,7 @@ target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/381508379">知
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E7%94%B5%E8%84%91%E9%85%8D%E7%BD%AE/" rel="tag"># 电脑配置</a>
+              <a href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" rel="tag"># 并行计算</a>
           </div>
 
         
@@ -289,11 +468,11 @@ target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/381508379">知
 
         
     <div class="post-nav">
-      <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/2023/07/13/Mac%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="next" title="Mac工作环境配置">
-      Mac工作环境配置 <i class="fa fa-chevron-right"></i>
+    <a href="/2023/11/20/Rust-%E7%AC%94%E8%AE%B0/" rel="prev" title="Rust 笔记">
+      <i class="fa fa-chevron-left"></i> Rust 笔记
     </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -352,7 +531,7 @@ target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/381508379">知
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E6%9C%BA%E9%85%8D%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">本机配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%9F%9F%E5%90%8D%E9%85%8D%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text">服务器与域名配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8nginx%E9%85%8D%E7%BD%AE"><span class="nav-number">3.</span> <span class="nav-text">服务器nginx配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8hexo%E9%85%8D%E7%BD%AE"><span class="nav-number">4.</span> <span class="nav-text">服务器Hexo配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#next%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE"><span class="nav-number">5.</span> <span class="nav-text">NeXT主题配置</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#gpu-%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">GPU 介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cuda-%E5%85%A5%E9%97%A8"><span class="nav-number">2.</span> <span class="nav-text">CUDA 入门</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cuda-%E8%BF%9B%E9%98%B6"><span class="nav-number">3.</span> <span class="nav-text">CUDA 进阶</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cuda-%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E6%A8%A1%E5%BC%8F"><span class="nav-number">4.</span> <span class="nav-text">CUDA 并行计算模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E5%AE%83"><span class="nav-number">5.</span> <span class="nav-text">其它</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
