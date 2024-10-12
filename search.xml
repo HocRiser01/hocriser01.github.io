@@ -872,6 +872,240 @@ href="https://changkun.de/modern-cpp/zh-cn/01-intro/#1-2-%E4%B8%8E-C-%E7%9A%84%E
       </tags>
   </entry>
   <entry>
+    <title>部分基础编程术语中英对照表</title>
+    <url>/2024/10/11/%E9%83%A8%E5%88%86%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E6%9C%AF%E8%AF%AD%E4%B8%AD%E8%8B%B1%E5%AF%B9%E7%85%A7%E8%A1%A8/</url>
+    <content><![CDATA[<h1 id="部分基础编程术语中英对照表">部分基础编程术语中英对照表</h1>
+<table>
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 13%" />
+<col style="width: 15%" />
+<col style="width: 23%" />
+<col style="width: 9%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr>
+<th>中文</th>
+<th>English</th>
+<th>中文</th>
+<th>English</th>
+<th>中文</th>
+<th>English</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>逗号</td>
+<td>comma</td>
+<td>句号</td>
+<td>period</td>
+<td>波浪号</td>
+<td>tilde</td>
+</tr>
+<tr>
+<td>冒号</td>
+<td>colon</td>
+<td>分号</td>
+<td>semicolon</td>
+<td>省略号</td>
+<td>ellipsis</td>
+</tr>
+<tr>
+<td>问号</td>
+<td>question mark</td>
+<td>感叹号</td>
+<td>exclamation mark</td>
+<td>引号</td>
+<td>quotation marks</td>
+</tr>
+<tr>
+<td>小括号</td>
+<td>parentheses</td>
+<td>中括号</td>
+<td>square brackets</td>
+<td>大括号</td>
+<td>curly braces</td>
+</tr>
+<tr>
+<td>星号</td>
+<td>asterisk</td>
+<td>与号（&amp;）</td>
+<td>ampersand</td>
+<td>井号</td>
+<td>number sign / hash / pound</td>
+</tr>
+<tr>
+<td>下划线</td>
+<td>underline</td>
+<td>百分号</td>
+<td>percent sign</td>
+<td>连字符</td>
+<td>hyphen</td>
+</tr>
+<tr>
+<td>斜杠</td>
+<td>slash</td>
+<td>反斜杠</td>
+<td>backslash</td>
+<td>`</td>
+<td>back-tick</td>
+</tr>
+<tr>
+<td>取模</td>
+<td>modulus</td>
+<td>余数</td>
+<td>remainder</td>
+<td>加数</td>
+<td>addend</td>
+</tr>
+<tr>
+<td>被除数</td>
+<td>dividend</td>
+<td>除数</td>
+<td>divisor</td>
+<td>乘数</td>
+<td>multiplier</td>
+</tr>
+<tr>
+<td>被减数</td>
+<td>minuend</td>
+<td>减数</td>
+<td>subtracter</td>
+<td>操作数</td>
+<td>operand</td>
+</tr>
+<tr>
+<td>语法</td>
+<td>syntax</td>
+<td>语义</td>
+<td>semantics</td>
+<td>变量</td>
+<td>variable</td>
+</tr>
+<tr>
+<td>标识符</td>
+<td>identifier</td>
+<td>初始化</td>
+<td>initialize</td>
+<td>语句</td>
+<td>statement</td>
+</tr>
+<tr>
+<td>赋值</td>
+<td>assignment</td>
+<td>表达式</td>
+<td>expression</td>
+<td>优先级</td>
+<td>precedence</td>
+</tr>
+<tr>
+<td>形参</td>
+<td>parameter</td>
+<td>实参</td>
+<td>argument</td>
+<td>栈帧</td>
+<td>stack frame</td>
+</tr>
+<tr>
+<td>作用域</td>
+<td>scope</td>
+<td>局部</td>
+<td>local</td>
+<td>全局</td>
+<td>global</td>
+</tr>
+<tr>
+<td>转义</td>
+<td>escape</td>
+<td>短路</td>
+<td>short circuit</td>
+<td>嵌套</td>
+<td>nest</td>
+</tr>
+<tr>
+<td>语法糖</td>
+<td>syntactic sugar</td>
+<td>通配</td>
+<td>glob</td>
+<td>描述符</td>
+<td>descriptor</td>
+</tr>
+<tr>
+<td>终端</td>
+<td>terminal</td>
+<td>缓冲</td>
+<td>buffer</td>
+<td>内存</td>
+<td>memory</td>
+</tr>
+<tr>
+<td>编译</td>
+<td>compile</td>
+<td>单例</td>
+<td>singleton</td>
+<td>运算符</td>
+<td>operator</td>
+</tr>
+<tr>
+<td>一元</td>
+<td>unary</td>
+<td>二元</td>
+<td>binary</td>
+<td>三元</td>
+<td>ternary</td>
+</tr>
+<tr>
+<td>可变（数量）</td>
+<td>variadic</td>
+<td>精度</td>
+<td>precision</td>
+<td>上下文</td>
+<td>context</td>
+</tr>
+<tr>
+<td>类型转换（人为）</td>
+<td>cast</td>
+<td>类型转换（编译器）</td>
+<td>type promotion / conversion</td>
+<td>递归</td>
+<td>recursion</td>
+</tr>
+<tr>
+<td>并发</td>
+<td>concurrent</td>
+<td>并行 / 并联</td>
+<td>parallel</td>
+<td>串行 / 串联</td>
+<td>serial</td>
+</tr>
+<tr>
+<td>演绎</td>
+<td>deduction</td>
+<td>归纳</td>
+<td>induction</td>
+<td>约简</td>
+<td>reduction</td>
+</tr>
+<tr>
+<td>分隔符</td>
+<td>delimiter</td>
+<td>字典序</td>
+<td>lexicographic order</td>
+<td>字面量</td>
+<td>literal</td>
+</tr>
+</tbody>
+</table>
+]]></content>
+      <categories>
+        <category>其它</category>
+      </categories>
+      <tags>
+        <tag>其它</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>2023 暑期阿里实习记录</title>
     <url>/2024/10/11/2023-%E6%9A%91%E6%9C%9F%E9%98%BF%E9%87%8C%E5%AE%9E%E4%B9%A0%E8%AE%B0%E5%BD%95/</url>
     <content><![CDATA[<p>关于实习投递总结：<a
