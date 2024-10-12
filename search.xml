@@ -674,6 +674,177 @@ href="https://changkun.de/modern-cpp/zh-cn/01-intro/#1-2-%E4%B8%8E-C-%E7%9A%84%E
       </tags>
   </entry>
   <entry>
+    <title>2023 暑期阿里实习记录</title>
+    <url>/2024/10/11/2023-%E6%9A%91%E6%9C%9F%E9%98%BF%E9%87%8C%E5%AE%9E%E4%B9%A0%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<p>关于实习投递总结：<a
+href="https://www.nowcoder.com/discuss/478477035904466944">牛客链接</a>。</p>
+<h2 id="入职">入职</h2>
+<ul>
+<li>A区5个、B区3个食堂，每天午饭20元打到卡上，晚饭20元和夜宵10元（晚9点）以点券形式发放，周末均以点券发放；按出勤日发放工资（实习生统一工资），每月2000元房补，报销来回车票，赠送2周酒店和贝壳免费转租服务；</li>
+<li>公司通讯工具为阿里钉，联网、会议工具为阿里郎，文档工具为语雀；</li>
+<li>除公司福利外还有一年香、三年醇、五年陈、奶茶日等活动，一般由公司组织或mentor买单；每季度有P9和HRG组织的新人茶话会活动；</li>
+<li>团队有热天轮流请甜筒、升职请全组吃饭、周末爬山等传统；平时会组团打篮球、健身等；</li>
+<li>工作时间：10点<sub>12点，14点</sub>18点，19点~21点（10 9
+5）；周五18点下班；</li>
+<li>不看工作时长，只看任务完成情况；只要任务完成任何时候都能下班；</li>
+<li>技术能力和工作完成情况是第一位；</li>
+<li>对同事、老板直呼花名（阿里特色）或同学；男女比大概3:1；</li>
+<li>关于工作：每周老板会给任务，没完成会批评，经常周末也会给任务；</li>
+<li>组里有和我同期进入的硕士应届生，有在华为工作两年跳槽阿里的，有在阿里干了六七年的；有年轻的，也有刚抱小孩的，没有年纪更大的；</li>
+<li>压力非常大，每周一开一次组会，还有各项业务基本一天一次小会对接任务；</li>
+<li>沟通直接，交流高效，不回避矛盾；</li>
+<li>同组负责的业务有：端智能、XR、AI引擎相关；技术栈：C++、C#、Objective-C、Unity、iOS、Android、VisionOS、前端；</li>
+</ul>
+<span id="more"></span>
+<h2 id="见闻">见闻</h2>
+<ul>
+<li>关于招聘（仅针对阿里）：一个岗位有几千人投递，经过HR筛选后剩50+份，交给组内员工直接面试；一面、二面、三面分别为P7（师兄）、P8（mentor）、P9（团队大老板），最后选出两人入职；总体竞争很激烈。</li>
+<li>我个人对岗位的划分：研究、技术（工程）、业务；算法岗学历要求较高（我所在团队算法岗的最低学历是华五硕士，最高有北大博士）；技术岗有较稳定的推进节奏，也需要接相应业务以维持重要性；业务岗特定节点附近会很忙，平时相对轻松，据说升职速度主要取决于接到项目的含金量；</li>
+<li>2023年7月，阿里改组1+6+N后进行中层职级调整，将P4<sub>P8大职级拆分为14</sub>28小职级，连续两季度绩效考核3.75（三档：3.75、3.5、3.25）可以升一小职级；P8以上职级取消，由组织直接任命并决定薪酬；</li>
+<li>阿里摩天轮曾发生P0级事故：一个测试包30天过期并提醒升级的逻辑被注入到正式发布版，直到双十一前半个月才被发现。最后紧急打补丁修复，摩天轮负责人离职；</li>
+<li>身边案例（往年）：一般两年升P6，4年<sub>8年升P7，6年</sub>10年升P8；P8开始管理小组（即mentor）；P9和HRG人员共同管理整个团队；</li>
+<li>国内大厂的通病：短视、赛马，不以产品质量为关键指标，能用就行，导致团队间合作效率低，员工归属感较弱；</li>
+<li>KPI考核体系现已改为OKR体系；</li>
+<li>每周一的周会：类Brainstorming讨论，语速快、无停顿、可以随意打断对方，不回避激烈态度和意见冲突（但坚持对事不对人）；有话直说，时刻以解决问题、提高效率为最高目标；</li>
+<li>坚持任务驱动型学习，保持高效学习的能力比学习本身更重要；</li>
+<li>组里有一个很摆的十二年
+P6，从不加班，几乎也没有被裁风险，因为组内只有他负责这块业务，裁了很难补上；所以”建立技术和业务壁垒“也有用处，虽然大部分时候不是我们自己能控制的；</li>
+<li>P7 及以下的人员变动一般由 P9 统一管理，P8 负责反馈和具体执行；</li>
+<li>要求出活，几乎没有时间能沉淀技术；</li>
+</ul>
+<h2 id="团队工作">团队工作</h2>
+<ul>
+<li>新人茶话会（P9和HRG召开），Meta技术团队整体介绍；
+<ul>
+<li>P9个人经历：13年 ALL IN无线，设计手淘架构；目前负责端智能；</li>
+<li>面向3D/XR，业务侧；3D内容离线生产，实时渲染；</li>
+<li>使用软硬一体拍摄设备，几何重建与NeRF重建，业务应用；</li>
+<li>细节清晰、模型小（5M以内）、实时渲染、低成本；渲染耗时：3秒用户留存率较高，5秒大幅降低；</li>
+<li>资产工作流规范化，降本提效，规模应用；已做到5000+交付，33项业务覆盖；</li>
+<li>3D模型 → 结构化网格（Mesh）→
+材质贴图；网格固定：同款多SKU，网格生成：不同款式与不同SKU；</li>
+<li>2D真人虚实融合：单视角0DoF；2.5D真人虚实融合：3DoF、360度多视角；3D：6DoF、有3D视频；</li>
+<li>预处理 → 静态重建 → 动态稀疏重建 → 运动蒸馏 → 实时渲染；</li>
+<li>行业首个手机端实时交互；大世界系统，流式加载，端云协同；初步落地：淘宝人生@手淘，日食记@手猫、手淘；</li>
+<li>端3D引擎（渲染架构）：AceNNR
+Runtime；云3D引擎：AceUSD模型格式、3D资产库；</li>
+<li>离线引擎AceRay光线追踪（1min-1h），实时UE光栅化渲染（15ms-1s）</li>
+<li>端智能：MNN-XRAppOS（终端非游戏应用研发模式）（实时AI交互算法PixelAI）-3D商品AR交互应用；3D大模型；为Vision
+Pro做好规划；</li>
+<li>人货场-一次编辑（UE
+Unity）-二次编辑（电商3D内容编辑器）-AceUSD模型（3D资产库）；</li>
+</ul></li>
+</ul>
+<h2 id="个人工作">个人工作</h2>
+<ul>
+<li>实习期任务：完成 XRAppOS 远程真机调试插件，实现对端侧 3D/XR 场景的
+Unity 实时场景部署和调试；
+<ol type="1">
+<li>在 XRAppOS 端侧构建调试 SDK，用于接收 Unity 发送过来的命令，和向
+Unity 同步状态（主要技术栈: iOS/Android + C/C++/Objective-C++）；</li>
+<li>在 Unity 中实现 XRAppOS 的 Debug
+Server，用于和端侧进行实时通信和同步状态（主要技术栈: C#/C++）；</li>
+<li>基于 XRAppOS 端侧和 Unity 插件为 3D/XR 开发/调试提效，实现 Unity
+场景快速导出并推送到端侧、端侧场景与 Unity 场景双向状态同步的调试。</li>
+</ol></li>
+<li>第一阶段：插件环境搭建</li>
+</ul>
+<p><a href="/2023/08/12/Unity-远程真机调试插件开发/">Unity
+远程真机调试插件开发</a></p>
+<ul>
+<li>第二阶段：插件架构设计
+<ul>
+<li>正式环境搭建</li>
+<li>gRPC 接入 XRAppOS</li>
+<li>完成 Unity 与 XRAppOS 环境相互调用</li>
+<li>跑通 Unity 中创建一个 Cube，同步在 XRAppOS 中创建</li>
+<li>架构设计，需要满足如下几个条件：
+<ul>
+<li>扩展性：能够以较低的成本新增功能，允许外部开发者扩展插件能力</li>
+<li>分层设计：按照通道、协议、接入、业务等维度自底向上的分层设计出插件的架构，使得后续功能开发无需关注底层通道和实现，只需要专心实现功能</li>
+<li>稳定性：需要在底层做好稳定性保证，通过断线重连、重连状态恢复等机制保证通道稳定性，提高代码的鲁棒性避免出现
+Crash</li>
+<li>高性能：插件传输的数据较多，需要通过数据压缩、网路优化等手段降低延迟，提高通信效率，同时尽可能降低对
+App 本身运行的影响</li>
+</ul></li>
+<li>架构验证：
+<ul>
+<li>完成底层通道、协议层搭建</li>
+<li>分别测试局域网和广域网下通道传输数据的延迟和吞吐量</li>
+<li>完成接入层设计，并基于接入层实现 2 个接口并在 C/S 双端互调</li>
+</ul></li>
+<li>稳定性验证：通过 Address Sanitizer(ASan) 验证 C++
+的稳定性，通过内存工具检查内存泄露，通过自测保证不发生 Crash</li>
+</ul></li>
+<li>第三阶段：场景结点树同步
+<ul>
+<li>完成两个场景的 Node 树相互同步的逻辑</li>
+<li>完成 Node
+的层级结构对应（经过服务端几何处理后，可能结点中间的某级结构会发生变化，需要支持配置映射规则）</li>
+<li>完成 Node 的 TRS (Translation / Rotation / Scale) 双向同步</li>
+<li>完成 Node 的增删、层级结构变更同步</li>
+<li>完成 Node 的 Component 修改同步</li>
+</ul></li>
+<li>第四阶段（未来规划）：场景快速构建
+<ul>
+<li>在 Unity 端实现基于 AceNNR 的场景构造插件和 <a
+href="https://aliyuque.antfin.com/qiul.yaoql"><span class="citation"
+data-cites="灵觉">@灵觉</span></a>
+的模型上传接口的场景一键打包上传能力，并支持在 GUI
+上实时查询上传状态、取消上传和查看上传结果</li>
+<li>调通 AceNNR 插件接口调用</li>
+<li>MTOP 接口调用，MTOP C++ SDK，Apply SecretKey</li>
+<li>上传按钮、上传状态和结果的 GUI</li>
+<li>（低优先级，先完成主线）与 XR 工程团队与 AceNNR
+团队同学配合，搭建一条轻量级的本地场景处理通道，完成局域网的模型生成，并通过调试协议推送到端侧预览</li>
+</ul></li>
+<li>第五阶段（未来规划）设备信息管理
+<ul>
+<li>设备沙盒文件管理 (可复用已有三方插件能力)</li>
+<li>设备日志输出（例如输出端上的 tlog 等信息）</li>
+<li>设备配置管理（例如修改端侧 Orange 配置）</li>
+</ul></li>
+<li>逻辑开发调试（未来规划）
+<ul>
+<li>XRAppOS x Weex JS 工程调试打通</li>
+</ul></li>
+</ul>
+<h2 id="项目">项目</h2>
+<ul>
+<li>编写基于 XR 端智能框架的远程真机调试插件，实现对端侧 3D/XR 场景的
+Unity 实时场景部署和调试
+<ul>
+<li>使用 P/Invoke 实现在 Unity 3D 中 C# 与 C++ 的跨语言调用；</li>
+<li>使用 gRPC + Protobuf 组合完成多客户端远程实时高性能通信与 C/S
+双端互调；</li>
+</ul></li>
+<li>完成基于 Weex:binding 的模型渲染中间件，实现前端快速集成与部署
+<ul>
+<li>完成对 XR 渲染组件与前端框架的互操作的性能分析；</li>
+</ul></li>
+<li>全平台轻量级高性能深度学习引擎 MNN 开发，完成 Python
+运行时性能调优组件
+<ul>
+<li>搭建端智能基础链路，实现在 PythonVM 运行时上运行 MNN-CV
+分类算法进行实时极高性能（200 ms）当前帧物品识别；</li>
+</ul></li>
+<li>基于 iOS UIKit/AVFoundation 和 ARKit 的端侧 AR 页面适配，生成 SDK
+测试包，并最终集成发布
+<ul>
+<li>设计 AR 互动帧投放放置类商品的通用页面与链接跳转协议；</li>
+<li>基于 ARKit
+在端智能框架中设计接口，为应用层提供获取点云地图能力；</li>
+</ul></li>
+</ul>
+]]></content>
+      <categories>
+        <category>记录</category>
+      </categories>
+      <tags>
+        <tag>工作</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>C++ 部分心得总结</title>
     <url>/2023/08/12/C-%E9%83%A8%E5%88%86%E5%BF%83%E5%BE%97%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<h2 id="代码书写">代码书写</h2>
@@ -1294,55 +1465,6 @@ r-l），capacity 为最大容量（即数组长度-l） ，对应有 <code>len(
       </tags>
   </entry>
   <entry>
-    <title>Hexo个人网站搭建</title>
-    <url>/2023/07/13/Hexo%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA/</url>
-    <content><![CDATA[<h2 id="本机配置">本机配置</h2>
-<p><a href="https://nodejs.org/en">官网</a>下载Node.js，换成淘宝源：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 换成淘宝源（可能需要sudo su进入root模式）：</span></span><br><span class="line">npm install -g cnpm --registry==https://registry.npm.taobao.org</span><br><span class="line">cnpm -v</span><br><span class="line">cnpm install -g hexo-cli</span><br><span class="line"><span class="built_in">mkdir</span> Hexo &amp;&amp; <span class="built_in">cd</span> Hexo</span><br><span class="line">hexo init</span><br><span class="line">hexo s</span><br><span class="line"><span class="comment"># 此时可在http://localhost:4000/访问主页</span></span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<h2 id="服务器与域名配置">服务器与域名配置</h2>
-<ul>
-<li>阿里云ECS轻量应用服务器2核2G￥108/年；买域名、ICP备案</li>
-<li>选择CentOS系统镜像，设置密码；</li>
-<li>创建新用户并设置ssh免密登录<a
-href="http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html">[原理链接]</a>，方便后续hexo部署：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">adduser git</span><br><span class="line"><span class="built_in">chmod</span> 740 /etc/sudoers</span><br><span class="line">vim /etc/sudoers</span><br><span class="line"><span class="comment"># 在root ALL=(ALL) ALL下添加：</span></span><br><span class="line">git ALL=(ALL) ALL</span><br><span class="line"><span class="built_in">chmod</span> 400 /etc/sudoers</span><br><span class="line">sudo passwd git</span><br><span class="line"></span><br><span class="line">su git</span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line"><span class="built_in">mkdir</span> .ssh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查本地~/.ssh下是否已有公钥，若没有：</span></span><br><span class="line">ssh-keygen</span><br><span class="line"><span class="comment"># 在服务器git用户~/.ssh下生成authorized_key</span></span><br><span class="line">ssh-copy-id user@host</span><br></pre></td></tr></table></figure>
-<h2 id="服务器nginx配置">服务器nginx配置</h2>
-<ul>
-<li>RedHat系（RedHat、CentOS、Fedora等）包管理工具为rpm，依赖管理工具为yum，Debian系（Debian、Ubuntu等）包管理工具为dpkg，依赖管理工具为apt。</li>
-<li>安装nginx依赖环境，下载解压nginx安装包：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 确认此时在root用户下：</span></span><br><span class="line">yum install gcc-c++</span><br><span class="line">yum install -y pcre pcre-devel</span><br><span class="line">yum install -y zlib zlib-devel</span><br><span class="line">yum install -y openssl openssl-devel</span><br><span class="line"></span><br><span class="line">wget -c https://nginx.org/download/nginx-1.10.1.tar.gz</span><br><span class="line">tar -xvf nginx-1.10.1.tar.gz -C /usr/local</span><br><span class="line"><span class="built_in">cd</span> /usr/local/nginx-1.10.1</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 若Make报错：</span></span><br><span class="line">vim ./objs/Makefile</span><br><span class="line"><span class="comment"># 删除CFLAGS中的-Werror：</span></span><br><span class="line">CFLAGS =  -pipe  -O -W -Wall -Wpointer-arith -Wno-unused -g</span><br><span class="line">vim ./src/os/unix/ngx_user.c</span><br><span class="line"><span class="comment"># 注释掉此行：</span></span><br><span class="line">cd.current_salt[0] = ~salt[0];</span><br></pre></td></tr></table></figure>
-<ul>
-<li>安装、配置nginx：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 确认此时在root用户下：</span></span><br><span class="line"><span class="built_in">cd</span> /usr/local/nginx/sbin</span><br><span class="line">./nginx</span><br><span class="line"><span class="comment"># 此时可用host:80访问nginx欢迎页</span></span><br><span class="line"><span class="comment"># 可用./nginx -s stop停止服务</span></span><br><span class="line"><span class="comment"># 若服务器不开放80端口：</span></span><br><span class="line">/sbin/iptables -I INPUT -p tcp –dport 80 -j ACCEPT</span><br><span class="line"></span><br><span class="line"><span class="built_in">mkdir</span> -p /home/www/hexo</span><br><span class="line"><span class="built_in">cd</span> /usr/local/nginx/conf</span><br><span class="line">vim nginx.conf</span><br><span class="line"><span class="comment"># 将其中的部署根目录/的location的root修改为/home/www/hexo</span></span><br><span class="line"><span class="comment"># 将server_name修改为域名，若没有域名则改为公网ip</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">curl -sL https://rpm.nodesource.com/setup_10.x | bash -</span><br><span class="line">yum install -y nodejs</span><br><span class="line">node -v</span><br><span class="line">npm -v</span><br><span class="line">yum install git</span><br><span class="line">git --version</span><br></pre></td></tr></table></figure>
-<h2 id="服务器hexo配置">服务器Hexo配置</h2>
-<p>配置git仓库</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 确认此时在git用户下：</span></span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">git init --bare hexo.git</span><br><span class="line">vim ~/hexo.git/hooks/post-receive</span><br><span class="line"><span class="comment"># 写入：git --work-tree=/home/www/hexo --git-dir=/home/git/hexo.git checkout -f</span></span><br><span class="line"><span class="built_in">chmod</span> +x ~/hexo.git/hooks/post-receive</span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">sudo <span class="built_in">chmod</span> -R 777 /home/www/hexo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 回到本地对应Hexo目录：</span></span><br><span class="line"><span class="built_in">cd</span> ~/Documents/Hexo</span><br><span class="line">sudo vim _config.yml</span><br><span class="line"><span class="comment"># 将url改成https://&#123;服务器IP&#125;/</span></span><br><span class="line"><span class="comment"># 修改末尾deploy部分：</span></span><br><span class="line">deploy:</span><br><span class="line">	<span class="built_in">type</span>: git</span><br><span class="line">	repo: git@ip:/home/git/hexo.git</span><br><span class="line">	branch: master</span><br><span class="line"></span><br><span class="line">npm install hexo-deployer-git --save</span><br><span class="line">npm install hexo-server</span><br><span class="line"></span><br><span class="line"><span class="comment"># 若首次使用git：</span></span><br><span class="line">git config --global user.name <span class="string">&quot;your-username&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;your-email-address&quot;</span></span><br><span class="line"></span><br><span class="line">hexo clean &amp;&amp; hexo g -d</span><br></pre></td></tr></table></figure>
-<h2 id="next主题配置">NeXT主题配置</h2>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 更换主题：https://hexo.io/themes/</span></span><br><span class="line">git <span class="built_in">clone</span> --depth=1 https://github.com/theme-next/hexo-theme-next.git themes/next</span><br><span class="line"><span class="comment"># 将_config.yml中themes改为next</span></span><br><span class="line"></span><br><span class="line">hexo n <span class="string">&quot;name.md&quot;</span></span><br><span class="line">hexo clean &amp;&amp; hexo g -d</span><br><span class="line"><span class="comment"># 在Hexo和themes下各有一个_config.yml，在此自定义</span></span><br><span class="line"><span class="comment"># markdown中插入图片：</span></span><br><span class="line"><span class="comment"># 将Hexo根目录下_config.yml文件中post_asset_folder设为true，即可使用相对路径引用图片：</span></span><br><span class="line"><span class="comment"># 注意：.开头的隐藏文件不会被保留</span></span><br><span class="line">![](image.jpg)</span><br></pre></td></tr></table></figure>
-<p><a href="https://zhuanlan.zhihu.com/p/618864711">配置教程</a>，<a
-href="https://zhuanlan.zhihu.com/p/30836436">另一篇</a>，<a
-href="https://siriusq.top/Next%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96?tdsourcetag=s_pctim_aiomsg">另一篇</a></p>
-<ul>
-<li><p>删除文章：删除对应.md和文件夹，以及Hexo根目录下.deploy_git即可。</p></li>
-<li><p><span class="math inline">\(\LaTeX\)</span>支持：<a
-href="https://zhuanlan.zhihu.com/p/381508379">知乎</a></p></li>
-<li><p>添加置顶：</p></li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm uninstall hexo-generator-index --save</span><br><span class="line">npm instal hexo-generator-index-pin-top --save</span><br></pre></td></tr></table></figure>
-<p>在置顶文章的Front-matter中加上top: true即可。</p>
-]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>电脑配置</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Mac工作环境配置</title>
     <url>/2023/07/13/Mac%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<p>外部文件：</p>
@@ -1412,43 +1534,52 @@ Control</a>，若失败：</p>
       </tags>
   </entry>
   <entry>
-    <title>Makefile和CMake初级使用</title>
-    <url>/2023/07/19/Makefile%E5%92%8CCMake%E5%88%9D%E7%BA%A7%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="makefile">Makefile</h2>
-<ul>
-<li>Makefile三部分：目标、依赖、执行语句；</li>
-<li>递归执行：若不存在目标文件或目标文件修改时间早于依赖文件，则先产生对应依赖文件，再执行语句；</li>
-<li>所有.o文件均由对应.c文件生成，<code>$&lt;</code>为第一个依赖文件，<code>$@</code>为目标，<code>$^</code>为所有不重复的依赖文件，以空格分开；</li>
-<li><code>src = $(wildcard ./*.c)</code>得到空格隔开的所有.c文件名；<code>obj = $(patsubst %.c, %.o, $(src))</code>
-代表将src中的所有.c替换成.o；<code>obj = $(src: %.c=%.o)</code>
-能得到同样效果；</li>
-<li><code>.PHONY</code>代表clean为伪目标</li>
-</ul>
+    <title>Hexo个人网站搭建</title>
+    <url>/2023/07/13/Hexo%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA/</url>
+    <content><![CDATA[<h2 id="本机配置">本机配置</h2>
+<p><a href="https://nodejs.org/en">官网</a>下载Node.js，换成淘宝源：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 换成淘宝源（可能需要sudo su进入root模式）：</span></span><br><span class="line">npm install -g cnpm --registry==https://registry.npm.taobao.org</span><br><span class="line">cnpm -v</span><br><span class="line">cnpm install -g hexo-cli</span><br><span class="line"><span class="built_in">mkdir</span> Hexo &amp;&amp; <span class="built_in">cd</span> Hexo</span><br><span class="line">hexo init</span><br><span class="line">hexo s</span><br><span class="line"><span class="comment"># 此时可在http://localhost:4000/访问主页</span></span><br></pre></td></tr></table></figure>
 <span id="more"></span>
-<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line">src = <span class="variable">$(<span class="built_in">wildcard</span> ./*.c)</span>  </span><br><span class="line">obj = <span class="variable">$(<span class="built_in">patsubst</span> %.c, %.o, <span class="variable">$(src)</span>)</span>  </span><br><span class="line"><span class="comment">#obj = $(src:%.c=%.o)  </span></span><br><span class="line">target = app  </span><br><span class="line">CC = gcc  </span><br><span class="line"></span><br><span class="line"><span class="variable">$(target)</span>: <span class="variable">$(obj)</span>  </span><br><span class="line">    <span class="variable">$(CC)</span> <span class="variable">$(obj)</span> -o <span class="variable">$(target)</span>  </span><br><span class="line"></span><br><span class="line"><span class="section">%.o: %.c  </span></span><br><span class="line">    <span class="variable">$(CC)</span> -c <span class="variable">$&lt;</span> -o <span class="variable">$@</span>  </span><br><span class="line"></span><br><span class="line"><span class="meta"><span class="keyword">.PHONY</span>: clean  </span></span><br><span class="line"><span class="section">clean:  </span></span><br><span class="line">    rm -rf <span class="variable">$(obj)</span> <span class="variable">$(target)</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line">CC := clang</span><br><span class="line">CXX := clang++</span><br><span class="line"></span><br><span class="line">.PHONY all</span><br><span class="line"><span class="section">all: answer</span></span><br><span class="line"></span><br><span class="line">objects := main.o answer.o</span><br><span class="line"><span class="section">answer: <span class="variable">$(objects)</span></span></span><br><span class="line">	<span class="variable">$(CXX)</span> -o <span class="variable">$@</span> <span class="variable">$(objects)</span></span><br><span class="line"></span><br><span class="line"><span class="section">main.o: answer.hpp</span></span><br><span class="line"><span class="section">answer.o: answer.hpp</span></span><br><span class="line"></span><br><span class="line">.PHONY clean</span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	rm -f answer(objects)</span><br></pre></td></tr></table></figure>
-<h2 id="cmake">CMake</h2>
+<h2 id="服务器与域名配置">服务器与域名配置</h2>
 <ul>
-<li><a
-href="https://www.bilibili.com/video/BV14h41187FZ/?vd_source=9282f15e6d326725afd47615733d4bd1">视频教程</a></li>
-<li>在my_project目录下存放源文件和CMakeLists.txt，另新建文件夹build，进入后执行<code>cmake ..</code>在build目录下生成Makefile文件，再执行<code>cmake —-build .</code>生成可执行文件；上述命令等价于<code>cmake -B build &amp;&amp; cmake —-build build</code>
-；</li>
-<li>VSCode配置：<code>brew install cmake</code> 后安装CMake和CMake
-Tools，先编写CMakeLists.txt，再<code>Cmd+Shift+P</code> 调出CMake: Quick
-Start即可；</li>
-<li>常见操作：</li>
+<li>阿里云ECS轻量应用服务器2核2G￥108/年；买域名、ICP备案</li>
+<li>选择CentOS系统镜像，设置密码；</li>
+<li>创建新用户并设置ssh免密登录<a
+href="http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html">[原理链接]</a>，方便后续hexo部署：</li>
 </ul>
-<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line">cmake_minimum_required(VERSION 3.15.0) <span class="comment"># 指定最小版本</span></span><br><span class="line">project(My_Project) <span class="comment"># 指定项目名称</span></span><br><span class="line"></span><br><span class="line">set(CMAKE_BUILD_TYPE <span class="string">&quot;Release&quot;</span>)</span><br><span class="line">set(CMAKE_CXX_FLAGS_DEBUG <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -g -Werror -Wextra -pedantic -std=c++14&quot;</span>)</span><br><span class="line">set(CMAKE_CXX_FLAGS_RELEASE <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -std=c++14 -O2&quot;</span>)</span><br><span class="line"></span><br><span class="line">add_executable(demo demo.cpp) <span class="comment"># 生成可执行文件（Linux: demo, Windows: demo.exe）</span></span><br><span class="line">add_library(common STATIC util1.cpp) <span class="comment"># 生成静态库（Linux: common.a, Windows: common.lib）</span></span><br><span class="line">add_library(common SHARED util2.cpp util3.cpp) <span class="comment"># 生成动态库或共享库（Linux: common.so, Windows: common.dll, MacOS: common.bundle, common.dylib）</span></span><br><span class="line"></span><br><span class="line">file(GLOB SRC_LIST <span class="string">&quot;*.cpp&quot;</span> <span class="string">&quot;protocal/*.cpp&quot;</span>)</span><br><span class="line">add_library(demo $&#123;SRC_LIST&#125;)</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">set(SRC_LIST main.cpp test.cpp)</span><br><span class="line">list(APPEND SRC_LIST test2.cpp)</span><br><span class="line">list(REMOVE_ITEM SRC_LIST test2.cpp)</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">aux_source_directory(. SRC_LIST) <span class="comment"># 搜索当前目录下所有可编译单元（.cpp文件）</span></span><br><span class="line">aux_source_directory(protocol SRC_PROTOCOL_LIST)</span><br><span class="line">add_library(demo $&#123;SRC_LIST&#125; $&#123;SRC_PROTOCOL_LIST&#125;)</span><br><span class="line"></span><br><span class="line">foreach(source $&#123;srcs&#125;)</span><br><span class="line">get_filename_component(name $&#123;source&#125; NAME/EXT/DIRECTORY/ABSOLUTE) <span class="comment"># 文件名/扩展名/目录路径/绝对路径</span></span><br><span class="line">add_executable($&#123;name&#125; $&#123;source&#125;)</span><br><span class="line">endforeach(source)</span><br><span class="line"></span><br><span class="line">include_directories($&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/<span class="keyword">include</span>) <span class="comment"># 设置头文件包含目录，将路径增加至CPLUS_INCLUDE_PATH变量</span></span><br><span class="line">set(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -I $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;&quot;</span>) <span class="comment"># 等价于</span></span><br><span class="line">link_libraries(<span class="string">&quot;/include/util.so&quot;</span>) <span class="comment"># 写在add_executable之前</span></span><br><span class="line"></span><br><span class="line">link_directories($&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/libs) <span class="comment"># 设置链接库搜索目录，将路径增加至LD_LIBRARY_PATH变量</span></span><br><span class="line">set(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -L $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/libs&quot;</span>) <span class="comment"># 等价于</span></span><br><span class="line"></span><br><span class="line">find_package(Protobuf REQUIRED) <span class="comment"># 查找外部包</span></span><br><span class="line">target_link_libraries(demo lib.a $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/libs/lib.so) <span class="comment"># 设置需要链接的库</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 自动执行子目录下的CMakeLists.txt</span></span><br><span class="line">add_subdirectory($&#123;PROJECT_SOURCE_DIR&#125;/src/proto)</span><br><span class="line">include_directories($&#123;PROJECT_BINARY_DIR&#125;/src/proto)</span><br><span class="line"></span><br><span class="line">message($&#123;PROJECT_SOURCE_DIR&#125;)</span><br><span class="line">message(<span class="string">&quot;build with debug mode&quot;</span>)</span><br><span class="line">message(WARNING <span class="string">&quot;this is warnning message&quot;</span>)</span><br><span class="line">message(FATAL_ERROR <span class="string">&quot;this build has many error&quot;</span>) <span class="comment"># FATAL_ERROR 会导致编译失败</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">adduser git</span><br><span class="line"><span class="built_in">chmod</span> 740 /etc/sudoers</span><br><span class="line">vim /etc/sudoers</span><br><span class="line"><span class="comment"># 在root ALL=(ALL) ALL下添加：</span></span><br><span class="line">git ALL=(ALL) ALL</span><br><span class="line"><span class="built_in">chmod</span> 400 /etc/sudoers</span><br><span class="line">sudo passwd git</span><br><span class="line"></span><br><span class="line">su git</span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line"><span class="built_in">mkdir</span> .ssh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查本地~/.ssh下是否已有公钥，若没有：</span></span><br><span class="line">ssh-keygen</span><br><span class="line"><span class="comment"># 在服务器git用户~/.ssh下生成authorized_key</span></span><br><span class="line">ssh-copy-id user@host</span><br></pre></td></tr></table></figure>
+<h2 id="服务器nginx配置">服务器nginx配置</h2>
 <ul>
-<li>文件目录形式：</li>
+<li>RedHat系（RedHat、CentOS、Fedora等）包管理工具为rpm，依赖管理工具为yum，Debian系（Debian、Ubuntu等）包管理工具为dpkg，依赖管理工具为apt。</li>
+<li>安装nginx依赖环境，下载解压nginx安装包：</li>
 </ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">- my_project/</span><br><span class="line">  - build/</span><br><span class="line">    - Makefile</span><br><span class="line">    - helloworld.exe</span><br><span class="line">  - CmakeLists.txt</span><br><span class="line">  - helloworld.cpp</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 确认此时在root用户下：</span></span><br><span class="line">yum install gcc-c++</span><br><span class="line">yum install -y pcre pcre-devel</span><br><span class="line">yum install -y zlib zlib-devel</span><br><span class="line">yum install -y openssl openssl-devel</span><br><span class="line"></span><br><span class="line">wget -c https://nginx.org/download/nginx-1.10.1.tar.gz</span><br><span class="line">tar -xvf nginx-1.10.1.tar.gz -C /usr/local</span><br><span class="line"><span class="built_in">cd</span> /usr/local/nginx-1.10.1</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 若Make报错：</span></span><br><span class="line">vim ./objs/Makefile</span><br><span class="line"><span class="comment"># 删除CFLAGS中的-Werror：</span></span><br><span class="line">CFLAGS =  -pipe  -O -W -Wall -Wpointer-arith -Wno-unused -g</span><br><span class="line">vim ./src/os/unix/ngx_user.c</span><br><span class="line"><span class="comment"># 注释掉此行：</span></span><br><span class="line">cd.current_salt[0] = ~salt[0];</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装、配置nginx：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 确认此时在root用户下：</span></span><br><span class="line"><span class="built_in">cd</span> /usr/local/nginx/sbin</span><br><span class="line">./nginx</span><br><span class="line"><span class="comment"># 此时可用host:80访问nginx欢迎页</span></span><br><span class="line"><span class="comment"># 可用./nginx -s stop停止服务</span></span><br><span class="line"><span class="comment"># 若服务器不开放80端口：</span></span><br><span class="line">/sbin/iptables -I INPUT -p tcp –dport 80 -j ACCEPT</span><br><span class="line"></span><br><span class="line"><span class="built_in">mkdir</span> -p /home/www/hexo</span><br><span class="line"><span class="built_in">cd</span> /usr/local/nginx/conf</span><br><span class="line">vim nginx.conf</span><br><span class="line"><span class="comment"># 将其中的部署根目录/的location的root修改为/home/www/hexo</span></span><br><span class="line"><span class="comment"># 将server_name修改为域名，若没有域名则改为公网ip</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">curl -sL https://rpm.nodesource.com/setup_10.x | bash -</span><br><span class="line">yum install -y nodejs</span><br><span class="line">node -v</span><br><span class="line">npm -v</span><br><span class="line">yum install git</span><br><span class="line">git --version</span><br></pre></td></tr></table></figure>
+<h2 id="服务器hexo配置">服务器Hexo配置</h2>
+<p>配置git仓库</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 确认此时在git用户下：</span></span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">git init --bare hexo.git</span><br><span class="line">vim ~/hexo.git/hooks/post-receive</span><br><span class="line"><span class="comment"># 写入：git --work-tree=/home/www/hexo --git-dir=/home/git/hexo.git checkout -f</span></span><br><span class="line"><span class="built_in">chmod</span> +x ~/hexo.git/hooks/post-receive</span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">sudo <span class="built_in">chmod</span> -R 777 /home/www/hexo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 回到本地对应Hexo目录：</span></span><br><span class="line"><span class="built_in">cd</span> ~/Documents/Hexo</span><br><span class="line">sudo vim _config.yml</span><br><span class="line"><span class="comment"># 将url改成https://&#123;服务器IP&#125;/</span></span><br><span class="line"><span class="comment"># 修改末尾deploy部分：</span></span><br><span class="line">deploy:</span><br><span class="line">	<span class="built_in">type</span>: git</span><br><span class="line">	repo: git@ip:/home/git/hexo.git</span><br><span class="line">	branch: master</span><br><span class="line"></span><br><span class="line">npm install hexo-deployer-git --save</span><br><span class="line">npm install hexo-server</span><br><span class="line"></span><br><span class="line"><span class="comment"># 若首次使用git：</span></span><br><span class="line">git config --global user.name <span class="string">&quot;your-username&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;your-email-address&quot;</span></span><br><span class="line"></span><br><span class="line">hexo clean &amp;&amp; hexo g -d</span><br></pre></td></tr></table></figure>
+<h2 id="next主题配置">NeXT主题配置</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 更换主题：https://hexo.io/themes/</span></span><br><span class="line">git <span class="built_in">clone</span> --depth=1 https://github.com/theme-next/hexo-theme-next.git themes/next</span><br><span class="line"><span class="comment"># 将_config.yml中themes改为next</span></span><br><span class="line"></span><br><span class="line">hexo n <span class="string">&quot;name.md&quot;</span></span><br><span class="line">hexo clean &amp;&amp; hexo g -d</span><br><span class="line"><span class="comment"># 在Hexo和themes下各有一个_config.yml，在此自定义</span></span><br><span class="line"><span class="comment"># markdown中插入图片：</span></span><br><span class="line"><span class="comment"># 将Hexo根目录下_config.yml文件中post_asset_folder设为true，即可使用相对路径引用图片：</span></span><br><span class="line"><span class="comment"># 注意：.开头的隐藏文件不会被保留</span></span><br><span class="line">![](image.jpg)</span><br></pre></td></tr></table></figure>
+<p><a href="https://zhuanlan.zhihu.com/p/618864711">配置教程</a>，<a
+href="https://zhuanlan.zhihu.com/p/30836436">另一篇</a>，<a
+href="https://siriusq.top/Next%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96?tdsourcetag=s_pctim_aiomsg">另一篇</a></p>
+<ul>
+<li><p>删除文章：删除对应.md和文件夹，以及Hexo根目录下.deploy_git即可。</p></li>
+<li><p><span class="math inline">\(\LaTeX\)</span>支持：<a
+href="https://zhuanlan.zhihu.com/p/381508379">知乎</a></p></li>
+<li><p>添加置顶：</p></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm uninstall hexo-generator-index --save</span><br><span class="line">npm instal hexo-generator-index-pin-top --save</span><br></pre></td></tr></table></figure>
+<p>在置顶文章的Front-matter中加上top: true即可。</p>
 ]]></content>
       <categories>
         <category>笔记</category>
       </categories>
       <tags>
-        <tag>C++</tag>
+        <tag>电脑配置</tag>
       </tags>
   </entry>
   <entry>
@@ -2127,6 +2258,46 @@ Sync；</li>
       </tags>
   </entry>
   <entry>
+    <title>Makefile和CMake初级使用</title>
+    <url>/2023/07/19/Makefile%E5%92%8CCMake%E5%88%9D%E7%BA%A7%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="makefile">Makefile</h2>
+<ul>
+<li>Makefile三部分：目标、依赖、执行语句；</li>
+<li>递归执行：若不存在目标文件或目标文件修改时间早于依赖文件，则先产生对应依赖文件，再执行语句；</li>
+<li>所有.o文件均由对应.c文件生成，<code>$&lt;</code>为第一个依赖文件，<code>$@</code>为目标，<code>$^</code>为所有不重复的依赖文件，以空格分开；</li>
+<li><code>src = $(wildcard ./*.c)</code>得到空格隔开的所有.c文件名；<code>obj = $(patsubst %.c, %.o, $(src))</code>
+代表将src中的所有.c替换成.o；<code>obj = $(src: %.c=%.o)</code>
+能得到同样效果；</li>
+<li><code>.PHONY</code>代表clean为伪目标</li>
+</ul>
+<span id="more"></span>
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line">src = <span class="variable">$(<span class="built_in">wildcard</span> ./*.c)</span>  </span><br><span class="line">obj = <span class="variable">$(<span class="built_in">patsubst</span> %.c, %.o, <span class="variable">$(src)</span>)</span>  </span><br><span class="line"><span class="comment">#obj = $(src:%.c=%.o)  </span></span><br><span class="line">target = app  </span><br><span class="line">CC = gcc  </span><br><span class="line"></span><br><span class="line"><span class="variable">$(target)</span>: <span class="variable">$(obj)</span>  </span><br><span class="line">    <span class="variable">$(CC)</span> <span class="variable">$(obj)</span> -o <span class="variable">$(target)</span>  </span><br><span class="line"></span><br><span class="line"><span class="section">%.o: %.c  </span></span><br><span class="line">    <span class="variable">$(CC)</span> -c <span class="variable">$&lt;</span> -o <span class="variable">$@</span>  </span><br><span class="line"></span><br><span class="line"><span class="meta"><span class="keyword">.PHONY</span>: clean  </span></span><br><span class="line"><span class="section">clean:  </span></span><br><span class="line">    rm -rf <span class="variable">$(obj)</span> <span class="variable">$(target)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line">CC := clang</span><br><span class="line">CXX := clang++</span><br><span class="line"></span><br><span class="line">.PHONY all</span><br><span class="line"><span class="section">all: answer</span></span><br><span class="line"></span><br><span class="line">objects := main.o answer.o</span><br><span class="line"><span class="section">answer: <span class="variable">$(objects)</span></span></span><br><span class="line">	<span class="variable">$(CXX)</span> -o <span class="variable">$@</span> <span class="variable">$(objects)</span></span><br><span class="line"></span><br><span class="line"><span class="section">main.o: answer.hpp</span></span><br><span class="line"><span class="section">answer.o: answer.hpp</span></span><br><span class="line"></span><br><span class="line">.PHONY clean</span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	rm -f answer(objects)</span><br></pre></td></tr></table></figure>
+<h2 id="cmake">CMake</h2>
+<ul>
+<li><a
+href="https://www.bilibili.com/video/BV14h41187FZ/?vd_source=9282f15e6d326725afd47615733d4bd1">视频教程</a></li>
+<li>在my_project目录下存放源文件和CMakeLists.txt，另新建文件夹build，进入后执行<code>cmake ..</code>在build目录下生成Makefile文件，再执行<code>cmake —-build .</code>生成可执行文件；上述命令等价于<code>cmake -B build &amp;&amp; cmake —-build build</code>
+；</li>
+<li>VSCode配置：<code>brew install cmake</code> 后安装CMake和CMake
+Tools，先编写CMakeLists.txt，再<code>Cmd+Shift+P</code> 调出CMake: Quick
+Start即可；</li>
+<li>常见操作：</li>
+</ul>
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line">cmake_minimum_required(VERSION 3.15.0) <span class="comment"># 指定最小版本</span></span><br><span class="line">project(My_Project) <span class="comment"># 指定项目名称</span></span><br><span class="line"></span><br><span class="line">set(CMAKE_BUILD_TYPE <span class="string">&quot;Release&quot;</span>)</span><br><span class="line">set(CMAKE_CXX_FLAGS_DEBUG <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -g -Werror -Wextra -pedantic -std=c++14&quot;</span>)</span><br><span class="line">set(CMAKE_CXX_FLAGS_RELEASE <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -std=c++14 -O2&quot;</span>)</span><br><span class="line"></span><br><span class="line">add_executable(demo demo.cpp) <span class="comment"># 生成可执行文件（Linux: demo, Windows: demo.exe）</span></span><br><span class="line">add_library(common STATIC util1.cpp) <span class="comment"># 生成静态库（Linux: common.a, Windows: common.lib）</span></span><br><span class="line">add_library(common SHARED util2.cpp util3.cpp) <span class="comment"># 生成动态库或共享库（Linux: common.so, Windows: common.dll, MacOS: common.bundle, common.dylib）</span></span><br><span class="line"></span><br><span class="line">file(GLOB SRC_LIST <span class="string">&quot;*.cpp&quot;</span> <span class="string">&quot;protocal/*.cpp&quot;</span>)</span><br><span class="line">add_library(demo $&#123;SRC_LIST&#125;)</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">set(SRC_LIST main.cpp test.cpp)</span><br><span class="line">list(APPEND SRC_LIST test2.cpp)</span><br><span class="line">list(REMOVE_ITEM SRC_LIST test2.cpp)</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">aux_source_directory(. SRC_LIST) <span class="comment"># 搜索当前目录下所有可编译单元（.cpp文件）</span></span><br><span class="line">aux_source_directory(protocol SRC_PROTOCOL_LIST)</span><br><span class="line">add_library(demo $&#123;SRC_LIST&#125; $&#123;SRC_PROTOCOL_LIST&#125;)</span><br><span class="line"></span><br><span class="line">foreach(source $&#123;srcs&#125;)</span><br><span class="line">get_filename_component(name $&#123;source&#125; NAME/EXT/DIRECTORY/ABSOLUTE) <span class="comment"># 文件名/扩展名/目录路径/绝对路径</span></span><br><span class="line">add_executable($&#123;name&#125; $&#123;source&#125;)</span><br><span class="line">endforeach(source)</span><br><span class="line"></span><br><span class="line">include_directories($&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/<span class="keyword">include</span>) <span class="comment"># 设置头文件包含目录，将路径增加至CPLUS_INCLUDE_PATH变量</span></span><br><span class="line">set(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -I $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;&quot;</span>) <span class="comment"># 等价于</span></span><br><span class="line">link_libraries(<span class="string">&quot;/include/util.so&quot;</span>) <span class="comment"># 写在add_executable之前</span></span><br><span class="line"></span><br><span class="line">link_directories($&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/libs) <span class="comment"># 设置链接库搜索目录，将路径增加至LD_LIBRARY_PATH变量</span></span><br><span class="line">set(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -L $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/libs&quot;</span>) <span class="comment"># 等价于</span></span><br><span class="line"></span><br><span class="line">find_package(Protobuf REQUIRED) <span class="comment"># 查找外部包</span></span><br><span class="line">target_link_libraries(demo lib.a $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/libs/lib.so) <span class="comment"># 设置需要链接的库</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 自动执行子目录下的CMakeLists.txt</span></span><br><span class="line">add_subdirectory($&#123;PROJECT_SOURCE_DIR&#125;/src/proto)</span><br><span class="line">include_directories($&#123;PROJECT_BINARY_DIR&#125;/src/proto)</span><br><span class="line"></span><br><span class="line">message($&#123;PROJECT_SOURCE_DIR&#125;)</span><br><span class="line">message(<span class="string">&quot;build with debug mode&quot;</span>)</span><br><span class="line">message(WARNING <span class="string">&quot;this is warnning message&quot;</span>)</span><br><span class="line">message(FATAL_ERROR <span class="string">&quot;this build has many error&quot;</span>) <span class="comment"># FATAL_ERROR 会导致编译失败</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>文件目录形式：</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">- my_project/</span><br><span class="line">  - build/</span><br><span class="line">    - Makefile</span><br><span class="line">    - helloworld.exe</span><br><span class="line">  - CmakeLists.txt</span><br><span class="line">  - helloworld.cpp</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>The Rust Programming Language 读书笔记</title>
     <url>/2023/10/21/The-Rust-Programming-Language-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<p><a href="https://rustwiki.org/zh-CN/book/">The Rust Programming
@@ -2674,6 +2845,121 @@ trait 返回：</li>
       </tags>
   </entry>
   <entry>
+    <title>Unity 远程真机调试插件开发</title>
+    <url>/2023/08/12/Unity-%E8%BF%9C%E7%A8%8B%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/</url>
+    <content><![CDATA[<p><strong>项目目标</strong>：完成远程真机调试插件，实现对端侧 3D/XR
+场景的 Unity 实时场景部署与调试；</p>
+<p><strong>具体内容</strong>：</p>
+<ol type="1">
+<li>在端侧构建调试 SDK，用于接收 Unity 发送的命令，和向 Unity
+同步状态；</li>
+<li>在 Unity 中基于插件实现Debug Server，用于和端侧进行实时通信（Unity
+场景快速导出并推送到端侧）和同步状态（Unity
+场景双向状态同步调试）；</li>
+<li>PC端：MacOS，移动端：iOS；</li>
+</ol>
+<span id="more"></span>
+<p>阶段任务概要：</p>
+<ul>
+<li>端侧 DebugSDK 技术选型 - Unity / <strong>C++</strong>，Unity
+插件技术选型 - OC / <strong>C++</strong></li>
+<li>通信协议选型：Socket Raw Packet / <strong>gRPC + Protobuf</strong> /
+Hybrid (Raw Packet + RPC)</li>
+<li>基础 Socket 通道搭建：Unity Socket Server (nc test)、Socket
+Client</li>
+<li>RPC 通道搭建：Unity RPC、iOS gRPC、C/S 双端互调</li>
+</ul>
+<h2 id="unity-c插件开发基础">Unity C++插件开发基础</h2>
+<p>参考：</p>
+<ul>
+<li>官网介绍：<a
+href="https://learn.microsoft.com/en-us/dotnet/fundamentals/">.NET</a>，<a
+href="https://docs.unity.cn/2023.2/Documentation/Manual/Plugins.html">Plugin，</a><a
+href="https://learn.microsoft.com/zh-cn/dotnet/standard/managed-code">托管代码，</a><a
+href="https://learn.microsoft.com/zh-cn/dotnet/standard/native-interop/pinvoke">P/Invoke</a>，<a
+href="https://www.mono-project.com/docs/advanced/pinvoke/">Mono
+Runtime官网对P/Invoke的介绍</a>；</li>
+<li>P/Invoke：<a href="https://www.jacksondunstan.com/articles/3938">C++
+Scripting: Part 1 – C#/C++ Communication</a>，<a
+href="https://www.cnblogs.com/herenzhiming/articles/6688804.html">C#与C/C++的交互（PInvoke）</a>，<a
+href="https://www.jianshu.com/p/06db6d0109db">Create A Native Plugin For
+Unity</a>，<a
+href="https://kyochow.github.io/articles/2020/10/12/1602495480321.html">关于Unity
+Native插件的开发</a>，<a
+href="https://www.jianshu.com/p/65bb18513f19">Unity与C++交互入门(1)</a>，<a
+href="https://rafalwilinski.medium.com/tutorial-create-c-c-plugins-for-unity3d-dbde7f67454#.hqsjain5e">Tutorial
+— Create C/C++ plugins for Unity3D</a>，<a
+href="https://rustcc.cn/article?id=3b8241d0-c4ca-4f49-8e07-0a5142b00f59">Rust
+FFI 编程 - FFI 概述</a></li>
+<li>插件开发：<a href="https://www.jianshu.com/p/183695196f02">Unity
+3D编辑器插件开发</a>，<a
+href="https://www.cnblogs.com/yzx885059439/p/14497026.html">Unity3D插件开发教程</a>，<a
+href="https://developer.aliyun.com/article/69190">开发unity插件——一次搞定unity编辑器常用功能</a></li>
+</ul>
+<p>.NET使用CIL作为高级语言与机器语言的中间层以实现跨平台，且使用公共语言运行时CLR（支持提前AOT和实时JIT类型），无论使用的是Mono、.NET
+Framework还是.NET
+Core。将执行过程交由运行时管理（如自动内存管理、安全边界、类型安全等）的代码称为托管代码（Managed
+Code）；直接运行编译出的机器语言而不依赖运行时的代码称为原生代码（Native
+Code）。二者各有优势和局限性，具体见官网介绍。Unity最常用的托管代码形式插件使用C#语言，原生插件可以使用C/C++/Objective-C等。.NET中，C#与C++的互操作（Interop）可以通过P/Invoke实现（也可以使用C++/CLI作为中间层，但Mono不支持）。</p>
+<p>Unity native 插件开发流程：C++ → C API → 打包 → C# 封装接口。</p>
+<p>在 Safe Mode 下 C# 与 C++ 无法直接交互，C++ 需要包装成 C API，由 C#
+调用 C API。 插件包：Android 打包成 <code>so</code>，IOS 打包成
+framework 或者 <code>.a</code>，macOS 打包成
+<code>.bundle</code>，Windows 打包成 dll。Windows 放在
+<code>Plugins/x86(x64)</code> 目录下，Mac 直接放在 <code>Plugins</code>
+目录下，iOS 放在 <code>Plugins/iOS</code> 目录下，Android 放在
+<code>Plugins/Android/libs/armeabi-v7a</code>
+目录下。如果修改了本地插件，需要将 dll 或者 bundle 覆盖了之后重启 Unity,
+不然还是会使用老的 Native Plugin。</p>
+<p>CMakeLists.txt：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cmake_minimum_required</span>(VERSION <span class="number">3.5</span>)</span><br><span class="line"><span class="built_in">project</span>(UnityPlugin)</span><br><span class="line"></span><br><span class="line"><span class="built_in">aux_source_directory</span>(. src) # 搜索当前目录下所有.cpp文件放入$&#123;src&#125;</span><br><span class="line"><span class="built_in">aux_source_directory</span>(channel.cpp lib) # 需要编成.dylib的文件</span><br><span class="line"></span><br><span class="line"># C++编译标准</span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_STANDARD <span class="number">11</span>)</span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_STANDARD_REQUIRED ON)</span><br><span class="line"># 添加编译选项</span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -fms-extensions&quot;</span>)</span><br><span class="line"></span><br><span class="line"># 生成可执行文件</span><br><span class="line"></span><br><span class="line"><span class="built_in">add_executable</span>(main $&#123;src&#125;)</span><br><span class="line"></span><br><span class="line"># 生成.bundle文件</span><br><span class="line"></span><br><span class="line"># <span class="built_in">add_library</span>(project1 MODULE $&#123;lib&#125;) #编译为程序资源包 *.bundle</span><br><span class="line"># <span class="built_in">set_target_properties</span>(project1 PROPERTIES BUNDLE TRUE)</span><br><span class="line"></span><br><span class="line"># 设置生成.bundle文件的相关参数</span><br><span class="line"><span class="built_in">set</span>(MACOSX_BUNDLE_BUNDLE_NAME <span class="string">&quot;ChannelPlugin&quot;</span>)</span><br><span class="line"><span class="built_in">set</span>(MACOSX_BUNDLE_BUNDLE_VERSION <span class="string">&quot;1.0.0&quot;</span>)</span><br><span class="line"></span><br><span class="line"># 添加源文件生成共享库</span><br><span class="line"><span class="built_in">add_library</span>(ChannelPlugin SHARED channel.cpp)</span><br><span class="line"></span><br><span class="line"># 设置.bundle文件的输出路径</span><br><span class="line"><span class="built_in">set_target_properties</span>(ChannelPlugin PROPERTIES</span><br><span class="line">  OUTPUT_NAME ChannelPlugin</span><br><span class="line">  LIBRARY_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  ARCHIVE_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  RUNTIME_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  BUNDLE_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"># 设置.bundle文件的资源文件</span><br><span class="line"><span class="built_in">set_source_files_properties</span>(</span><br><span class="line">  <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  PROPERTIES MACOSX_PACKAGE_LOCATION <span class="string">&quot;/&quot;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>channel.h头文件：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> CHANNEL_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> CHANNEL_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> __cplusplus</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXTERN_C extern <span class="string">&quot;C&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXTERN_C</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> EXPORT_API</span></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> UNITY_METRO </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXPORT_API EXTERN_C __declspec(dllexport) __stdcall </span></span><br><span class="line"><span class="meta">#<span class="keyword">elif</span> UNITY_WIN </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXPORT_API EXTERN_C __declspec(dllexport) </span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span> </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXPORT_API EXTERN_C</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* EXPORT_API*/</span></span></span><br><span class="line"></span><br><span class="line"><span class="function">EXPORT_API <span class="type">int</span> <span class="title">func</span><span class="params">(<span class="type">int</span> x)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* CHANNEL_H*/</span></span></span><br></pre></td></tr></table></figure>
+<p>在所有出现 <code>func</code> 声明或定义的时候都要带
+<code>EXPORT_API</code> ；将 /bundles 中的 .dylib
+文件复制到Unity的Assets/Plugins下，将 C#
+插件放入Assets/Editor下即可。</p>
+<p>注意：Unity
+改变C#脚本后会实时重编译，但在移入新.dylib文件并不会，需要退出重新进入
+Unity 项目。</p>
+<h2 id="rpc-协议选型与通道搭建">RPC 协议选型与通道搭建</h2>
+<p>参考：<a
+href="https://doc.oschina.net/grpc">gRPC官方文档中文版</a>，<a
+href="https://grpc.io/docs/">gRPC官方文档</a>，<a
+href="https://protobuf.dev/overview/">Protocol Buffer官方文档</a></p>
+<p>gRPC是一个高性能、通用的开源RPC框架，其由Google
+2015年主要面向移动应用开发并基于HTTP/2协议标准而设计，基于ProtoBuf序列化协议开发，且支持众多开发语言。</p>
+<p>RPC
+的主要目的是让客户端可以像调用函数一样直接与服务端通信，尽可能使网络交互过程变得透明。使用时，首先需要在
+.proto
+文件中定义各个函数原型与数据结构（将作为函数参数传递，也就是网络传输的数据），然后
+Protobuf 会根据 .proto 生成桩程序 demo.pb.cc 和
+demo.pb.h（这两个文件不应被用户修改），gRPC 再生成 demo.grpc.pb.cc 和
+demo.grpc.pb.h（这两个文件也一般无需修改），最后用户在自定义程序
+demo.client 和 demo.server 中自定义需要的操作和传递的信息。</p>
+<p>具体安装使用方法：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install autoconf automake libtool pkg-config <span class="comment"># 安装依赖库</span></span><br><span class="line">brew install protobuf grpc</span><br><span class="line"><span class="built_in">export</span> MY_INSTALL_DIR=<span class="variable">$HOME</span>/.local/share <span class="comment"># 自定义安装路径</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="string">&quot;<span class="variable">$MY_INSTALL_DIR</span>/bin:<span class="variable">$PATH</span>&quot;</span></span><br><span class="line">git <span class="built_in">clone</span> --recurse-submodules -b v1.56.0 --depth 1 --shallow-submodules https://github.com/grpc/grpc</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> grpc</span><br><span class="line"><span class="built_in">mkdir</span> -p cmake/build</span><br><span class="line"><span class="built_in">pushd</span> cmake/build</span><br><span class="line">cmake -DgRPC_INSTALL=ON -DgRPC_BUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=<span class="variable">$MY_INSTALL_DIR</span> ../..</span><br><span class="line">make -j 4</span><br><span class="line">make install</span><br><span class="line"><span class="built_in">popd</span></span><br></pre></td></tr></table></figure>
+<p>重新生成gRPC代码：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> examples/cpp/helloworld/cmake/build</span><br><span class="line"><span class="comment"># 重新生成 helloworld.pb.&#123;h,cc&#125; 和 helloworld.grpc.pb.&#123;h,cc&#125;</span></span><br><span class="line">make helloworld.grpc.pb.o</span><br><span class="line"><span class="comment"># 实际运行的是以下两条命令：</span></span><br><span class="line">protoc -I ../../protos --grpc_out=. --plugin=protoc-gen-grpc=`<span class="built_in">which</span> grpc_cpp_plugin` ../../protos/helloworld.proto</span><br><span class="line">protoc -I ../../protos --cpp_out=. ../../protos/helloworld.proto</span><br><span class="line"><span class="comment"># 用户自行修改my_project/下的.cc代码</span></span><br><span class="line">make -j 4</span><br><span class="line">./greeter_server</span><br><span class="line">./greeter_client</span><br></pre></td></tr></table></figure>
+<p>目录结构：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cpp/</span><br><span class="line">	my_project/</span><br><span class="line">		cmake/</span><br><span class="line">			build/</span><br><span class="line">		greeter_client.cc</span><br><span class="line">		greeter_server.cc</span><br><span class="line">proto/</span><br><span class="line">	my_project.proto</span><br></pre></td></tr></table></figure>
+<p>调通后，同样依照官方手册调通 Objective-C 语言的 gRPC
+（仅支持客户端）。然后修改 CMakeLists.txt 文件以得到 .dylib
+文件，从而导入到 Unity 中被插件调用。</p>
+<p>至此，我们已经能够实现在 Unity 上通过 C#
+脚本实时获取场景树信息（Unity 序列化方案目前采用<a
+href="https://kuroha.vip/unity/unity_jsonutility.html">JsonUtility</a>），并通过跨语言互操作将信息传递给
+C++ gRPC，再通过 gRPC 实时传输至客户端（可以由客户端每 0.1
+秒发送一次请求），最后客户端拿到 Unity 场景树信息后在本地重建场景。</p>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>Unity</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Swift &amp; SwiftUI 学习笔记</title>
     <url>/2024/10/11/Swift-SwiftUI-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<p>参考：</p>
@@ -2914,121 +3200,6 @@ $ 符号；</li>
       </categories>
       <tags>
         <tag>Swift</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Unity 远程真机调试插件开发</title>
-    <url>/2023/08/12/Unity-%E8%BF%9C%E7%A8%8B%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/</url>
-    <content><![CDATA[<p><strong>项目目标</strong>：完成远程真机调试插件，实现对端侧 3D/XR
-场景的 Unity 实时场景部署与调试；</p>
-<p><strong>具体内容</strong>：</p>
-<ol type="1">
-<li>在端侧构建调试 SDK，用于接收 Unity 发送的命令，和向 Unity
-同步状态；</li>
-<li>在 Unity 中基于插件实现Debug Server，用于和端侧进行实时通信（Unity
-场景快速导出并推送到端侧）和同步状态（Unity
-场景双向状态同步调试）；</li>
-<li>PC端：MacOS，移动端：iOS；</li>
-</ol>
-<span id="more"></span>
-<p>阶段任务概要：</p>
-<ul>
-<li>端侧 DebugSDK 技术选型 - Unity / <strong>C++</strong>，Unity
-插件技术选型 - OC / <strong>C++</strong></li>
-<li>通信协议选型：Socket Raw Packet / <strong>gRPC + Protobuf</strong> /
-Hybrid (Raw Packet + RPC)</li>
-<li>基础 Socket 通道搭建：Unity Socket Server (nc test)、Socket
-Client</li>
-<li>RPC 通道搭建：Unity RPC、iOS gRPC、C/S 双端互调</li>
-</ul>
-<h2 id="unity-c插件开发基础">Unity C++插件开发基础</h2>
-<p>参考：</p>
-<ul>
-<li>官网介绍：<a
-href="https://learn.microsoft.com/en-us/dotnet/fundamentals/">.NET</a>，<a
-href="https://docs.unity.cn/2023.2/Documentation/Manual/Plugins.html">Plugin，</a><a
-href="https://learn.microsoft.com/zh-cn/dotnet/standard/managed-code">托管代码，</a><a
-href="https://learn.microsoft.com/zh-cn/dotnet/standard/native-interop/pinvoke">P/Invoke</a>，<a
-href="https://www.mono-project.com/docs/advanced/pinvoke/">Mono
-Runtime官网对P/Invoke的介绍</a>；</li>
-<li>P/Invoke：<a href="https://www.jacksondunstan.com/articles/3938">C++
-Scripting: Part 1 – C#/C++ Communication</a>，<a
-href="https://www.cnblogs.com/herenzhiming/articles/6688804.html">C#与C/C++的交互（PInvoke）</a>，<a
-href="https://www.jianshu.com/p/06db6d0109db">Create A Native Plugin For
-Unity</a>，<a
-href="https://kyochow.github.io/articles/2020/10/12/1602495480321.html">关于Unity
-Native插件的开发</a>，<a
-href="https://www.jianshu.com/p/65bb18513f19">Unity与C++交互入门(1)</a>，<a
-href="https://rafalwilinski.medium.com/tutorial-create-c-c-plugins-for-unity3d-dbde7f67454#.hqsjain5e">Tutorial
-— Create C/C++ plugins for Unity3D</a>，<a
-href="https://rustcc.cn/article?id=3b8241d0-c4ca-4f49-8e07-0a5142b00f59">Rust
-FFI 编程 - FFI 概述</a></li>
-<li>插件开发：<a href="https://www.jianshu.com/p/183695196f02">Unity
-3D编辑器插件开发</a>，<a
-href="https://www.cnblogs.com/yzx885059439/p/14497026.html">Unity3D插件开发教程</a>，<a
-href="https://developer.aliyun.com/article/69190">开发unity插件——一次搞定unity编辑器常用功能</a></li>
-</ul>
-<p>.NET使用CIL作为高级语言与机器语言的中间层以实现跨平台，且使用公共语言运行时CLR（支持提前AOT和实时JIT类型），无论使用的是Mono、.NET
-Framework还是.NET
-Core。将执行过程交由运行时管理（如自动内存管理、安全边界、类型安全等）的代码称为托管代码（Managed
-Code）；直接运行编译出的机器语言而不依赖运行时的代码称为原生代码（Native
-Code）。二者各有优势和局限性，具体见官网介绍。Unity最常用的托管代码形式插件使用C#语言，原生插件可以使用C/C++/Objective-C等。.NET中，C#与C++的互操作（Interop）可以通过P/Invoke实现（也可以使用C++/CLI作为中间层，但Mono不支持）。</p>
-<p>Unity native 插件开发流程：C++ → C API → 打包 → C# 封装接口。</p>
-<p>在 Safe Mode 下 C# 与 C++ 无法直接交互，C++ 需要包装成 C API，由 C#
-调用 C API。 插件包：Android 打包成 <code>so</code>，IOS 打包成
-framework 或者 <code>.a</code>，macOS 打包成
-<code>.bundle</code>，Windows 打包成 dll。Windows 放在
-<code>Plugins/x86(x64)</code> 目录下，Mac 直接放在 <code>Plugins</code>
-目录下，iOS 放在 <code>Plugins/iOS</code> 目录下，Android 放在
-<code>Plugins/Android/libs/armeabi-v7a</code>
-目录下。如果修改了本地插件，需要将 dll 或者 bundle 覆盖了之后重启 Unity,
-不然还是会使用老的 Native Plugin。</p>
-<p>CMakeLists.txt：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cmake_minimum_required</span>(VERSION <span class="number">3.5</span>)</span><br><span class="line"><span class="built_in">project</span>(UnityPlugin)</span><br><span class="line"></span><br><span class="line"><span class="built_in">aux_source_directory</span>(. src) # 搜索当前目录下所有.cpp文件放入$&#123;src&#125;</span><br><span class="line"><span class="built_in">aux_source_directory</span>(channel.cpp lib) # 需要编成.dylib的文件</span><br><span class="line"></span><br><span class="line"># C++编译标准</span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_STANDARD <span class="number">11</span>)</span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_STANDARD_REQUIRED ON)</span><br><span class="line"># 添加编译选项</span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -fms-extensions&quot;</span>)</span><br><span class="line"></span><br><span class="line"># 生成可执行文件</span><br><span class="line"></span><br><span class="line"><span class="built_in">add_executable</span>(main $&#123;src&#125;)</span><br><span class="line"></span><br><span class="line"># 生成.bundle文件</span><br><span class="line"></span><br><span class="line"># <span class="built_in">add_library</span>(project1 MODULE $&#123;lib&#125;) #编译为程序资源包 *.bundle</span><br><span class="line"># <span class="built_in">set_target_properties</span>(project1 PROPERTIES BUNDLE TRUE)</span><br><span class="line"></span><br><span class="line"># 设置生成.bundle文件的相关参数</span><br><span class="line"><span class="built_in">set</span>(MACOSX_BUNDLE_BUNDLE_NAME <span class="string">&quot;ChannelPlugin&quot;</span>)</span><br><span class="line"><span class="built_in">set</span>(MACOSX_BUNDLE_BUNDLE_VERSION <span class="string">&quot;1.0.0&quot;</span>)</span><br><span class="line"></span><br><span class="line"># 添加源文件生成共享库</span><br><span class="line"><span class="built_in">add_library</span>(ChannelPlugin SHARED channel.cpp)</span><br><span class="line"></span><br><span class="line"># 设置.bundle文件的输出路径</span><br><span class="line"><span class="built_in">set_target_properties</span>(ChannelPlugin PROPERTIES</span><br><span class="line">  OUTPUT_NAME ChannelPlugin</span><br><span class="line">  LIBRARY_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  ARCHIVE_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  RUNTIME_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  BUNDLE_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"># 设置.bundle文件的资源文件</span><br><span class="line"><span class="built_in">set_source_files_properties</span>(</span><br><span class="line">  <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  PROPERTIES MACOSX_PACKAGE_LOCATION <span class="string">&quot;/&quot;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<p>channel.h头文件：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> CHANNEL_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> CHANNEL_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> __cplusplus</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXTERN_C extern <span class="string">&quot;C&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXTERN_C</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> EXPORT_API</span></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> UNITY_METRO </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXPORT_API EXTERN_C __declspec(dllexport) __stdcall </span></span><br><span class="line"><span class="meta">#<span class="keyword">elif</span> UNITY_WIN </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXPORT_API EXTERN_C __declspec(dllexport) </span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span> </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXPORT_API EXTERN_C</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* EXPORT_API*/</span></span></span><br><span class="line"></span><br><span class="line"><span class="function">EXPORT_API <span class="type">int</span> <span class="title">func</span><span class="params">(<span class="type">int</span> x)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* CHANNEL_H*/</span></span></span><br></pre></td></tr></table></figure>
-<p>在所有出现 <code>func</code> 声明或定义的时候都要带
-<code>EXPORT_API</code> ；将 /bundles 中的 .dylib
-文件复制到Unity的Assets/Plugins下，将 C#
-插件放入Assets/Editor下即可。</p>
-<p>注意：Unity
-改变C#脚本后会实时重编译，但在移入新.dylib文件并不会，需要退出重新进入
-Unity 项目。</p>
-<h2 id="rpc-协议选型与通道搭建">RPC 协议选型与通道搭建</h2>
-<p>参考：<a
-href="https://doc.oschina.net/grpc">gRPC官方文档中文版</a>，<a
-href="https://grpc.io/docs/">gRPC官方文档</a>，<a
-href="https://protobuf.dev/overview/">Protocol Buffer官方文档</a></p>
-<p>gRPC是一个高性能、通用的开源RPC框架，其由Google
-2015年主要面向移动应用开发并基于HTTP/2协议标准而设计，基于ProtoBuf序列化协议开发，且支持众多开发语言。</p>
-<p>RPC
-的主要目的是让客户端可以像调用函数一样直接与服务端通信，尽可能使网络交互过程变得透明。使用时，首先需要在
-.proto
-文件中定义各个函数原型与数据结构（将作为函数参数传递，也就是网络传输的数据），然后
-Protobuf 会根据 .proto 生成桩程序 demo.pb.cc 和
-demo.pb.h（这两个文件不应被用户修改），gRPC 再生成 demo.grpc.pb.cc 和
-demo.grpc.pb.h（这两个文件也一般无需修改），最后用户在自定义程序
-demo.client 和 demo.server 中自定义需要的操作和传递的信息。</p>
-<p>具体安装使用方法：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install autoconf automake libtool pkg-config <span class="comment"># 安装依赖库</span></span><br><span class="line">brew install protobuf grpc</span><br><span class="line"><span class="built_in">export</span> MY_INSTALL_DIR=<span class="variable">$HOME</span>/.local/share <span class="comment"># 自定义安装路径</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="string">&quot;<span class="variable">$MY_INSTALL_DIR</span>/bin:<span class="variable">$PATH</span>&quot;</span></span><br><span class="line">git <span class="built_in">clone</span> --recurse-submodules -b v1.56.0 --depth 1 --shallow-submodules https://github.com/grpc/grpc</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> grpc</span><br><span class="line"><span class="built_in">mkdir</span> -p cmake/build</span><br><span class="line"><span class="built_in">pushd</span> cmake/build</span><br><span class="line">cmake -DgRPC_INSTALL=ON -DgRPC_BUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=<span class="variable">$MY_INSTALL_DIR</span> ../..</span><br><span class="line">make -j 4</span><br><span class="line">make install</span><br><span class="line"><span class="built_in">popd</span></span><br></pre></td></tr></table></figure>
-<p>重新生成gRPC代码：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> examples/cpp/helloworld/cmake/build</span><br><span class="line"><span class="comment"># 重新生成 helloworld.pb.&#123;h,cc&#125; 和 helloworld.grpc.pb.&#123;h,cc&#125;</span></span><br><span class="line">make helloworld.grpc.pb.o</span><br><span class="line"><span class="comment"># 实际运行的是以下两条命令：</span></span><br><span class="line">protoc -I ../../protos --grpc_out=. --plugin=protoc-gen-grpc=`<span class="built_in">which</span> grpc_cpp_plugin` ../../protos/helloworld.proto</span><br><span class="line">protoc -I ../../protos --cpp_out=. ../../protos/helloworld.proto</span><br><span class="line"><span class="comment"># 用户自行修改my_project/下的.cc代码</span></span><br><span class="line">make -j 4</span><br><span class="line">./greeter_server</span><br><span class="line">./greeter_client</span><br></pre></td></tr></table></figure>
-<p>目录结构：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cpp/</span><br><span class="line">	my_project/</span><br><span class="line">		cmake/</span><br><span class="line">			build/</span><br><span class="line">		greeter_client.cc</span><br><span class="line">		greeter_server.cc</span><br><span class="line">proto/</span><br><span class="line">	my_project.proto</span><br></pre></td></tr></table></figure>
-<p>调通后，同样依照官方手册调通 Objective-C 语言的 gRPC
-（仅支持客户端）。然后修改 CMakeLists.txt 文件以得到 .dylib
-文件，从而导入到 Unity 中被插件调用。</p>
-<p>至此，我们已经能够实现在 Unity 上通过 C#
-脚本实时获取场景树信息（Unity 序列化方案目前采用<a
-href="https://kuroha.vip/unity/unity_jsonutility.html">JsonUtility</a>），并通过跨语言互操作将信息传递给
-C++ gRPC，再通过 gRPC 实时传输至客户端（可以由客户端每 0.1
-秒发送一次请求），最后客户端拿到 Unity 场景树信息后在本地重建场景。</p>
-]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>Unity</tag>
       </tags>
   </entry>
   <entry>
