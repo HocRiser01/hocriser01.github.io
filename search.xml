@@ -872,6 +872,91 @@ href="https://changkun.de/modern-cpp/zh-cn/01-intro/#1-2-%E4%B8%8E-C-%E7%9A%84%E
       </tags>
   </entry>
   <entry>
+    <title>Java Spring 系列入门</title>
+    <url>/2024/10/11/Java-Spring-%E7%B3%BB%E5%88%97%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[<h2 id="spring-framework">Spring Framework</h2>
+<ul>
+<li>IoC（Inversion of Control）：程序中不主动 new
+对象，而是由外部（Spring
+的容器）提供对象，实现充分解耦；这一创建权的转移称为控制反转，这些被管理的对象称为
+Bean；</li>
+<li>DI（Dependency Injection）：在容器中建立各个 Bean
+之间的依赖关系的过程，称为依赖注入；</li>
+<li>Maven Dependency 中导入 spring-context 坐标后：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 在 resources/ 中创建 applicationContext.xml：</span></span><br><span class="line"><span class="comment">// 可添加 autowire 自动注入依赖</span></span><br><span class="line">&lt;bean id=”bookService” class=”com.example.service.impl.BookServiceImpl”&gt;</span><br><span class="line">	&lt;property name=<span class="string">&quot;bookDao&quot;</span> ref=<span class="string">&quot;bookDao&quot;</span> /&gt; <span class="comment">/* Setter 注入 */</span></span><br><span class="line">	<span class="comment">// name 为构造函数形参名，可改为使用 type，或使用 index=&quot;0&quot;</span></span><br><span class="line">	&lt;constructor-arg name=<span class="string">&quot;bookDao&quot;</span> ref=<span class="string">&quot;bookDao&quot;</span> /&gt; <span class="comment">/* 构造器注入 */</span></span><br><span class="line">	&lt;property name=<span class="string">&quot;databaseName&quot;</span> value=<span class="string">&quot;mysql&quot;</span> /&gt;</span><br><span class="line">&lt;/bean&gt;</span><br><span class="line"><span class="comment">// name 起别名，scope 设置不为单例（默认为 singleton）</span></span><br><span class="line">&lt;bean id=<span class="string">&quot;bookDao&quot;</span> name=<span class="string">&quot;dao dao1&quot;</span> class=<span class="string">&quot;com.example.dao.impl.BookDaoImpl&quot;</span></span><br><span class="line">	scope=<span class="string">&quot;prototype&quot;</span> init-method=<span class="string">&quot;init&quot;</span> destroy-method=<span class="string">&quot;destroy&quot;</span> /&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 给 BookDao 定义 Setter 方法或构造方法，然后添加</span></span><br><span class="line"><span class="type">ClassPathXmlApplicationContext</span> <span class="variable">ctx</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ClassPathXmlApplicationContext</span>(<span class="string">&quot;applicationContext.xml&quot;</span>);</span><br><span class="line"><span class="type">BookService</span> <span class="variable">bookService</span> <span class="operator">=</span> (BookService)ctx.getBean(<span class="string">&quot;bookService&quot;</span>);</span><br><span class="line">ctx.close(); 或 ctx.registerShutdownHook();</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Bean 的生命周期：创建对象（内存分配）→ 构造 → 属性注入（Setter）→
+初始化（继承自 InitializingBean 的 afterPropertiesSet()）→ 使用 →
+销毁（继承自 DisposableBean 的 destroy()）；</li>
+<li>Bean Factory ⇒ ApplicationContext ⇒
+ClassPathXmlApplicationContext；</li>
+</ul>
+<h2 id="spring-boot">Spring Boot</h2>
+<ul>
+<li>Spring Boot Web 内置 Tomcat，兼容 Servlet 与 JSP
+规范；三层架构：Controller（控制层）、Service（业务逻辑层）、DAO（数据访问层
+/ 持久层）；</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 注解配置 Bean</span></span><br><span class="line">&lt;context:component-scan base-<span class="keyword">package</span>=<span class="string">&quot;com.example&quot;</span> /&gt;</span><br><span class="line"><span class="comment">// 纯注解 SpringConfig.java</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ComponentScan(&quot;com.example&quot;)</span></span><br><span class="line"><span class="meta">@PropertySource(&quot;jdbc.properties&quot;)</span></span><br><span class="line"><span class="meta">@Import(&#123;JdbcConfig.class&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SpringConfig</span> &#123;</span><br><span class="line">	<span class="comment">// 用于第三方 Bean</span></span><br><span class="line">	<span class="meta">@Bean</span></span><br><span class="line">	<span class="keyword">public</span> DataSource <span class="title function_">dataSource</span><span class="params">(BookService bookService)</span> &#123;</span><br><span class="line">		<span class="type">DataSource</span> <span class="variable">ds</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DataSource</span>();</span><br><span class="line">		ds.setUsername(<span class="string">&quot;root&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span> ds;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 代码里改为</span></span><br><span class="line"><span class="type">ApplicationContext</span> <span class="variable">ctx</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AnnotationConfigApplicationContext</span>(SpringConfig.class);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>通过注解开发支持无 XML 配置；纯注解开发：
+<code>@Component("bookDao")</code> ，三个与之完全等同的注解：
+<code>@Service</code> 、 <code>@Repository</code> 、
+<code>@Controller</code> ；</li>
+<li><code>@Scope("prototype")</code> ， <code>@PostConstruct</code> ，
+<code>@PreDestroy</code> ， <code>@Autowired</code>
+（默认按类型注入）；</li>
+<li><code>@Primary</code>
+（指定优先此类对象）、<code>@Qualifier("")+@AutoWired</code>
+（类型耦合）、 <code>@Resource(name="")</code>（名字耦合，不推荐）、
+<code>@Value("")</code> ；</li>
+</ul>
+<h2 id="springmvc">SpringMVC</h2>
+<ul>
+<li>使用 <code>@RestController</code> 声明 Controller 负责 Tomcat
+路由和返回；原始方法为在 <code>@RequestMapping("/")</code>方法中声明
+<code>HttpServletRequest</code> 对象参数，再通过
+<code>getParameter(name)</code>
+获得对应参数字符串；现在处理函数只需定义好参数即可获取 GET 与 POST
+方法后接的各项参数；
+<code>@RequestParam(name="username", require=false)</code>
+设置不必须的后接参数；</li>
+<li>一个 <code>@RestController</code> 类的方法的返回值即为
+<code>@ResponseBody</code> ，若为复杂类型，会转换成 JSON
+返回给客户端；</li>
+<li>前端工程化框架打包的结果存放在 /Resources 中；</li>
+<li>启动类声明注解 <code>@SpringBootApplication</code> 中包含了
+<code>@ComponentScan</code> ；</li>
+<li>过滤器、Cookie、Session 等内容属于 JavaWeb；JWT、OSS
+等技术属于解决方案；接受请求、相应数据、拦截器、全局异常处理等 Spring 内
+Web 功能属于 SpringMVC；IoC、DI、AOP、事务管理等架构理念支持属于 Spring
+Framework，JDBC 等数据库操作被封装在 MyBatis；后三者统称为
+SSM；SpringBoot 用于快捷启动整个项目的开发；</li>
+</ul>
+<h2 id="mybatis">Mybatis</h2>
+<ul>
+<li>在 application.properties
+中配置连接四要素：Driver、URL、Username、Password；</li>
+<li>接口类使用 <code>@Mapper</code> 注解，返回值变量定义前加
+<code>@Select("command")</code>
+注解，会自动将查询答案返回到此变量中，也可以定义方法；增删改的操作类似；使用
+<code>@Options</code> 返回插入后条目的主键值；可以用
+<code>@Results</code> 和 <code>@Result</code>
+字段注解手动映射返回值封装；</li>
+<li>使用 <code>getConnection()</code> 获取数据库连接池的连接；可使用
+lombok 工具包根据特定注解自动生成各类方法（getter()、toString()
+等）；</li>
+</ul>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>部分基础编程术语中英对照表</title>
     <url>/2024/10/11/%E9%83%A8%E5%88%86%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E6%9C%AF%E8%AF%AD%E4%B8%AD%E8%8B%B1%E5%AF%B9%E7%85%A7%E8%A1%A8/</url>
     <content><![CDATA[<h1 id="部分基础编程术语中英对照表">部分基础编程术语中英对照表</h1>
