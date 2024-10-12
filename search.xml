@@ -1,6 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>2023 暑期阿里实习记录</title>
+    <url>/2024/10/11/2023-%E6%9A%91%E6%9C%9F%E9%98%BF%E9%87%8C%E5%AE%9E%E4%B9%A0%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<p>关于实习投递总结：<a
+href="https://www.nowcoder.com/discuss/478477035904466944">牛客链接</a>。</p>
+<h2 id="入职">入职</h2>
+<ul>
+<li>A区5个、B区3个食堂，每天午饭20元打到卡上，晚饭20元和夜宵10元（晚9点）以点券形式发放，周末均以点券发放；按出勤日发放工资（实习生统一工资），每月2000元房补，报销来回车票，赠送2周酒店和贝壳免费转租服务；</li>
+<li>公司通讯工具为阿里钉，联网、会议工具为阿里郎，文档工具为语雀；</li>
+<li>除公司福利外还有一年香、三年醇、五年陈、奶茶日等活动，一般由公司组织或mentor买单；每季度有P9和HRG组织的新人茶话会活动；</li>
+<li>团队有热天轮流请甜筒、升职请全组吃饭、周末爬山等传统；平时会组团打篮球、健身等；</li>
+<li>工作时间：10点~12点，14点~18点，19点~21点（10 9
+5）；周五18点下班；</li>
+<li>不看工作时长，只看任务完成情况；只要任务完成任何时候都能下班；</li>
+<li>技术能力和工作完成情况是第一位；</li>
+<li>对同事、老板直呼花名（阿里特色）或同学；男女比大概3:1；</li>
+<li>关于工作：每周老板会给任务，没完成会批评，经常周末也会给任务；</li>
+<li>组里有和我同期进入的硕士应届生，有在华为工作两年跳槽阿里的，有在阿里干了六七年的；有年轻的，也有刚抱小孩的，没有年纪更大的；</li>
+<li>压力非常大，每周一开一次组会，还有各项业务基本一天一次小会对接任务；</li>
+<li>沟通直接，交流高效，不回避矛盾；</li>
+<li>同组负责的业务有：端智能、XR、AI引擎相关；技术栈：C++、C#、Objective-C、Unity、iOS、Android、VisionOS、前端；</li>
+</ul>
+<span id="more"></span>
+<h2 id="见闻">见闻</h2>
+<ul>
+<li>关于招聘（仅针对阿里）：一个岗位有几千人投递，经过HR筛选后剩50+份，交给组内员工直接面试；一面、二面、三面分别为P7（师兄）、P8（mentor）、P9（团队大老板），最后选出两人入职；总体竞争很激烈。</li>
+<li>我个人对岗位的划分：研究、技术（工程）、业务；算法岗学历要求较高（我所在团队算法岗的最低学历是华五硕士，最高有北大博士）；技术岗有较稳定的推进节奏，也需要接相应业务以维持重要性；业务岗特定节点附近会很忙，平时相对轻松，据说升职速度主要取决于接到项目的含金量；</li>
+<li>2023年7月，阿里改组1+6+N后进行中层职级调整，将P4<sub>P8大职级拆分为14</sub>28小职级，连续两季度绩效考核3.75（三档：3.75、3.5、3.25）可以升一小职级；P8以上职级取消，由组织直接任命并决定薪酬；</li>
+<li>阿里摩天轮曾发生P0级事故：一个测试包30天过期并提醒升级的逻辑被注入到正式发布版，直到双十一前半个月才被发现。最后紧急打补丁修复，摩天轮负责人离职；</li>
+<li>身边案例（往年）：一般两年升P6，4年~8年升P7，6年~10年升P8；P8开始管理小组（即mentor）；P9和HRG人员共同管理整个团队；</li>
+<li>国内大厂的通病：短视、赛马，不以产品质量为关键指标，能用就行，导致团队间合作效率低，员工归属感较弱；</li>
+<li>KPI考核体系现已改为OKR体系；</li>
+<li>每周一的周会：类Brainstorming讨论，语速快、无停顿、可以随意打断对方，不回避激烈态度和意见冲突（但坚持对事不对人）；有话直说，时刻以解决问题、提高效率为最高目标；</li>
+<li>坚持任务驱动型学习，保持高效学习的能力比学习本身更重要；</li>
+<li>组里有一个很摆的十二年
+P6，从不加班，几乎也没有被裁风险，因为组内只有他负责这块业务，裁了很难补上；所以”建立技术和业务壁垒“也有用处，虽然大部分时候不是我们自己能控制的；</li>
+<li>P7 及以下的人员变动一般由 P9 统一管理，P8 负责反馈和具体执行；</li>
+<li>要求出活，几乎没有时间能沉淀技术；</li>
+</ul>
+<h2 id="团队工作">团队工作</h2>
+<ul>
+<li>新人茶话会（P9和HRG召开），Meta技术团队整体介绍；
+<ul>
+<li>P9个人经历：13年 ALL IN无线，设计手淘架构；目前负责端智能；</li>
+<li>面向3D/XR，业务侧；3D内容离线生产，实时渲染；</li>
+<li>使用软硬一体拍摄设备，几何重建与NeRF重建，业务应用；</li>
+<li>细节清晰、模型小（5M以内）、实时渲染、低成本；渲染耗时：3秒用户留存率较高，5秒大幅降低；</li>
+<li>资产工作流规范化，降本提效，规模应用；已做到5000+交付，33项业务覆盖；</li>
+<li>3D模型 → 结构化网格（Mesh）→
+材质贴图；网格固定：同款多SKU，网格生成：不同款式与不同SKU；</li>
+<li>2D真人虚实融合：单视角0DoF；2.5D真人虚实融合：3DoF、360度多视角；3D：6DoF、有3D视频；</li>
+<li>预处理 → 静态重建 → 动态稀疏重建 → 运动蒸馏 → 实时渲染；</li>
+<li>行业首个手机端实时交互；大世界系统，流式加载，端云协同；初步落地：淘宝人生@手淘，日食记@手猫、手淘；</li>
+<li>端3D引擎（渲染架构）：AceNNR
+Runtime；云3D引擎：AceUSD模型格式、3D资产库；</li>
+<li>离线引擎AceRay光线追踪（1min-1h），实时UE光栅化渲染（15ms-1s）</li>
+<li>端智能：MNN-XRAppOS（终端非游戏应用研发模式）（实时AI交互算法PixelAI）-3D商品AR交互应用；3D大模型；为Vision
+Pro做好规划；</li>
+<li>人货场 - 一次编辑（UE Unity）- 二次编辑（电商3D内容编辑器）-
+AceUSD模型（3D资产库）；</li>
+</ul></li>
+</ul>
+<h2 id="个人工作">个人工作</h2>
+<ul>
+<li>实习期任务：完成 XRAppOS 远程真机调试插件，实现对端侧 3D/XR 场景的
+Unity 实时场景部署和调试；
+<ol type="1">
+<li>在 XRAppOS 端侧构建调试 SDK，用于接收 Unity 发送过来的命令，和向
+Unity 同步状态（主要技术栈: iOS/Android + C/C++/Objective-C++）；</li>
+<li>在 Unity 中实现 XRAppOS 的 Debug
+Server，用于和端侧进行实时通信和同步状态（主要技术栈: C#/C++）；</li>
+<li>基于 XRAppOS 端侧和 Unity 插件为 3D/XR 开发/调试提效，实现 Unity
+场景快速导出并推送到端侧、端侧场景与 Unity 场景双向状态同步的调试。</li>
+</ol></li>
+<li>第一阶段：插件环境搭建</li>
+</ul>
+<p><a href="/2023/08/12/Unity-远程真机调试插件开发/">Unity
+远程真机调试插件开发</a></p>
+<ul>
+<li>第二阶段：插件架构设计
+<ul>
+<li>正式环境搭建</li>
+<li>gRPC 接入 XRAppOS</li>
+<li>完成 Unity 与 XRAppOS 环境相互调用</li>
+<li>跑通 Unity 中创建一个 Cube，同步在 XRAppOS 中创建</li>
+<li>架构设计，需要满足如下几个条件：
+<ul>
+<li>扩展性：能够以较低的成本新增功能，允许外部开发者扩展插件能力</li>
+<li>分层设计：按照通道、协议、接入、业务等维度自底向上的分层设计出插件的架构，使得后续功能开发无需关注底层通道和实现，只需要专心实现功能</li>
+<li>稳定性：需要在底层做好稳定性保证，通过断线重连、重连状态恢复等机制保证通道稳定性，提高代码的鲁棒性避免出现
+Crash</li>
+<li>高性能：插件传输的数据较多，需要通过数据压缩、网路优化等手段降低延迟，提高通信效率，同时尽可能降低对
+App 本身运行的影响</li>
+</ul></li>
+<li>架构验证：
+<ul>
+<li>完成底层通道、协议层搭建</li>
+<li>分别测试局域网和广域网下通道传输数据的延迟和吞吐量</li>
+<li>完成接入层设计，并基于接入层实现 2 个接口并在 C/S 双端互调</li>
+</ul></li>
+<li>稳定性验证：通过 Address Sanitizer(ASan) 验证 C++
+的稳定性，通过内存工具检查内存泄露，通过自测保证不发生 Crash</li>
+</ul></li>
+<li>第三阶段：场景结点树同步
+<ul>
+<li>完成两个场景的 Node 树相互同步的逻辑</li>
+<li>完成 Node
+的层级结构对应（经过服务端几何处理后，可能结点中间的某级结构会发生变化，需要支持配置映射规则）</li>
+<li>完成 Node 的 TRS (Translation / Rotation / Scale) 双向同步</li>
+<li>完成 Node 的增删、层级结构变更同步</li>
+<li>完成 Node 的 Component 修改同步</li>
+</ul></li>
+<li>第四阶段（未来规划）：场景快速构建
+<ul>
+<li>在 Unity 端实现基于 AceNNR
+的场景构造插件和模型上传接口的场景一键打包上传能力，并支持在 GUI
+上实时查询上传状态、取消上传和查看上传结果</li>
+<li>调通 AceNNR 插件接口调用</li>
+<li>MTOP 接口调用，MTOP C++ SDK，Apply SecretKey</li>
+<li>上传按钮、上传状态和结果的 GUI</li>
+<li>（低优先级，先完成主线）与 XR 工程团队与 AceNNR
+团队同学配合，搭建一条轻量级的本地场景处理通道，完成局域网的模型生成，并通过调试协议推送到端侧预览</li>
+</ul></li>
+<li>第五阶段（未来规划）设备信息管理
+<ul>
+<li>设备沙盒文件管理 (可复用已有三方插件能力)</li>
+<li>设备日志输出（例如输出端上的 tlog 等信息）</li>
+<li>设备配置管理（例如修改端侧 Orange 配置）</li>
+</ul></li>
+<li>逻辑开发调试（未来规划）
+<ul>
+<li>XRAppOS x Weex JS 工程调试打通</li>
+</ul></li>
+</ul>
+<h2 id="项目">项目</h2>
+<ul>
+<li>编写基于 XR 端智能框架的远程真机调试插件，实现对端侧 3D/XR 场景的
+Unity 实时场景部署和调试
+<ul>
+<li>使用 P/Invoke 实现在 Unity 3D 中 C# 与 C++ 的跨语言调用；</li>
+<li>使用 gRPC + Protobuf 组合完成多客户端远程实时高性能通信与 C/S
+双端互调；</li>
+</ul></li>
+<li>完成基于 Weex:binding 的模型渲染中间件，实现前端快速集成与部署
+<ul>
+<li>完成对 XR 渲染组件与前端框架的互操作的性能分析；</li>
+</ul></li>
+<li>全平台轻量级高性能深度学习引擎 MNN 开发，完成 Python
+运行时性能调优组件
+<ul>
+<li>搭建端智能基础链路，实现在 PythonVM 运行时上运行 MNN-CV
+分类算法进行实时极高性能（200 ms）当前帧物品识别；</li>
+</ul></li>
+<li>基于 iOS UIKit/AVFoundation 和 ARKit 的端侧 AR 页面适配，生成 SDK
+测试包，并最终集成发布
+<ul>
+<li>设计 AR 互动帧投放放置类商品的通用页面与链接跳转协议；</li>
+<li>基于 ARKit
+在端智能框架中设计接口，为应用层提供获取点云地图能力；</li>
+</ul></li>
+</ul>
+]]></content>
+      <categories>
+        <category>记录</category>
+      </categories>
+      <tags>
+        <tag>工作</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Andrew Ng - Machine Learning - Stanford</title>
     <url>/2023/07/19/Andrew-Ng-Machine-Learning-Stanford/</url>
     <content><![CDATA[<p>https://open.163.com/newview/movie/free?pid=IEU2H8NIJ&amp;mid=VEU2H8NKA</p>
@@ -674,177 +843,6 @@ href="https://changkun.de/modern-cpp/zh-cn/01-intro/#1-2-%E4%B8%8E-C-%E7%9A%84%E
       </tags>
   </entry>
   <entry>
-    <title>2023 暑期阿里实习记录</title>
-    <url>/2024/10/11/2023-%E6%9A%91%E6%9C%9F%E9%98%BF%E9%87%8C%E5%AE%9E%E4%B9%A0%E8%AE%B0%E5%BD%95/</url>
-    <content><![CDATA[<p>关于实习投递总结：<a
-href="https://www.nowcoder.com/discuss/478477035904466944">牛客链接</a>。</p>
-<h2 id="入职">入职</h2>
-<ul>
-<li>A区5个、B区3个食堂，每天午饭20元打到卡上，晚饭20元和夜宵10元（晚9点）以点券形式发放，周末均以点券发放；按出勤日发放工资（实习生统一工资），每月2000元房补，报销来回车票，赠送2周酒店和贝壳免费转租服务；</li>
-<li>公司通讯工具为阿里钉，联网、会议工具为阿里郎，文档工具为语雀；</li>
-<li>除公司福利外还有一年香、三年醇、五年陈、奶茶日等活动，一般由公司组织或mentor买单；每季度有P9和HRG组织的新人茶话会活动；</li>
-<li>团队有热天轮流请甜筒、升职请全组吃饭、周末爬山等传统；平时会组团打篮球、健身等；</li>
-<li>工作时间：10点<sub>12点，14点</sub>18点，19点~21点（10 9
-5）；周五18点下班；</li>
-<li>不看工作时长，只看任务完成情况；只要任务完成任何时候都能下班；</li>
-<li>技术能力和工作完成情况是第一位；</li>
-<li>对同事、老板直呼花名（阿里特色）或同学；男女比大概3:1；</li>
-<li>关于工作：每周老板会给任务，没完成会批评，经常周末也会给任务；</li>
-<li>组里有和我同期进入的硕士应届生，有在华为工作两年跳槽阿里的，有在阿里干了六七年的；有年轻的，也有刚抱小孩的，没有年纪更大的；</li>
-<li>压力非常大，每周一开一次组会，还有各项业务基本一天一次小会对接任务；</li>
-<li>沟通直接，交流高效，不回避矛盾；</li>
-<li>同组负责的业务有：端智能、XR、AI引擎相关；技术栈：C++、C#、Objective-C、Unity、iOS、Android、VisionOS、前端；</li>
-</ul>
-<span id="more"></span>
-<h2 id="见闻">见闻</h2>
-<ul>
-<li>关于招聘（仅针对阿里）：一个岗位有几千人投递，经过HR筛选后剩50+份，交给组内员工直接面试；一面、二面、三面分别为P7（师兄）、P8（mentor）、P9（团队大老板），最后选出两人入职；总体竞争很激烈。</li>
-<li>我个人对岗位的划分：研究、技术（工程）、业务；算法岗学历要求较高（我所在团队算法岗的最低学历是华五硕士，最高有北大博士）；技术岗有较稳定的推进节奏，也需要接相应业务以维持重要性；业务岗特定节点附近会很忙，平时相对轻松，据说升职速度主要取决于接到项目的含金量；</li>
-<li>2023年7月，阿里改组1+6+N后进行中层职级调整，将P4<sub>P8大职级拆分为14</sub>28小职级，连续两季度绩效考核3.75（三档：3.75、3.5、3.25）可以升一小职级；P8以上职级取消，由组织直接任命并决定薪酬；</li>
-<li>阿里摩天轮曾发生P0级事故：一个测试包30天过期并提醒升级的逻辑被注入到正式发布版，直到双十一前半个月才被发现。最后紧急打补丁修复，摩天轮负责人离职；</li>
-<li>身边案例（往年）：一般两年升P6，4年<sub>8年升P7，6年</sub>10年升P8；P8开始管理小组（即mentor）；P9和HRG人员共同管理整个团队；</li>
-<li>国内大厂的通病：短视、赛马，不以产品质量为关键指标，能用就行，导致团队间合作效率低，员工归属感较弱；</li>
-<li>KPI考核体系现已改为OKR体系；</li>
-<li>每周一的周会：类Brainstorming讨论，语速快、无停顿、可以随意打断对方，不回避激烈态度和意见冲突（但坚持对事不对人）；有话直说，时刻以解决问题、提高效率为最高目标；</li>
-<li>坚持任务驱动型学习，保持高效学习的能力比学习本身更重要；</li>
-<li>组里有一个很摆的十二年
-P6，从不加班，几乎也没有被裁风险，因为组内只有他负责这块业务，裁了很难补上；所以”建立技术和业务壁垒“也有用处，虽然大部分时候不是我们自己能控制的；</li>
-<li>P7 及以下的人员变动一般由 P9 统一管理，P8 负责反馈和具体执行；</li>
-<li>要求出活，几乎没有时间能沉淀技术；</li>
-</ul>
-<h2 id="团队工作">团队工作</h2>
-<ul>
-<li>新人茶话会（P9和HRG召开），Meta技术团队整体介绍；
-<ul>
-<li>P9个人经历：13年 ALL IN无线，设计手淘架构；目前负责端智能；</li>
-<li>面向3D/XR，业务侧；3D内容离线生产，实时渲染；</li>
-<li>使用软硬一体拍摄设备，几何重建与NeRF重建，业务应用；</li>
-<li>细节清晰、模型小（5M以内）、实时渲染、低成本；渲染耗时：3秒用户留存率较高，5秒大幅降低；</li>
-<li>资产工作流规范化，降本提效，规模应用；已做到5000+交付，33项业务覆盖；</li>
-<li>3D模型 → 结构化网格（Mesh）→
-材质贴图；网格固定：同款多SKU，网格生成：不同款式与不同SKU；</li>
-<li>2D真人虚实融合：单视角0DoF；2.5D真人虚实融合：3DoF、360度多视角；3D：6DoF、有3D视频；</li>
-<li>预处理 → 静态重建 → 动态稀疏重建 → 运动蒸馏 → 实时渲染；</li>
-<li>行业首个手机端实时交互；大世界系统，流式加载，端云协同；初步落地：淘宝人生@手淘，日食记@手猫、手淘；</li>
-<li>端3D引擎（渲染架构）：AceNNR
-Runtime；云3D引擎：AceUSD模型格式、3D资产库；</li>
-<li>离线引擎AceRay光线追踪（1min-1h），实时UE光栅化渲染（15ms-1s）</li>
-<li>端智能：MNN-XRAppOS（终端非游戏应用研发模式）（实时AI交互算法PixelAI）-3D商品AR交互应用；3D大模型；为Vision
-Pro做好规划；</li>
-<li>人货场-一次编辑（UE
-Unity）-二次编辑（电商3D内容编辑器）-AceUSD模型（3D资产库）；</li>
-</ul></li>
-</ul>
-<h2 id="个人工作">个人工作</h2>
-<ul>
-<li>实习期任务：完成 XRAppOS 远程真机调试插件，实现对端侧 3D/XR 场景的
-Unity 实时场景部署和调试；
-<ol type="1">
-<li>在 XRAppOS 端侧构建调试 SDK，用于接收 Unity 发送过来的命令，和向
-Unity 同步状态（主要技术栈: iOS/Android + C/C++/Objective-C++）；</li>
-<li>在 Unity 中实现 XRAppOS 的 Debug
-Server，用于和端侧进行实时通信和同步状态（主要技术栈: C#/C++）；</li>
-<li>基于 XRAppOS 端侧和 Unity 插件为 3D/XR 开发/调试提效，实现 Unity
-场景快速导出并推送到端侧、端侧场景与 Unity 场景双向状态同步的调试。</li>
-</ol></li>
-<li>第一阶段：插件环境搭建</li>
-</ul>
-<p><a href="/2023/08/12/Unity-远程真机调试插件开发/">Unity
-远程真机调试插件开发</a></p>
-<ul>
-<li>第二阶段：插件架构设计
-<ul>
-<li>正式环境搭建</li>
-<li>gRPC 接入 XRAppOS</li>
-<li>完成 Unity 与 XRAppOS 环境相互调用</li>
-<li>跑通 Unity 中创建一个 Cube，同步在 XRAppOS 中创建</li>
-<li>架构设计，需要满足如下几个条件：
-<ul>
-<li>扩展性：能够以较低的成本新增功能，允许外部开发者扩展插件能力</li>
-<li>分层设计：按照通道、协议、接入、业务等维度自底向上的分层设计出插件的架构，使得后续功能开发无需关注底层通道和实现，只需要专心实现功能</li>
-<li>稳定性：需要在底层做好稳定性保证，通过断线重连、重连状态恢复等机制保证通道稳定性，提高代码的鲁棒性避免出现
-Crash</li>
-<li>高性能：插件传输的数据较多，需要通过数据压缩、网路优化等手段降低延迟，提高通信效率，同时尽可能降低对
-App 本身运行的影响</li>
-</ul></li>
-<li>架构验证：
-<ul>
-<li>完成底层通道、协议层搭建</li>
-<li>分别测试局域网和广域网下通道传输数据的延迟和吞吐量</li>
-<li>完成接入层设计，并基于接入层实现 2 个接口并在 C/S 双端互调</li>
-</ul></li>
-<li>稳定性验证：通过 Address Sanitizer(ASan) 验证 C++
-的稳定性，通过内存工具检查内存泄露，通过自测保证不发生 Crash</li>
-</ul></li>
-<li>第三阶段：场景结点树同步
-<ul>
-<li>完成两个场景的 Node 树相互同步的逻辑</li>
-<li>完成 Node
-的层级结构对应（经过服务端几何处理后，可能结点中间的某级结构会发生变化，需要支持配置映射规则）</li>
-<li>完成 Node 的 TRS (Translation / Rotation / Scale) 双向同步</li>
-<li>完成 Node 的增删、层级结构变更同步</li>
-<li>完成 Node 的 Component 修改同步</li>
-</ul></li>
-<li>第四阶段（未来规划）：场景快速构建
-<ul>
-<li>在 Unity 端实现基于 AceNNR 的场景构造插件和 <a
-href="https://aliyuque.antfin.com/qiul.yaoql"><span class="citation"
-data-cites="灵觉">@灵觉</span></a>
-的模型上传接口的场景一键打包上传能力，并支持在 GUI
-上实时查询上传状态、取消上传和查看上传结果</li>
-<li>调通 AceNNR 插件接口调用</li>
-<li>MTOP 接口调用，MTOP C++ SDK，Apply SecretKey</li>
-<li>上传按钮、上传状态和结果的 GUI</li>
-<li>（低优先级，先完成主线）与 XR 工程团队与 AceNNR
-团队同学配合，搭建一条轻量级的本地场景处理通道，完成局域网的模型生成，并通过调试协议推送到端侧预览</li>
-</ul></li>
-<li>第五阶段（未来规划）设备信息管理
-<ul>
-<li>设备沙盒文件管理 (可复用已有三方插件能力)</li>
-<li>设备日志输出（例如输出端上的 tlog 等信息）</li>
-<li>设备配置管理（例如修改端侧 Orange 配置）</li>
-</ul></li>
-<li>逻辑开发调试（未来规划）
-<ul>
-<li>XRAppOS x Weex JS 工程调试打通</li>
-</ul></li>
-</ul>
-<h2 id="项目">项目</h2>
-<ul>
-<li>编写基于 XR 端智能框架的远程真机调试插件，实现对端侧 3D/XR 场景的
-Unity 实时场景部署和调试
-<ul>
-<li>使用 P/Invoke 实现在 Unity 3D 中 C# 与 C++ 的跨语言调用；</li>
-<li>使用 gRPC + Protobuf 组合完成多客户端远程实时高性能通信与 C/S
-双端互调；</li>
-</ul></li>
-<li>完成基于 Weex:binding 的模型渲染中间件，实现前端快速集成与部署
-<ul>
-<li>完成对 XR 渲染组件与前端框架的互操作的性能分析；</li>
-</ul></li>
-<li>全平台轻量级高性能深度学习引擎 MNN 开发，完成 Python
-运行时性能调优组件
-<ul>
-<li>搭建端智能基础链路，实现在 PythonVM 运行时上运行 MNN-CV
-分类算法进行实时极高性能（200 ms）当前帧物品识别；</li>
-</ul></li>
-<li>基于 iOS UIKit/AVFoundation 和 ARKit 的端侧 AR 页面适配，生成 SDK
-测试包，并最终集成发布
-<ul>
-<li>设计 AR 互动帧投放放置类商品的通用页面与链接跳转协议；</li>
-<li>基于 ARKit
-在端智能框架中设计接口，为应用层提供获取点云地图能力；</li>
-</ul></li>
-</ul>
-]]></content>
-      <categories>
-        <category>记录</category>
-      </categories>
-      <tags>
-        <tag>工作</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>C++ 部分心得总结</title>
     <url>/2023/08/12/C-%E9%83%A8%E5%88%86%E5%BF%83%E5%BE%97%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<h2 id="代码书写">代码书写</h2>
@@ -1465,6 +1463,55 @@ r-l），capacity 为最大容量（即数组长度-l） ，对应有 <code>len(
       </tags>
   </entry>
   <entry>
+    <title>Hexo个人网站搭建</title>
+    <url>/2023/07/13/Hexo%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA/</url>
+    <content><![CDATA[<h2 id="本机配置">本机配置</h2>
+<p><a href="https://nodejs.org/en">官网</a>下载Node.js，换成淘宝源：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 换成淘宝源（可能需要sudo su进入root模式）：</span></span><br><span class="line">npm install -g cnpm --registry==https://registry.npm.taobao.org</span><br><span class="line">cnpm -v</span><br><span class="line">cnpm install -g hexo-cli</span><br><span class="line"><span class="built_in">mkdir</span> Hexo &amp;&amp; <span class="built_in">cd</span> Hexo</span><br><span class="line">hexo init</span><br><span class="line">hexo s</span><br><span class="line"><span class="comment"># 此时可在http://localhost:4000/访问主页</span></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h2 id="服务器与域名配置">服务器与域名配置</h2>
+<ul>
+<li>阿里云ECS轻量应用服务器2核2G￥108/年；买域名、ICP备案</li>
+<li>选择CentOS系统镜像，设置密码；</li>
+<li>创建新用户并设置ssh免密登录<a
+href="http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html">[原理链接]</a>，方便后续hexo部署：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">adduser git</span><br><span class="line"><span class="built_in">chmod</span> 740 /etc/sudoers</span><br><span class="line">vim /etc/sudoers</span><br><span class="line"><span class="comment"># 在root ALL=(ALL) ALL下添加：</span></span><br><span class="line">git ALL=(ALL) ALL</span><br><span class="line"><span class="built_in">chmod</span> 400 /etc/sudoers</span><br><span class="line">sudo passwd git</span><br><span class="line"></span><br><span class="line">su git</span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line"><span class="built_in">mkdir</span> .ssh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查本地~/.ssh下是否已有公钥，若没有：</span></span><br><span class="line">ssh-keygen</span><br><span class="line"><span class="comment"># 在服务器git用户~/.ssh下生成authorized_key</span></span><br><span class="line">ssh-copy-id user@host</span><br></pre></td></tr></table></figure>
+<h2 id="服务器nginx配置">服务器nginx配置</h2>
+<ul>
+<li>RedHat系（RedHat、CentOS、Fedora等）包管理工具为rpm，依赖管理工具为yum，Debian系（Debian、Ubuntu等）包管理工具为dpkg，依赖管理工具为apt。</li>
+<li>安装nginx依赖环境，下载解压nginx安装包：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 确认此时在root用户下：</span></span><br><span class="line">yum install gcc-c++</span><br><span class="line">yum install -y pcre pcre-devel</span><br><span class="line">yum install -y zlib zlib-devel</span><br><span class="line">yum install -y openssl openssl-devel</span><br><span class="line"></span><br><span class="line">wget -c https://nginx.org/download/nginx-1.10.1.tar.gz</span><br><span class="line">tar -xvf nginx-1.10.1.tar.gz -C /usr/local</span><br><span class="line"><span class="built_in">cd</span> /usr/local/nginx-1.10.1</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 若Make报错：</span></span><br><span class="line">vim ./objs/Makefile</span><br><span class="line"><span class="comment"># 删除CFLAGS中的-Werror：</span></span><br><span class="line">CFLAGS =  -pipe  -O -W -Wall -Wpointer-arith -Wno-unused -g</span><br><span class="line">vim ./src/os/unix/ngx_user.c</span><br><span class="line"><span class="comment"># 注释掉此行：</span></span><br><span class="line">cd.current_salt[0] = ~salt[0];</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装、配置nginx：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 确认此时在root用户下：</span></span><br><span class="line"><span class="built_in">cd</span> /usr/local/nginx/sbin</span><br><span class="line">./nginx</span><br><span class="line"><span class="comment"># 此时可用host:80访问nginx欢迎页</span></span><br><span class="line"><span class="comment"># 可用./nginx -s stop停止服务</span></span><br><span class="line"><span class="comment"># 若服务器不开放80端口：</span></span><br><span class="line">/sbin/iptables -I INPUT -p tcp –dport 80 -j ACCEPT</span><br><span class="line"></span><br><span class="line"><span class="built_in">mkdir</span> -p /home/www/hexo</span><br><span class="line"><span class="built_in">cd</span> /usr/local/nginx/conf</span><br><span class="line">vim nginx.conf</span><br><span class="line"><span class="comment"># 将其中的部署根目录/的location的root修改为/home/www/hexo</span></span><br><span class="line"><span class="comment"># 将server_name修改为域名，若没有域名则改为公网ip</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">curl -sL https://rpm.nodesource.com/setup_10.x | bash -</span><br><span class="line">yum install -y nodejs</span><br><span class="line">node -v</span><br><span class="line">npm -v</span><br><span class="line">yum install git</span><br><span class="line">git --version</span><br></pre></td></tr></table></figure>
+<h2 id="服务器hexo配置">服务器Hexo配置</h2>
+<p>配置git仓库</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 确认此时在git用户下：</span></span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">git init --bare hexo.git</span><br><span class="line">vim ~/hexo.git/hooks/post-receive</span><br><span class="line"><span class="comment"># 写入：git --work-tree=/home/www/hexo --git-dir=/home/git/hexo.git checkout -f</span></span><br><span class="line"><span class="built_in">chmod</span> +x ~/hexo.git/hooks/post-receive</span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">sudo <span class="built_in">chmod</span> -R 777 /home/www/hexo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 回到本地对应Hexo目录：</span></span><br><span class="line"><span class="built_in">cd</span> ~/Documents/Hexo</span><br><span class="line">sudo vim _config.yml</span><br><span class="line"><span class="comment"># 将url改成https://&#123;服务器IP&#125;/</span></span><br><span class="line"><span class="comment"># 修改末尾deploy部分：</span></span><br><span class="line">deploy:</span><br><span class="line">	<span class="built_in">type</span>: git</span><br><span class="line">	repo: git@ip:/home/git/hexo.git</span><br><span class="line">	branch: master</span><br><span class="line"></span><br><span class="line">npm install hexo-deployer-git --save</span><br><span class="line">npm install hexo-server</span><br><span class="line"></span><br><span class="line"><span class="comment"># 若首次使用git：</span></span><br><span class="line">git config --global user.name <span class="string">&quot;your-username&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;your-email-address&quot;</span></span><br><span class="line"></span><br><span class="line">hexo clean &amp;&amp; hexo g -d</span><br></pre></td></tr></table></figure>
+<h2 id="next主题配置">NeXT主题配置</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 更换主题：https://hexo.io/themes/</span></span><br><span class="line">git <span class="built_in">clone</span> --depth=1 https://github.com/theme-next/hexo-theme-next.git themes/next</span><br><span class="line"><span class="comment"># 将_config.yml中themes改为next</span></span><br><span class="line"></span><br><span class="line">hexo n <span class="string">&quot;name.md&quot;</span></span><br><span class="line">hexo clean &amp;&amp; hexo g -d</span><br><span class="line"><span class="comment"># 在Hexo和themes下各有一个_config.yml，在此自定义</span></span><br><span class="line"><span class="comment"># markdown中插入图片：</span></span><br><span class="line"><span class="comment"># 将Hexo根目录下_config.yml文件中post_asset_folder设为true，即可使用相对路径引用图片：</span></span><br><span class="line"><span class="comment"># 注意：.开头的隐藏文件不会被保留</span></span><br><span class="line">![](image.jpg)</span><br></pre></td></tr></table></figure>
+<p><a href="https://zhuanlan.zhihu.com/p/618864711">配置教程</a>，<a
+href="https://zhuanlan.zhihu.com/p/30836436">另一篇</a>，<a
+href="https://siriusq.top/Next%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96?tdsourcetag=s_pctim_aiomsg">另一篇</a></p>
+<ul>
+<li><p>删除文章：删除对应.md和文件夹，以及Hexo根目录下.deploy_git即可。</p></li>
+<li><p><span class="math inline">\(\LaTeX\)</span>支持：<a
+href="https://zhuanlan.zhihu.com/p/381508379">知乎</a></p></li>
+<li><p>添加置顶：</p></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm uninstall hexo-generator-index --save</span><br><span class="line">npm instal hexo-generator-index-pin-top --save</span><br></pre></td></tr></table></figure>
+<p>在置顶文章的Front-matter中加上top: true即可。</p>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>电脑配置</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Mac工作环境配置</title>
     <url>/2023/07/13/Mac%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<p>外部文件：</p>
@@ -1534,52 +1581,43 @@ Control</a>，若失败：</p>
       </tags>
   </entry>
   <entry>
-    <title>Hexo个人网站搭建</title>
-    <url>/2023/07/13/Hexo%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA/</url>
-    <content><![CDATA[<h2 id="本机配置">本机配置</h2>
-<p><a href="https://nodejs.org/en">官网</a>下载Node.js，换成淘宝源：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 换成淘宝源（可能需要sudo su进入root模式）：</span></span><br><span class="line">npm install -g cnpm --registry==https://registry.npm.taobao.org</span><br><span class="line">cnpm -v</span><br><span class="line">cnpm install -g hexo-cli</span><br><span class="line"><span class="built_in">mkdir</span> Hexo &amp;&amp; <span class="built_in">cd</span> Hexo</span><br><span class="line">hexo init</span><br><span class="line">hexo s</span><br><span class="line"><span class="comment"># 此时可在http://localhost:4000/访问主页</span></span><br></pre></td></tr></table></figure>
+    <title>Makefile和CMake初级使用</title>
+    <url>/2023/07/19/Makefile%E5%92%8CCMake%E5%88%9D%E7%BA%A7%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="makefile">Makefile</h2>
+<ul>
+<li>Makefile三部分：目标、依赖、执行语句；</li>
+<li>递归执行：若不存在目标文件或目标文件修改时间早于依赖文件，则先产生对应依赖文件，再执行语句；</li>
+<li>所有.o文件均由对应.c文件生成，<code>$&lt;</code>为第一个依赖文件，<code>$@</code>为目标，<code>$^</code>为所有不重复的依赖文件，以空格分开；</li>
+<li><code>src = $(wildcard ./*.c)</code>得到空格隔开的所有.c文件名；<code>obj = $(patsubst %.c, %.o, $(src))</code>
+代表将src中的所有.c替换成.o；<code>obj = $(src: %.c=%.o)</code>
+能得到同样效果；</li>
+<li><code>.PHONY</code>代表clean为伪目标</li>
+</ul>
 <span id="more"></span>
-<h2 id="服务器与域名配置">服务器与域名配置</h2>
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line">src = <span class="variable">$(<span class="built_in">wildcard</span> ./*.c)</span>  </span><br><span class="line">obj = <span class="variable">$(<span class="built_in">patsubst</span> %.c, %.o, <span class="variable">$(src)</span>)</span>  </span><br><span class="line"><span class="comment">#obj = $(src:%.c=%.o)  </span></span><br><span class="line">target = app  </span><br><span class="line">CC = gcc  </span><br><span class="line"></span><br><span class="line"><span class="variable">$(target)</span>: <span class="variable">$(obj)</span>  </span><br><span class="line">    <span class="variable">$(CC)</span> <span class="variable">$(obj)</span> -o <span class="variable">$(target)</span>  </span><br><span class="line"></span><br><span class="line"><span class="section">%.o: %.c  </span></span><br><span class="line">    <span class="variable">$(CC)</span> -c <span class="variable">$&lt;</span> -o <span class="variable">$@</span>  </span><br><span class="line"></span><br><span class="line"><span class="meta"><span class="keyword">.PHONY</span>: clean  </span></span><br><span class="line"><span class="section">clean:  </span></span><br><span class="line">    rm -rf <span class="variable">$(obj)</span> <span class="variable">$(target)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line">CC := clang</span><br><span class="line">CXX := clang++</span><br><span class="line"></span><br><span class="line">.PHONY all</span><br><span class="line"><span class="section">all: answer</span></span><br><span class="line"></span><br><span class="line">objects := main.o answer.o</span><br><span class="line"><span class="section">answer: <span class="variable">$(objects)</span></span></span><br><span class="line">	<span class="variable">$(CXX)</span> -o <span class="variable">$@</span> <span class="variable">$(objects)</span></span><br><span class="line"></span><br><span class="line"><span class="section">main.o: answer.hpp</span></span><br><span class="line"><span class="section">answer.o: answer.hpp</span></span><br><span class="line"></span><br><span class="line">.PHONY clean</span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	rm -f answer(objects)</span><br></pre></td></tr></table></figure>
+<h2 id="cmake">CMake</h2>
 <ul>
-<li>阿里云ECS轻量应用服务器2核2G￥108/年；买域名、ICP备案</li>
-<li>选择CentOS系统镜像，设置密码；</li>
-<li>创建新用户并设置ssh免密登录<a
-href="http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html">[原理链接]</a>，方便后续hexo部署：</li>
+<li><a
+href="https://www.bilibili.com/video/BV14h41187FZ/?vd_source=9282f15e6d326725afd47615733d4bd1">视频教程</a></li>
+<li>在my_project目录下存放源文件和CMakeLists.txt，另新建文件夹build，进入后执行<code>cmake ..</code>在build目录下生成Makefile文件，再执行<code>cmake —-build .</code>生成可执行文件；上述命令等价于<code>cmake -B build &amp;&amp; cmake —-build build</code>
+；</li>
+<li>VSCode配置：<code>brew install cmake</code> 后安装CMake和CMake
+Tools，先编写CMakeLists.txt，再<code>Cmd+Shift+P</code> 调出CMake: Quick
+Start即可；</li>
+<li>常见操作：</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">adduser git</span><br><span class="line"><span class="built_in">chmod</span> 740 /etc/sudoers</span><br><span class="line">vim /etc/sudoers</span><br><span class="line"><span class="comment"># 在root ALL=(ALL) ALL下添加：</span></span><br><span class="line">git ALL=(ALL) ALL</span><br><span class="line"><span class="built_in">chmod</span> 400 /etc/sudoers</span><br><span class="line">sudo passwd git</span><br><span class="line"></span><br><span class="line">su git</span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line"><span class="built_in">mkdir</span> .ssh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查本地~/.ssh下是否已有公钥，若没有：</span></span><br><span class="line">ssh-keygen</span><br><span class="line"><span class="comment"># 在服务器git用户~/.ssh下生成authorized_key</span></span><br><span class="line">ssh-copy-id user@host</span><br></pre></td></tr></table></figure>
-<h2 id="服务器nginx配置">服务器nginx配置</h2>
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line">cmake_minimum_required(VERSION 3.15.0) <span class="comment"># 指定最小版本</span></span><br><span class="line">project(My_Project) <span class="comment"># 指定项目名称</span></span><br><span class="line"></span><br><span class="line">set(CMAKE_BUILD_TYPE <span class="string">&quot;Release&quot;</span>)</span><br><span class="line">set(CMAKE_CXX_FLAGS_DEBUG <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -g -Werror -Wextra -pedantic -std=c++14&quot;</span>)</span><br><span class="line">set(CMAKE_CXX_FLAGS_RELEASE <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -std=c++14 -O2&quot;</span>)</span><br><span class="line"></span><br><span class="line">add_executable(demo demo.cpp) <span class="comment"># 生成可执行文件（Linux: demo, Windows: demo.exe）</span></span><br><span class="line">add_library(common STATIC util1.cpp) <span class="comment"># 生成静态库（Linux: common.a, Windows: common.lib）</span></span><br><span class="line">add_library(common SHARED util2.cpp util3.cpp) <span class="comment"># 生成动态库或共享库（Linux: common.so, Windows: common.dll, MacOS: common.bundle, common.dylib）</span></span><br><span class="line"></span><br><span class="line">file(GLOB SRC_LIST <span class="string">&quot;*.cpp&quot;</span> <span class="string">&quot;protocal/*.cpp&quot;</span>)</span><br><span class="line">add_library(demo $&#123;SRC_LIST&#125;)</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">set(SRC_LIST main.cpp test.cpp)</span><br><span class="line">list(APPEND SRC_LIST test2.cpp)</span><br><span class="line">list(REMOVE_ITEM SRC_LIST test2.cpp)</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">aux_source_directory(. SRC_LIST) <span class="comment"># 搜索当前目录下所有可编译单元（.cpp文件）</span></span><br><span class="line">aux_source_directory(protocol SRC_PROTOCOL_LIST)</span><br><span class="line">add_library(demo $&#123;SRC_LIST&#125; $&#123;SRC_PROTOCOL_LIST&#125;)</span><br><span class="line"></span><br><span class="line">foreach(source $&#123;srcs&#125;)</span><br><span class="line">get_filename_component(name $&#123;source&#125; NAME/EXT/DIRECTORY/ABSOLUTE) <span class="comment"># 文件名/扩展名/目录路径/绝对路径</span></span><br><span class="line">add_executable($&#123;name&#125; $&#123;source&#125;)</span><br><span class="line">endforeach(source)</span><br><span class="line"></span><br><span class="line">include_directories($&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/<span class="keyword">include</span>) <span class="comment"># 设置头文件包含目录，将路径增加至CPLUS_INCLUDE_PATH变量</span></span><br><span class="line">set(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -I $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;&quot;</span>) <span class="comment"># 等价于</span></span><br><span class="line">link_libraries(<span class="string">&quot;/include/util.so&quot;</span>) <span class="comment"># 写在add_executable之前</span></span><br><span class="line"></span><br><span class="line">link_directories($&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/libs) <span class="comment"># 设置链接库搜索目录，将路径增加至LD_LIBRARY_PATH变量</span></span><br><span class="line">set(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -L $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/libs&quot;</span>) <span class="comment"># 等价于</span></span><br><span class="line"></span><br><span class="line">find_package(Protobuf REQUIRED) <span class="comment"># 查找外部包</span></span><br><span class="line">target_link_libraries(demo lib.a $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/libs/lib.so) <span class="comment"># 设置需要链接的库</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 自动执行子目录下的CMakeLists.txt</span></span><br><span class="line">add_subdirectory($&#123;PROJECT_SOURCE_DIR&#125;/src/proto)</span><br><span class="line">include_directories($&#123;PROJECT_BINARY_DIR&#125;/src/proto)</span><br><span class="line"></span><br><span class="line">message($&#123;PROJECT_SOURCE_DIR&#125;)</span><br><span class="line">message(<span class="string">&quot;build with debug mode&quot;</span>)</span><br><span class="line">message(WARNING <span class="string">&quot;this is warnning message&quot;</span>)</span><br><span class="line">message(FATAL_ERROR <span class="string">&quot;this build has many error&quot;</span>) <span class="comment"># FATAL_ERROR 会导致编译失败</span></span><br></pre></td></tr></table></figure>
 <ul>
-<li>RedHat系（RedHat、CentOS、Fedora等）包管理工具为rpm，依赖管理工具为yum，Debian系（Debian、Ubuntu等）包管理工具为dpkg，依赖管理工具为apt。</li>
-<li>安装nginx依赖环境，下载解压nginx安装包：</li>
+<li>文件目录形式：</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 确认此时在root用户下：</span></span><br><span class="line">yum install gcc-c++</span><br><span class="line">yum install -y pcre pcre-devel</span><br><span class="line">yum install -y zlib zlib-devel</span><br><span class="line">yum install -y openssl openssl-devel</span><br><span class="line"></span><br><span class="line">wget -c https://nginx.org/download/nginx-1.10.1.tar.gz</span><br><span class="line">tar -xvf nginx-1.10.1.tar.gz -C /usr/local</span><br><span class="line"><span class="built_in">cd</span> /usr/local/nginx-1.10.1</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 若Make报错：</span></span><br><span class="line">vim ./objs/Makefile</span><br><span class="line"><span class="comment"># 删除CFLAGS中的-Werror：</span></span><br><span class="line">CFLAGS =  -pipe  -O -W -Wall -Wpointer-arith -Wno-unused -g</span><br><span class="line">vim ./src/os/unix/ngx_user.c</span><br><span class="line"><span class="comment"># 注释掉此行：</span></span><br><span class="line">cd.current_salt[0] = ~salt[0];</span><br></pre></td></tr></table></figure>
-<ul>
-<li>安装、配置nginx：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 确认此时在root用户下：</span></span><br><span class="line"><span class="built_in">cd</span> /usr/local/nginx/sbin</span><br><span class="line">./nginx</span><br><span class="line"><span class="comment"># 此时可用host:80访问nginx欢迎页</span></span><br><span class="line"><span class="comment"># 可用./nginx -s stop停止服务</span></span><br><span class="line"><span class="comment"># 若服务器不开放80端口：</span></span><br><span class="line">/sbin/iptables -I INPUT -p tcp –dport 80 -j ACCEPT</span><br><span class="line"></span><br><span class="line"><span class="built_in">mkdir</span> -p /home/www/hexo</span><br><span class="line"><span class="built_in">cd</span> /usr/local/nginx/conf</span><br><span class="line">vim nginx.conf</span><br><span class="line"><span class="comment"># 将其中的部署根目录/的location的root修改为/home/www/hexo</span></span><br><span class="line"><span class="comment"># 将server_name修改为域名，若没有域名则改为公网ip</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">curl -sL https://rpm.nodesource.com/setup_10.x | bash -</span><br><span class="line">yum install -y nodejs</span><br><span class="line">node -v</span><br><span class="line">npm -v</span><br><span class="line">yum install git</span><br><span class="line">git --version</span><br></pre></td></tr></table></figure>
-<h2 id="服务器hexo配置">服务器Hexo配置</h2>
-<p>配置git仓库</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 确认此时在git用户下：</span></span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">git init --bare hexo.git</span><br><span class="line">vim ~/hexo.git/hooks/post-receive</span><br><span class="line"><span class="comment"># 写入：git --work-tree=/home/www/hexo --git-dir=/home/git/hexo.git checkout -f</span></span><br><span class="line"><span class="built_in">chmod</span> +x ~/hexo.git/hooks/post-receive</span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">sudo <span class="built_in">chmod</span> -R 777 /home/www/hexo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 回到本地对应Hexo目录：</span></span><br><span class="line"><span class="built_in">cd</span> ~/Documents/Hexo</span><br><span class="line">sudo vim _config.yml</span><br><span class="line"><span class="comment"># 将url改成https://&#123;服务器IP&#125;/</span></span><br><span class="line"><span class="comment"># 修改末尾deploy部分：</span></span><br><span class="line">deploy:</span><br><span class="line">	<span class="built_in">type</span>: git</span><br><span class="line">	repo: git@ip:/home/git/hexo.git</span><br><span class="line">	branch: master</span><br><span class="line"></span><br><span class="line">npm install hexo-deployer-git --save</span><br><span class="line">npm install hexo-server</span><br><span class="line"></span><br><span class="line"><span class="comment"># 若首次使用git：</span></span><br><span class="line">git config --global user.name <span class="string">&quot;your-username&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;your-email-address&quot;</span></span><br><span class="line"></span><br><span class="line">hexo clean &amp;&amp; hexo g -d</span><br></pre></td></tr></table></figure>
-<h2 id="next主题配置">NeXT主题配置</h2>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 更换主题：https://hexo.io/themes/</span></span><br><span class="line">git <span class="built_in">clone</span> --depth=1 https://github.com/theme-next/hexo-theme-next.git themes/next</span><br><span class="line"><span class="comment"># 将_config.yml中themes改为next</span></span><br><span class="line"></span><br><span class="line">hexo n <span class="string">&quot;name.md&quot;</span></span><br><span class="line">hexo clean &amp;&amp; hexo g -d</span><br><span class="line"><span class="comment"># 在Hexo和themes下各有一个_config.yml，在此自定义</span></span><br><span class="line"><span class="comment"># markdown中插入图片：</span></span><br><span class="line"><span class="comment"># 将Hexo根目录下_config.yml文件中post_asset_folder设为true，即可使用相对路径引用图片：</span></span><br><span class="line"><span class="comment"># 注意：.开头的隐藏文件不会被保留</span></span><br><span class="line">![](image.jpg)</span><br></pre></td></tr></table></figure>
-<p><a href="https://zhuanlan.zhihu.com/p/618864711">配置教程</a>，<a
-href="https://zhuanlan.zhihu.com/p/30836436">另一篇</a>，<a
-href="https://siriusq.top/Next%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96?tdsourcetag=s_pctim_aiomsg">另一篇</a></p>
-<ul>
-<li><p>删除文章：删除对应.md和文件夹，以及Hexo根目录下.deploy_git即可。</p></li>
-<li><p><span class="math inline">\(\LaTeX\)</span>支持：<a
-href="https://zhuanlan.zhihu.com/p/381508379">知乎</a></p></li>
-<li><p>添加置顶：</p></li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm uninstall hexo-generator-index --save</span><br><span class="line">npm instal hexo-generator-index-pin-top --save</span><br></pre></td></tr></table></figure>
-<p>在置顶文章的Front-matter中加上top: true即可。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">- my_project/</span><br><span class="line">  - build/</span><br><span class="line">    - Makefile</span><br><span class="line">    - helloworld.exe</span><br><span class="line">  - CmakeLists.txt</span><br><span class="line">  - helloworld.cpp</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>笔记</category>
       </categories>
       <tags>
-        <tag>电脑配置</tag>
+        <tag>C++</tag>
       </tags>
   </entry>
   <entry>
@@ -2258,43 +2296,246 @@ Sync；</li>
       </tags>
   </entry>
   <entry>
-    <title>Makefile和CMake初级使用</title>
-    <url>/2023/07/19/Makefile%E5%92%8CCMake%E5%88%9D%E7%BA%A7%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="makefile">Makefile</h2>
-<ul>
-<li>Makefile三部分：目标、依赖、执行语句；</li>
-<li>递归执行：若不存在目标文件或目标文件修改时间早于依赖文件，则先产生对应依赖文件，再执行语句；</li>
-<li>所有.o文件均由对应.c文件生成，<code>$&lt;</code>为第一个依赖文件，<code>$@</code>为目标，<code>$^</code>为所有不重复的依赖文件，以空格分开；</li>
-<li><code>src = $(wildcard ./*.c)</code>得到空格隔开的所有.c文件名；<code>obj = $(patsubst %.c, %.o, $(src))</code>
-代表将src中的所有.c替换成.o；<code>obj = $(src: %.c=%.o)</code>
-能得到同样效果；</li>
-<li><code>.PHONY</code>代表clean为伪目标</li>
-</ul>
+    <title>Swift &amp; SwiftUI 学习笔记</title>
+    <url>/2024/10/11/Swift-SwiftUI-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<p>参考：</p>
+<p><a
+href="https://docs.swift.org/swift-book/documentation/the-swift-programming-language/">The
+Swift Programming Language (6 beta)</a></p>
+<p><a href="https://developer.apple.com/documentation/swiftui">SwiftUI
+Documentation</a></p>
+<p><a href="https://developer.apple.com/tutorials/swiftui/">SwiftUI
+Tutorials</a></p>
+<p><a href="https://developer.apple.com/tutorials/app-dev-training">App
+Dev Tutorials</a></p>
 <span id="more"></span>
-<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line">src = <span class="variable">$(<span class="built_in">wildcard</span> ./*.c)</span>  </span><br><span class="line">obj = <span class="variable">$(<span class="built_in">patsubst</span> %.c, %.o, <span class="variable">$(src)</span>)</span>  </span><br><span class="line"><span class="comment">#obj = $(src:%.c=%.o)  </span></span><br><span class="line">target = app  </span><br><span class="line">CC = gcc  </span><br><span class="line"></span><br><span class="line"><span class="variable">$(target)</span>: <span class="variable">$(obj)</span>  </span><br><span class="line">    <span class="variable">$(CC)</span> <span class="variable">$(obj)</span> -o <span class="variable">$(target)</span>  </span><br><span class="line"></span><br><span class="line"><span class="section">%.o: %.c  </span></span><br><span class="line">    <span class="variable">$(CC)</span> -c <span class="variable">$&lt;</span> -o <span class="variable">$@</span>  </span><br><span class="line"></span><br><span class="line"><span class="meta"><span class="keyword">.PHONY</span>: clean  </span></span><br><span class="line"><span class="section">clean:  </span></span><br><span class="line">    rm -rf <span class="variable">$(obj)</span> <span class="variable">$(target)</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line">CC := clang</span><br><span class="line">CXX := clang++</span><br><span class="line"></span><br><span class="line">.PHONY all</span><br><span class="line"><span class="section">all: answer</span></span><br><span class="line"></span><br><span class="line">objects := main.o answer.o</span><br><span class="line"><span class="section">answer: <span class="variable">$(objects)</span></span></span><br><span class="line">	<span class="variable">$(CXX)</span> -o <span class="variable">$@</span> <span class="variable">$(objects)</span></span><br><span class="line"></span><br><span class="line"><span class="section">main.o: answer.hpp</span></span><br><span class="line"><span class="section">answer.o: answer.hpp</span></span><br><span class="line"></span><br><span class="line">.PHONY clean</span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	rm -f answer(objects)</span><br></pre></td></tr></table></figure>
-<h2 id="cmake">CMake</h2>
+<h2 id="swift-语法">Swift 语法</h2>
+<h3 id="变量与常量">变量与常量</h3>
 <ul>
-<li><a
-href="https://www.bilibili.com/video/BV14h41187FZ/?vd_source=9282f15e6d326725afd47615733d4bd1">视频教程</a></li>
-<li>在my_project目录下存放源文件和CMakeLists.txt，另新建文件夹build，进入后执行<code>cmake ..</code>在build目录下生成Makefile文件，再执行<code>cmake —-build .</code>生成可执行文件；上述命令等价于<code>cmake -B build &amp;&amp; cmake —-build build</code>
+<li>常量： <code>let a: Double = 0</code> ；变量使用 <code>var</code>
+；默认类型推断为 Int 和 Double；</li>
+<li>Swift 不会做任何隐式类型转换；可以用 <code>"\(name)\"</code>
+表示转化成字符串；</li>
+<li>类型别名： <code>typealias newname = type</code> ；</li>
+<li>内置基本数据类型：Int（64位），UInt（一般不用），Float，Double（64位），Bool，String，Character（同样用双引号）；</li>
+<li>集合数据类型：Array，Dictionary，Set；</li>
+<li>引用类型：Class（Struct 是值类型），Closure，Function；</li>
+<li>数组声明：<code>var someInts = [Int](repeating: 0, count: 3)</code>
+；可以 <code>append()</code> ，可以用 <code>+</code> 合并；</li>
+<li>字典：<code>var someDict:[Int:String] = [1:"One", 2:"Two", 3:"Three"]</code>
 ；</li>
-<li>VSCode配置：<code>brew install cmake</code> 后安装CMake和CMake
-Tools，先编写CMakeLists.txt，再<code>Cmd+Shift+P</code> 调出CMake: Quick
-Start即可；</li>
-<li>常见操作：</li>
+<li>枚举：</li>
 </ul>
-<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line">cmake_minimum_required(VERSION 3.15.0) <span class="comment"># 指定最小版本</span></span><br><span class="line">project(My_Project) <span class="comment"># 指定项目名称</span></span><br><span class="line"></span><br><span class="line">set(CMAKE_BUILD_TYPE <span class="string">&quot;Release&quot;</span>)</span><br><span class="line">set(CMAKE_CXX_FLAGS_DEBUG <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -g -Werror -Wextra -pedantic -std=c++14&quot;</span>)</span><br><span class="line">set(CMAKE_CXX_FLAGS_RELEASE <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -std=c++14 -O2&quot;</span>)</span><br><span class="line"></span><br><span class="line">add_executable(demo demo.cpp) <span class="comment"># 生成可执行文件（Linux: demo, Windows: demo.exe）</span></span><br><span class="line">add_library(common STATIC util1.cpp) <span class="comment"># 生成静态库（Linux: common.a, Windows: common.lib）</span></span><br><span class="line">add_library(common SHARED util2.cpp util3.cpp) <span class="comment"># 生成动态库或共享库（Linux: common.so, Windows: common.dll, MacOS: common.bundle, common.dylib）</span></span><br><span class="line"></span><br><span class="line">file(GLOB SRC_LIST <span class="string">&quot;*.cpp&quot;</span> <span class="string">&quot;protocal/*.cpp&quot;</span>)</span><br><span class="line">add_library(demo $&#123;SRC_LIST&#125;)</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">set(SRC_LIST main.cpp test.cpp)</span><br><span class="line">list(APPEND SRC_LIST test2.cpp)</span><br><span class="line">list(REMOVE_ITEM SRC_LIST test2.cpp)</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">aux_source_directory(. SRC_LIST) <span class="comment"># 搜索当前目录下所有可编译单元（.cpp文件）</span></span><br><span class="line">aux_source_directory(protocol SRC_PROTOCOL_LIST)</span><br><span class="line">add_library(demo $&#123;SRC_LIST&#125; $&#123;SRC_PROTOCOL_LIST&#125;)</span><br><span class="line"></span><br><span class="line">foreach(source $&#123;srcs&#125;)</span><br><span class="line">get_filename_component(name $&#123;source&#125; NAME/EXT/DIRECTORY/ABSOLUTE) <span class="comment"># 文件名/扩展名/目录路径/绝对路径</span></span><br><span class="line">add_executable($&#123;name&#125; $&#123;source&#125;)</span><br><span class="line">endforeach(source)</span><br><span class="line"></span><br><span class="line">include_directories($&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/<span class="keyword">include</span>) <span class="comment"># 设置头文件包含目录，将路径增加至CPLUS_INCLUDE_PATH变量</span></span><br><span class="line">set(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -I $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;&quot;</span>) <span class="comment"># 等价于</span></span><br><span class="line">link_libraries(<span class="string">&quot;/include/util.so&quot;</span>) <span class="comment"># 写在add_executable之前</span></span><br><span class="line"></span><br><span class="line">link_directories($&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/libs) <span class="comment"># 设置链接库搜索目录，将路径增加至LD_LIBRARY_PATH变量</span></span><br><span class="line">set(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -L $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/libs&quot;</span>) <span class="comment"># 等价于</span></span><br><span class="line"></span><br><span class="line">find_package(Protobuf REQUIRED) <span class="comment"># 查找外部包</span></span><br><span class="line">target_link_libraries(demo lib.a $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/libs/lib.so) <span class="comment"># 设置需要链接的库</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 自动执行子目录下的CMakeLists.txt</span></span><br><span class="line">add_subdirectory($&#123;PROJECT_SOURCE_DIR&#125;/src/proto)</span><br><span class="line">include_directories($&#123;PROJECT_BINARY_DIR&#125;/src/proto)</span><br><span class="line"></span><br><span class="line">message($&#123;PROJECT_SOURCE_DIR&#125;)</span><br><span class="line">message(<span class="string">&quot;build with debug mode&quot;</span>)</span><br><span class="line">message(WARNING <span class="string">&quot;this is warnning message&quot;</span>)</span><br><span class="line">message(FATAL_ERROR <span class="string">&quot;this build has many error&quot;</span>) <span class="comment"># FATAL_ERROR 会导致编译失败</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Student</span>&#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="type">Name</span>(<span class="type">String</span>)</span><br><span class="line">    <span class="keyword">case</span> <span class="type">Mark</span>(<span class="type">Int</span>,<span class="type">Int</span>,<span class="type">Int</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> studMarks <span class="operator">=</span> <span class="type">Student</span>.<span class="type">Mark</span>(<span class="number">98</span>,<span class="number">97</span>,<span class="number">95</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">switch</span> studMarks &#123;</span><br><span class="line"><span class="keyword">case</span> .<span class="type">Name</span>(<span class="keyword">let</span> studName):</span><br><span class="line">	  <span class="built_in">print</span>(<span class="string">&quot;<span class="subst">\(studName)</span>。&quot;</span>)</span><br><span class="line"><span class="keyword">case</span> .<span class="type">Mark</span>(<span class="keyword">let</span> <span class="type">Mark1</span>, <span class="keyword">let</span> <span class="type">Mark2</span>, <span class="keyword">let</span> <span class="type">Mark3</span>):</span><br><span class="line">	  <span class="built_in">print</span>(<span class="string">&quot;<span class="subst">\(Mark1)</span>,<span class="subst">\(Mark2)</span>,<span class="subst">\(Mark3)</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Month</span>: <span class="title class_">Int</span> &#123; <span class="comment">// 若不写明为 Int，则不会默认为每个成员分配一个整型数值</span></span><br><span class="line">    <span class="keyword">case</span> <span class="type">January</span> <span class="operator">=</span> <span class="number">1</span>, <span class="type">February</span>, <span class="type">March</span>, <span class="type">April</span>, <span class="type">May</span>, <span class="type">June</span>, <span class="type">July</span>, <span class="type">August</span>, <span class="type">September</span>, <span class="type">October</span>, <span class="type">November</span>, <span class="type">December</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="optional-类型">Optional 类型</h3>
 <ul>
-<li>文件目录形式：</li>
+<li>在声明的类型后添加 <code>?</code> 表示一个 Optional
+类型值，当未赋值时，此值将为 <code>nil</code> ；</li>
+<li>在声明的类型后添加 <code>!</code> 表示一个 Implicity Unwrapped
+Optional （隐式解包可选类型）值，此后取值不再需要加 <code>!</code>
+，如果取值时值为 <code>nil</code> 会直接运行错误，适合确定值永远不为
+<code>nil</code> 时使用；</li>
+<li>在确定不为空时使用 <code>!</code> 强制解包；显式类型转换会返回一个
+Optional 已处理转换失败的情况；</li>
+<li>可选绑定（Optional
+Binding）：<code>if let name=optionalName &#123;&#125; else &#123;&#125;</code> ；
+<code>guard let name=optionalName else &#123;&#125;</code> ；</li>
+<li>合并空值运算符： <code>a ?? b</code> 在 a 有值时展开，a 为
+<code>nil</code> 时返回 b；b 表达式返回值必须与 a 中存储值同类型；</li>
+<li>可选链： <code>if let a = A.B?.C</code> ；</li>
 </ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">- my_project/</span><br><span class="line">  - build/</span><br><span class="line">    - Makefile</span><br><span class="line">    - helloworld.exe</span><br><span class="line">  - CmakeLists.txt</span><br><span class="line">  - helloworld.cpp</span><br></pre></td></tr></table></figure>
+<h3 id="语句">语句</h3>
+<ul>
+<li>行末无需分号，但一行多个表达式间需要分号；判断子句无需小括号；</li>
+<li><code>where</code> 子句与 <code>let</code>
+配合，多个子句之间用逗号分分隔， <code>if</code>
+语句中必须所有子句均满足， <code>switch</code>
+子句中只需满足一个子句；</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> hello <span class="operator">=</span> optionalHello <span class="keyword">where</span> hello.hasPrefix(&#x27;<span class="type">H</span>&#x27;), <span class="keyword">let</span> name <span class="operator">=</span> optionalName &#123;&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>范围（Range）： <code>0..&lt;10</code> 左闭右开，
+<code>0...10</code> 全闭；</li>
+<li>学习将不需要的循环变量设为 <code>_</code> ；</li>
+</ul>
+<h3 id="函数与闭包">函数与闭包</h3>
+<ul>
+<li>函数声明：<code>func doSomething() -&gt; returnType &#123;&#125;</code>
+；</li>
+<li>调用函数时，第一个参数无需写明形参名，其余参数均需写明，除非函数定义中使用
+<code>_</code> 作为 argumentLabel（不指定的话默认使用 parameterName 作为
+argumentLabel）；</li>
+<li>函数签名可以作为类型：
+<code>var addition: (Int, Int) -&gt; Int = sum</code> ；</li>
+<li>闭包本质是代码块（A chunk of code），函数属于闭包：</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">&#123;(<span class="type">Int</span>, <span class="type">Int</span>) -&gt; <span class="type">Bool</span> <span class="keyword">in</span> <span class="operator">...</span> &#125;</span><br><span class="line"><span class="comment">// 闭包可以使用参数名称缩写并省略定义：</span></span><br><span class="line"><span class="keyword">var</span> reversed <span class="operator">=</span> names.sorted( by: &#123; <span class="variable">$0</span> <span class="operator">&gt;</span> <span class="variable">$1</span> &#125; )</span><br><span class="line"><span class="comment">// Swift 定义了对 &gt; 的“接受两个字符串并返回 bool” 的实现：</span></span><br><span class="line"><span class="keyword">var</span> reversed <span class="operator">=</span> names.sorted(by: <span class="operator">&gt;</span>)</span><br><span class="line"><span class="comment">// 尾随闭包作参数，支持将其作为最后一个参数调用：</span></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">aFunc</span>(<span class="params">closure</span>: () -&gt; <span class="type">Void</span>) &#123; <span class="operator">...</span> &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>形参 inout：相当于变参，调用时传递 &amp;a；</li>
+<li>泛型： <code>func swap&lt;T&gt; (_ a: inout T, _ b: inout T)</code>
+，可以在尖括号中添加 T 需要继承的父类或遵循的协议；</li>
+<li>关联类型：在协议中使用 <code>associatedtype Item</code> 定义一个
+Item 类型，在实现时使用 <code>typealias Item = Int</code>
+指定关联类型；</li>
+<li>可变参数（Variadic Parameters）： <code>Double...</code> ，使用
+for-in 遍历；</li>
+<li>Trailing Closures：若函数最后一个参数是闭包，则可以写到 () 之后：
+<code>aFunc()&#123; ... &#125;</code> ；</li>
+<li>Completion Handler：函数末尾回调，通常使用 Trailing Closures
+写；</li>
+<li>逃逸闭包（Escaping
+Closures）：闭包可能在函数返回后被调用，如异步操作或被存储在外部变量中，需要标注
+<code>@escaping</code>
+；此时闭包会被储存在堆中，所捕获的变量生命周期延长；</li>
+<li>Modifier：一类函数，调用时返回另一个实例，从而允许链式调用：a.f1().f2().f3()；</li>
+</ul>
+<h3 id="类">类</h3>
+<ul>
+<li>只能单继承；同名函数必须使用 override
+关键字，不使用将编译错误；不允许 overwrite；</li>
+<li><code>lazy</code> 成员属性在第一次使用时才计算器初始值；</li>
+<li>构造器（Initializer）：
+<code>init(name:String) &#123; self.name = name &#125;</code>
+；调用构造器时所有参数均需写明形参名；可失败构造器： <code>init?</code>
+；析构器： <code>deinit &#123;...&#125;</code> ，没有小括号；</li>
+<li>自定义构造器后便不再提供默认构造器，且要求所有属性均被初始化；</li>
+<li>使用 <code>super.init(name: name)</code> 调用父类构造函数；
+<code>final</code> 可防止 override；便利（
+<code>conveience</code>）构造器指定部分初始值后调用其它构造函数；</li>
+<li><code>if let square = shape as? Square</code> 使用 <code>as?</code>
+实现向下转换可选解包，使用 <code>as!</code> 实现强制解包；使用
+<code>is</code> 判断是否为某个子类；</li>
+<li>使用 <code>[Any]</code> 定义可以存储任意不同引用类型的数组，使用
+<code>[AnyObject]</code> 定义可以存储不同类类型的数组；</li>
+<li>类比结构体增加了：继承，运行时类型判断，释放被分配的资源，多次引用；</li>
+<li>struct 内的方法不能改变其属性，必须声明为 <code>mutating</code> ；而
+class 内的方法可以改变其内部属性而无需 <code>mutating</code> ；</li>
+<li>协议：类似虚函数 / 接口，定义一系列必须被遵循者实现的方法；使用
+<code>get set</code>
+定义可读写性；同时拥有父类和遵循协议的类，冒号后先写父类再写协议；函数名前
+<code>required</code> 关键字要求遵循者必须 override 它（遵循者也应标明
+<code>required</code> ，类似纯虚函数）；</li>
+<li>计算属性（Calculated
+Properties）：不直接存储值，每次通过计算得到；</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">sample</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> no1 <span class="operator">=</span> <span class="number">0.0</span>, no2 <span class="operator">=</span> <span class="number">0.0</span></span><br><span class="line">    <span class="keyword">var</span> length <span class="operator">=</span> <span class="number">300.0</span>, breadth <span class="operator">=</span> <span class="number">150.0</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> middle: (<span class="type">Double</span>, <span class="type">Double</span>) &#123;</span><br><span class="line">        <span class="keyword">get</span>&#123; <span class="keyword">return</span> (length <span class="operator">/</span> <span class="number">2</span>, breadth <span class="operator">/</span> <span class="number">2</span>); &#125;</span><br><span class="line">        <span class="keyword">set</span>(axis)&#123;</span><br><span class="line">            no1 <span class="operator">=</span> axis.<span class="number">0</span> <span class="operator">-</span> (length <span class="operator">/</span> <span class="number">2</span>)</span><br><span class="line">            no2 <span class="operator">=</span> axis.<span class="number">1</span> <span class="operator">-</span> (breadth <span class="operator">/</span> <span class="number">2</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> counter: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span>&#123; <span class="comment">// 属性观察器</span></span><br><span class="line">        <span class="keyword">willSet</span>(newTotal)&#123; <span class="built_in">print</span>(<span class="string">&quot;<span class="subst">\(newTotal)</span>&quot;</span>); &#125;</span><br><span class="line">        <span class="keyword">didSet</span>&#123; <span class="built_in">print</span>(\(counter <span class="operator">-</span> oldValue)<span class="string">&quot;); &#125;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>类型属性（Type Properties）： <code>static</code> 属性（Singleton
+单例）；类型方法（Type Methods）： <code>static</code> 方法；</li>
+<li>下标脚本（Subscripts）：类似 C++ 中重载 <code>[]</code>
+；可以重载多个，会自动匹配；</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">subexample</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> decrementer: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">subscript</span>(<span class="params">index</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> decrementer <span class="operator">/</span> index</span><br><span class="line">        <span class="keyword">get</span> &#123;</span><br><span class="line">		        <span class="comment">// 用于下标脚本值的声明</span></span><br><span class="line">		    &#125;</span><br><span class="line">		    <span class="keyword">set</span>(newValue) &#123;</span><br><span class="line">		        <span class="comment">// 执行赋值操作</span></span><br><span class="line">		    &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> division <span class="operator">=</span> subexample(decrementer: <span class="number">100</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;100 除以 9 等于 <span class="subst">\(division[<span class="number">9</span>])</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>避免循环引用导致引用计数无法归零：可能为 <code>nil</code>
+时使用弱引用（ <code>weak</code>），反之使用无主引用（
+<code>unowned</code> ）；</li>
+<li>通过扩展 <code>extension</code>
+给类或协议增加新的属性、方法、构造器等；</li>
+<li>Swift
+的四种访问控制：public，internal（默认，同模块内可使用），fileprivate（仅当前源文件可使用），private；</li>
+<li>属性包装器（Property Wrapper）：分离变量定义与存储，通过
+<code>propertyWrapper</code>
+注解定义变量行为和合法性判断（类似计算属性）；</li>
+<li>ClassName.self() 代表类类型本身（元类型）；</li>
+</ul>
+<h3 id="其它">其它</h3>
+<ul>
+<li>Swift 采用 Unicode 编码，变量名可以为中文或 emoji 等；</li>
+<li>Swift 对空格有要求；</li>
+<li>Swift 3 后取消了 <code>++</code> 、 <code>--</code> 操作以及
+switch-for（类似 C 中的 for） 循环；</li>
+<li>Swift 检查变量使用前初始化、索引检查、整数溢出、Optional 处理
+<code>nil</code> 值、内存管理；</li>
+<li>Swift 的 <code>/*...*/</code> 注释可以嵌套；</li>
+<li>使用 <code>do-throw-catch</code> 异常处理； <code>try?</code>
+若抛出错误则返回 <code>nil</code> ， <code>try!</code>
+若错误直接崩溃；</li>
+<li><code>some</code> 用于声明隐式返回类型（Opaque Return Types），
+<code>some Shape</code> 表示返回一个遵循 Shape
+协议的对象，但不暴露具体对象；</li>
+<li>Swift 提供指针类型，但不常用；</li>
+<li>一些协议：
+<ul>
+<li>Encodable 协议确保能转成 JSON 等格式，Decodable 反之，Codable
+是二者结合；</li>
+<li>Hashable 协议使其能执行相等运算；</li>
+<li>Identifiable 使其能被用于创建 Lists 和 ForEach（传入一个 List 和一个
+trailing closure，对每个 List 元素执行闭包）；</li>
+</ul></li>
+<li>泛型（Generic Types）：类似 C++
+的泛型；可以规定泛型服从的协议，有点类似 C++20 的 Concept；</li>
+</ul>
+<h2 id="swiftui">SwiftUI</h2>
+<h3 id="框架">框架</h3>
+<ul>
+<li>SwiftUI 遵从
+MVVM（Model-View-ViewModel）软件架构模式；声明式语言，用户不指定代码的具体实现；响应式更新，在被观察变量被改变后自动更新组件等状态；</li>
+<li>原先的 MVC 架构：ViewController 创建 View 并将其显示，或使用
+Outlet（ <code>@IBOutlet weak var myLabel: UILabel!</code> ）引用
+storyboard 或 xib 界面组件，使用 Action（
+<code>@IBAction func buttonClicked(_ sender: UIButton) &#123; myLabel.text = "1"; &#125;</code>
+) 接收组件消息并控制组件行为；</li>
+<li>MVC 架构初始默认文件：
+<ul>
+<li><code>AppDelegate.swift</code>
+：应用代理类，用于处理应用的生命周期时间；方法有：启动前调用，进入后台后调用，进入前台前调用；</li>
+<li><code>SceneDelegate.swift</code>
+：用于显示和管理用户界面窗口，每个窗口对应一个 <code>UIWindows</code>
+；方法有：设置初始 ViewController，场景进入后台后调用；</li>
+<li><code>ViewController.swift</code>
+：用于管理用户界面交互；方法有：视图初始化配置，处理用户输入与交互，管理视图生命周期（视图出现前调用，视图消失后调用）；</li>
+</ul></li>
+<li>MVVC：
+<ul>
+<li>View 负责显示组件并接收用户的交互（使用 Combine Framework）；
+<ul>
+<li>通过<code>@State</code>
+声明视图内部（包括子视图）私有状态（不能是计算属性），一般为基本类型和结构体；</li>
+<li>通过 <code>@StateObject</code>
+自己创建和管理一个可观测对象（ObservableObject，往往是ViewModel）；</li>
+<li>通过 <code>@ObservedObject</code>观察一个外部的遵循 ObservableObject
+协议的实例；</li>
+<li>通过 <code>@Published</code> 在 ObservableObject
+实例中声明需要其它视图响应的变量；</li>
+<li>SwiftUI 使用 <code>@State</code> 类型包装器来允许在 Struct
+中修改值；使用此注解时，值被移出 struct，移入 SwiftUI
+管理的共享存储中；</li>
+<li>子视图 View 若想共享 <code>@State</code> 值，可以使用
+<code>@Binding</code> （二者类似 <code>@StateObject</code> 与
+<code>@ObservedObject</code>
+的关系，一个声明一个使用）实现双向绑定，且声明子视图时在传递此值时前面加
+$ 符号；</li>
+</ul></li>
+<li>ViewModel 充当连接 View 与 Model 的 Binder 角色；
+<ul>
+<li>ViewModel 的属性使用 <code>@Published</code> 标记以使 View
+在这些属性改变时自动刷新；</li>
+<li>ViewModel 引用 Model 并处理数据；</li>
+</ul></li>
+</ul></li>
+</ul>
+<h3 id="特性">特性</h3>
+<ul>
+<li><code>@Environment</code> 用于访问 SwiftUI
+中由系统或其他视图提供的环境，通常为全局配置或状态，如颜色方案（亮暗模式）、字体、布局方向等。</li>
+<li><code>@EnvironmentObject</code> 用于实现依赖注入，父类可以通过
+<code>.environment()</code> modifier 指定子类使用
+<code>@EnvironmentObject</code>
+定义的可观测对象；类似传参，但会实时更新和共享（类似传指针）；</li>
+<li>通过 modifier 增加定义的组件的属性和内容；自定义 View
+时需要声明一个继承 View 的 struct，然后声明计算属性 body；</li>
+<li>SwiftUI 使用 ViewBuilder
+语法糖，通过重载静态方法等技术允许并列声明组件，更接近自然语言的效果：</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">MyView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span> &#123;</span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;Hello, World!&quot;</span>)</span><br><span class="line">            <span class="keyword">if</span> <span class="type">Bool</span>.random() &#123;</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;This is a random text!&quot;</span>) <span class="comment">// 并列声明两个 Text View，支持 if</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Desugar 后：</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">MyView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> content <span class="operator">=</span> <span class="type">ViewBuilder</span>.buildBlock(</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;Hello, World!&quot;</span>),</span><br><span class="line">                <span class="type">Bool</span>.random() <span class="operator">?</span> <span class="type">ViewBuilder</span>.buildBlock(<span class="type">Text</span>(<span class="string">&quot;This is a random text!&quot;</span>)) : <span class="type">ViewBuilder</span>.buildBlock(<span class="type">EmptyView</span>())</span><br><span class="line">            )</span><br><span class="line">            content</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>笔记</category>
       </categories>
       <tags>
-        <tag>C++</tag>
+        <tag>Swift</tag>
       </tags>
   </entry>
   <entry>
@@ -2957,249 +3198,6 @@ C++ gRPC，再通过 gRPC 实时传输至客户端（可以由客户端每 0.1
       </categories>
       <tags>
         <tag>Unity</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Swift &amp; SwiftUI 学习笔记</title>
-    <url>/2024/10/11/Swift-SwiftUI-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<p>参考：</p>
-<p><a
-href="https://docs.swift.org/swift-book/documentation/the-swift-programming-language/">The
-Swift Programming Language (6 beta)</a></p>
-<p><a href="https://developer.apple.com/documentation/swiftui">SwiftUI
-Documentation</a></p>
-<p><a href="https://developer.apple.com/tutorials/swiftui/">SwiftUI
-Tutorials</a></p>
-<p><a href="https://developer.apple.com/tutorials/app-dev-training">App
-Dev Tutorials</a></p>
-<span id="more"></span>
-<h2 id="swift-语法">Swift 语法</h2>
-<h3 id="变量与常量">变量与常量</h3>
-<ul>
-<li>常量： <code>let a: Double = 0</code> ；变量使用 <code>var</code>
-；默认类型推断为 Int 和 Double；</li>
-<li>Swift 不会做任何隐式类型转换；可以用 <code>"\(name)\"</code>
-表示转化成字符串；</li>
-<li>类型别名： <code>typealias newname = type</code> ；</li>
-<li>内置基本数据类型：Int（64位），UInt（一般不用），Float，Double（64位），Bool，String，Character（同样用双引号）；</li>
-<li>集合数据类型：Array，Dictionary，Set；</li>
-<li>引用类型：Class（Struct 是值类型），Closure，Function；</li>
-<li>数组声明：<code>var someInts = [Int](repeating: 0, count: 3)</code>
-；可以 <code>append()</code> ，可以用 <code>+</code> 合并；</li>
-<li>字典：<code>var someDict:[Int:String] = [1:"One", 2:"Two", 3:"Three"]</code>
-；</li>
-<li>枚举：</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Student</span>&#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="type">Name</span>(<span class="type">String</span>)</span><br><span class="line">    <span class="keyword">case</span> <span class="type">Mark</span>(<span class="type">Int</span>,<span class="type">Int</span>,<span class="type">Int</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> studMarks <span class="operator">=</span> <span class="type">Student</span>.<span class="type">Mark</span>(<span class="number">98</span>,<span class="number">97</span>,<span class="number">95</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">switch</span> studMarks &#123;</span><br><span class="line"><span class="keyword">case</span> .<span class="type">Name</span>(<span class="keyword">let</span> studName):</span><br><span class="line">	  <span class="built_in">print</span>(<span class="string">&quot;<span class="subst">\(studName)</span>。&quot;</span>)</span><br><span class="line"><span class="keyword">case</span> .<span class="type">Mark</span>(<span class="keyword">let</span> <span class="type">Mark1</span>, <span class="keyword">let</span> <span class="type">Mark2</span>, <span class="keyword">let</span> <span class="type">Mark3</span>):</span><br><span class="line">	  <span class="built_in">print</span>(<span class="string">&quot;<span class="subst">\(Mark1)</span>,<span class="subst">\(Mark2)</span>,<span class="subst">\(Mark3)</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Month</span>: <span class="title class_">Int</span> &#123; <span class="comment">// 若不写明为 Int，则不会默认为每个成员分配一个整型数值</span></span><br><span class="line">    <span class="keyword">case</span> <span class="type">January</span> <span class="operator">=</span> <span class="number">1</span>, <span class="type">February</span>, <span class="type">March</span>, <span class="type">April</span>, <span class="type">May</span>, <span class="type">June</span>, <span class="type">July</span>, <span class="type">August</span>, <span class="type">September</span>, <span class="type">October</span>, <span class="type">November</span>, <span class="type">December</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="optional-类型">Optional 类型</h3>
-<ul>
-<li>在声明的类型后添加 <code>?</code> 表示一个 Optional
-类型值，当未赋值时，此值将为 <code>nil</code> ；</li>
-<li>在声明的类型后添加 <code>!</code> 表示一个 Implicity Unwrapped
-Optional （隐式解包可选类型）值，此后取值不再需要加 <code>!</code>
-，如果取值时值为 <code>nil</code> 会直接运行错误，适合确定值永远不为
-<code>nil</code> 时使用；</li>
-<li>在确定不为空时使用 <code>!</code> 强制解包；显式类型转换会返回一个
-Optional 已处理转换失败的情况；</li>
-<li>可选绑定（Optional
-Binding）：<code>if let name=optionalName &#123;&#125; else &#123;&#125;</code> ；
-<code>guard let name=optionalName else &#123;&#125;</code> ；</li>
-<li>合并空值运算符： <code>a ?? b</code> 在 a 有值时展开，a 为
-<code>nil</code> 时返回 b；b 表达式返回值必须与 a 中存储值同类型；</li>
-<li>可选链： <code>if let a = A.B?.C</code> ；</li>
-</ul>
-<h3 id="语句">语句</h3>
-<ul>
-<li>行末无需分号，但一行多个表达式间需要分号；判断子句无需小括号；</li>
-<li><code>where</code> 子句与 <code>let</code>
-配合，多个子句之间用逗号分分隔， <code>if</code>
-语句中必须所有子句均满足， <code>switch</code>
-子句中只需满足一个子句；</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> hello <span class="operator">=</span> optionalHello <span class="keyword">where</span> hello.hasPrefix(&#x27;<span class="type">H</span>&#x27;), <span class="keyword">let</span> name <span class="operator">=</span> optionalName &#123;&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>范围（Range）： <code>0..&lt;10</code> 左闭右开，
-<code>0...10</code> 全闭；</li>
-<li>学习将不需要的循环变量设为 <code>_</code> ；</li>
-</ul>
-<h3 id="函数与闭包">函数与闭包</h3>
-<ul>
-<li>函数声明：<code>func doSomething() -&gt; returnType &#123;&#125;</code>
-；</li>
-<li>调用函数时，第一个参数无需写明形参名，其余参数均需写明，除非函数定义中使用
-<code>_</code> 作为 argumentLabel（不指定的话默认使用 parameterName 作为
-argumentLabel）；</li>
-<li>函数签名可以作为类型：
-<code>var addition: (Int, Int) -&gt; Int = sum</code> ；</li>
-<li>闭包本质是代码块（A chunk of code），函数属于闭包：</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">&#123;(<span class="type">Int</span>, <span class="type">Int</span>) -&gt; <span class="type">Bool</span> <span class="keyword">in</span> <span class="operator">...</span> &#125;</span><br><span class="line"><span class="comment">// 闭包可以使用参数名称缩写并省略定义：</span></span><br><span class="line"><span class="keyword">var</span> reversed <span class="operator">=</span> names.sorted( by: &#123; <span class="variable">$0</span> <span class="operator">&gt;</span> <span class="variable">$1</span> &#125; )</span><br><span class="line"><span class="comment">// Swift 定义了对 &gt; 的“接受两个字符串并返回 bool” 的实现：</span></span><br><span class="line"><span class="keyword">var</span> reversed <span class="operator">=</span> names.sorted(by: <span class="operator">&gt;</span>)</span><br><span class="line"><span class="comment">// 尾随闭包作参数，支持将其作为最后一个参数调用：</span></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">aFunc</span>(<span class="params">closure</span>: () -&gt; <span class="type">Void</span>) &#123; <span class="operator">...</span> &#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>形参 inout：相当于变参，调用时传递 &amp;a；</li>
-<li>泛型： <code>func swap&lt;T&gt; (_ a: inout T, _ b: inout T)</code>
-，可以在尖括号中添加 T 需要继承的父类或遵循的协议；</li>
-<li>关联类型：在协议中使用 <code>associatedtype Item</code> 定义一个
-Item 类型，在实现时使用 <code>typealias Item = Int</code>
-指定关联类型；</li>
-<li>可变参数（Variadic Parameters）： <code>Double...</code> ，使用
-for-in 遍历；</li>
-<li>Trailing Closures：若函数最后一个参数是闭包，则可以写到 () 之后：
-<code>aFunc()&#123; ... &#125;</code> ；</li>
-<li>Completion Handler：函数末尾回调，通常使用 Trailing Closures
-写；</li>
-<li>逃逸闭包（Escaping
-Closures）：闭包可能在函数返回后被调用，如异步操作或被存储在外部变量中，需要标注
-<code>@escaping</code>
-；此时闭包会被储存在堆中，所捕获的变量生命周期延长；</li>
-<li>Modifier：一类函数，调用时返回另一个实例，从而允许链式调用：a.f1().f2().f3()；</li>
-</ul>
-<h3 id="类">类</h3>
-<ul>
-<li>只能单继承；同名函数必须使用 override
-关键字，不使用将编译错误；不允许 overwrite；</li>
-<li><code>lazy</code> 成员属性在第一次使用时才计算器初始值；</li>
-<li>构造器（Initializer）：
-<code>init(name:String) &#123; self.name = name &#125;</code>
-；调用构造器时所有参数均需写明形参名；可失败构造器： <code>init?</code>
-；析构器： <code>deinit &#123;...&#125;</code> ，没有小括号；</li>
-<li>自定义构造器后便不再提供默认构造器，且要求所有属性均被初始化；</li>
-<li>使用 <code>super.init(name: name)</code> 调用父类构造函数；
-<code>final</code> 可防止 override；便利（
-<code>conveience</code>）构造器指定部分初始值后调用其它构造函数；</li>
-<li><code>if let square = shape as? Square</code> 使用 <code>as?</code>
-实现向下转换可选解包，使用 <code>as!</code> 实现强制解包；使用
-<code>is</code> 判断是否为某个子类；</li>
-<li>使用 <code>[Any]</code> 定义可以存储任意不同引用类型的数组，使用
-<code>[AnyObject]</code> 定义可以存储不同类类型的数组；</li>
-<li>类比结构体增加了：继承，运行时类型判断，释放被分配的资源，多次引用；</li>
-<li>struct 内的方法不能改变其属性，必须声明为 <code>mutating</code> ；而
-class 内的方法可以改变其内部属性而无需 <code>mutating</code> ；</li>
-<li>协议：类似虚函数 / 接口，定义一系列必须被遵循者实现的方法；使用
-<code>get set</code>
-定义可读写性；同时拥有父类和遵循协议的类，冒号后先写父类再写协议；函数名前
-<code>required</code> 关键字要求遵循者必须 override 它（遵循者也应标明
-<code>required</code> ，类似纯虚函数）；</li>
-<li>计算属性（Calculated
-Properties）：不直接存储值，每次通过计算得到；</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">sample</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> no1 <span class="operator">=</span> <span class="number">0.0</span>, no2 <span class="operator">=</span> <span class="number">0.0</span></span><br><span class="line">    <span class="keyword">var</span> length <span class="operator">=</span> <span class="number">300.0</span>, breadth <span class="operator">=</span> <span class="number">150.0</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> middle: (<span class="type">Double</span>, <span class="type">Double</span>) &#123;</span><br><span class="line">        <span class="keyword">get</span>&#123; <span class="keyword">return</span> (length <span class="operator">/</span> <span class="number">2</span>, breadth <span class="operator">/</span> <span class="number">2</span>); &#125;</span><br><span class="line">        <span class="keyword">set</span>(axis)&#123;</span><br><span class="line">            no1 <span class="operator">=</span> axis.<span class="number">0</span> <span class="operator">-</span> (length <span class="operator">/</span> <span class="number">2</span>)</span><br><span class="line">            no2 <span class="operator">=</span> axis.<span class="number">1</span> <span class="operator">-</span> (breadth <span class="operator">/</span> <span class="number">2</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> counter: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span>&#123; <span class="comment">// 属性观察器</span></span><br><span class="line">        <span class="keyword">willSet</span>(newTotal)&#123; <span class="built_in">print</span>(<span class="string">&quot;<span class="subst">\(newTotal)</span>&quot;</span>); &#125;</span><br><span class="line">        <span class="keyword">didSet</span>&#123; <span class="built_in">print</span>(\(counter <span class="operator">-</span> oldValue)<span class="string">&quot;); &#125;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>类型属性（Type Properties）： <code>static</code> 属性（Singleton
-单例）；类型方法（Type Methods）： <code>static</code> 方法；</li>
-<li>下标脚本（Subscripts）：类似 C++ 中重载 <code>[]</code>
-；可以重载多个，会自动匹配；</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">subexample</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> decrementer: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">subscript</span>(<span class="params">index</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> decrementer <span class="operator">/</span> index</span><br><span class="line">        <span class="keyword">get</span> &#123;</span><br><span class="line">		        <span class="comment">// 用于下标脚本值的声明</span></span><br><span class="line">		    &#125;</span><br><span class="line">		    <span class="keyword">set</span>(newValue) &#123;</span><br><span class="line">		        <span class="comment">// 执行赋值操作</span></span><br><span class="line">		    &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> division <span class="operator">=</span> subexample(decrementer: <span class="number">100</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;100 除以 9 等于 <span class="subst">\(division[<span class="number">9</span>])</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>避免循环引用导致引用计数无法归零：可能为 <code>nil</code>
-时使用弱引用（ <code>weak</code>），反之使用无主引用（
-<code>unowned</code> ）；</li>
-<li>通过扩展 <code>extension</code>
-给类或协议增加新的属性、方法、构造器等；</li>
-<li>Swift
-的四种访问控制：public，internal（默认，同模块内可使用），fileprivate（仅当前源文件可使用），private；</li>
-<li>属性包装器（Property Wrapper）：分离变量定义与存储，通过
-<code>propertyWrapper</code>
-注解定义变量行为和合法性判断（类似计算属性）；</li>
-<li>ClassName.self() 代表类类型本身（元类型）；</li>
-</ul>
-<h3 id="其它">其它</h3>
-<ul>
-<li>Swift 采用 Unicode 编码，变量名可以为中文或 emoji 等；</li>
-<li>Swift 对空格有要求；</li>
-<li>Swift 3 后取消了 <code>++</code> 、 <code>--</code> 操作以及
-switch-for（类似 C 中的 for） 循环；</li>
-<li>Swift 检查变量使用前初始化、索引检查、整数溢出、Optional 处理
-<code>nil</code> 值、内存管理；</li>
-<li>Swift 的 <code>/*...*/</code> 注释可以嵌套；</li>
-<li>使用 <code>do-throw-catch</code> 异常处理； <code>try?</code>
-若抛出错误则返回 <code>nil</code> ， <code>try!</code>
-若错误直接崩溃；</li>
-<li><code>some</code> 用于声明隐式返回类型（Opaque Return Types），
-<code>some Shape</code> 表示返回一个遵循 Shape
-协议的对象，但不暴露具体对象；</li>
-<li>Swift 提供指针类型，但不常用；</li>
-<li>一些协议：
-<ul>
-<li>Encodable 协议确保能转成 JSON 等格式，Decodable 反之，Codable
-是二者结合；</li>
-<li>Hashable 协议使其能执行相等运算；</li>
-<li>Identifiable 使其能被用于创建 Lists 和 ForEach（传入一个 List 和一个
-trailing closure，对每个 List 元素执行闭包）；</li>
-</ul></li>
-<li>泛型（Generic Types）：类似 C++
-的泛型；可以规定泛型服从的协议，有点类似 C++20 的 Concept；</li>
-</ul>
-<h2 id="swiftui">SwiftUI</h2>
-<h3 id="框架">框架</h3>
-<ul>
-<li>SwiftUI 遵从
-MVVM（Model-View-ViewModel）软件架构模式；声明式语言，用户不指定代码的具体实现；响应式更新，在被观察变量被改变后自动更新组件等状态；</li>
-<li>原先的 MVC 架构：ViewController 创建 View 并将其显示，或使用
-Outlet（ <code>@IBOutlet weak var myLabel: UILabel!</code> ）引用
-storyboard 或 xib 界面组件，使用 Action（
-<code>@IBAction func buttonClicked(_ sender: UIButton) &#123; myLabel.text = "1"; &#125;</code>
-) 接收组件消息并控制组件行为；</li>
-<li>MVC 架构初始默认文件：
-<ul>
-<li><code>AppDelegate.swift</code>
-：应用代理类，用于处理应用的生命周期时间；方法有：启动前调用，进入后台后调用，进入前台前调用；</li>
-<li><code>SceneDelegate.swift</code>
-：用于显示和管理用户界面窗口，每个窗口对应一个 <code>UIWindows</code>
-；方法有：设置初始 ViewController，场景进入后台后调用；</li>
-<li><code>ViewController.swift</code>
-：用于管理用户界面交互；方法有：视图初始化配置，处理用户输入与交互，管理视图生命周期（视图出现前调用，视图消失后调用）；</li>
-</ul></li>
-<li>MVVC：
-<ul>
-<li>View 负责显示组件并接收用户的交互（使用 Combine Framework）；
-<ul>
-<li>通过<code>@State</code>
-声明视图内部（包括子视图）私有状态（不能是计算属性），一般为基本类型和结构体；</li>
-<li>通过 <code>@StateObject</code>
-自己创建和管理一个可观测对象（ObservableObject，往往是ViewModel）；</li>
-<li>通过 <code>@ObservedObject</code>观察一个外部的遵循 ObservableObject
-协议的实例；</li>
-<li>通过 <code>@Published</code> 在 ObservableObject
-实例中声明需要其它视图响应的变量；</li>
-<li>SwiftUI 使用 <code>@State</code> 类型包装器来允许在 Struct
-中修改值；使用此注解时，值被移出 struct，移入 SwiftUI
-管理的共享存储中；</li>
-<li>子视图 View 若想共享 <code>@State</code> 值，可以使用
-<code>@Binding</code> （二者类似 <code>@StateObject</code> 与
-<code>@ObservedObject</code>
-的关系，一个声明一个使用）实现双向绑定，且声明子视图时在传递此值时前面加
-$ 符号；</li>
-</ul></li>
-<li>ViewModel 充当连接 View 与 Model 的 Binder 角色；
-<ul>
-<li>ViewModel 的属性使用 <code>@Published</code> 标记以使 View
-在这些属性改变时自动刷新；</li>
-<li>ViewModel 引用 Model 并处理数据；</li>
-</ul></li>
-</ul></li>
-</ul>
-<h3 id="特性">特性</h3>
-<ul>
-<li><code>@Environment</code> 用于访问 SwiftUI
-中由系统或其他视图提供的环境，通常为全局配置或状态，如颜色方案（亮暗模式）、字体、布局方向等。</li>
-<li><code>@EnvironmentObject</code> 用于实现依赖注入，父类可以通过
-<code>.environment()</code> modifier 指定子类使用
-<code>@EnvironmentObject</code>
-定义的可观测对象；类似传参，但会实时更新和共享（类似传指针）；</li>
-<li>通过 modifier 增加定义的组件的属性和内容；自定义 View
-时需要声明一个继承 View 的 struct，然后声明计算属性 body；</li>
-<li>SwiftUI 使用 ViewBuilder
-语法糖，通过重载静态方法等技术允许并列声明组件，更接近自然语言的效果：</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">MyView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span> &#123;</span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;Hello, World!&quot;</span>)</span><br><span class="line">            <span class="keyword">if</span> <span class="type">Bool</span>.random() &#123;</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;This is a random text!&quot;</span>) <span class="comment">// 并列声明两个 Text View，支持 if</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Desugar 后：</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">MyView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> content <span class="operator">=</span> <span class="type">ViewBuilder</span>.buildBlock(</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;Hello, World!&quot;</span>),</span><br><span class="line">                <span class="type">Bool</span>.random() <span class="operator">?</span> <span class="type">ViewBuilder</span>.buildBlock(<span class="type">Text</span>(<span class="string">&quot;This is a random text!&quot;</span>)) : <span class="type">ViewBuilder</span>.buildBlock(<span class="type">EmptyView</span>())</span><br><span class="line">            )</span><br><span class="line">            content</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>Swift</tag>
       </tags>
   </entry>
   <entry>
