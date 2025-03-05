@@ -3102,6 +3102,135 @@ unique_ptr<Connection>&gt;，以及由程序员指定的 on_connect() 与 on_rec
       </tags>
   </entry>
   <entry>
+    <title>Rust 笔记</title>
+    <url>/2023/11/20/Rust-%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<p><strong>参考</strong>：</p>
+<p><em>《Rust Primer》</em></p>
+<p><em>《Rust 编程之道》</em></p>
+<p><em>《Rust Course》（Rust 语言圣经）</em></p>
+<p>THU<em>《程序设计训练（Rust）》</em>课件</p>
+<ul>
+<li>裸指针（不安全）： <code>*const T</code> 和 <code>*mut T</code>
+；</li>
+<li>单字节字符 <code>b'H'</code> ，单字节字符串 <code>b'Hello'</code>
+，仅限 ASCII 字符； <code>r#"..."#</code> 表示不转义字符串；</li>
+<li><code>String</code> → <code>&amp;str</code>
+很廉价，而反之涉及分配内存，代价相对更高；</li>
+<li>即使结构体是公有的，成员仍然默认私有；枚举如果是公有的则其成员均为公有；</li>
+<li>可以在 <code>match</code> 中通过 <code>ref</code> 和
+<code>ref mut</code> 获取对应变量的引用；</li>
+<li><code>try!</code> 宏在 <code>Ok</code> 时提取内部值，否则直接
+<code>return</code> 期望返回的 Error 类型；现在可以直接使用
+<code>?</code> ；</li>
+<li>使用 <code>io::stdin.read_line(&amp;mut String)</code> 读入；</li>
+<li>Rust 项目结构：</li>
+</ul>
+<span id="more"></span>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line">Project/</span><br><span class="line">|-- cargo.toml</span><br><span class="line">|-- cargo.lock</span><br><span class="line">|-- src/</span><br><span class="line">|-- |-- main.rs</span><br><span class="line">|-- |-- lib.rs</span><br><span class="line">|-- |-- bin/</span><br><span class="line">|-- tests/</span><br><span class="line">|-- examples/</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>for (i, j) in (5..10).enumerate()</code> 使 <code>i</code>
+为循环次数下标；</li>
+<li>使用 <code>#derive[(...)]</code> 为类型自动添加一些 trait，常用：
+<code>Clone</code> ， <code>Copy</code> ， <code>Debug</code> ，
+<code>Default</code> ， <code>Eq</code> ， <code>PartiaEq</code> ，
+<code>Ord</code> ， <code>PartialOrd</code> ， <code>Hash</code> ；</li>
+<li><code>Eq</code> trait 表示任意两个值要么 <code>==</code> 要么
+<code>!=</code> ，它不包含方法，仅用作标记； <code>PartialEq</code>
+提供部分等价关系，包含一个 <code>eq</code> 方法；实现了 <code>Eq</code>
+的必然实现了 <code>PartialEq</code> ； <code>&lt;</code> 、
+<code>&gt;</code> 、 <code>&gt;=</code> 、 <code>&lt;=</code> 实现的是
+<code>PartialOrd</code> ； <code>PartialEq</code> 满足对称性与传递性，
+<code>Eq</code> 还满足自反性；</li>
+<li>所有硬编码字符串均为 <code>&amp;'static str</code> ；</li>
+<li><code>+</code> 、 <code>-</code> 、 <code>*</code> 、 <code>/</code>
+、 <code>%</code> 分别实现在 <code>std::ops::Add/Sub/Mul/Div/Rem</code>
+； <code>&amp;</code> 、 <code>|</code> 、 <code>^</code> 、
+<code>&lt;&lt;</code> 、 <code>&gt;&gt;</code> 分别实现在
+<code>std::ops::BitAnd/BitOr/BitXor/Shl/Shr</code>；</li>
+<li>函数参数支持模式匹配：
+<code>fn print_age((_, age): (&amp;str, i32));</code> ；</li>
+<li>发散函数（Diverging function）不返回值，返回值处使用 <code>!</code>
+；</li>
+<li>trait 可以继承： <code>trait Son : Parent</code> ，之后实现
+<code>Son</code> 的类型也要实现 <code>Parent</code> ；</li>
+<li><code>Copy</code> trait 继承 <code>Clone</code> trait：
+<code>pub trait Copy: Clone;</code> ；</li>
+<li>Rust 为 <code>Vec</code> 、 <code>HashMap</code> 实现了
+<code>IntoIterator</code> trait，从而支持直接 <code>for a in vec</code>
+循环；无限迭代器： <code>let inf_seq = (1..).into_iter();</code> ；
+<code>Vec</code> 、 <code>HashMap</code> 实现了
+<code>FromIterator</code> trait，以支持 <code>(1..10).collect()</code>
+等操作；</li>
+<li><code>fold</code> 和 <code>reduce</code> 的区别：后者带初始值；取前
+n 个：
+<code>let v_take = v.iter().cloned().take(2).collect::&lt;Vec&lt;_&gt;&gt;();</code>
+， <code>skip(n)</code> 跳过前 n 个；</li>
+<li>Prelude 的一部分：</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line">std::marker::&#123;<span class="built_in">Copy</span>, <span class="built_in">Send</span>, <span class="built_in">Sized</span>, <span class="built_in">Sync</span>&#125;</span><br><span class="line">std::ops::&#123;<span class="built_in">Drop</span>, <span class="built_in">Fn</span>, <span class="built_in">FnMut</span>, <span class="built_in">FnOnce</span>&#125;</span><br><span class="line">std::mem::drop</span><br><span class="line">std::boxed::<span class="type">Box</span></span><br><span class="line">std::borrow::<span class="built_in">ToOwned</span></span><br><span class="line">std::clone::<span class="built_in">Clone</span></span><br><span class="line">std::cmp::&#123;<span class="built_in">PartialEq</span>, <span class="built_in">PartialOrd</span>, <span class="built_in">Eq</span>, <span class="built_in">Ord</span>&#125;</span><br><span class="line">std::convert::&#123;<span class="built_in">AsRef</span>, <span class="built_in">AsMut</span>, <span class="built_in">Into</span>, <span class="built_in">From</span>&#125;</span><br><span class="line">std::default::<span class="built_in">Default</span></span><br><span class="line">std::iter::&#123;<span class="built_in">Iterator</span>, <span class="built_in">Extend</span>, <span class="built_in">IntoIterator</span>, <span class="built_in">DoubleEndedIterator</span>, <span class="built_in">ExactSizeIterator</span>&#125;</span><br><span class="line">std::option::<span class="type">Option</span>::&#123;<span class="keyword">self</span>, <span class="literal">Some</span>, <span class="literal">None</span>&#125;</span><br><span class="line">std::result::<span class="type">Result</span>::&#123;<span class="keyword">self</span>, <span class="literal">Ok</span>, <span class="literal">Err</span>&#125;</span><br><span class="line">std::slice::<span class="built_in">SliceConcatExt</span></span><br><span class="line">std::string::&#123;<span class="type">String</span>, <span class="built_in">ToString</span>&#125;</span><br><span class="line">std::vec::<span class="type">Vec</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>Into/From</code> trait 分别实现了 <code>U::from(T)</code> 和
+<code>U::into(T)</code> ，会消耗所有权；实现了 <code>From</code>
+会自动实现 <code>Into</code> ； <code>TryFrom</code> 和
+<code>TryInto</code> 返回 <code>Result</code> ；同样还有
+<code>ToString</code> 和 <code>FromStr</code> ；</li>
+<li><code>AsRef&lt;U&gt;</code> 实现了将 <code>T</code> 类型对象
+<code>a</code> 通过 <code>a.as_ref()</code> 得到 <code>&amp;U</code>
+，不消耗所有权； <code>AsMut</code> 同理；</li>
+<li>实现了 <code>Deref&lt;Target=U&gt;</code> 的类型 <code>T</code>
+可以通过 <code>&amp;T</code> 传参给 <code>&amp;U</code>
+；调用函数时，Rust 会提供任意多层自动解引用；</li>
+<li>不可以使用 <code>i32/i64</code> 作为下标，需要 <code>as usize</code>
+；</li>
+<li>不同于 C++，Rust 的块注释 <code>/* */</code> 可以嵌套；</li>
+<li>变量有引用存在时，不能移交其绑定数据的所有权；</li>
+<li>结构体有域级的访问控制，但没有域级的可变性控制，因此可以对内部变量标记
+<code>pub</code> 而不能标记 <code>mut</code>
+；结构体的域访问控制是针对模块而非结构体本身的，即其私有成员可以被同模块的其它函数访问；</li>
+<li>使用 <code>s.chars().nth(i)</code> 访问 <code>String</code> ；</li>
+<li>常用 <code>Option&lt;T&gt;</code> 相关函数：</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">unwrap</span>&lt;T&gt;(<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> T &#123;</span><br><span class="line">	<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">		<span class="literal">None</span> =&gt; <span class="built_in">panic!</span>(<span class="string">&quot;Called `Option::unwrap()` on a `None` value&quot;</span>),</span><br><span class="line">		<span class="title function_ invoke__">Some</span>(value) =&gt; value,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">map</span>&lt;U, F&gt;(<span class="keyword">self</span>, f: F) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;U&gt;</span><br><span class="line">		<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>(T) <span class="punctuation">-&gt;</span> U &#123;</span><br><span class="line">	<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">		<span class="literal">None</span> =&gt; <span class="literal">None</span>,</span><br><span class="line">		<span class="title function_ invoke__">Some</span>(x) =&gt; <span class="title function_ invoke__">Some</span>(<span class="title function_ invoke__">f</span>(x))</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">and_then</span>&lt;U, F&gt;(<span class="keyword">self</span>, f: F) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;U&gt;</span><br><span class="line">		<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>(T) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;U&gt; &#123;</span><br><span class="line">	<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">		<span class="title function_ invoke__">Some</span>(x) =&gt; <span class="title function_ invoke__">f</span>(x),</span><br><span class="line">		<span class="literal">None</span> =&gt; <span class="literal">None</span>,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T&gt; <span class="type">Option</span>&lt;T&gt; &#123;</span><br><span class="line">	<span class="keyword">fn</span> <span class="title function_">unwrap_or</span>&lt;T&gt;(<span class="keyword">self</span>, default: T) <span class="punctuation">-&gt;</span> T &#123;</span><br><span class="line">		<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">			<span class="literal">None</span> =&gt; default,</span><br><span class="line">			<span class="title function_ invoke__">Some</span>(value) =&gt; value,</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T&gt; <span class="type">Option</span>&lt;T&gt; &#123;</span><br><span class="line">	<span class="keyword">fn</span> <span class="title function_">unwrap_or_else</span>&lt;T&gt;(<span class="keyword">self</span>, f: F) <span class="punctuation">-&gt;</span> T</span><br><span class="line">			<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>() <span class="punctuation">-&gt;</span> T &#123;</span><br><span class="line">		<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">			<span class="literal">None</span> =&gt; <span class="title function_ invoke__">f</span>(),</span><br><span class="line">			<span class="title function_ invoke__">Some</span>(value) =&gt; value,</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">is_some</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">bool</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">is_none</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">bool</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">map_or</span>&lt;U, F&gt;(<span class="keyword">self</span>, default: U, f: F) <span class="punctuation">-&gt;</span> U <span class="comment">// U 类型的默认值</span></span><br><span class="line">		<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>(T) <span class="punctuation">-&gt;</span> U</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">map_or_else</span>&lt;U, D, F&gt;(<span class="keyword">self</span>, default: D, f: F) <span class="punctuation">-&gt;</span> U <span class="comment">// D 类型的闭包用于计算默认值</span></span><br><span class="line">		<span class="keyword">where</span> D: <span class="title function_ invoke__">FnOnce</span>() <span class="punctuation">-&gt;</span> U, F: <span class="title function_ invoke__">FnOnce</span>(T) <span class="punctuation">-&gt;</span> U</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">ok_or</span>(<span class="keyword">self</span>, err: E) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;T, E&gt;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">ok_or_else</span>(<span class="keyword">self</span>, default: F) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;T, E&gt; <span class="comment">// 与 unwrap_or 相似，用于错误处理。</span></span><br><span class="line">		<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>() <span class="punctuation">-&gt;</span> E</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">and</span>&lt;U&gt;(<span class="keyword">self</span>, optb: <span class="type">Option</span>&lt;U&gt;) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;U&gt; <span class="comment">// 如果 self 是 None，则返回 None，否则返回 optb。</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">or</span>(<span class="keyword">self</span>, optb: <span class="type">Option</span>&lt;T&gt;) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;T&gt; <span class="comment">// 如果 self 是 Some(_)，则返回 self，否则返回 optb。</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">xor</span>(<span class="keyword">self</span>, optb: <span class="type">Option</span>&lt;T&gt;) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;T&gt; <span class="comment">// 如果 self 和 optb 恰好有一个是 Some(_)，则返回这个 Some，否则返回 None。</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Rust 提供的容器： <code>Vec&lt;T&gt;</code> ，
+<code>VecDeque&lt;T&gt;</code> ， <code>LinkedList&lt;T&gt;</code> ，
+<code>HashMap&lt;K, V&gt;</code> ， <code>BTreeMap&lt;K, V&gt;</code> ，
+<code>HashSet&lt;T&gt;</code> ， <code>BTreeSet&lt;T&gt;</code> ，
+<code>BinaryHeap&lt;T&gt;</code> ；</li>
+<li>Rust
+的线程发生恐慌，和创建此线程的线程无关，其它线程能读取恐慌线程的信息；</li>
+<li>所有不带内部可变性的类型和只包含 Sync 类型的复合类型会自动获得
+Sync；</li>
+<li>为一个结构体实现 <code>Hash</code> trait，会将 <code>name</code> 和
+<code>age</code> 传播给一个实现了 Hasher
+的对象的可变引用（state）中，state 将它们组合后算出对应哈希值：</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">impl</span> <span class="title class_">Hash</span> <span class="keyword">for</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">hash</span>&lt;H: Hasher&gt;(&amp;<span class="keyword">self</span>, state: &amp;<span class="keyword">mut</span> H) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name.<span class="title function_ invoke__">hash</span>(state);</span><br><span class="line">        <span class="keyword">self</span>.age.<span class="title function_ invoke__">hash</span>(state);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>有时需要用大括号制造一个新域来使用某变量可变引用，从而不妨碍之后再获得某变量的其它引用；</li>
+<li><code>for line in &amp;texts</code> 是
+<code>for line in texts.iter()</code> 的语法糖；</li>
+<li>Trait 对象隐式具有 <code>'static</code>
+生命周期，但当闭包捕获的变量具有更短生命周期时，闭包生命周期也随之缩小；</li>
+<li>编译器只考虑被调用函数的签名而不会深入函数体，因此改变函数实现而不改变签名不会影响编译结果；</li>
+<li>迭代器的 <code>clone()</code>
+仅拷贝一个栈上的引用，因此非常高效；</li>
+<li>枚举成员占用的内存空间大小跟最大的成员对齐；</li>
+<li><code>borrow</code> 得到的是 <code>Ref</code>
+类型，其生命周期与调用者（可能是引用）的生命周期相同；它通过
+<code>Deref</code> 实现和 <code>&amp;T</code>
+相同效果的自动解引用；</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">borrow</span>&lt;<span class="symbol">&#x27;a</span>&gt;(&amp;<span class="symbol">&#x27;a</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> Ref&lt;<span class="symbol">&#x27;a</span>, T&gt;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">borrow_mut</span>&lt;<span class="symbol">&#x27;a</span>&gt;(&amp;<span class="symbol">&#x27;a</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> RefMut&lt;<span class="symbol">&#x27;a</span>, T&gt;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>Rust</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Swift &amp; SwiftUI 学习笔记</title>
     <url>/2024/10/11/Swift-SwiftUI-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<p>参考：</p>
@@ -3342,135 +3471,6 @@ $ 符号；</li>
       </categories>
       <tags>
         <tag>Swift</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Rust 笔记</title>
-    <url>/2023/11/20/Rust-%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<p><strong>参考</strong>：</p>
-<p><em>《Rust Primer》</em></p>
-<p><em>《Rust 编程之道》</em></p>
-<p><em>《Rust Course》（Rust 语言圣经）</em></p>
-<p>THU<em>《程序设计训练（Rust）》</em>课件</p>
-<ul>
-<li>裸指针（不安全）： <code>*const T</code> 和 <code>*mut T</code>
-；</li>
-<li>单字节字符 <code>b'H'</code> ，单字节字符串 <code>b'Hello'</code>
-，仅限 ASCII 字符； <code>r#"..."#</code> 表示不转义字符串；</li>
-<li><code>String</code> → <code>&amp;str</code>
-很廉价，而反之涉及分配内存，代价相对更高；</li>
-<li>即使结构体是公有的，成员仍然默认私有；枚举如果是公有的则其成员均为公有；</li>
-<li>可以在 <code>match</code> 中通过 <code>ref</code> 和
-<code>ref mut</code> 获取对应变量的引用；</li>
-<li><code>try!</code> 宏在 <code>Ok</code> 时提取内部值，否则直接
-<code>return</code> 期望返回的 Error 类型；现在可以直接使用
-<code>?</code> ；</li>
-<li>使用 <code>io::stdin.read_line(&amp;mut String)</code> 读入；</li>
-<li>Rust 项目结构：</li>
-</ul>
-<span id="more"></span>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line">Project/</span><br><span class="line">|-- cargo.toml</span><br><span class="line">|-- cargo.lock</span><br><span class="line">|-- src/</span><br><span class="line">|-- |-- main.rs</span><br><span class="line">|-- |-- lib.rs</span><br><span class="line">|-- |-- bin/</span><br><span class="line">|-- tests/</span><br><span class="line">|-- examples/</span><br></pre></td></tr></table></figure>
-<ul>
-<li><code>for (i, j) in (5..10).enumerate()</code> 使 <code>i</code>
-为循环次数下标；</li>
-<li>使用 <code>#derive[(...)]</code> 为类型自动添加一些 trait，常用：
-<code>Clone</code> ， <code>Copy</code> ， <code>Debug</code> ，
-<code>Default</code> ， <code>Eq</code> ， <code>PartiaEq</code> ，
-<code>Ord</code> ， <code>PartialOrd</code> ， <code>Hash</code> ；</li>
-<li><code>Eq</code> trait 表示任意两个值要么 <code>==</code> 要么
-<code>!=</code> ，它不包含方法，仅用作标记； <code>PartialEq</code>
-提供部分等价关系，包含一个 <code>eq</code> 方法；实现了 <code>Eq</code>
-的必然实现了 <code>PartialEq</code> ； <code>&lt;</code> 、
-<code>&gt;</code> 、 <code>&gt;=</code> 、 <code>&lt;=</code> 实现的是
-<code>PartialOrd</code> ； <code>PartialEq</code> 满足对称性与传递性，
-<code>Eq</code> 还满足自反性；</li>
-<li>所有硬编码字符串均为 <code>&amp;'static str</code> ；</li>
-<li><code>+</code> 、 <code>-</code> 、 <code>*</code> 、 <code>/</code>
-、 <code>%</code> 分别实现在 <code>std::ops::Add/Sub/Mul/Div/Rem</code>
-； <code>&amp;</code> 、 <code>|</code> 、 <code>^</code> 、
-<code>&lt;&lt;</code> 、 <code>&gt;&gt;</code> 分别实现在
-<code>std::ops::BitAnd/BitOr/BitXor/Shl/Shr</code>；</li>
-<li>函数参数支持模式匹配：
-<code>fn print_age((_, age): (&amp;str, i32));</code> ；</li>
-<li>发散函数（Diverging function）不返回值，返回值处使用 <code>!</code>
-；</li>
-<li>trait 可以继承： <code>trait Son : Parent</code> ，之后实现
-<code>Son</code> 的类型也要实现 <code>Parent</code> ；</li>
-<li><code>Copy</code> trait 继承 <code>Clone</code> trait：
-<code>pub trait Copy: Clone;</code> ；</li>
-<li>Rust 为 <code>Vec</code> 、 <code>HashMap</code> 实现了
-<code>IntoIterator</code> trait，从而支持直接 <code>for a in vec</code>
-循环；无限迭代器： <code>let inf_seq = (1..).into_iter();</code> ；
-<code>Vec</code> 、 <code>HashMap</code> 实现了
-<code>FromIterator</code> trait，以支持 <code>(1..10).collect()</code>
-等操作；</li>
-<li><code>fold</code> 和 <code>reduce</code> 的区别：后者带初始值；取前
-n 个：
-<code>let v_take = v.iter().cloned().take(2).collect::&lt;Vec&lt;_&gt;&gt;();</code>
-， <code>skip(n)</code> 跳过前 n 个；</li>
-<li>Prelude 的一部分：</li>
-</ul>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line">std::marker::&#123;<span class="built_in">Copy</span>, <span class="built_in">Send</span>, <span class="built_in">Sized</span>, <span class="built_in">Sync</span>&#125;</span><br><span class="line">std::ops::&#123;<span class="built_in">Drop</span>, <span class="built_in">Fn</span>, <span class="built_in">FnMut</span>, <span class="built_in">FnOnce</span>&#125;</span><br><span class="line">std::mem::drop</span><br><span class="line">std::boxed::<span class="type">Box</span></span><br><span class="line">std::borrow::<span class="built_in">ToOwned</span></span><br><span class="line">std::clone::<span class="built_in">Clone</span></span><br><span class="line">std::cmp::&#123;<span class="built_in">PartialEq</span>, <span class="built_in">PartialOrd</span>, <span class="built_in">Eq</span>, <span class="built_in">Ord</span>&#125;</span><br><span class="line">std::convert::&#123;<span class="built_in">AsRef</span>, <span class="built_in">AsMut</span>, <span class="built_in">Into</span>, <span class="built_in">From</span>&#125;</span><br><span class="line">std::default::<span class="built_in">Default</span></span><br><span class="line">std::iter::&#123;<span class="built_in">Iterator</span>, <span class="built_in">Extend</span>, <span class="built_in">IntoIterator</span>, <span class="built_in">DoubleEndedIterator</span>, <span class="built_in">ExactSizeIterator</span>&#125;</span><br><span class="line">std::option::<span class="type">Option</span>::&#123;<span class="keyword">self</span>, <span class="literal">Some</span>, <span class="literal">None</span>&#125;</span><br><span class="line">std::result::<span class="type">Result</span>::&#123;<span class="keyword">self</span>, <span class="literal">Ok</span>, <span class="literal">Err</span>&#125;</span><br><span class="line">std::slice::<span class="built_in">SliceConcatExt</span></span><br><span class="line">std::string::&#123;<span class="type">String</span>, <span class="built_in">ToString</span>&#125;</span><br><span class="line">std::vec::<span class="type">Vec</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li><code>Into/From</code> trait 分别实现了 <code>U::from(T)</code> 和
-<code>U::into(T)</code> ，会消耗所有权；实现了 <code>From</code>
-会自动实现 <code>Into</code> ； <code>TryFrom</code> 和
-<code>TryInto</code> 返回 <code>Result</code> ；同样还有
-<code>ToString</code> 和 <code>FromStr</code> ；</li>
-<li><code>AsRef&lt;U&gt;</code> 实现了将 <code>T</code> 类型对象
-<code>a</code> 通过 <code>a.as_ref()</code> 得到 <code>&amp;U</code>
-，不消耗所有权； <code>AsMut</code> 同理；</li>
-<li>实现了 <code>Deref&lt;Target=U&gt;</code> 的类型 <code>T</code>
-可以通过 <code>&amp;T</code> 传参给 <code>&amp;U</code>
-；调用函数时，Rust 会提供任意多层自动解引用；</li>
-<li>不可以使用 <code>i32/i64</code> 作为下标，需要 <code>as usize</code>
-；</li>
-<li>不同于 C++，Rust 的块注释 <code>/* */</code> 可以嵌套；</li>
-<li>变量有引用存在时，不能移交其绑定数据的所有权；</li>
-<li>结构体有域级的访问控制，但没有域级的可变性控制，因此可以对内部变量标记
-<code>pub</code> 而不能标记 <code>mut</code>
-；结构体的域访问控制是针对模块而非结构体本身的，即其私有成员可以被同模块的其它函数访问；</li>
-<li>使用 <code>s.chars().nth(i)</code> 访问 <code>String</code> ；</li>
-<li>常用 <code>Option&lt;T&gt;</code> 相关函数：</li>
-</ul>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">unwrap</span>&lt;T&gt;(<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> T &#123;</span><br><span class="line">	<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">		<span class="literal">None</span> =&gt; <span class="built_in">panic!</span>(<span class="string">&quot;Called `Option::unwrap()` on a `None` value&quot;</span>),</span><br><span class="line">		<span class="title function_ invoke__">Some</span>(value) =&gt; value,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">map</span>&lt;U, F&gt;(<span class="keyword">self</span>, f: F) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;U&gt;</span><br><span class="line">		<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>(T) <span class="punctuation">-&gt;</span> U &#123;</span><br><span class="line">	<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">		<span class="literal">None</span> =&gt; <span class="literal">None</span>,</span><br><span class="line">		<span class="title function_ invoke__">Some</span>(x) =&gt; <span class="title function_ invoke__">Some</span>(<span class="title function_ invoke__">f</span>(x))</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">and_then</span>&lt;U, F&gt;(<span class="keyword">self</span>, f: F) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;U&gt;</span><br><span class="line">		<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>(T) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;U&gt; &#123;</span><br><span class="line">	<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">		<span class="title function_ invoke__">Some</span>(x) =&gt; <span class="title function_ invoke__">f</span>(x),</span><br><span class="line">		<span class="literal">None</span> =&gt; <span class="literal">None</span>,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T&gt; <span class="type">Option</span>&lt;T&gt; &#123;</span><br><span class="line">	<span class="keyword">fn</span> <span class="title function_">unwrap_or</span>&lt;T&gt;(<span class="keyword">self</span>, default: T) <span class="punctuation">-&gt;</span> T &#123;</span><br><span class="line">		<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">			<span class="literal">None</span> =&gt; default,</span><br><span class="line">			<span class="title function_ invoke__">Some</span>(value) =&gt; value,</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T&gt; <span class="type">Option</span>&lt;T&gt; &#123;</span><br><span class="line">	<span class="keyword">fn</span> <span class="title function_">unwrap_or_else</span>&lt;T&gt;(<span class="keyword">self</span>, f: F) <span class="punctuation">-&gt;</span> T</span><br><span class="line">			<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>() <span class="punctuation">-&gt;</span> T &#123;</span><br><span class="line">		<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">			<span class="literal">None</span> =&gt; <span class="title function_ invoke__">f</span>(),</span><br><span class="line">			<span class="title function_ invoke__">Some</span>(value) =&gt; value,</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">is_some</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">bool</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">is_none</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">bool</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">map_or</span>&lt;U, F&gt;(<span class="keyword">self</span>, default: U, f: F) <span class="punctuation">-&gt;</span> U <span class="comment">// U 类型的默认值</span></span><br><span class="line">		<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>(T) <span class="punctuation">-&gt;</span> U</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">map_or_else</span>&lt;U, D, F&gt;(<span class="keyword">self</span>, default: D, f: F) <span class="punctuation">-&gt;</span> U <span class="comment">// D 类型的闭包用于计算默认值</span></span><br><span class="line">		<span class="keyword">where</span> D: <span class="title function_ invoke__">FnOnce</span>() <span class="punctuation">-&gt;</span> U, F: <span class="title function_ invoke__">FnOnce</span>(T) <span class="punctuation">-&gt;</span> U</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">ok_or</span>(<span class="keyword">self</span>, err: E) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;T, E&gt;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">ok_or_else</span>(<span class="keyword">self</span>, default: F) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;T, E&gt; <span class="comment">// 与 unwrap_or 相似，用于错误处理。</span></span><br><span class="line">		<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>() <span class="punctuation">-&gt;</span> E</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">and</span>&lt;U&gt;(<span class="keyword">self</span>, optb: <span class="type">Option</span>&lt;U&gt;) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;U&gt; <span class="comment">// 如果 self 是 None，则返回 None，否则返回 optb。</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">or</span>(<span class="keyword">self</span>, optb: <span class="type">Option</span>&lt;T&gt;) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;T&gt; <span class="comment">// 如果 self 是 Some(_)，则返回 self，否则返回 optb。</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">xor</span>(<span class="keyword">self</span>, optb: <span class="type">Option</span>&lt;T&gt;) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;T&gt; <span class="comment">// 如果 self 和 optb 恰好有一个是 Some(_)，则返回这个 Some，否则返回 None。</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>Rust 提供的容器： <code>Vec&lt;T&gt;</code> ，
-<code>VecDeque&lt;T&gt;</code> ， <code>LinkedList&lt;T&gt;</code> ，
-<code>HashMap&lt;K, V&gt;</code> ， <code>BTreeMap&lt;K, V&gt;</code> ，
-<code>HashSet&lt;T&gt;</code> ， <code>BTreeSet&lt;T&gt;</code> ，
-<code>BinaryHeap&lt;T&gt;</code> ；</li>
-<li>Rust
-的线程发生恐慌，和创建此线程的线程无关，其它线程能读取恐慌线程的信息；</li>
-<li>所有不带内部可变性的类型和只包含 Sync 类型的复合类型会自动获得
-Sync；</li>
-<li>为一个结构体实现 <code>Hash</code> trait，会将 <code>name</code> 和
-<code>age</code> 传播给一个实现了 Hasher
-的对象的可变引用（state）中，state 将它们组合后算出对应哈希值：</li>
-</ul>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">impl</span> <span class="title class_">Hash</span> <span class="keyword">for</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">hash</span>&lt;H: Hasher&gt;(&amp;<span class="keyword">self</span>, state: &amp;<span class="keyword">mut</span> H) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name.<span class="title function_ invoke__">hash</span>(state);</span><br><span class="line">        <span class="keyword">self</span>.age.<span class="title function_ invoke__">hash</span>(state);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>有时需要用大括号制造一个新域来使用某变量可变引用，从而不妨碍之后再获得某变量的其它引用；</li>
-<li><code>for line in &amp;texts</code> 是
-<code>for line in texts.iter()</code> 的语法糖；</li>
-<li>Trait 对象隐式具有 <code>'static</code>
-生命周期，但当闭包捕获的变量具有更短生命周期时，闭包生命周期也随之缩小；</li>
-<li>编译器只考虑被调用函数的签名而不会深入函数体，因此改变函数实现而不改变签名不会影响编译结果；</li>
-<li>迭代器的 <code>clone()</code>
-仅拷贝一个栈上的引用，因此非常高效；</li>
-<li>枚举成员占用的内存空间大小跟最大的成员对齐；</li>
-<li><code>borrow</code> 得到的是 <code>Ref</code>
-类型，其生命周期与调用者（可能是引用）的生命周期相同；它通过
-<code>Deref</code> 实现和 <code>&amp;T</code>
-相同效果的自动解引用；</li>
-</ul>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">borrow</span>&lt;<span class="symbol">&#x27;a</span>&gt;(&amp;<span class="symbol">&#x27;a</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> Ref&lt;<span class="symbol">&#x27;a</span>, T&gt;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">borrow_mut</span>&lt;<span class="symbol">&#x27;a</span>&gt;(&amp;<span class="symbol">&#x27;a</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> RefMut&lt;<span class="symbol">&#x27;a</span>, T&gt;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>Rust</tag>
       </tags>
   </entry>
   <entry>
@@ -4021,6 +4021,121 @@ trait 返回：</li>
       </tags>
   </entry>
   <entry>
+    <title>Unity 远程真机调试插件开发</title>
+    <url>/2023/08/12/Unity-%E8%BF%9C%E7%A8%8B%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/</url>
+    <content><![CDATA[<p><strong>项目目标</strong>：完成远程真机调试插件，实现对端侧 3D/XR
+场景的 Unity 实时场景部署与调试；</p>
+<p><strong>具体内容</strong>：</p>
+<ol type="1">
+<li>在端侧构建调试 SDK，用于接收 Unity 发送的命令，和向 Unity
+同步状态；</li>
+<li>在 Unity 中基于插件实现Debug Server，用于和端侧进行实时通信（Unity
+场景快速导出并推送到端侧）和同步状态（Unity
+场景双向状态同步调试）；</li>
+<li>PC端：MacOS，移动端：iOS；</li>
+</ol>
+<span id="more"></span>
+<p>阶段任务概要：</p>
+<ul>
+<li>端侧 DebugSDK 技术选型 - Unity / <strong>C++</strong>，Unity
+插件技术选型 - OC / <strong>C++</strong></li>
+<li>通信协议选型：Socket Raw Packet / <strong>gRPC + Protobuf</strong> /
+Hybrid (Raw Packet + RPC)</li>
+<li>基础 Socket 通道搭建：Unity Socket Server (nc test)、Socket
+Client</li>
+<li>RPC 通道搭建：Unity RPC、iOS gRPC、C/S 双端互调</li>
+</ul>
+<h2 id="unity-c插件开发基础">Unity C++插件开发基础</h2>
+<p>参考：</p>
+<ul>
+<li>官网介绍：<a
+href="https://learn.microsoft.com/en-us/dotnet/fundamentals/">.NET</a>，<a
+href="https://docs.unity.cn/2023.2/Documentation/Manual/Plugins.html">Plugin，</a><a
+href="https://learn.microsoft.com/zh-cn/dotnet/standard/managed-code">托管代码，</a><a
+href="https://learn.microsoft.com/zh-cn/dotnet/standard/native-interop/pinvoke">P/Invoke</a>，<a
+href="https://www.mono-project.com/docs/advanced/pinvoke/">Mono
+Runtime官网对P/Invoke的介绍</a>；</li>
+<li>P/Invoke：<a href="https://www.jacksondunstan.com/articles/3938">C++
+Scripting: Part 1 – C#/C++ Communication</a>，<a
+href="https://www.cnblogs.com/herenzhiming/articles/6688804.html">C#与C/C++的交互（PInvoke）</a>，<a
+href="https://www.jianshu.com/p/06db6d0109db">Create A Native Plugin For
+Unity</a>，<a
+href="https://kyochow.github.io/articles/2020/10/12/1602495480321.html">关于Unity
+Native插件的开发</a>，<a
+href="https://www.jianshu.com/p/65bb18513f19">Unity与C++交互入门(1)</a>，<a
+href="https://rafalwilinski.medium.com/tutorial-create-c-c-plugins-for-unity3d-dbde7f67454#.hqsjain5e">Tutorial
+— Create C/C++ plugins for Unity3D</a>，<a
+href="https://rustcc.cn/article?id=3b8241d0-c4ca-4f49-8e07-0a5142b00f59">Rust
+FFI 编程 - FFI 概述</a></li>
+<li>插件开发：<a href="https://www.jianshu.com/p/183695196f02">Unity
+3D编辑器插件开发</a>，<a
+href="https://www.cnblogs.com/yzx885059439/p/14497026.html">Unity3D插件开发教程</a>，<a
+href="https://developer.aliyun.com/article/69190">开发unity插件——一次搞定unity编辑器常用功能</a></li>
+</ul>
+<p>.NET使用CIL作为高级语言与机器语言的中间层以实现跨平台，且使用公共语言运行时CLR（支持提前AOT和实时JIT类型），无论使用的是Mono、.NET
+Framework还是.NET
+Core。将执行过程交由运行时管理（如自动内存管理、安全边界、类型安全等）的代码称为托管代码（Managed
+Code）；直接运行编译出的机器语言而不依赖运行时的代码称为原生代码（Native
+Code）。二者各有优势和局限性，具体见官网介绍。Unity最常用的托管代码形式插件使用C#语言，原生插件可以使用C/C++/Objective-C等。.NET中，C#与C++的互操作（Interop）可以通过P/Invoke实现（也可以使用C++/CLI作为中间层，但Mono不支持）。</p>
+<p>Unity native 插件开发流程：C++ → C API → 打包 → C# 封装接口。</p>
+<p>在 Safe Mode 下 C# 与 C++ 无法直接交互，C++ 需要包装成 C API，由 C#
+调用 C API。 插件包：Android 打包成 <code>so</code>，IOS 打包成
+framework 或者 <code>.a</code>，macOS 打包成
+<code>.bundle</code>，Windows 打包成 dll。Windows 放在
+<code>Plugins/x86(x64)</code> 目录下，Mac 直接放在 <code>Plugins</code>
+目录下，iOS 放在 <code>Plugins/iOS</code> 目录下，Android 放在
+<code>Plugins/Android/libs/armeabi-v7a</code>
+目录下。如果修改了本地插件，需要将 dll 或者 bundle 覆盖了之后重启 Unity,
+不然还是会使用老的 Native Plugin。</p>
+<p>CMakeLists.txt：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cmake_minimum_required</span>(VERSION <span class="number">3.5</span>)</span><br><span class="line"><span class="built_in">project</span>(UnityPlugin)</span><br><span class="line"></span><br><span class="line"><span class="built_in">aux_source_directory</span>(. src) # 搜索当前目录下所有.cpp文件放入$&#123;src&#125;</span><br><span class="line"><span class="built_in">aux_source_directory</span>(channel.cpp lib) # 需要编成.dylib的文件</span><br><span class="line"></span><br><span class="line"># C++编译标准</span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_STANDARD <span class="number">11</span>)</span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_STANDARD_REQUIRED ON)</span><br><span class="line"># 添加编译选项</span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -fms-extensions&quot;</span>)</span><br><span class="line"></span><br><span class="line"># 生成可执行文件</span><br><span class="line"></span><br><span class="line"><span class="built_in">add_executable</span>(main $&#123;src&#125;)</span><br><span class="line"></span><br><span class="line"># 生成.bundle文件</span><br><span class="line"></span><br><span class="line"># <span class="built_in">add_library</span>(project1 MODULE $&#123;lib&#125;) #编译为程序资源包 *.bundle</span><br><span class="line"># <span class="built_in">set_target_properties</span>(project1 PROPERTIES BUNDLE TRUE)</span><br><span class="line"></span><br><span class="line"># 设置生成.bundle文件的相关参数</span><br><span class="line"><span class="built_in">set</span>(MACOSX_BUNDLE_BUNDLE_NAME <span class="string">&quot;ChannelPlugin&quot;</span>)</span><br><span class="line"><span class="built_in">set</span>(MACOSX_BUNDLE_BUNDLE_VERSION <span class="string">&quot;1.0.0&quot;</span>)</span><br><span class="line"></span><br><span class="line"># 添加源文件生成共享库</span><br><span class="line"><span class="built_in">add_library</span>(ChannelPlugin SHARED channel.cpp)</span><br><span class="line"></span><br><span class="line"># 设置.bundle文件的输出路径</span><br><span class="line"><span class="built_in">set_target_properties</span>(ChannelPlugin PROPERTIES</span><br><span class="line">  OUTPUT_NAME ChannelPlugin</span><br><span class="line">  LIBRARY_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  ARCHIVE_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  RUNTIME_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  BUNDLE_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"># 设置.bundle文件的资源文件</span><br><span class="line"><span class="built_in">set_source_files_properties</span>(</span><br><span class="line">  <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  PROPERTIES MACOSX_PACKAGE_LOCATION <span class="string">&quot;/&quot;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>channel.h头文件：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> CHANNEL_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> CHANNEL_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> __cplusplus</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXTERN_C extern <span class="string">&quot;C&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXTERN_C</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> EXPORT_API</span></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> UNITY_METRO </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXPORT_API EXTERN_C __declspec(dllexport) __stdcall </span></span><br><span class="line"><span class="meta">#<span class="keyword">elif</span> UNITY_WIN </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXPORT_API EXTERN_C __declspec(dllexport) </span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span> </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXPORT_API EXTERN_C</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* EXPORT_API*/</span></span></span><br><span class="line"></span><br><span class="line"><span class="function">EXPORT_API <span class="type">int</span> <span class="title">func</span><span class="params">(<span class="type">int</span> x)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* CHANNEL_H*/</span></span></span><br></pre></td></tr></table></figure>
+<p>在所有出现 <code>func</code> 声明或定义的时候都要带
+<code>EXPORT_API</code> ；将 /bundles 中的 .dylib
+文件复制到Unity的Assets/Plugins下，将 C#
+插件放入Assets/Editor下即可。</p>
+<p>注意：Unity
+改变C#脚本后会实时重编译，但在移入新.dylib文件并不会，需要退出重新进入
+Unity 项目。</p>
+<h2 id="rpc-协议选型与通道搭建">RPC 协议选型与通道搭建</h2>
+<p>参考：<a
+href="https://doc.oschina.net/grpc">gRPC官方文档中文版</a>，<a
+href="https://grpc.io/docs/">gRPC官方文档</a>，<a
+href="https://protobuf.dev/overview/">Protocol Buffer官方文档</a></p>
+<p>gRPC是一个高性能、通用的开源RPC框架，其由Google
+2015年主要面向移动应用开发并基于HTTP/2协议标准而设计，基于ProtoBuf序列化协议开发，且支持众多开发语言。</p>
+<p>RPC
+的主要目的是让客户端可以像调用函数一样直接与服务端通信，尽可能使网络交互过程变得透明。使用时，首先需要在
+.proto
+文件中定义各个函数原型与数据结构（将作为函数参数传递，也就是网络传输的数据），然后
+Protobuf 会根据 .proto 生成桩程序 demo.pb.cc 和
+demo.pb.h（这两个文件不应被用户修改），gRPC 再生成 demo.grpc.pb.cc 和
+demo.grpc.pb.h（这两个文件也一般无需修改），最后用户在自定义程序
+demo.client 和 demo.server 中自定义需要的操作和传递的信息。</p>
+<p>具体安装使用方法：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install autoconf automake libtool pkg-config <span class="comment"># 安装依赖库</span></span><br><span class="line">brew install protobuf grpc</span><br><span class="line"><span class="built_in">export</span> MY_INSTALL_DIR=<span class="variable">$HOME</span>/.local/share <span class="comment"># 自定义安装路径</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="string">&quot;<span class="variable">$MY_INSTALL_DIR</span>/bin:<span class="variable">$PATH</span>&quot;</span></span><br><span class="line">git <span class="built_in">clone</span> --recurse-submodules -b v1.56.0 --depth 1 --shallow-submodules https://github.com/grpc/grpc</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> grpc</span><br><span class="line"><span class="built_in">mkdir</span> -p cmake/build</span><br><span class="line"><span class="built_in">pushd</span> cmake/build</span><br><span class="line">cmake -DgRPC_INSTALL=ON -DgRPC_BUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=<span class="variable">$MY_INSTALL_DIR</span> ../..</span><br><span class="line">make -j 4</span><br><span class="line">make install</span><br><span class="line"><span class="built_in">popd</span></span><br></pre></td></tr></table></figure>
+<p>重新生成gRPC代码：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> examples/cpp/helloworld/cmake/build</span><br><span class="line"><span class="comment"># 重新生成 helloworld.pb.&#123;h,cc&#125; 和 helloworld.grpc.pb.&#123;h,cc&#125;</span></span><br><span class="line">make helloworld.grpc.pb.o</span><br><span class="line"><span class="comment"># 实际运行的是以下两条命令：</span></span><br><span class="line">protoc -I ../../protos --grpc_out=. --plugin=protoc-gen-grpc=`<span class="built_in">which</span> grpc_cpp_plugin` ../../protos/helloworld.proto</span><br><span class="line">protoc -I ../../protos --cpp_out=. ../../protos/helloworld.proto</span><br><span class="line"><span class="comment"># 用户自行修改my_project/下的.cc代码</span></span><br><span class="line">make -j 4</span><br><span class="line">./greeter_server</span><br><span class="line">./greeter_client</span><br></pre></td></tr></table></figure>
+<p>目录结构：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cpp/</span><br><span class="line">	my_project/</span><br><span class="line">		cmake/</span><br><span class="line">			build/</span><br><span class="line">		greeter_client.cc</span><br><span class="line">		greeter_server.cc</span><br><span class="line">proto/</span><br><span class="line">	my_project.proto</span><br></pre></td></tr></table></figure>
+<p>调通后，同样依照官方手册调通 Objective-C 语言的 gRPC
+（仅支持客户端）。然后修改 CMakeLists.txt 文件以得到 .dylib
+文件，从而导入到 Unity 中被插件调用。</p>
+<p>至此，我们已经能够实现在 Unity 上通过 C#
+脚本实时获取场景树信息（Unity 序列化方案目前采用<a
+href="https://kuroha.vip/unity/unity_jsonutility.html">JsonUtility</a>），并通过跨语言互操作将信息传递给
+C++ gRPC，再通过 gRPC 实时传输至客户端（可以由客户端每 0.1
+秒发送一次请求），最后客户端拿到 Unity 场景树信息后在本地重建场景。</p>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>Unity</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>圣经读书笔记</title>
     <url>/2024/10/02/%E5%9C%A3%E7%BB%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<h2 id="概况">概况</h2>
@@ -4285,6 +4400,453 @@ Epistles），指新约书信中的八卷作者非保罗的书信。</p>
       </categories>
       <tags>
         <tag>其它</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>大模型推理优化笔记</title>
+    <url>/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h2 id="总体框架">总体框架</h2>
+<p>来源：<a href="https://github.com/chenzomi12/AIInfra">ZOMI</a>；</p>
+<p><img src="Arch-1.png" /></p>
+<p><img src="Arch-2.png" /></p>
+<span id="more"></span>
+<h2 id="gpu-architecture">GPU Architecture</h2>
+<h3 id="体系结构以-hopper-为例">体系结构（以 Hopper 为例）</h3>
+<ul>
+<li><p>一个 GPU 包含 132 个 SM，80GB Global Memory（位于 HBM3（High
+Bandwidth Memory） 芯片，此外还有常量内存和纹理内存），50MB L2 Cache（跨
+SM 共享）；</p>
+<p><img src="gpu-overall.png" /></p></li>
+<li><p>一个 SM 中有 128 个 CUDA Core（具体见后文参数表截图），4 个 Sub
+Core（每个 Sub Core有一个 Warp Scheduler 和一个 Dispatch Unit
+共同控制指令发射），4 个 Tensor Core，1 个 TMA，228KB Shared Memory（L1
+缓存，几百 K），256KB Register File，以及一般不需要考虑的 LSU 和 L0/L1
+Instruction Cache；</p>
+<p><img src="sm-arch.png" /></p></li>
+<li><p>每个 CUDA Core 有整数、浮点运算单元，寄存器；寄存器放不下的放在
+Local Memory （线程独占，但实际存放在 Global Memory 或 L2 Cache
+中）；</p></li>
+<li><p>Tensor Core：</p>
+<ul>
+<li><strong>Ampere（A100）</strong> 4×4×16 FP16, BF16, TF32, INT8；</li>
+<li><strong>Hopper（H100）</strong> 8×8×16 FP8, FP16, BF16, TF32,
+INT8</li>
+<li><strong>Blackwell（GB200）</strong> 16×16×16 FP4, FP8, FP16,
+BF16</li>
+</ul>
+<figure>
+<img src="sub-core.png" alt="image.png" />
+<figcaption aria-hidden="true">image.png</figcaption>
+</figure></li>
+<li><p>NCCL：</p>
+<ul>
+<li>NVLink：高速 GPU 互联总线（对应 CPU 的
+PCIe）与通信协议，支持统一内存访问（Unified Memory Access）；</li>
+<li>NVSwitch：NVLink 专用交换芯片（Switch Fabric），允许 All-to-All
+Communication，解决直连拓扑的限制；</li>
+<li>Broadcast：从一个 GPU 向所有 GPU
+发送数据，用于模型参数广播（Distributed Training）；</li>
+<li>Scatter：将一个 GPU 数据复制到多个 GPU，用于参数分配；</li>
+<li>Reduce：将所有 GPU 数据汇总累加到一个 GPU，用于参数收集；</li>
+<li>All-Reduce：计算所有 GPU 的数据和，并同步到每个
+GPU，用于梯度平均（Data Parallel）；</li>
+<li>Gather：将所有 GPU 数据汇总存储到一个 GPU；</li>
+<li>All-Gather：所有 GPU 共享所有 GPU 的数据，用于模型并行（Tensor
+Parallel）；</li>
+<li>ReduceScatter：Reduce + Scatter 结合，用于高效梯度传输；</li>
+</ul></li>
+</ul>
+<h3 id="hopper-架构参数">Hopper 架构参数</h3>
+<ul>
+<li><p><a
+href="https://developer.nvidia.com/blog/nvidia-ampere-architecture-in-depth/">Ampere
+官方介绍</a>，<a
+href="https://developer.nvidia.com/blog/nvidia-hopper-architecture-in-depth/">Hopper
+官方介绍</a>，<a
+href="https://resources.nvidia.com/en-us-data-center-overview/gtc22-whitepaper-hopper">H100
+白皮书</a>；</p></li>
+<li><p>144 SMs(Streaming Multiprocessor) per full GPU</p></li>
+<li><p>128 FP32 CUDA Cores per SM, 18432 FP32 CUDA Cores per full
+GPU</p></li>
+<li><p>4 fourth-generation Tensor Cores per SM, 576 per full
+GPU</p></li>
+<li><p>60 MB L2 cache</p></li>
+<li><p>引入了 Thread Block Cluster 和 <a
+href="https://zhuanlan.zhihu.com/p/708645371">Distributed Shared
+Memory</a>，硬件层面加入了 SM-to-SM Network；</p>
+<p><img src="h100-arg-1.png" /></p>
+<p><img src="h100-arg-2.png" /></p>
+<p><img src="h100-arg-3.png" /></p>
+<p><img src="h100-arg-4.png" /></p>
+<p><img src="h100-arg-5.png" /></p>
+<p><img src="h100-arch.png" /></p></li>
+</ul>
+<h3 id="blackwell-架构参数">Blackwell 架构参数</h3>
+<ul>
+<li><a
+href="https://resources.nvidia.com/en-us-blackwell-architecture">Blackwell
+伪白皮书</a>；</li>
+<li>引入 FP4 / FP6；</li>
+</ul>
+<p><img src="gb200-arg-1.png" /></p>
+<p><img src="gb200-arg-2.png" /></p>
+<h3 id="cuda">CUDA</h3>
+<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/680075822">入门1</a>，<a
+href="https://zhuanlan.zhihu.com/p/690880124">入门2</a>，<a
+href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/contents.html">官方文档</a>，<a
+href="https://docs.nvidia.com/cuda/index.html">部分官方文档索引</a>；<a
+href="https://zhuanlan.zhihu.com/p/632244210">内存访问</a>；</li>
+<li>一个 Grid 对应一次 Kernel Launch；每个 Block 与 唯一一个 SM
+对应（一个 SM 可以同时处理多个 Block）；线程调度的基本单位是 Warp，一个
+Warp 32 个线程；</li>
+<li>通过 WMMA API 或 mma.sync PTX（asm volatile）
+指令<strong>异步</strong>调用 Tensor Core（或调用 cuBLAS 和 CUTLASS
+库，后者定制化程度更高），分配调度单位是 Warp；</li>
+</ul>
+<h2 id="transformer-优化">Transformer 优化</h2>
+<ul>
+<li><p>常见推理优化指标：</p>
+<ul>
+<li>Throughput（吞吐量）：单位时间内处理 token 数 / 请求数；</li>
+<li>TPS（Tokens Per Second）/ TPOT（Time Per Output Token）；</li>
+<li>TTFT（Time to First Token）/ First-Token Latency；</li>
+<li>MFU（Model FLOPs Utilization）模型算力利用率 / HFU（Hardware FLOPs
+Utilization）硬件算力利用率；</li>
+</ul></li>
+<li><p>分布式训练：</p>
+<ul>
+<li>数据并行（Data Parallelism）：将模型复制 n
+份，输入不同的小批量数据（mini-batch）并行训练，最后 All-Reduce
+合并梯度更新；扩展：DeepSpeed ZeRO-1（优化器状态拆分）/
+2（梯度信息拆分）/ 3（参数动态加载）；</li>
+<li>流水线并行 Pipeline Parallelism：每个 GPU 负责几层，同时与前后 GPU
+交互数据（后、前向传播），相当于纵向切割；需要尽可能减少 Bubble；</li>
+<li>张量并行（Tensor Parallelism）：单个算子拆到多个 GPU
+上，相当于横向切割；与流水线并行统称模型并行（Model Parallelism）；</li>
+<li>LoRA：冻结其余参数，只微调 Attention
+权重；使用低秩矩阵（将一个大矩阵拆成两个秩更低的矩阵之和）分解减少存储需求；</li>
+</ul></li>
+<li><p>Attention 相关公式：</p>
+<ul>
+<li><p><strong>前向传播公式：</strong></p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbf{a}^{(0)} &amp;= \mathbf{x} \\
+\mathbf{z}^{(l)} &amp;= \mathbf{W}^{(l)} \, \mathbf{a}^{(l-1)} +
+\mathbf{b}^{(l)}, \quad l=1,2,\ldots,L \\
+\mathbf{a}^{(l)} &amp;= f^{(l)}\left(\mathbf{z}^{(l)}\right), \quad
+l=1,2,\ldots,L \\
+L &amp;= \mathcal{L}\left(\mathbf{a}^{(L)}, \mathbf{y}\right)
+\end{aligned}
+\]</span></p></li>
+<li><p><strong>反向传播公式（</strong> <span
+class="math inline">\(\odot\)</span>
+为逐元素相乘）<strong>：</strong></p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{\delta}^{(L)} &amp;= \nabla_{\mathbf{a}^{(L)}} \mathcal{L}
+\odot f^{(L){\prime}}\left(\mathbf{z}^{(L)}\right) \\
+\boldsymbol{\delta}^{(l)} &amp;= \left(\mathbf{W}^{(l+1)T}
+\boldsymbol{\delta}^{(l+1)}\right) \odot
+f^{(l){\prime}}\left(\mathbf{z}^{(l)}\right), \quad l=L-1,\ldots,1 \\
+\frac{\partial L}{\partial \mathbf{W}^{(l)}} &amp;=
+\boldsymbol{\delta}^{(l)} \, \mathbf{a}^{(l-1)T} \\
+\frac{\partial L}{\partial \mathbf{b}^{(l)}} &amp;=
+\boldsymbol{\delta}^{(l)}
+\end{aligned}
+\]</span></p></li>
+<li><p>Self-Attention（ <span class="math inline">\(\mathbf{X} \in
+\mathbb{R}^{n \times d}, \ \mathbf{W}^{Q}, \mathbf{W}^{K},
+\mathbf{W}^{V} \in \mathbb{R}^{d \times d_k},\ d_k=d/head\)</span>）：
+其它优化：</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbf{Q} &amp;= \mathbf{X} \mathbf{W}^{Q}, \\
+\mathbf{K} &amp;= \mathbf{X} \mathbf{W}^{K}, \\
+\mathbf{V} &amp;= \mathbf{X} \mathbf{W}^{V}
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\mathbf{A} =
+\text{softmax}(\frac{\mathbf{Q}\mathbf{K}^T}{\sqrt{d_k}})\mathbf{V}, \\
+a_{ij} = \frac{\exp\left(\frac{q_i \cdot
+k_j}{\sqrt{d_k}}\right)}{\sum_{j{\prime}=1}^{n} \exp\left(\frac{q_i
+\cdot k_{j{\prime}}}{\sqrt{d_k}}\right)}\mathbf{V}
+\]</span></p></li>
+<li><p>Multi-Head Attention：</p>
+<p><span class="math display">\[
+\text{head}_i = \text{Attention}(Q_i, K_i, V_i) = \text{softmax} \left(
+\frac{Q_i K_i^T}{\sqrt{d_k}} \right) V_i
+\]</span></p>
+<p><span class="math display">\[
+\text{MultiHead}(Q, K, V) = \text{Concat} ( \text{head}_1,
+\text{head}_2, \cdots, \text{head}_h ) W^O
+\]</span></p></li>
+</ul></li>
+<li><p>Attention 优化：</p>
+<ul>
+<li><p>KV-Cache：每次新加一个 token（上次的输出）， <span
+class="math inline">\(Q\)</span> 新增一行， <span
+class="math inline">\(QK^T\)</span> 新增一行（由 <span
+class="math inline">\(Q\)</span> 新增那行与整个 <span
+class="math inline">\(K\)</span> 共同算得）， <span
+class="math inline">\(A\)</span> 新增一行（由 <span
+class="math inline">\(QK^T\)</span> 的最新行与整个 <span
+class="math inline">\(V\)</span> 共同算得）；一般分至少 30% 显存用于
+KV-Cache；</p></li>
+<li><p>KV-Cache Reuse：常用 KV Cache 常驻显存，适合 Long System Prompt
+场景；</p></li>
+<li><p><a
+href="https://www.zhihu.com/question/611905691/answer/3457031781">PagedAttention</a>：由于序列增长速度快，需要类似
+OS 的内存分配机制，设一个块表（Block
+Table），用于从连续的逻辑地址映射到不连续的物理地址；<a
+href="https://juejin.cn/post/7259249904778018853">GIF
+演示</a>；</p></li>
+<li><p><a
+href="https://juejin.cn/post/7259287148321800253">FlashAttention</a>：合理利用
+GPU 内存结构，减少访存次数；计算复杂度保持 <span
+class="math inline">\(O(n^2)\)</span> 但不存储 <span
+class="math inline">\(O(n^2)\)</span> 的权重矩阵；尽量将 GMEM 的访存移到
+SMEM 中；</p>
+<p><img src="flashattention.png" /></p></li>
+<li><p>LinearAttention：利用核函数（Kernel）和低秩分解将时空复杂度均从
+<span class="math inline">\(QK^T\)</span> 的 <span
+class="math inline">\(O(n^2)\)</span> 降到 <span
+class="math inline">\(\phi(Q) \cdot \phi(K)^T = KQ^T\)</span> 的 <span
+class="math inline">\(O(n^2)\)</span>；</p></li>
+<li><p>StreamingAttention：类似 Sliding Window
+Attention，将全局注意力限制在常数级别的固定窗口内以达到加速，又尽可能捕捉到全局信息；</p></li>
+</ul></li>
+<li><p>其它优化：</p>
+<ul>
+<li>Continuous Batching（In-flight Batching）：因此当一个 Batch
+中某个回答结束后，立即加入新的回答以填满 Batch；</li>
+<li>Chunked Prefill / Context：将长 Prompts 拆成多个
+Chunks，按批次计算，允许多个请求共享资源；提高吞吐量、降低推理延迟、节省计算资源，避免某个
+Generation Phase 的 token 由于进来一个超长 Context
+而被阻塞；对显存大小要求更高、访存代价更高；</li>
+<li>Grouped-Query Attention：多个 Head 共享一组 Key 和
+Value；Multi-Query Attention：所有 Head 共享一组 Key 和 Value；</li>
+<li>Split-K：矩阵乘法维度分割；</li>
+<li>模型压缩：量化（Quantization）、蒸馏（Distillation）、剪枝（Pruning）、二值化（Binarization）；</li>
+<li>训练部分：<a
+href="https://www.bilibili.com/video/BV1UQw2erEPW">Training
+Resiliency</a>；</li>
+<li>Batch GEMM：允许多个形状相同的矩阵对并行计算，在单一 Kernel
+内完成；Grouped GEMM 允许不同形状，限制更少；</li>
+</ul></li>
+</ul>
+<h2 id="量化"><strong>量化</strong></h2>
+<ul>
+<li><p>混合精度训练：</p>
+<p><img src="mixed-precision-1.png" /></p>
+<p><img src="mixed-precision-2.png" /></p></li>
+<li><p>DeepSeek-V3 中的混合精度：</p>
+<p><img src="dpsk-1.png" /></p></li>
+<li><p>作用：保精度加速、省显存；指标：性能、精度、显存；</p>
+<p><img src="quant-1.png" /></p>
+<p><img src="quant-2.png" /></p></li>
+<li><p>TRT-LLM
+会将量化（Quant）、重量化（ReQuant）和反量化（DeQuant）均作为算子；</p>
+<p><img src="quant-3.png" /></p></li>
+<li><p>量化参数：缩放因子（scale）和零点（zero-point）；</p></li>
+<li><p>各类方法：</p>
+<ul>
+<li><a
+href="https://zhuanlan.zhihu.com/p/548174416">训练时量化</a>（Quant
+Aware Training）：插入伪量化算子（Fake
+Quant，作用通常是检测数据极差以确定缩放因子、阶梯化高精度数据），作为高精度模型一部分参与微调，然后导出为低精度；这些伪量化算子在推理时直接做常量折叠；</li>
+<li>训练后量化（Post-Training
+Quantization）：离线静态、动态量化：用一些实际数据分布模拟输入用于校准（Calibration），使用
+KL
+散度（计算真实激活值分布与预测分布的相对熵差异）计算量化参数；静态量化参数固定，动态量化则会根据输入确定
+scale 和 zero-point；目前推理引擎多使用静态；</li>
+<li>激活感知量化（Activation-aware Weight
+Quantization）：静态，根据不同通道在前向传播中的影响（离群值、关键
+Channel 等），针对性调整策略，仅量化影响小的参数；</li>
+<li>GPT-Q：静态，采用梯度下降，追求全局最优化，可以追求极低比特
+4bit；</li>
+</ul></li>
+<li><p>量化粒度：</p>
+<ol type="1">
+<li>Per-token，Per-channel，Per-tensor；</li>
+<li>Block（块级量化） + Double（双重量化） + Dynamic
+Quant（根据输入动态量化）；</li>
+</ol></li>
+</ul>
+<h2 id="nvidia-ai-software">NVIDIA AI Software</h2>
+<h3 id="cutlass"><a
+href="https://www.bilibili.com/video/BV1XH4y1c7JZ">Cutlass</a></h3>
+<p><img src="cutlass-1.png" /></p>
+<ul>
+<li><p><a href="https://zhuanlan.zhihu.com/p/703256080">CUDA
+矩阵乘法</a>；<a href="https://zhuanlan.zhihu.com/p/461060382">Cutlass
+入门</a>；<a href="https://zhuanlan.zhihu.com/p/697571068">Tensor Core
+利用</a>；</p></li>
+<li><p>可以做 Kernel Fusion，直接成果 Fused Multi-Head
+Attention；</p></li>
+<li><p>流水优化：在前一个 Thread 做运算的同时做后一个 Thread 的 Data
+Loading（Prefetch），从而掩盖访存 Latency；</p>
+<ul>
+<li>Prologue：Launch，Load Activation，Load Weights；</li>
+<li>Main Loop（Tensor Core 使用阶段）；</li>
+<li>Epilogue：Store Activation；</li>
+</ul></li>
+<li><p>Cutlass 2.x：针对 Pre-Hopper archs（Ada sm_89 及之前）；</p>
+<ul>
+<li>计算完成后，在 Shared Memory 中做 Epilogue 和
+Alignment，对齐后使用更大访存 API 写回 Global Memory；</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">using</span> <span class="variable">ThreadBlockShape</span> <span class="operator">=</span> cutlass::gemm::GemmShape&lt;<span class="number">128</span>, <span class="number">128</span>, <span class="number">64</span>&gt;; </span><br><span class="line"><span class="type">using</span> <span class="variable">ShapeMMAWarp</span> <span class="operator">=</span> cutlass::gemm::GemmShape&lt;<span class="number">64</span>, <span class="number">64</span>, <span class="number">64</span>&gt;; </span><br><span class="line"><span class="type">using</span> <span class="variable">ShapeMMAThread</span> <span class="operator">=</span> cutlass::gemm::GemmShape&lt;<span class="number">16</span>, <span class="number">8</span>, <span class="number">16</span>&gt;;</span><br><span class="line"><span class="type">using</span> <span class="variable">EpilogueOp</span> <span class="operator">=</span> cutlass::epilogue::thread::LinearCombination&lt;...&gt;;</span><br></pre></td></tr></table></figure></li>
+<li><p>Cutlass 3.x：增加 Hopper sm_90a kernels；</p>
+<ul>
+<li><p>只需要指定 BlockShaper 和 ClusterShape，WarpShape
+会自动推断；</p></li>
+<li><p>分阶段使用 <code>using</code> 指定 Shape 和操作而非一次性全塞进
+<code>cutlass::gemm::device::Gemm</code> 中；</p></li>
+<li><p>自动根据 Alignment 是否符合 TMA 要求决定使用 UTMALDG 还是 LDGSTS
+异步指令，前者只需一个或两个 Warp 做异步 Data Loading，其余 Warp 只做
+Tensor Core 计算（在所需数据加载完之后）；</p></li>
+<li><p>Kernel Scheduler: Warp Specialized + Pingpong；使用 Barrier
+做同步；</p></li>
+<li><p>绿色代表 Producer Warps（Prologue / Epilogue），蓝色代表 TC
+Warps（Tensor Core Calculation）；</p>
+<p><img src="cutlass-2.png" /></p>
+<p><img src="cutlass-3.png" /></p></li>
+</ul></li>
+<li><p>CuTe：Cutlass 3.0 提出；</p>
+<ul>
+<li><p>Layout&lt;Shape, Stride&gt;：将 n-D 逻辑坐标映射到 1-D
+物理索引；Shape 指定逻辑矩阵形状，Stride
+按行、列、层的顺序指定相邻两值在物理索引的距离；</p></li>
+<li><p>Tensor&lt;Ptr, Layout&gt;：Layout + 对应物理空间指针；同一个 Ptr
+可以组合不同 Layout；</p></li>
+<li><p>关键数据传输指令：Copy 和 TiledCopy；</p>
+<p><img src="cutlass-4.png" /></p></li>
+</ul></li>
+</ul>
+<h3 id="tensorrt-llm">TensorRT-LLM</h3>
+<ul>
+<li><p>TensorRT 不支持多卡、未对 LLM 做针对性适配；</p></li>
+<li><p>FasterTransformer 太上层、C++
+搭建、未发布为产品，不再维护；</p></li>
+<li><p>TRT-LLM 结合了 FasterTransformer 的性能和 TRT
+的迭代速度；</p></li>
+<li><p>对非 LLM 模型可以直接使用 TensorRT Engine 搭建，再与 TRT-LLM
+Engine 结合成 Pipeline；也支持用户自定义模型架构；</p></li>
+<li><p>显存结构：Weight、Internal Activation Tensors（Activation）、IO
+Tensors（KV-Cache）；max_num_tokens 参数决定了 Activation
+的维度，从而影响剩余的 KV-Cache 大小；</p></li>
+<li><p>支持量化：</p>
+<ul>
+<li><p>FP16 / BF16；</p></li>
+<li><p>Weight-only（INT8 / INT4）；</p></li>
+<li><p>W4A16（AWQ / GPTQ）；</p></li>
+<li><p>W8A8 SmoothQuant（INT8）；</p></li>
+<li><p>FP8（Hopper / Ada Lovelace）；</p></li>
+<li><p>KV Cache Quantization（INT8 / FP8）；</p>
+<p><img src="trtllm.png" /></p></li>
+</ul></li>
+<li><p>架构流程：</p>
+<ul>
+<li>Convert Checkpoint：ONNX 等模型导入，反序列化，转换成计算图和
+Inference IR；在此指定 TP、PP Size 和 Data Type；</li>
+<li>Define Model Architecture：预设各类主流 LLM；</li>
+<li>Load weight &amp; Build engine：构建一个独立的执行引擎；根据当前 GPU
+做 Self-Attention 优化、混合精度量化和反量化、算子融合与图优化、Kernel
+级别流水线优化；NVIDIA AMMO 低精度量化校准库；</li>
+<li>Execution：推理，Summarize，MMLU 评估；</li>
+</ul></li>
+</ul>
+<h3 id="megatron-lm">Megatron-LM</h3>
+<ul>
+<li>多种并行模式混合的分布式训练框架，使用多种并行；</li>
+<li>混合精度矩乘：使用 FP16 前、反向传播但主权重仍为 FP32；通过 Loss
+Scaling（计算梯度前将损失 L 乘上缩放因子 S，更新时再除以
+S）避免数值下溢；</li>
+<li>引入 Context Parallelism 和 Sequence Parallelism；</li>
+</ul>
+<h3 id="triton">Triton</h3>
+<ul>
+<li><p>多框架（PyTorch、TensorFlow）、多种请求（实时、批处理、流式）、多种硬件（CPU、GPU）、跨平台的统一推理服务；</p></li>
+<li><p>可与 K8S 结合以实现 MLOps，提供性能评估等功能；</p></li>
+<li><p>动态批处理：多个请求打包成一个 Batch（PD 可以被打进一个
+Batch）；</p></li>
+<li><p>一卡多用：提供请求调度功能；</p></li>
+<li><p>版本管理：方便 A/B 测试、在线更新与回滚、日志与监控；</p></li>
+<li><p>模型仓库、配置文件；</p></li>
+<li><p>API：RESTful 与 gRPC 与客户端交互；</p>
+<p><img src="triton-1.png" /></p>
+<p><img src="triton-2.png" /></p></li>
+</ul>
+<h3 id="nemo">NeMo</h3>
+<ul>
+<li><p>在 Triton 基础上新增端到端云上训练、微调与部署：同样包含
+Megatron-LM 中带有 Transformer Engine 的核心功能
+Megatron-Core；</p></li>
+<li><p>推理：NeMo Framework Inference 即 TRT-LLM
+开发与运行时库；</p></li>
+<li><p>多模态、结构化数据处理（Curation）；简化各项配置；</p></li>
+<li><p>检测硬件，自动选择合适的超参（Batch Size、Data Type
+等）；</p></li>
+<li><p>SFT、RLHF 等后训练支持；</p></li>
+<li><p>企业级安全性；</p>
+<p><img src="nemo.png" /></p></li>
+</ul>
+<h3 id="nim">NIM</h3>
+<ul>
+<li>与 Triton
+同层级或更高层级的版本管理、动态批处理、负载均衡、监控与管理；</li>
+<li>原生支持容器化与 K8S
+云原生部署，开箱即用（OOTB），更易扩展，更适配多机部署；</li>
+<li>与 Triton 一样后端使用 TensorRT-LLM；</li>
+<li>解耦【应用层代码】与【模型代码、权重、Infrastructure】；</li>
+<li>NIM Pod 可与 KServer 等结合；</li>
+</ul>
+<h2 id="其它推理框架"><strong>其它推理框架</strong></h2>
+<ul>
+<li><p>推理框架常见架构：</p>
+<ul>
+<li>Inference IR：将 TensorFlow、ONNX 等格式转换为统一中间表示；</li>
+<li>Pre Optimization：公共表达式消除、死代码优化、代数简化；</li>
+<li>Optimization：算子融合（典型：Conv2d+BN+RELU ⇒
+CBR）、冗余算子消除、算子替换、常量折叠；</li>
+<li>Post Optimization：数据格式转换、内存布局优化、重复算子合并；</li>
+</ul></li>
+<li><p>MNN：</p>
+<ul>
+<li><p>针对移动端和嵌入式的轻量推理框架，支持 iOS 和支持 POSIX
+的所有系统；</p></li>
+<li><p>无依赖，深度裁剪：静态库体积 iOS 几 M，安卓几百 K；</p></li>
+<li><p>组成部分：Converter（前端多种格式转换 → 图优化、算子融合） ⇒
+Interpreter（Engine 加载转换后的模型，Backends 支持
+Metal、OpenCL、Vulkan 等多种实现）</p></li>
+<li><p>其它优化：预推理（评估不同计算策略的资源需求，预分配资源），手写汇编低精度运算库、关键算子；</p>
+<p><img src="mnn-1.png" /></p>
+<p><img src="mnn-2.png" /></p></li>
+</ul></li>
+<li><p><a
+href="https://zhuanlan.zhihu.com/p/706097807">MoonCake</a>：</p>
+<ul>
+<li>PD 分离：解耦 Prefill（Context Phase，Compute
+Bound，计算密集、带宽打不满）和 Decode（Generation Phase，Memory
+Bound，访存密集、算力不满）两阶段（即分布式内存系统 +
+流处理系统）；</li>
+<li>构建全局 KVCache Pool，实现以 Cache 为中心的调度（KVCache-centric
+Scheduling）；</li>
+</ul></li>
+<li><p>vLLM：</p>
+<ul>
+<li>PagedAttention：除了解决显存分配问题外，可以更方便地实现部分 Cache
+的共用，特别是共用前缀的情况；</li>
+<li>Continuous Batching，将任务分为 waiting、running、swapped
+三类，计算结束的立即释放；</li>
+</ul></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>机器学习</tag>
       </tags>
   </entry>
   <entry>
@@ -4563,355 +5125,6 @@ Hire（目前招人少），其余公司均寻求技术栈一致的；</li>
 ]]></content>
       <categories>
         <category>记录</category>
-      </categories>
-      <tags>
-        <tag>其它</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Unity 远程真机调试插件开发</title>
-    <url>/2023/08/12/Unity-%E8%BF%9C%E7%A8%8B%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/</url>
-    <content><![CDATA[<p><strong>项目目标</strong>：完成远程真机调试插件，实现对端侧 3D/XR
-场景的 Unity 实时场景部署与调试；</p>
-<p><strong>具体内容</strong>：</p>
-<ol type="1">
-<li>在端侧构建调试 SDK，用于接收 Unity 发送的命令，和向 Unity
-同步状态；</li>
-<li>在 Unity 中基于插件实现Debug Server，用于和端侧进行实时通信（Unity
-场景快速导出并推送到端侧）和同步状态（Unity
-场景双向状态同步调试）；</li>
-<li>PC端：MacOS，移动端：iOS；</li>
-</ol>
-<span id="more"></span>
-<p>阶段任务概要：</p>
-<ul>
-<li>端侧 DebugSDK 技术选型 - Unity / <strong>C++</strong>，Unity
-插件技术选型 - OC / <strong>C++</strong></li>
-<li>通信协议选型：Socket Raw Packet / <strong>gRPC + Protobuf</strong> /
-Hybrid (Raw Packet + RPC)</li>
-<li>基础 Socket 通道搭建：Unity Socket Server (nc test)、Socket
-Client</li>
-<li>RPC 通道搭建：Unity RPC、iOS gRPC、C/S 双端互调</li>
-</ul>
-<h2 id="unity-c插件开发基础">Unity C++插件开发基础</h2>
-<p>参考：</p>
-<ul>
-<li>官网介绍：<a
-href="https://learn.microsoft.com/en-us/dotnet/fundamentals/">.NET</a>，<a
-href="https://docs.unity.cn/2023.2/Documentation/Manual/Plugins.html">Plugin，</a><a
-href="https://learn.microsoft.com/zh-cn/dotnet/standard/managed-code">托管代码，</a><a
-href="https://learn.microsoft.com/zh-cn/dotnet/standard/native-interop/pinvoke">P/Invoke</a>，<a
-href="https://www.mono-project.com/docs/advanced/pinvoke/">Mono
-Runtime官网对P/Invoke的介绍</a>；</li>
-<li>P/Invoke：<a href="https://www.jacksondunstan.com/articles/3938">C++
-Scripting: Part 1 – C#/C++ Communication</a>，<a
-href="https://www.cnblogs.com/herenzhiming/articles/6688804.html">C#与C/C++的交互（PInvoke）</a>，<a
-href="https://www.jianshu.com/p/06db6d0109db">Create A Native Plugin For
-Unity</a>，<a
-href="https://kyochow.github.io/articles/2020/10/12/1602495480321.html">关于Unity
-Native插件的开发</a>，<a
-href="https://www.jianshu.com/p/65bb18513f19">Unity与C++交互入门(1)</a>，<a
-href="https://rafalwilinski.medium.com/tutorial-create-c-c-plugins-for-unity3d-dbde7f67454#.hqsjain5e">Tutorial
-— Create C/C++ plugins for Unity3D</a>，<a
-href="https://rustcc.cn/article?id=3b8241d0-c4ca-4f49-8e07-0a5142b00f59">Rust
-FFI 编程 - FFI 概述</a></li>
-<li>插件开发：<a href="https://www.jianshu.com/p/183695196f02">Unity
-3D编辑器插件开发</a>，<a
-href="https://www.cnblogs.com/yzx885059439/p/14497026.html">Unity3D插件开发教程</a>，<a
-href="https://developer.aliyun.com/article/69190">开发unity插件——一次搞定unity编辑器常用功能</a></li>
-</ul>
-<p>.NET使用CIL作为高级语言与机器语言的中间层以实现跨平台，且使用公共语言运行时CLR（支持提前AOT和实时JIT类型），无论使用的是Mono、.NET
-Framework还是.NET
-Core。将执行过程交由运行时管理（如自动内存管理、安全边界、类型安全等）的代码称为托管代码（Managed
-Code）；直接运行编译出的机器语言而不依赖运行时的代码称为原生代码（Native
-Code）。二者各有优势和局限性，具体见官网介绍。Unity最常用的托管代码形式插件使用C#语言，原生插件可以使用C/C++/Objective-C等。.NET中，C#与C++的互操作（Interop）可以通过P/Invoke实现（也可以使用C++/CLI作为中间层，但Mono不支持）。</p>
-<p>Unity native 插件开发流程：C++ → C API → 打包 → C# 封装接口。</p>
-<p>在 Safe Mode 下 C# 与 C++ 无法直接交互，C++ 需要包装成 C API，由 C#
-调用 C API。 插件包：Android 打包成 <code>so</code>，IOS 打包成
-framework 或者 <code>.a</code>，macOS 打包成
-<code>.bundle</code>，Windows 打包成 dll。Windows 放在
-<code>Plugins/x86(x64)</code> 目录下，Mac 直接放在 <code>Plugins</code>
-目录下，iOS 放在 <code>Plugins/iOS</code> 目录下，Android 放在
-<code>Plugins/Android/libs/armeabi-v7a</code>
-目录下。如果修改了本地插件，需要将 dll 或者 bundle 覆盖了之后重启 Unity,
-不然还是会使用老的 Native Plugin。</p>
-<p>CMakeLists.txt：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cmake_minimum_required</span>(VERSION <span class="number">3.5</span>)</span><br><span class="line"><span class="built_in">project</span>(UnityPlugin)</span><br><span class="line"></span><br><span class="line"><span class="built_in">aux_source_directory</span>(. src) # 搜索当前目录下所有.cpp文件放入$&#123;src&#125;</span><br><span class="line"><span class="built_in">aux_source_directory</span>(channel.cpp lib) # 需要编成.dylib的文件</span><br><span class="line"></span><br><span class="line"># C++编译标准</span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_STANDARD <span class="number">11</span>)</span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_STANDARD_REQUIRED ON)</span><br><span class="line"># 添加编译选项</span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -fms-extensions&quot;</span>)</span><br><span class="line"></span><br><span class="line"># 生成可执行文件</span><br><span class="line"></span><br><span class="line"><span class="built_in">add_executable</span>(main $&#123;src&#125;)</span><br><span class="line"></span><br><span class="line"># 生成.bundle文件</span><br><span class="line"></span><br><span class="line"># <span class="built_in">add_library</span>(project1 MODULE $&#123;lib&#125;) #编译为程序资源包 *.bundle</span><br><span class="line"># <span class="built_in">set_target_properties</span>(project1 PROPERTIES BUNDLE TRUE)</span><br><span class="line"></span><br><span class="line"># 设置生成.bundle文件的相关参数</span><br><span class="line"><span class="built_in">set</span>(MACOSX_BUNDLE_BUNDLE_NAME <span class="string">&quot;ChannelPlugin&quot;</span>)</span><br><span class="line"><span class="built_in">set</span>(MACOSX_BUNDLE_BUNDLE_VERSION <span class="string">&quot;1.0.0&quot;</span>)</span><br><span class="line"></span><br><span class="line"># 添加源文件生成共享库</span><br><span class="line"><span class="built_in">add_library</span>(ChannelPlugin SHARED channel.cpp)</span><br><span class="line"></span><br><span class="line"># 设置.bundle文件的输出路径</span><br><span class="line"><span class="built_in">set_target_properties</span>(ChannelPlugin PROPERTIES</span><br><span class="line">  OUTPUT_NAME ChannelPlugin</span><br><span class="line">  LIBRARY_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  ARCHIVE_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  RUNTIME_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  BUNDLE_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"># 设置.bundle文件的资源文件</span><br><span class="line"><span class="built_in">set_source_files_properties</span>(</span><br><span class="line">  <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  PROPERTIES MACOSX_PACKAGE_LOCATION <span class="string">&quot;/&quot;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<p>channel.h头文件：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> CHANNEL_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> CHANNEL_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> __cplusplus</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXTERN_C extern <span class="string">&quot;C&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXTERN_C</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> EXPORT_API</span></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> UNITY_METRO </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXPORT_API EXTERN_C __declspec(dllexport) __stdcall </span></span><br><span class="line"><span class="meta">#<span class="keyword">elif</span> UNITY_WIN </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXPORT_API EXTERN_C __declspec(dllexport) </span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span> </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXPORT_API EXTERN_C</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* EXPORT_API*/</span></span></span><br><span class="line"></span><br><span class="line"><span class="function">EXPORT_API <span class="type">int</span> <span class="title">func</span><span class="params">(<span class="type">int</span> x)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* CHANNEL_H*/</span></span></span><br></pre></td></tr></table></figure>
-<p>在所有出现 <code>func</code> 声明或定义的时候都要带
-<code>EXPORT_API</code> ；将 /bundles 中的 .dylib
-文件复制到Unity的Assets/Plugins下，将 C#
-插件放入Assets/Editor下即可。</p>
-<p>注意：Unity
-改变C#脚本后会实时重编译，但在移入新.dylib文件并不会，需要退出重新进入
-Unity 项目。</p>
-<h2 id="rpc-协议选型与通道搭建">RPC 协议选型与通道搭建</h2>
-<p>参考：<a
-href="https://doc.oschina.net/grpc">gRPC官方文档中文版</a>，<a
-href="https://grpc.io/docs/">gRPC官方文档</a>，<a
-href="https://protobuf.dev/overview/">Protocol Buffer官方文档</a></p>
-<p>gRPC是一个高性能、通用的开源RPC框架，其由Google
-2015年主要面向移动应用开发并基于HTTP/2协议标准而设计，基于ProtoBuf序列化协议开发，且支持众多开发语言。</p>
-<p>RPC
-的主要目的是让客户端可以像调用函数一样直接与服务端通信，尽可能使网络交互过程变得透明。使用时，首先需要在
-.proto
-文件中定义各个函数原型与数据结构（将作为函数参数传递，也就是网络传输的数据），然后
-Protobuf 会根据 .proto 生成桩程序 demo.pb.cc 和
-demo.pb.h（这两个文件不应被用户修改），gRPC 再生成 demo.grpc.pb.cc 和
-demo.grpc.pb.h（这两个文件也一般无需修改），最后用户在自定义程序
-demo.client 和 demo.server 中自定义需要的操作和传递的信息。</p>
-<p>具体安装使用方法：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install autoconf automake libtool pkg-config <span class="comment"># 安装依赖库</span></span><br><span class="line">brew install protobuf grpc</span><br><span class="line"><span class="built_in">export</span> MY_INSTALL_DIR=<span class="variable">$HOME</span>/.local/share <span class="comment"># 自定义安装路径</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="string">&quot;<span class="variable">$MY_INSTALL_DIR</span>/bin:<span class="variable">$PATH</span>&quot;</span></span><br><span class="line">git <span class="built_in">clone</span> --recurse-submodules -b v1.56.0 --depth 1 --shallow-submodules https://github.com/grpc/grpc</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> grpc</span><br><span class="line"><span class="built_in">mkdir</span> -p cmake/build</span><br><span class="line"><span class="built_in">pushd</span> cmake/build</span><br><span class="line">cmake -DgRPC_INSTALL=ON -DgRPC_BUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=<span class="variable">$MY_INSTALL_DIR</span> ../..</span><br><span class="line">make -j 4</span><br><span class="line">make install</span><br><span class="line"><span class="built_in">popd</span></span><br></pre></td></tr></table></figure>
-<p>重新生成gRPC代码：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> examples/cpp/helloworld/cmake/build</span><br><span class="line"><span class="comment"># 重新生成 helloworld.pb.&#123;h,cc&#125; 和 helloworld.grpc.pb.&#123;h,cc&#125;</span></span><br><span class="line">make helloworld.grpc.pb.o</span><br><span class="line"><span class="comment"># 实际运行的是以下两条命令：</span></span><br><span class="line">protoc -I ../../protos --grpc_out=. --plugin=protoc-gen-grpc=`<span class="built_in">which</span> grpc_cpp_plugin` ../../protos/helloworld.proto</span><br><span class="line">protoc -I ../../protos --cpp_out=. ../../protos/helloworld.proto</span><br><span class="line"><span class="comment"># 用户自行修改my_project/下的.cc代码</span></span><br><span class="line">make -j 4</span><br><span class="line">./greeter_server</span><br><span class="line">./greeter_client</span><br></pre></td></tr></table></figure>
-<p>目录结构：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cpp/</span><br><span class="line">	my_project/</span><br><span class="line">		cmake/</span><br><span class="line">			build/</span><br><span class="line">		greeter_client.cc</span><br><span class="line">		greeter_server.cc</span><br><span class="line">proto/</span><br><span class="line">	my_project.proto</span><br></pre></td></tr></table></figure>
-<p>调通后，同样依照官方手册调通 Objective-C 语言的 gRPC
-（仅支持客户端）。然后修改 CMakeLists.txt 文件以得到 .dylib
-文件，从而导入到 Unity 中被插件调用。</p>
-<p>至此，我们已经能够实现在 Unity 上通过 C#
-脚本实时获取场景树信息（Unity 序列化方案目前采用<a
-href="https://kuroha.vip/unity/unity_jsonutility.html">JsonUtility</a>），并通过跨语言互操作将信息传递给
-C++ gRPC，再通过 gRPC 实时传输至客户端（可以由客户端每 0.1
-秒发送一次请求），最后客户端拿到 Unity 场景树信息后在本地重建场景。</p>
-]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>Unity</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>部分基础编程术语中英对照表</title>
-    <url>/2024/10/11/%E9%83%A8%E5%88%86%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E6%9C%AF%E8%AF%AD%E4%B8%AD%E8%8B%B1%E5%AF%B9%E7%85%A7%E8%A1%A8/</url>
-    <content><![CDATA[<h1 id="部分基础编程术语中英对照表">部分基础编程术语中英对照表</h1>
-<table>
-<colgroup>
-<col style="width: 14%" />
-<col style="width: 13%" />
-<col style="width: 15%" />
-<col style="width: 23%" />
-<col style="width: 9%" />
-<col style="width: 23%" />
-</colgroup>
-<thead>
-<tr>
-<th>中文</th>
-<th>English</th>
-<th>中文</th>
-<th>English</th>
-<th>中文</th>
-<th>English</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>逗号</td>
-<td>comma</td>
-<td>句号</td>
-<td>period</td>
-<td>波浪号</td>
-<td>tilde</td>
-</tr>
-<tr>
-<td>冒号</td>
-<td>colon</td>
-<td>分号</td>
-<td>semicolon</td>
-<td>省略号</td>
-<td>ellipsis</td>
-</tr>
-<tr>
-<td>问号</td>
-<td>question mark</td>
-<td>感叹号</td>
-<td>exclamation mark</td>
-<td>引号</td>
-<td>quotation marks</td>
-</tr>
-<tr>
-<td>小括号</td>
-<td>parentheses</td>
-<td>中括号</td>
-<td>square brackets</td>
-<td>大括号</td>
-<td>curly braces</td>
-</tr>
-<tr>
-<td>星号</td>
-<td>asterisk</td>
-<td>与号（&amp;）</td>
-<td>ampersand</td>
-<td>井号</td>
-<td>number sign / hash / pound</td>
-</tr>
-<tr>
-<td>下划线</td>
-<td>underline</td>
-<td>百分号</td>
-<td>percent sign</td>
-<td>连字符</td>
-<td>hyphen</td>
-</tr>
-<tr>
-<td>斜杠</td>
-<td>slash</td>
-<td>反斜杠</td>
-<td>backslash</td>
-<td>`</td>
-<td>back-tick</td>
-</tr>
-<tr>
-<td>取模</td>
-<td>modulus</td>
-<td>余数</td>
-<td>remainder</td>
-<td>加数</td>
-<td>addend</td>
-</tr>
-<tr>
-<td>被除数</td>
-<td>dividend</td>
-<td>除数</td>
-<td>divisor</td>
-<td>乘数</td>
-<td>multiplier</td>
-</tr>
-<tr>
-<td>被减数</td>
-<td>minuend</td>
-<td>减数</td>
-<td>subtracter</td>
-<td>操作数</td>
-<td>operand</td>
-</tr>
-<tr>
-<td>语法</td>
-<td>syntax</td>
-<td>语义</td>
-<td>semantics</td>
-<td>变量</td>
-<td>variable</td>
-</tr>
-<tr>
-<td>标识符</td>
-<td>identifier</td>
-<td>初始化</td>
-<td>initialize</td>
-<td>语句</td>
-<td>statement</td>
-</tr>
-<tr>
-<td>赋值</td>
-<td>assignment</td>
-<td>表达式</td>
-<td>expression</td>
-<td>优先级</td>
-<td>precedence</td>
-</tr>
-<tr>
-<td>形参</td>
-<td>parameter</td>
-<td>实参</td>
-<td>argument</td>
-<td>栈帧</td>
-<td>stack frame</td>
-</tr>
-<tr>
-<td>作用域</td>
-<td>scope</td>
-<td>局部</td>
-<td>local</td>
-<td>全局</td>
-<td>global</td>
-</tr>
-<tr>
-<td>转义</td>
-<td>escape</td>
-<td>短路</td>
-<td>short circuit</td>
-<td>嵌套</td>
-<td>nest</td>
-</tr>
-<tr>
-<td>语法糖</td>
-<td>syntactic sugar</td>
-<td>通配</td>
-<td>glob</td>
-<td>描述符</td>
-<td>descriptor</td>
-</tr>
-<tr>
-<td>终端</td>
-<td>terminal</td>
-<td>缓冲</td>
-<td>buffer</td>
-<td>内存</td>
-<td>memory</td>
-</tr>
-<tr>
-<td>编译</td>
-<td>compile</td>
-<td>单例</td>
-<td>singleton</td>
-<td>运算符</td>
-<td>operator</td>
-</tr>
-<tr>
-<td>一元</td>
-<td>unary</td>
-<td>二元</td>
-<td>binary</td>
-<td>三元</td>
-<td>ternary</td>
-</tr>
-<tr>
-<td>可变（数量）</td>
-<td>variadic</td>
-<td>精度</td>
-<td>precision</td>
-<td>上下文</td>
-<td>context</td>
-</tr>
-<tr>
-<td>类型转换（人为）</td>
-<td>cast</td>
-<td>类型转换（编译器）</td>
-<td>type promotion / conversion</td>
-<td>递归</td>
-<td>recursion</td>
-</tr>
-<tr>
-<td>并发</td>
-<td>concurrent</td>
-<td>并行 / 并联</td>
-<td>parallel</td>
-<td>串行 / 串联</td>
-<td>serial</td>
-</tr>
-<tr>
-<td>演绎</td>
-<td>deduction</td>
-<td>归纳</td>
-<td>induction</td>
-<td>约简</td>
-<td>reduction</td>
-</tr>
-<tr>
-<td>分隔符</td>
-<td>delimiter</td>
-<td>字典序</td>
-<td>lexicographic order</td>
-<td>字面量</td>
-<td>literal</td>
-</tr>
-</tbody>
-</table>
-]]></content>
-      <categories>
-        <category>其它</category>
       </categories>
       <tags>
         <tag>其它</tag>
@@ -5272,6 +5485,240 @@ ti），它也是独立的</em>；</li>
       </categories>
       <tags>
         <tag>哲学</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>部分基础编程术语中英对照表</title>
+    <url>/2024/10/11/%E9%83%A8%E5%88%86%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E6%9C%AF%E8%AF%AD%E4%B8%AD%E8%8B%B1%E5%AF%B9%E7%85%A7%E8%A1%A8/</url>
+    <content><![CDATA[<h1 id="部分基础编程术语中英对照表">部分基础编程术语中英对照表</h1>
+<table>
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 13%" />
+<col style="width: 15%" />
+<col style="width: 23%" />
+<col style="width: 9%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr>
+<th>中文</th>
+<th>English</th>
+<th>中文</th>
+<th>English</th>
+<th>中文</th>
+<th>English</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>逗号</td>
+<td>comma</td>
+<td>句号</td>
+<td>period</td>
+<td>波浪号</td>
+<td>tilde</td>
+</tr>
+<tr>
+<td>冒号</td>
+<td>colon</td>
+<td>分号</td>
+<td>semicolon</td>
+<td>省略号</td>
+<td>ellipsis</td>
+</tr>
+<tr>
+<td>问号</td>
+<td>question mark</td>
+<td>感叹号</td>
+<td>exclamation mark</td>
+<td>引号</td>
+<td>quotation marks</td>
+</tr>
+<tr>
+<td>小括号</td>
+<td>parentheses</td>
+<td>中括号</td>
+<td>square brackets</td>
+<td>大括号</td>
+<td>curly braces</td>
+</tr>
+<tr>
+<td>星号</td>
+<td>asterisk</td>
+<td>与号（&amp;）</td>
+<td>ampersand</td>
+<td>井号</td>
+<td>number sign / hash / pound</td>
+</tr>
+<tr>
+<td>下划线</td>
+<td>underline</td>
+<td>百分号</td>
+<td>percent sign</td>
+<td>连字符</td>
+<td>hyphen</td>
+</tr>
+<tr>
+<td>斜杠</td>
+<td>slash</td>
+<td>反斜杠</td>
+<td>backslash</td>
+<td>`</td>
+<td>back-tick</td>
+</tr>
+<tr>
+<td>取模</td>
+<td>modulus</td>
+<td>余数</td>
+<td>remainder</td>
+<td>加数</td>
+<td>addend</td>
+</tr>
+<tr>
+<td>被除数</td>
+<td>dividend</td>
+<td>除数</td>
+<td>divisor</td>
+<td>乘数</td>
+<td>multiplier</td>
+</tr>
+<tr>
+<td>被减数</td>
+<td>minuend</td>
+<td>减数</td>
+<td>subtracter</td>
+<td>操作数</td>
+<td>operand</td>
+</tr>
+<tr>
+<td>语法</td>
+<td>syntax</td>
+<td>语义</td>
+<td>semantics</td>
+<td>变量</td>
+<td>variable</td>
+</tr>
+<tr>
+<td>标识符</td>
+<td>identifier</td>
+<td>初始化</td>
+<td>initialize</td>
+<td>语句</td>
+<td>statement</td>
+</tr>
+<tr>
+<td>赋值</td>
+<td>assignment</td>
+<td>表达式</td>
+<td>expression</td>
+<td>优先级</td>
+<td>precedence</td>
+</tr>
+<tr>
+<td>形参</td>
+<td>parameter</td>
+<td>实参</td>
+<td>argument</td>
+<td>栈帧</td>
+<td>stack frame</td>
+</tr>
+<tr>
+<td>作用域</td>
+<td>scope</td>
+<td>局部</td>
+<td>local</td>
+<td>全局</td>
+<td>global</td>
+</tr>
+<tr>
+<td>转义</td>
+<td>escape</td>
+<td>短路</td>
+<td>short circuit</td>
+<td>嵌套</td>
+<td>nest</td>
+</tr>
+<tr>
+<td>语法糖</td>
+<td>syntactic sugar</td>
+<td>通配</td>
+<td>glob</td>
+<td>描述符</td>
+<td>descriptor</td>
+</tr>
+<tr>
+<td>终端</td>
+<td>terminal</td>
+<td>缓冲</td>
+<td>buffer</td>
+<td>内存</td>
+<td>memory</td>
+</tr>
+<tr>
+<td>编译</td>
+<td>compile</td>
+<td>单例</td>
+<td>singleton</td>
+<td>运算符</td>
+<td>operator</td>
+</tr>
+<tr>
+<td>一元</td>
+<td>unary</td>
+<td>二元</td>
+<td>binary</td>
+<td>三元</td>
+<td>ternary</td>
+</tr>
+<tr>
+<td>可变（数量）</td>
+<td>variadic</td>
+<td>精度</td>
+<td>precision</td>
+<td>上下文</td>
+<td>context</td>
+</tr>
+<tr>
+<td>类型转换（人为）</td>
+<td>cast</td>
+<td>类型转换（编译器）</td>
+<td>type promotion / conversion</td>
+<td>递归</td>
+<td>recursion</td>
+</tr>
+<tr>
+<td>并发</td>
+<td>concurrent</td>
+<td>并行 / 并联</td>
+<td>parallel</td>
+<td>串行 / 串联</td>
+<td>serial</td>
+</tr>
+<tr>
+<td>演绎</td>
+<td>deduction</td>
+<td>归纳</td>
+<td>induction</td>
+<td>约简</td>
+<td>reduction</td>
+</tr>
+<tr>
+<td>分隔符</td>
+<td>delimiter</td>
+<td>字典序</td>
+<td>lexicographic order</td>
+<td>字面量</td>
+<td>literal</td>
+</tr>
+</tbody>
+</table>
+]]></content>
+      <categories>
+        <category>其它</category>
+      </categories>
+      <tags>
+        <tag>其它</tag>
       </tags>
   </entry>
 </search>
