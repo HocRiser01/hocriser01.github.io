@@ -896,6 +896,425 @@ href="https://developer.aliyun.com/article/721543">C++并发编程（C++11到C++
       </tags>
   </entry>
   <entry>
+    <title>CUDA 编程笔记</title>
+    <url>/2023/12/06/CUDA-%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<p>参考：</p>
+<p><a
+href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/contents.html">CUDA
+C++ Programming Guide</a>；</p>
+<p>《CUDA 编程：基础与实践》</p>
+<p>《GPGPU 异构高性能计算》</p>
+<h2 id="gpu-介绍">GPU 介绍</h2>
+<ul>
+<li>一个典型的 GPU 参数，以 NVIDIA H100 GPU 为例：
+<ul>
+<li>16896 FP32 CUDA cores；</li>
+<li>66.9 TFLOPS (FP64 Tensor core)；</li>
+<li>33.5 TFLOPS (FP64)；</li>
+<li>3352 GB/s memory bandwidth；</li>
+<li>700W TDP；</li>
+<li>TSMC’s 4N customized for NVIDIA；</li>
+</ul></li>
+</ul>
+<span id="more"></span>
+<ul>
+<li><p>GPU vs CPU：</p>
+<p><img src="0.png" /></p></li>
+<li><p>GPU 微体系结构层次（硬件层面）：</p>
+<ul>
+<li>其中 SM 为 Streaming MultiProcessor，SP 为 Streaming Processor；一个
+GPU 通常有数百个 SM，每个 SM 有数百个 SP；</li>
+</ul></li>
+</ul>
+<p><img src="1.png" /></p>
+<p><img src="2.png" /></p>
+<ul>
+<li>GPU 程序层次（软件层面）：
+<ul>
+<li>一个程序 kernel 由多个 block 组成，一个 block 由多个 thread
+组成；</li>
+<li>数个 block 分配（映射）到一个 SM 中（block 与 SM 同等大小，某一时刻
+SM 中仅存放一个 block）；</li>
+<li>数个 thread 与一个 SP 对应（某一时刻 SP 中仅负责一个
+thread），目前一个 block 中最多包含 1024 个 thread；</li>
+<li>同一个 block 中编号相邻的 32 个 thread 组成一个
+warp，被调度器集体调度，<em>通常</em>对程序员透明；</li>
+</ul></li>
+</ul>
+<p><img src="3.png" /></p>
+<p><img src="4.png" /></p>
+<h2 id="cuda-入门">CUDA 入门</h2>
+<ul>
+<li>CUDA = Compute Unified Device Architecture，统一计算设备架构，由
+NVIDIA 提出的通用并行计算平台和编程模型；Use parallelization to hide the
+latency；</li>
+<li>直接使用 <code>nvcc</code> 代替 <code>g++</code>
+即可编译（需要后缀名为 .cu），Host Code 将调用 Host C
+Compiler/Linker，Device Code 调用 Device Just-In-Time Compiler；</li>
+<li>区分：SPMD 编程模型（CUDA、MPI、OpenMP），SIMD 编程模型（Intel
+MMX、SSE、AVX）；</li>
+<li>SPMD 是 GPU 的编程模型，SIMT 是 GPU 的执行方式，SIMD 是 GPU
+计算单元的处理方式；</li>
+<li>一个并行函数是一个 kernel，使用
+<code>&lt;&lt;&lt;gridDim, blockDim&gt;&gt;&gt;</code> 指定 thread
+数目与排布；</li>
+<li>host 代表本机，device 代表并行计算设备（GPU）：
+<ul>
+<li>host 调用 device 执行，函数加上前缀
+<code>__global__</code>（必须返回 <code>void</code>）；</li>
+<li>host 调用 host 执行，函数加上前缀 <code>__host__</code> ；</li>
+<li>device 调用 device 执行，函数加上前缀 <code>__device__</code>
+，可以与 <code>__host__</code> 同时使用，但不能与
+<code>__global__</code> 同时使用；</li>
+</ul></li>
+<li>内存布局：
+<ul>
+<li>每个 thread 有自己的寄存器和 local memory；</li>
+<li>同一个 block 中的 thread 可以通过 shared memory 共享数据，速度类似
+L1 Cache；</li>
+<li>所有 thread 可以通过 global memory 共享数据；</li>
+<li>另外还有只读的 texture memory 和 constant memory；</li>
+<li>同一个 block 中 thread 可以通过 <code>__syncthreads()</code>
+进行路障（Barrier）同步；</li>
+</ul></li>
+</ul>
+<p><img src="5.png" /></p>
+<ul>
+<li>内存操作：
+<ul>
+<li>使用 <code>cudaMalloc((void**)&amp;addr, n * sizeof(float))</code>
+在 device 的 global memory 中分配空间，其中 addr 为 <code>float*</code>
+；</li>
+<li>使用 <code>cudaFree(addr)</code> 释放空间；</li>
+<li>使用
+<code>cudaMemcpy(h_addr, d_addr, size, cudaMemcpyDeviceToHost)</code>
+实现 device 与 host 之间的内存拷贝；参数可选
+<code>cudaMemcpyHostToHost</code>、 <code>cudaMemcpyHostToDevice</code>
+、 <code>cudaMemcpyDeviceToHost</code> 、
+<code>cudaMemcpyDeviceToDevice</code> 、 <code>cudaMemcpyDefault</code>
+，不符合实际情况将导致错误；</li>
+<li>可以使用 <code>cudaMemcpyToSymbol()</code> 和
+<code>cudaMemcpyToSymbol()</code>
+在设备与设备静态内存区（定义在核函数之外，使用 <code>__device__</code>
+前缀）之间交换数据，而不使用参数传递；</li>
+<li>均返回一个 <code>cudaError_t</code> ，成功时值为
+<code>cudaSuccess</code> ；</li>
+</ul></li>
+<li>核函数中可以使用的变量： <code>gridDim.x</code>、
+<code>blockDim.x</code> 、 <code>blockIdx.x</code>、
+<code>threadIdx.x</code> ；可以使用 <code>dim3 grid_size(3, 3)</code> 或
+<code>dim3 grid_size(1, 2, 3)</code> 定义成二维或三维，此时可以使用相应
+y 或 z；</li>
+<li>变量声明默认在 register 中，放不下则在 local memory
+中，生命周期与访问性均为 thread；加上 <code>__shared__</code> 、
+<code>__device__</code> 、 <code>__constant__</code> 分别分配到 shared
+memory（生命周期和访问性为 block）、global memory、constant memory
+上；</li>
+</ul>
+<h2 id="cuda-进阶">CUDA 进阶</h2>
+<ul>
+<li>Memory Coalescing：一次性将同一时刻一个 warp
+要访问的内存全部取出；因为这个技术，CPU 的 SIMD
+往往一个线程处理的数据是相邻的，而 GPU 中往往不相邻，GPU
+中相邻线程处理相邻数据；</li>
+<li>一个共享内存被分为 32 个 bank，与内建变量 warpSize
+值相等；同一线程束内多个线程不同时访问同一个 bank
+中不同层的数据，则只需要一次内存事务（memory transaction）；</li>
+<li>原子操作： <code>AtomicAdd(&amp;a, b)</code> ；</li>
+<li>CUDA 在 host 使用固定内存（调用特殊系统 API，保证不会换出，
+<code>cudaMemcpy()</code> 速度快一倍，不可过度使用），可以使用
+<code>cudaHostAlloc(&amp;data, size, cudaHostAllocDefault)</code> 或
+<code>cudaMallocHost(&amp;data, size)</code> 和
+<code>cudaFreeHost(data)</code> 操作，与 <code>cudaMemcpyAsync()</code>
+配合，才能达到异步数据传输效果；</li>
+<li>默认流中 host 与 device 的运算是并行的（因此需要核函数结果时应执行
+<code>cudaDeviceSynchronize()</code>
+；使用非默认流实现多个核函数并行，以及核函数与数据传递的并行（良好设计下，流越多，并行度越高，直到达到硬件资源上限）：</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">cudaStream_t stream0, stream1;</span><br><span class="line"><span class="built_in">cudaStreamCreate</span>(&amp;stream0);</span><br><span class="line"><span class="built_in">cudaStreamCreate</span>(&amp;stream1);</span><br><span class="line"><span class="built_in">cudaMemcpyAsync</span>(d_A0, hA + i, SegSize * <span class="built_in">sizeof</span>(<span class="type">float</span>), stream1); <span class="comment">// 注意需要 Async，且不在同一个流</span></span><br><span class="line">vecAdd&lt;&lt;&lt;SegSize/<span class="number">256</span>, <span class="number">256</span>, <span class="number">0</span>, stream0&gt;&gt;&gt;(d_A0, d_B0);</span><br><span class="line"><span class="built_in">cudaStreamQuery</span>(stream0) <span class="comment">// 用于非阻塞地查询是否全部执行完毕</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cudaStreamSynchonize</span>(stream0); <span class="comment">// 或 cudaDeviceSynchronize(); 等待 device 所有流任务完成</span></span><br><span class="line"><span class="built_in">cudaStreamDestroy</span>(stream0);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>进行非合并<em>只读</em>读取（即不连续只读读取）global memory
+时，会自动使用 <code>__ldg()</code> 进行优化；</li>
+<li>统一内存编程：CPU 与 GPU 均可访问，使用
+<code>cudaMallocManaged(&amp;data, size, flags = cudaMemAttachGlobal)</code>
+分配， <code>cudaFree()</code>
+释放；静态统一内存：在核函数外定义，加上前缀
+<code>__device__ __managed__</code> ；</li>
+<li>统一内存数据预取 API：
+<code>cudaMemPrefetchAsync(data, N * sizeof(int), myGpuId, stream)</code>
+；</li>
+<li>统一内存建议 API：</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cudaMemAdvise</span>(data, N * <span class="built_in">sizeof</span>(<span class="type">int</span>), cudamemadvisesetreadmost, cudaCpuDeviceId);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 可用内存提示与取消：</span></span><br><span class="line">cudamemadvisesetreadmost / cudamemadviseunsetreadmost</span><br><span class="line">cudaMemAdviseSetPreferredLocation / cudaMemAdviseUnsetPreferredLocation</span><br><span class="line">cudaMemAdviceSetAccessedBy / cudaMemAdviceUnsetAccessedBy</span><br></pre></td></tr></table></figure>
+<ul>
+<li>若分支能写成 <code>c = flag ? a : b</code> 或
+<code>if (condition) &#123;...&#125;</code> 的形式，则并行性良好，否则
+<code>then</code> 与 <code>else</code> 的线程之间为串行执行；</li>
+</ul>
+<h2 id="cuda-并行计算模式">CUDA 并行计算模式</h2>
+<ul>
+<li>Tile 模式：每次从 global memory 中加载一段到 shared memory，使用
+barrier synchronization 进行线程开始与结束同步，再进入下一个
+Tile；以矩阵乘法为例，每个 block
+负责结果矩阵中的一个子矩阵，每次将计算这个子矩阵需要的部分数据（两个乘数矩阵分别取一块）载入并计算（每个
+thread 负责结果子矩阵的一格），下一个 Tile
+再取下一批计算此结果子矩阵的部分数据，最后再累加得到最终此结果子矩阵；具体编码较为繁琐；</li>
+<li>Convolution 卷积模式：正常计算，注意处理边界即可；可以使用
+Tile；</li>
+<li>Histogram 直方图模式： <code>for i bin[arr[i]]++;</code>
+问题，加速技巧：
+<ul>
+<li>block_size 设为与 SM 内线程数相等，注意 coalescing；</li>
+<li>shared memory 中做 Atomic 操作速度很快，但 global memory
+中很慢；</li>
+<li>胖内核、contiguous unrolling：循环展开；</li>
+</ul></li>
+<li>Reduction 规约模式：类 Map Reduce，使用规约树以 log(n) 步执行
+Max、Min、Sum、Product 等满足交换结合律的运算；每次循环开始均需要
+<code>__syncthreads()</code> ；</li>
+<li>Scan 前缀和模式：每次迭代
+<code>stride *= 2; a[i] += a[i - stride];</code>，需要
+<code>__syncthreads()</code> ；更优秀的做法：使用树状数组；</li>
+</ul>
+<h2 id="其它">其它</h2>
+<ul>
+<li><code>gridDim</code>
+要足够，通常上取整，因此可能出现最后超出范围的情况，需要判断；</li>
+<li>尽量使用 shared memory，最后返回结果时再使用 global memory；</li>
+<li>注意栅栏同步函数 <code>__syncthreads()</code> 仅能进行同一 block 中
+threads 的同步；</li>
+<li>一些常用 CUDA 库（应尽量使用）：
+<ul>
+<li>Thrust：类似 C++ STL；</li>
+<li>cuBLAS：线性代数；</li>
+<li>cuFFT：快速傅里叶变换；</li>
+<li>cuSPARSE：稀疏矩阵；</li>
+<li>cuRAND：随机数生成器；</li>
+<li>cuSolver：稠密矩阵与稀疏矩阵；</li>
+<li>cuDNN：深度神经网络；</li>
+</ul></li>
+<li>使用 cuda-gdb 调试，nvprof（nsight compute） 测速，nsight system
+分析硬件资源占用情况；</li>
+</ul>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>并行计算</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Cousera吴恩达机器学习笔记</title>
+    <url>/2023/07/19/Cousera%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<p>https://www.bilibili.com/video/BV164411S78V</p>
+<h2
+id="线性回归linear-regression与梯度下降gradient-descent">线性回归(Linear
+Regression)与梯度下降(Gradient Descent)</h2>
+<p><strong>记号</strong>：</p>
+<p><span class="math inline">\(m\)</span> = 训练样本数，<span
+class="math inline">\(n\)</span> = 特征数，<span
+class="math inline">\(x\)</span> = 输入变量/特征，<span
+class="math inline">\(y\)</span> = 输出变量/目标变量</p>
+<p><span class="math inline">\((x, y)\)</span> = 训练样本。第i个: <span
+class="math inline">\((x^{(i)},y^{(i)})\)</span></p>
+<p><span
+class="math inline">\(h_\theta(x)=\theta_0+\theta_1x_1+\theta_2x_2+...+\theta_nx_n\)</span></p>
+<p>令<span class="math inline">\(x_0\)</span>为<span
+class="math inline">\(1\)</span>，则<span
+class="math inline">\(h_\theta(x) = \sum_{i=0}^{n}\theta_ix_i=\theta^T
+x\)</span></p>
+<p><span class="math inline">\(Minimize_{\theta}\ \ J(\theta) =
+\frac{1}{2m} \sum_{i=1}^m(h_\theta(x^{(i)})-y^{(i)})^2\)</span></p>
+<p>（最小二乘线性回归）</p>
+<span id="more"></span>
+<p>初始 <span class="math inline">\(\theta =
+\boldsymbol{0}\)</span>，注意：<span
+class="math inline">\(\theta,x,y\)</span> 均为向量</p>
+<p><strong>批量梯度下降(Batch Gradient
+Regression)</strong>（使用全部样本，循环直到收敛，复杂度<span
+class="math inline">\(knm\)</span>）：</p>
+<p><span class="math inline">\(\theta_i := \theta_i -
+\alpha\frac{\partial}{\partial\theta_i}J(\theta) = \theta_i -
+\frac{\alpha}{m}(h_\theta(x)-y)x_i = \theta_i - \frac{\alpha}{m} \sum_{j
+= 1}^m (h_\theta(x^{(j)}) - y^{(j)})x_i^{(j)}\)</span></p>
+<p><strong>随机梯度下降(Stochastic Gradient
+Descent)</strong>（一步只使用一对<span
+class="math inline">\((x,y)\)</span> ）：</p>
+<p>For j:=1 to m <span class="math inline">\(\theta_i := \theta_i -
+\frac{\alpha}{m}(h_\theta(x^{(j)})-y^{(j)})x_i^{(j)}\ (For\ all\
+i)\)</span></p>
+<p><strong>正则化方法</strong>（复杂度<span
+class="math inline">\((nm)^3\)</span>）：<span
+class="math inline">\(\theta = (X^TX)^{-1}X^Ty\)</span></p>
+<p><strong>向量缩放</strong>：<span class="math inline">\(x_i =
+\frac{x_i - \mu_i}{s_i}\)</span> （<span
+class="math inline">\(\mu_i\)</span> 为<span
+class="math inline">\(x_i\)</span>平均数，<span
+class="math inline">\(s_i\)</span> 为极差或标准差）</p>
+<h2 id="逻辑回归logistic-regression">逻辑回归(Logistic Regression)</h2>
+<p><strong>二分类</strong>：</p>
+<p><span class="math inline">\(h_\theta(x) = \frac{1}{1 +
+e^{-\theta^TX}}\)</span>，但若仍使用原先代价函数会得到非凸图像，容易收敛至非最值点。</p>
+<p>原先代价函数：<span class="math inline">\(Cost(h_\theta(x), y) =
+\sum_{i = 1}^m \frac{1}{2} (h_\theta(x^{(i)})-y^{(i)})^2\)</span></p>
+<p>重新定义代价函数：</p>
+<p><span class="math inline">\(Cost(h_\theta(x), y) = \begin{cases}
+-\log(h_\theta(x)) &amp; if\ y = 1 \\ -\log(1 - h_\theta(x)) &amp; if\ y
+= 0 \end{cases}\)</span></p>
+<p>代入得<span class="math inline">\(J(\theta) = \frac{1}{m} \sum_{i =
+1}^m Cost(h_\theta(x),y) = -\frac{1}{m}\sum_{i = 1}^m [y^{(i)} \log
+(h_\theta(x^{(i)})) + (1-y^{(i)}) \log (1 -
+h_\theta(x^{(i)}))]\)</span></p>
+<p><span class="math inline">\(\theta_i := \theta_i - \frac{\alpha}{m}
+\sum_{j = 1}^m (h_\theta(x^{(j)}) - y^{(j)})x_i^{(j)}\)</span></p>
+<p>（形式与线性回归完全相同）</p>
+<p><strong>多拟合分类器</strong>：<span
+class="math inline">\(h_\theta^{(i)}(x) = P(y = i|x; \theta)\ \ \ (i =
+1, 2, \cdots)\)</span></p>
+<p>对每个样本寻找：<span class="math inline">\(\max_i
+h_\theta^{(i)}(x)\)</span></p>
+<p><strong>正则化(Regularization)</strong>：为避免<strong>过拟合(Overfitting)</strong>，对于某些高次项系数<span
+class="math inline">\(\theta_i\)</span>，将<span
+class="math inline">\(1000\theta_i^2\)</span>加入<span
+class="math inline">\(J(\theta)\)</span>，以使得此系数尽量小，从而消除此系数（显然<span
+class="math inline">\(\theta_0\)</span>不需要）。</p>
+<p><span class="math inline">\(J(\theta) = \frac{1}{m} [\sum_{i = 1}^m
+(h_\theta(x^{(i)}) - y^{(i)})^2 + \lambda \sum_{j = 1}^n
+\theta_j^2]\)</span></p>
+<p><span class="math inline">\(\theta_0 := \theta_0 - \frac{\alpha}{m}
+\sum_{i = 1}^m (h_\theta(x^{(0)}) - y^{(0)})x_0^{(0)}\)</span></p>
+<p><span class="math inline">\(\theta_j := \theta_j(1 -
+\alpha\frac{\lambda}{m}) - \frac{\alpha}{m} \sum_{i = 1}^m
+(h_\theta(x^{(i)}) - y^{(i)})x_j^{(i)}\)</span></p>
+<p><span class="math inline">\(\theta = \Big{(}X^TX + \lambda
+\begin{bmatrix} 0 &amp; &amp; &amp; &amp; \\ &amp; 1 &amp; &amp; &amp;
+\\ &amp; &amp;  1 &amp; &amp; \\ &amp; &amp; &amp; \ddots &amp; \\ &amp;
+&amp; &amp; &amp; 1 \end{bmatrix}\Big{)}^{-1}X^Ty\)</span> <span
+class="math inline">\((n+1)\times(n+1)\)</span></p>
+<p>若<span class="math inline">\(m \leqslant n\)</span>且<span
+class="math inline">\(\lambda &gt; 0\)</span>，那么此矩阵可逆。</p>
+<h2 id="神经网络neural-networks">神经网络(Neural Networks)</h2>
+<p><span class="math inline">\(L\)</span>：网络层数，<span
+class="math inline">\(s_l\)</span>：神经元数量（不包括偏差单元bias
+unit）</p>
+<p><strong>二分类(Binary Classification)</strong>：<span
+class="math inline">\(y = 0\ \text{or}\ 1\)</span>，<span
+class="math inline">\(s_L = K = 1\)</span></p>
+<p><strong>多分类（Multi-class Classification）</strong>：<span
+class="math inline">\(y \in \mathbb{R}^K\)</span>，<span
+class="math inline">\(S_L = K\)</span></p>
+<p><span class="math inline">\(J(\theta) = -\frac{1}{m}[\sum_{i = 1}^m
+\sum_{k = 1}^K  y_k^{(i)} \log(h_\theta(x^{(i)}))_k + (1 - y_k^{(i)})
+\log(1 - (h_\theta(x^{(i)}))_k)] \\ + \frac{\lambda}{2m}\sum_{l = 1}^{L
+- 1}\sum_{i = 1}^{s_l}\sum_{j = 1}^{s_l +
+1}(\theta_{ji}^{(l)})^2\)</span></p>
+<p><span class="math inline">\(a_j^{(l)}\)</span>：第<span
+class="math inline">\(l\)</span>层第<span
+class="math inline">\(j\)</span>个节点的<strong>激活值(Activation)</strong>，<span
+class="math inline">\(z^{(l+1)} = \theta^{(l)} \cdot
+a^{(l)}\)</span>，<span class="math inline">\(a^{(l+1)} =
+g(z^{(l+1)})\)</span>，此例中<span class="math inline">\(g(z) =
+\frac{1}{1 - e^{-z}}\)</span></p>
+<p><span class="math inline">\(cost(i) = y^{(i)}\log h_\theta(x^{(i)}) +
+(1 - y^{(i)}) \log h_\theta(x^{(i)})\)</span></p>
+<p><span class="math inline">\(\delta_j^{(l)}\)</span>是<span
+class="math inline">\(a_j^{(l)}\)</span>的误差代价，<span
+class="math inline">\(\delta_j^{(l)} = \frac{\partial}{\partial
+z_j^{(l)}}cost(i)\ (j \geqslant 0)\)</span></p>
+<p>复杂推导得：<span class="math inline">\(\delta^{(l)} =
+(\theta^{(l)})^T \delta^{(l+1)} \cdot g&#39;(z^{(l)})\)</span>，<span
+class="math inline">\(g&#39;(z^{(l)}) = a^{(l)} \cdot (1 -
+a^{(l)})\)</span>，<span class="math inline">\(\Delta_{ij}^{(l)} :=
+\Delta_{ij}^{(l)} + a_j^{(l)}\delta_i^{(l+1)}\)</span></p>
+<p>对于每个样本<span class="math inline">\((x^{(i)},
+y^{(i)})\)</span>，<strong>正向传播(Forward
+Propagation)</strong>得到<span
+class="math inline">\(a\)</span>，再计算输出层的<span
+class="math inline">\(\delta^{(L)}\)</span>，再<strong>反向传播(Back
+Propagation)</strong>得到<span class="math inline">\(\delta^{(2 \sim
+L-1)}\)</span>和<span class="math inline">\(\Delta^{(2 \sim
+L-1)}\)</span>，最后得到代价函数的偏导数：</p>
+<p><span class="math inline">\(D_{ij}^{(l)} :=
+\frac{1}{m}\Delta_{ij}^{(l)} + \lambda \theta_{ij}^{(l)}\ \ \ if\ j \neq
+0\)</span></p>
+<p><span class="math inline">\(D_{ij}^{(l)} := \frac{1}{m}
+\Delta_{ij}^{(l)}\ \ \ if\ j = 0\)</span></p>
+<p><strong>梯度检测(Gradient Check)</strong>：<span
+class="math inline">\(\frac{\partial}{\partial \theta_i} \approx
+\frac{J(\theta_1, \cdots, \theta_i+\epsilon, \cdots, \theta_n) -
+J(\theta_1, \cdots, \theta_i - \epsilon, \cdots
+\theta_n)}{2\epsilon}\)</span></p>
+<p>随机初始化：每个<span
+class="math inline">\(\theta_{ij}^{(l)}\)</span>都在<span
+class="math inline">\([-\epsilon, \epsilon]\)</span>范围内随机。</p>
+<h2 id="机器学习诊断法diagnostics">机器学习诊断法(Diagnostics)：</h2>
+<p><strong>0/1分类错误(0/1 Misclassfication error)</strong></p>
+<p><span class="math inline">\(err(h_\theta(x), y) = \begin{cases} 1
+&amp; \text{if } h_\theta(x) \geqslant 0.5 &amp; , y = 0 \\ &amp;
+\text{or if } h_\theta(x)&lt;0.5 &amp;, y = 1 \\ 0 &amp;
+\text{otherwise} \end{cases}\)</span></p>
+<p><span class="math inline">\(Test\ error = \frac{1}{m_{test}} \sum_{i
+= 1}^{m_{test}} err(h_\theta(x_{test}^{(i)}),
+y_{test}^{(i)})\)</span></p>
+<p>训练集(Trainning set) 60%，交叉验证集(Cross validation set)
+20%，测试集(Test set) 20%</p>
+<p>选择误差小的、泛化能力强的多项式次数<span
+class="math inline">\(d\)</span>作为最终拟合结果。</p>
+<p>先训练最小化<span
+class="math inline">\(J_{train}(\theta)\)</span>，再选取<span
+class="math inline">\(J_{cv}(\theta)\)</span>最小的次数<span
+class="math inline">\(\theta^{(i)}\)</span>，最后在测试集上测试其泛化能力。</p>
+<p>偏差值（Bias）过高：欠拟合。<span
+class="math inline">\(J_{train}(\theta)\)</span>和<span
+class="math inline">\(J_{cv}(\theta)\)</span>都很高</p>
+<p>方差值（Variance）过高：过拟合。<span
+class="math inline">\(J_{train}(\theta)\)</span>很低，<span
+class="math inline">\(J_{cv}(\theta)\)</span>很高</p>
+<p>可以用同样的方法决定正则化系数<span
+class="math inline">\(\lambda\)</span></p>
+<p>偏斜类问题(skew classes)的评估方法：</p>
+<p><strong>查准率(True Positive)</strong>：<span
+class="math inline">\(\frac{\text{True positives}}{\text{ predicted
+positives}} = \frac{\text{True pos}}{\text{True pos + Fake
+pos}}\)</span></p>
+<p><strong>召回率(Fake Positive)</strong>：<span
+class="math inline">\(\frac{True\ positives}{\# actual\ positives} =
+\frac{True\ pos}{True\ pos + False\ neg}\)</span></p>
+<p>常用评估值：<span class="math inline">\(F_1\ Score: \frac{2PR}{P +
+R}\)</span></p>
+<h2 id="支持向量机support-vector-machine">支持向量机(Support Vector
+Machine)</h2>
+<p>逻辑回归：</p>
+<p><span class="math inline">\(J(\theta) = \frac{1}{m}[\sum_{i = 1}^m
+(-\log h_\theta(x^{(i)})) + (1 - y^{(i)})(-\log (1 -
+h_\theta(x^{(i)})))] + \frac{\lambda}{2m}\sum_{j = 1}^n
+\theta_j^2\)</span></p>
+<p><span class="math inline">\(SVM\)</span>：</p>
+<p><span class="math inline">\(\min_\theta C\sum_{i =
+1}^m[y^{(i)}cost_1(\theta^Tx^{(i)}) + (1 -
+y^{(i)})cost_0(\theta^Tx^{(i)})] + \frac{1}{2}\sum_{i = 1}^n
+\theta_j^2\)</span></p>
+<p>若希望预测结果<span class="math inline">\(y = 1\)</span>，则需要<span
+class="math inline">\(\theta^Tx^{(i)} \geqslant 1\)</span>，若希望<span
+class="math inline">\(y = 0\)</span>，则需要<span
+class="math inline">\(\theta^Tx^{(i)} \leqslant -1\)</span></p>
+<p><strong>核函数(Kernel)</strong>：<span class="math inline">\(f_i =
+similarity(x, l^{(i)}) = exp(-\frac{\parallel x -
+l^{(i)}\parallel^2}{2\sigma^2})\)</span></p>
+<p>训练：<span class="math inline">\(\min_\theta C\sum_{i = 1}^m
+[y^{(i)}cost_1(\theta^T f^{(i)}) + (1 - y^{(i)})cost_0(\theta^Tf^{(i)})]
++ \frac{1}{2}\sum_{j = 1}^n \theta_j^2\)</span> （<span
+class="math inline">\(n = m\)</span>）</p>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CS 美硕学校信息汇总</title>
     <url>/2024/10/11/CS-%E7%BE%8E%E7%A1%95%E5%AD%A6%E6%A0%A1%E4%BF%A1%E6%81%AF%E6%B1%87%E6%80%BB/</url>
     <content><![CDATA[<p>括号中排名对应：U.S. News世界排名，QS世界排名，THE世界排名，U.S.
@@ -1326,425 +1745,6 @@ months，就业向（MSCS研究向，课程设置类似），不可转博</p>
       </tags>
   </entry>
   <entry>
-    <title>CUDA 编程笔记</title>
-    <url>/2023/12/06/CUDA-%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<p>参考：</p>
-<p><a
-href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/contents.html">CUDA
-C++ Programming Guide</a>；</p>
-<p>《CUDA 编程：基础与实践》</p>
-<p>《GPGPU 异构高性能计算》</p>
-<h2 id="gpu-介绍">GPU 介绍</h2>
-<ul>
-<li>一个典型的 GPU 参数，以 NVIDIA H100 GPU 为例：
-<ul>
-<li>16896 FP32 CUDA cores；</li>
-<li>66.9 TFLOPS (FP64 Tensor core)；</li>
-<li>33.5 TFLOPS (FP64)；</li>
-<li>3352 GB/s memory bandwidth；</li>
-<li>700W TDP；</li>
-<li>TSMC’s 4N customized for NVIDIA；</li>
-</ul></li>
-</ul>
-<span id="more"></span>
-<ul>
-<li><p>GPU vs CPU：</p>
-<p><img src="0.png" /></p></li>
-<li><p>GPU 微体系结构层次（硬件层面）：</p>
-<ul>
-<li>其中 SM 为 Streaming MultiProcessor，SP 为 Streaming Processor；一个
-GPU 通常有数百个 SM，每个 SM 有数百个 SP；</li>
-</ul></li>
-</ul>
-<p><img src="1.png" /></p>
-<p><img src="2.png" /></p>
-<ul>
-<li>GPU 程序层次（软件层面）：
-<ul>
-<li>一个程序 kernel 由多个 block 组成，一个 block 由多个 thread
-组成；</li>
-<li>数个 block 分配（映射）到一个 SM 中（block 与 SM 同等大小，某一时刻
-SM 中仅存放一个 block）；</li>
-<li>数个 thread 与一个 SP 对应（某一时刻 SP 中仅负责一个
-thread），目前一个 block 中最多包含 1024 个 thread；</li>
-<li>同一个 block 中编号相邻的 32 个 thread 组成一个
-warp，被调度器集体调度，<em>通常</em>对程序员透明；</li>
-</ul></li>
-</ul>
-<p><img src="3.png" /></p>
-<p><img src="4.png" /></p>
-<h2 id="cuda-入门">CUDA 入门</h2>
-<ul>
-<li>CUDA = Compute Unified Device Architecture，统一计算设备架构，由
-NVIDIA 提出的通用并行计算平台和编程模型；Use parallelization to hide the
-latency；</li>
-<li>直接使用 <code>nvcc</code> 代替 <code>g++</code>
-即可编译（需要后缀名为 .cu），Host Code 将调用 Host C
-Compiler/Linker，Device Code 调用 Device Just-In-Time Compiler；</li>
-<li>区分：SPMD 编程模型（CUDA、MPI、OpenMP），SIMD 编程模型（Intel
-MMX、SSE、AVX）；</li>
-<li>SPMD 是 GPU 的编程模型，SIMT 是 GPU 的执行方式，SIMD 是 GPU
-计算单元的处理方式；</li>
-<li>一个并行函数是一个 kernel，使用
-<code>&lt;&lt;&lt;gridDim, blockDim&gt;&gt;&gt;</code> 指定 thread
-数目与排布；</li>
-<li>host 代表本机，device 代表并行计算设备（GPU）：
-<ul>
-<li>host 调用 device 执行，函数加上前缀
-<code>__global__</code>（必须返回 <code>void</code>）；</li>
-<li>host 调用 host 执行，函数加上前缀 <code>__host__</code> ；</li>
-<li>device 调用 device 执行，函数加上前缀 <code>__device__</code>
-，可以与 <code>__host__</code> 同时使用，但不能与
-<code>__global__</code> 同时使用；</li>
-</ul></li>
-<li>内存布局：
-<ul>
-<li>每个 thread 有自己的寄存器和 local memory；</li>
-<li>同一个 block 中的 thread 可以通过 shared memory 共享数据，速度类似
-L1 Cache；</li>
-<li>所有 thread 可以通过 global memory 共享数据；</li>
-<li>另外还有只读的 texture memory 和 constant memory；</li>
-<li>同一个 block 中 thread 可以通过 <code>__syncthreads()</code>
-进行路障（Barrier）同步；</li>
-</ul></li>
-</ul>
-<p><img src="5.png" /></p>
-<ul>
-<li>内存操作：
-<ul>
-<li>使用 <code>cudaMalloc((void**)&amp;addr, n * sizeof(float))</code>
-在 device 的 global memory 中分配空间，其中 addr 为 <code>float*</code>
-；</li>
-<li>使用 <code>cudaFree(addr)</code> 释放空间；</li>
-<li>使用
-<code>cudaMemcpy(h_addr, d_addr, size, cudaMemcpyDeviceToHost)</code>
-实现 device 与 host 之间的内存拷贝；参数可选
-<code>cudaMemcpyHostToHost</code>、 <code>cudaMemcpyHostToDevice</code>
-、 <code>cudaMemcpyDeviceToHost</code> 、
-<code>cudaMemcpyDeviceToDevice</code> 、 <code>cudaMemcpyDefault</code>
-，不符合实际情况将导致错误；</li>
-<li>可以使用 <code>cudaMemcpyToSymbol()</code> 和
-<code>cudaMemcpyToSymbol()</code>
-在设备与设备静态内存区（定义在核函数之外，使用 <code>__device__</code>
-前缀）之间交换数据，而不使用参数传递；</li>
-<li>均返回一个 <code>cudaError_t</code> ，成功时值为
-<code>cudaSuccess</code> ；</li>
-</ul></li>
-<li>核函数中可以使用的变量： <code>gridDim.x</code>、
-<code>blockDim.x</code> 、 <code>blockIdx.x</code>、
-<code>threadIdx.x</code> ；可以使用 <code>dim3 grid_size(3, 3)</code> 或
-<code>dim3 grid_size(1, 2, 3)</code> 定义成二维或三维，此时可以使用相应
-y 或 z；</li>
-<li>变量声明默认在 register 中，放不下则在 local memory
-中，生命周期与访问性均为 thread；加上 <code>__shared__</code> 、
-<code>__device__</code> 、 <code>__constant__</code> 分别分配到 shared
-memory（生命周期和访问性为 block）、global memory、constant memory
-上；</li>
-</ul>
-<h2 id="cuda-进阶">CUDA 进阶</h2>
-<ul>
-<li>Memory Coalescing：一次性将同一时刻一个 warp
-要访问的内存全部取出；因为这个技术，CPU 的 SIMD
-往往一个线程处理的数据是相邻的，而 GPU 中往往不相邻，GPU
-中相邻线程处理相邻数据；</li>
-<li>一个共享内存被分为 32 个 bank，与内建变量 warpSize
-值相等；同一线程束内多个线程不同时访问同一个 bank
-中不同层的数据，则只需要一次内存事务（memory transaction）；</li>
-<li>原子操作： <code>AtomicAdd(&amp;a, b)</code> ；</li>
-<li>CUDA 在 host 使用固定内存（调用特殊系统 API，保证不会换出，
-<code>cudaMemcpy()</code> 速度快一倍，不可过度使用），可以使用
-<code>cudaHostAlloc(&amp;data, size, cudaHostAllocDefault)</code> 或
-<code>cudaMallocHost(&amp;data, size)</code> 和
-<code>cudaFreeHost(data)</code> 操作，与 <code>cudaMemcpyAsync()</code>
-配合，才能达到异步数据传输效果；</li>
-<li>默认流中 host 与 device 的运算是并行的（因此需要核函数结果时应执行
-<code>cudaDeviceSynchronize()</code>
-；使用非默认流实现多个核函数并行，以及核函数与数据传递的并行（良好设计下，流越多，并行度越高，直到达到硬件资源上限）：</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">cudaStream_t stream0, stream1;</span><br><span class="line"><span class="built_in">cudaStreamCreate</span>(&amp;stream0);</span><br><span class="line"><span class="built_in">cudaStreamCreate</span>(&amp;stream1);</span><br><span class="line"><span class="built_in">cudaMemcpyAsync</span>(d_A0, hA + i, SegSize * <span class="built_in">sizeof</span>(<span class="type">float</span>), stream1); <span class="comment">// 注意需要 Async，且不在同一个流</span></span><br><span class="line">vecAdd&lt;&lt;&lt;SegSize/<span class="number">256</span>, <span class="number">256</span>, <span class="number">0</span>, stream0&gt;&gt;&gt;(d_A0, d_B0);</span><br><span class="line"><span class="built_in">cudaStreamQuery</span>(stream0) <span class="comment">// 用于非阻塞地查询是否全部执行完毕</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cudaStreamSynchonize</span>(stream0); <span class="comment">// 或 cudaDeviceSynchronize(); 等待 device 所有流任务完成</span></span><br><span class="line"><span class="built_in">cudaStreamDestroy</span>(stream0);</span><br></pre></td></tr></table></figure>
-<ul>
-<li>进行非合并<em>只读</em>读取（即不连续只读读取）global memory
-时，会自动使用 <code>__ldg()</code> 进行优化；</li>
-<li>统一内存编程：CPU 与 GPU 均可访问，使用
-<code>cudaMallocManaged(&amp;data, size, flags = cudaMemAttachGlobal)</code>
-分配， <code>cudaFree()</code>
-释放；静态统一内存：在核函数外定义，加上前缀
-<code>__device__ __managed__</code> ；</li>
-<li>统一内存数据预取 API：
-<code>cudaMemPrefetchAsync(data, N * sizeof(int), myGpuId, stream)</code>
-；</li>
-<li>统一内存建议 API：</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cudaMemAdvise</span>(data, N * <span class="built_in">sizeof</span>(<span class="type">int</span>), cudamemadvisesetreadmost, cudaCpuDeviceId);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 可用内存提示与取消：</span></span><br><span class="line">cudamemadvisesetreadmost / cudamemadviseunsetreadmost</span><br><span class="line">cudaMemAdviseSetPreferredLocation / cudaMemAdviseUnsetPreferredLocation</span><br><span class="line">cudaMemAdviceSetAccessedBy / cudaMemAdviceUnsetAccessedBy</span><br></pre></td></tr></table></figure>
-<ul>
-<li>若分支能写成 <code>c = flag ? a : b</code> 或
-<code>if (condition) &#123;...&#125;</code> 的形式，则并行性良好，否则
-<code>then</code> 与 <code>else</code> 的线程之间为串行执行；</li>
-</ul>
-<h2 id="cuda-并行计算模式">CUDA 并行计算模式</h2>
-<ul>
-<li>Tile 模式：每次从 global memory 中加载一段到 shared memory，使用
-barrier synchronization 进行线程开始与结束同步，再进入下一个
-Tile；以矩阵乘法为例，每个 block
-负责结果矩阵中的一个子矩阵，每次将计算这个子矩阵需要的部分数据（两个乘数矩阵分别取一块）载入并计算（每个
-thread 负责结果子矩阵的一格），下一个 Tile
-再取下一批计算此结果子矩阵的部分数据，最后再累加得到最终此结果子矩阵；具体编码较为繁琐；</li>
-<li>Convolution 卷积模式：正常计算，注意处理边界即可；可以使用
-Tile；</li>
-<li>Histogram 直方图模式： <code>for i bin[arr[i]]++;</code>
-问题，加速技巧：
-<ul>
-<li>block_size 设为与 SM 内线程数相等，注意 coalescing；</li>
-<li>shared memory 中做 Atomic 操作速度很快，但 global memory
-中很慢；</li>
-<li>胖内核、contiguous unrolling：循环展开；</li>
-</ul></li>
-<li>Reduction 规约模式：类 Map Reduce，使用规约树以 log(n) 步执行
-Max、Min、Sum、Product 等满足交换结合律的运算；每次循环开始均需要
-<code>__syncthreads()</code> ；</li>
-<li>Scan 前缀和模式：每次迭代
-<code>stride *= 2; a[i] += a[i - stride];</code>，需要
-<code>__syncthreads()</code> ；更优秀的做法：使用树状数组；</li>
-</ul>
-<h2 id="其它">其它</h2>
-<ul>
-<li><code>gridDim</code>
-要足够，通常上取整，因此可能出现最后超出范围的情况，需要判断；</li>
-<li>尽量使用 shared memory，最后返回结果时再使用 global memory；</li>
-<li>注意栅栏同步函数 <code>__syncthreads()</code> 仅能进行同一 block 中
-threads 的同步；</li>
-<li>一些常用 CUDA 库（应尽量使用）：
-<ul>
-<li>Thrust：类似 C++ STL；</li>
-<li>cuBLAS：线性代数；</li>
-<li>cuFFT：快速傅里叶变换；</li>
-<li>cuSPARSE：稀疏矩阵；</li>
-<li>cuRAND：随机数生成器；</li>
-<li>cuSolver：稠密矩阵与稀疏矩阵；</li>
-<li>cuDNN：深度神经网络；</li>
-</ul></li>
-<li>使用 cuda-gdb 调试，nvprof（nsight compute） 测速，nsight system
-分析硬件资源占用情况；</li>
-</ul>
-]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>并行计算</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Cousera吴恩达机器学习笔记</title>
-    <url>/2023/07/19/Cousera%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<p>https://www.bilibili.com/video/BV164411S78V</p>
-<h2
-id="线性回归linear-regression与梯度下降gradient-descent">线性回归(Linear
-Regression)与梯度下降(Gradient Descent)</h2>
-<p><strong>记号</strong>：</p>
-<p><span class="math inline">\(m\)</span> = 训练样本数，<span
-class="math inline">\(n\)</span> = 特征数，<span
-class="math inline">\(x\)</span> = 输入变量/特征，<span
-class="math inline">\(y\)</span> = 输出变量/目标变量</p>
-<p><span class="math inline">\((x, y)\)</span> = 训练样本。第i个: <span
-class="math inline">\((x^{(i)},y^{(i)})\)</span></p>
-<p><span
-class="math inline">\(h_\theta(x)=\theta_0+\theta_1x_1+\theta_2x_2+...+\theta_nx_n\)</span></p>
-<p>令<span class="math inline">\(x_0\)</span>为<span
-class="math inline">\(1\)</span>，则<span
-class="math inline">\(h_\theta(x) = \sum_{i=0}^{n}\theta_ix_i=\theta^T
-x\)</span></p>
-<p><span class="math inline">\(Minimize_{\theta}\ \ J(\theta) =
-\frac{1}{2m} \sum_{i=1}^m(h_\theta(x^{(i)})-y^{(i)})^2\)</span></p>
-<p>（最小二乘线性回归）</p>
-<span id="more"></span>
-<p>初始 <span class="math inline">\(\theta =
-\boldsymbol{0}\)</span>，注意：<span
-class="math inline">\(\theta,x,y\)</span> 均为向量</p>
-<p><strong>批量梯度下降(Batch Gradient
-Regression)</strong>（使用全部样本，循环直到收敛，复杂度<span
-class="math inline">\(knm\)</span>）：</p>
-<p><span class="math inline">\(\theta_i := \theta_i -
-\alpha\frac{\partial}{\partial\theta_i}J(\theta) = \theta_i -
-\frac{\alpha}{m}(h_\theta(x)-y)x_i = \theta_i - \frac{\alpha}{m} \sum_{j
-= 1}^m (h_\theta(x^{(j)}) - y^{(j)})x_i^{(j)}\)</span></p>
-<p><strong>随机梯度下降(Stochastic Gradient
-Descent)</strong>（一步只使用一对<span
-class="math inline">\((x,y)\)</span> ）：</p>
-<p>For j:=1 to m <span class="math inline">\(\theta_i := \theta_i -
-\frac{\alpha}{m}(h_\theta(x^{(j)})-y^{(j)})x_i^{(j)}\ (For\ all\
-i)\)</span></p>
-<p><strong>正则化方法</strong>（复杂度<span
-class="math inline">\((nm)^3\)</span>）：<span
-class="math inline">\(\theta = (X^TX)^{-1}X^Ty\)</span></p>
-<p><strong>向量缩放</strong>：<span class="math inline">\(x_i =
-\frac{x_i - \mu_i}{s_i}\)</span> （<span
-class="math inline">\(\mu_i\)</span> 为<span
-class="math inline">\(x_i\)</span>平均数，<span
-class="math inline">\(s_i\)</span> 为极差或标准差）</p>
-<h2 id="逻辑回归logistic-regression">逻辑回归(Logistic Regression)</h2>
-<p><strong>二分类</strong>：</p>
-<p><span class="math inline">\(h_\theta(x) = \frac{1}{1 +
-e^{-\theta^TX}}\)</span>，但若仍使用原先代价函数会得到非凸图像，容易收敛至非最值点。</p>
-<p>原先代价函数：<span class="math inline">\(Cost(h_\theta(x), y) =
-\sum_{i = 1}^m \frac{1}{2} (h_\theta(x^{(i)})-y^{(i)})^2\)</span></p>
-<p>重新定义代价函数：</p>
-<p><span class="math inline">\(Cost(h_\theta(x), y) = \begin{cases}
--\log(h_\theta(x)) &amp; if\ y = 1 \\ -\log(1 - h_\theta(x)) &amp; if\ y
-= 0 \end{cases}\)</span></p>
-<p>代入得<span class="math inline">\(J(\theta) = \frac{1}{m} \sum_{i =
-1}^m Cost(h_\theta(x),y) = -\frac{1}{m}\sum_{i = 1}^m [y^{(i)} \log
-(h_\theta(x^{(i)})) + (1-y^{(i)}) \log (1 -
-h_\theta(x^{(i)}))]\)</span></p>
-<p><span class="math inline">\(\theta_i := \theta_i - \frac{\alpha}{m}
-\sum_{j = 1}^m (h_\theta(x^{(j)}) - y^{(j)})x_i^{(j)}\)</span></p>
-<p>（形式与线性回归完全相同）</p>
-<p><strong>多拟合分类器</strong>：<span
-class="math inline">\(h_\theta^{(i)}(x) = P(y = i|x; \theta)\ \ \ (i =
-1, 2, \cdots)\)</span></p>
-<p>对每个样本寻找：<span class="math inline">\(\max_i
-h_\theta^{(i)}(x)\)</span></p>
-<p><strong>正则化(Regularization)</strong>：为避免<strong>过拟合(Overfitting)</strong>，对于某些高次项系数<span
-class="math inline">\(\theta_i\)</span>，将<span
-class="math inline">\(1000\theta_i^2\)</span>加入<span
-class="math inline">\(J(\theta)\)</span>，以使得此系数尽量小，从而消除此系数（显然<span
-class="math inline">\(\theta_0\)</span>不需要）。</p>
-<p><span class="math inline">\(J(\theta) = \frac{1}{m} [\sum_{i = 1}^m
-(h_\theta(x^{(i)}) - y^{(i)})^2 + \lambda \sum_{j = 1}^n
-\theta_j^2]\)</span></p>
-<p><span class="math inline">\(\theta_0 := \theta_0 - \frac{\alpha}{m}
-\sum_{i = 1}^m (h_\theta(x^{(0)}) - y^{(0)})x_0^{(0)}\)</span></p>
-<p><span class="math inline">\(\theta_j := \theta_j(1 -
-\alpha\frac{\lambda}{m}) - \frac{\alpha}{m} \sum_{i = 1}^m
-(h_\theta(x^{(i)}) - y^{(i)})x_j^{(i)}\)</span></p>
-<p><span class="math inline">\(\theta = \Big{(}X^TX + \lambda
-\begin{bmatrix} 0 &amp; &amp; &amp; &amp; \\ &amp; 1 &amp; &amp; &amp;
-\\ &amp; &amp;  1 &amp; &amp; \\ &amp; &amp; &amp; \ddots &amp; \\ &amp;
-&amp; &amp; &amp; 1 \end{bmatrix}\Big{)}^{-1}X^Ty\)</span> <span
-class="math inline">\((n+1)\times(n+1)\)</span></p>
-<p>若<span class="math inline">\(m \leqslant n\)</span>且<span
-class="math inline">\(\lambda &gt; 0\)</span>，那么此矩阵可逆。</p>
-<h2 id="神经网络neural-networks">神经网络(Neural Networks)</h2>
-<p><span class="math inline">\(L\)</span>：网络层数，<span
-class="math inline">\(s_l\)</span>：神经元数量（不包括偏差单元bias
-unit）</p>
-<p><strong>二分类(Binary Classification)</strong>：<span
-class="math inline">\(y = 0\ \text{or}\ 1\)</span>，<span
-class="math inline">\(s_L = K = 1\)</span></p>
-<p><strong>多分类（Multi-class Classification）</strong>：<span
-class="math inline">\(y \in \mathbb{R}^K\)</span>，<span
-class="math inline">\(S_L = K\)</span></p>
-<p><span class="math inline">\(J(\theta) = -\frac{1}{m}[\sum_{i = 1}^m
-\sum_{k = 1}^K  y_k^{(i)} \log(h_\theta(x^{(i)}))_k + (1 - y_k^{(i)})
-\log(1 - (h_\theta(x^{(i)}))_k)] \\ + \frac{\lambda}{2m}\sum_{l = 1}^{L
-- 1}\sum_{i = 1}^{s_l}\sum_{j = 1}^{s_l +
-1}(\theta_{ji}^{(l)})^2\)</span></p>
-<p><span class="math inline">\(a_j^{(l)}\)</span>：第<span
-class="math inline">\(l\)</span>层第<span
-class="math inline">\(j\)</span>个节点的<strong>激活值(Activation)</strong>，<span
-class="math inline">\(z^{(l+1)} = \theta^{(l)} \cdot
-a^{(l)}\)</span>，<span class="math inline">\(a^{(l+1)} =
-g(z^{(l+1)})\)</span>，此例中<span class="math inline">\(g(z) =
-\frac{1}{1 - e^{-z}}\)</span></p>
-<p><span class="math inline">\(cost(i) = y^{(i)}\log h_\theta(x^{(i)}) +
-(1 - y^{(i)}) \log h_\theta(x^{(i)})\)</span></p>
-<p><span class="math inline">\(\delta_j^{(l)}\)</span>是<span
-class="math inline">\(a_j^{(l)}\)</span>的误差代价，<span
-class="math inline">\(\delta_j^{(l)} = \frac{\partial}{\partial
-z_j^{(l)}}cost(i)\ (j \geqslant 0)\)</span></p>
-<p>复杂推导得：<span class="math inline">\(\delta^{(l)} =
-(\theta^{(l)})^T \delta^{(l+1)} \cdot g&#39;(z^{(l)})\)</span>，<span
-class="math inline">\(g&#39;(z^{(l)}) = a^{(l)} \cdot (1 -
-a^{(l)})\)</span>，<span class="math inline">\(\Delta_{ij}^{(l)} :=
-\Delta_{ij}^{(l)} + a_j^{(l)}\delta_i^{(l+1)}\)</span></p>
-<p>对于每个样本<span class="math inline">\((x^{(i)},
-y^{(i)})\)</span>，<strong>正向传播(Forward
-Propagation)</strong>得到<span
-class="math inline">\(a\)</span>，再计算输出层的<span
-class="math inline">\(\delta^{(L)}\)</span>，再<strong>反向传播(Back
-Propagation)</strong>得到<span class="math inline">\(\delta^{(2 \sim
-L-1)}\)</span>和<span class="math inline">\(\Delta^{(2 \sim
-L-1)}\)</span>，最后得到代价函数的偏导数：</p>
-<p><span class="math inline">\(D_{ij}^{(l)} :=
-\frac{1}{m}\Delta_{ij}^{(l)} + \lambda \theta_{ij}^{(l)}\ \ \ if\ j \neq
-0\)</span></p>
-<p><span class="math inline">\(D_{ij}^{(l)} := \frac{1}{m}
-\Delta_{ij}^{(l)}\ \ \ if\ j = 0\)</span></p>
-<p><strong>梯度检测(Gradient Check)</strong>：<span
-class="math inline">\(\frac{\partial}{\partial \theta_i} \approx
-\frac{J(\theta_1, \cdots, \theta_i+\epsilon, \cdots, \theta_n) -
-J(\theta_1, \cdots, \theta_i - \epsilon, \cdots
-\theta_n)}{2\epsilon}\)</span></p>
-<p>随机初始化：每个<span
-class="math inline">\(\theta_{ij}^{(l)}\)</span>都在<span
-class="math inline">\([-\epsilon, \epsilon]\)</span>范围内随机。</p>
-<h2 id="机器学习诊断法diagnostics">机器学习诊断法(Diagnostics)：</h2>
-<p><strong>0/1分类错误(0/1 Misclassfication error)</strong></p>
-<p><span class="math inline">\(err(h_\theta(x), y) = \begin{cases} 1
-&amp; \text{if } h_\theta(x) \geqslant 0.5 &amp; , y = 0 \\ &amp;
-\text{or if } h_\theta(x)&lt;0.5 &amp;, y = 1 \\ 0 &amp;
-\text{otherwise} \end{cases}\)</span></p>
-<p><span class="math inline">\(Test\ error = \frac{1}{m_{test}} \sum_{i
-= 1}^{m_{test}} err(h_\theta(x_{test}^{(i)}),
-y_{test}^{(i)})\)</span></p>
-<p>训练集(Trainning set) 60%，交叉验证集(Cross validation set)
-20%，测试集(Test set) 20%</p>
-<p>选择误差小的、泛化能力强的多项式次数<span
-class="math inline">\(d\)</span>作为最终拟合结果。</p>
-<p>先训练最小化<span
-class="math inline">\(J_{train}(\theta)\)</span>，再选取<span
-class="math inline">\(J_{cv}(\theta)\)</span>最小的次数<span
-class="math inline">\(\theta^{(i)}\)</span>，最后在测试集上测试其泛化能力。</p>
-<p>偏差值（Bias）过高：欠拟合。<span
-class="math inline">\(J_{train}(\theta)\)</span>和<span
-class="math inline">\(J_{cv}(\theta)\)</span>都很高</p>
-<p>方差值（Variance）过高：过拟合。<span
-class="math inline">\(J_{train}(\theta)\)</span>很低，<span
-class="math inline">\(J_{cv}(\theta)\)</span>很高</p>
-<p>可以用同样的方法决定正则化系数<span
-class="math inline">\(\lambda\)</span></p>
-<p>偏斜类问题(skew classes)的评估方法：</p>
-<p><strong>查准率(True Positive)</strong>：<span
-class="math inline">\(\frac{\text{True positives}}{\text{ predicted
-positives}} = \frac{\text{True pos}}{\text{True pos + Fake
-pos}}\)</span></p>
-<p><strong>召回率(Fake Positive)</strong>：<span
-class="math inline">\(\frac{True\ positives}{\# actual\ positives} =
-\frac{True\ pos}{True\ pos + False\ neg}\)</span></p>
-<p>常用评估值：<span class="math inline">\(F_1\ Score: \frac{2PR}{P +
-R}\)</span></p>
-<h2 id="支持向量机support-vector-machine">支持向量机(Support Vector
-Machine)</h2>
-<p>逻辑回归：</p>
-<p><span class="math inline">\(J(\theta) = \frac{1}{m}[\sum_{i = 1}^m
-(-\log h_\theta(x^{(i)})) + (1 - y^{(i)})(-\log (1 -
-h_\theta(x^{(i)})))] + \frac{\lambda}{2m}\sum_{j = 1}^n
-\theta_j^2\)</span></p>
-<p><span class="math inline">\(SVM\)</span>：</p>
-<p><span class="math inline">\(\min_\theta C\sum_{i =
-1}^m[y^{(i)}cost_1(\theta^Tx^{(i)}) + (1 -
-y^{(i)})cost_0(\theta^Tx^{(i)})] + \frac{1}{2}\sum_{i = 1}^n
-\theta_j^2\)</span></p>
-<p>若希望预测结果<span class="math inline">\(y = 1\)</span>，则需要<span
-class="math inline">\(\theta^Tx^{(i)} \geqslant 1\)</span>，若希望<span
-class="math inline">\(y = 0\)</span>，则需要<span
-class="math inline">\(\theta^Tx^{(i)} \leqslant -1\)</span></p>
-<p><strong>核函数(Kernel)</strong>：<span class="math inline">\(f_i =
-similarity(x, l^{(i)}) = exp(-\frac{\parallel x -
-l^{(i)}\parallel^2}{2\sigma^2})\)</span></p>
-<p>训练：<span class="math inline">\(\min_\theta C\sum_{i = 1}^m
-[y^{(i)}cost_1(\theta^T f^{(i)}) + (1 - y^{(i)})cost_0(\theta^Tf^{(i)})]
-+ \frac{1}{2}\sum_{j = 1}^n \theta_j^2\)</span> （<span
-class="math inline">\(n = m\)</span>）</p>
-]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>机器学习</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Go 语法笔记</title>
     <url>/2023/09/23/Go-%E8%AF%AD%E6%B3%95%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<ul>
@@ -1937,92 +1937,6 @@ href="https://zhuanlan.zhihu.com/p/381508379">知乎</a></p></li>
       </categories>
       <tags>
         <tag>电脑配置</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java Spring 系列入门</title>
-    <url>/2024/10/11/Java-Spring-%E7%B3%BB%E5%88%97%E5%85%A5%E9%97%A8/</url>
-    <content><![CDATA[<h2 id="spring-framework">Spring Framework</h2>
-<ul>
-<li>IoC（Inversion of Control）：程序中不主动 new
-对象，而是由外部（Spring
-的容器）提供对象，实现充分解耦；这一创建权的转移称为控制反转，这些被管理的对象称为
-Bean；</li>
-<li>DI（Dependency Injection）：在容器中建立各个 Bean
-之间的依赖关系的过程，称为依赖注入；</li>
-<li>Maven Dependency 中导入 spring-context 坐标后：</li>
-</ul>
-<span id="more"></span>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 在 resources/ 中创建 applicationContext.xml：</span></span><br><span class="line"><span class="comment">// 可添加 autowire 自动注入依赖</span></span><br><span class="line">&lt;bean id=”bookService” class=”com.example.service.impl.BookServiceImpl”&gt;</span><br><span class="line">	&lt;property name=<span class="string">&quot;bookDao&quot;</span> ref=<span class="string">&quot;bookDao&quot;</span> /&gt; <span class="comment">/* Setter 注入 */</span></span><br><span class="line">	<span class="comment">// name 为构造函数形参名，可改为使用 type，或使用 index=&quot;0&quot;</span></span><br><span class="line">	&lt;constructor-arg name=<span class="string">&quot;bookDao&quot;</span> ref=<span class="string">&quot;bookDao&quot;</span> /&gt; <span class="comment">/* 构造器注入 */</span></span><br><span class="line">	&lt;property name=<span class="string">&quot;databaseName&quot;</span> value=<span class="string">&quot;mysql&quot;</span> /&gt;</span><br><span class="line">&lt;/bean&gt;</span><br><span class="line"><span class="comment">// name 起别名，scope 设置不为单例（默认为 singleton）</span></span><br><span class="line">&lt;bean id=<span class="string">&quot;bookDao&quot;</span> name=<span class="string">&quot;dao dao1&quot;</span> class=<span class="string">&quot;com.example.dao.impl.BookDaoImpl&quot;</span></span><br><span class="line">	scope=<span class="string">&quot;prototype&quot;</span> init-method=<span class="string">&quot;init&quot;</span> destroy-method=<span class="string">&quot;destroy&quot;</span> /&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 给 BookDao 定义 Setter 方法或构造方法，然后添加</span></span><br><span class="line"><span class="type">ClassPathXmlApplicationContext</span> <span class="variable">ctx</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ClassPathXmlApplicationContext</span>(<span class="string">&quot;applicationContext.xml&quot;</span>);</span><br><span class="line"><span class="type">BookService</span> <span class="variable">bookService</span> <span class="operator">=</span> (BookService)ctx.getBean(<span class="string">&quot;bookService&quot;</span>);</span><br><span class="line">ctx.close(); 或 ctx.registerShutdownHook();</span><br></pre></td></tr></table></figure>
-<ul>
-<li>Bean 的生命周期：创建对象（内存分配）→ 构造 → 属性注入（Setter）→
-初始化（继承自 InitializingBean 的 afterPropertiesSet()）→ 使用 →
-销毁（继承自 DisposableBean 的 destroy()）；</li>
-<li>Bean Factory ⇒ ApplicationContext ⇒
-ClassPathXmlApplicationContext；</li>
-</ul>
-<h2 id="spring-boot">Spring Boot</h2>
-<ul>
-<li>Spring Boot Web 内置 Tomcat，兼容 Servlet 与 JSP
-规范；三层架构：Controller（控制层）、Service（业务逻辑层）、DAO（数据访问层
-/ 持久层）；</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 注解配置 Bean</span></span><br><span class="line">&lt;context:component-scan base-<span class="keyword">package</span>=<span class="string">&quot;com.example&quot;</span> /&gt;</span><br><span class="line"><span class="comment">// 纯注解 SpringConfig.java</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ComponentScan(&quot;com.example&quot;)</span></span><br><span class="line"><span class="meta">@PropertySource(&quot;jdbc.properties&quot;)</span></span><br><span class="line"><span class="meta">@Import(&#123;JdbcConfig.class&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SpringConfig</span> &#123;</span><br><span class="line">	<span class="comment">// 用于第三方 Bean</span></span><br><span class="line">	<span class="meta">@Bean</span></span><br><span class="line">	<span class="keyword">public</span> DataSource <span class="title function_">dataSource</span><span class="params">(BookService bookService)</span> &#123;</span><br><span class="line">		<span class="type">DataSource</span> <span class="variable">ds</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DataSource</span>();</span><br><span class="line">		ds.setUsername(<span class="string">&quot;root&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span> ds;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 代码里改为</span></span><br><span class="line"><span class="type">ApplicationContext</span> <span class="variable">ctx</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AnnotationConfigApplicationContext</span>(SpringConfig.class);</span><br></pre></td></tr></table></figure>
-<ul>
-<li>通过注解开发支持无 XML 配置；纯注解开发：
-<code>@Component("bookDao")</code> ，三个与之完全等同的注解：
-<code>@Service</code> 、 <code>@Repository</code> 、
-<code>@Controller</code> ；</li>
-<li><code>@Scope("prototype")</code> ， <code>@PostConstruct</code> ，
-<code>@PreDestroy</code> ， <code>@Autowired</code>
-（默认按类型注入）；</li>
-<li><code>@Primary</code>
-（指定优先此类对象）、<code>@Qualifier("")+@AutoWired</code>
-（类型耦合）、 <code>@Resource(name="")</code>（名字耦合，不推荐）、
-<code>@Value("")</code> ；</li>
-</ul>
-<h2 id="springmvc">SpringMVC</h2>
-<ul>
-<li>使用 <code>@RestController</code> 声明 Controller 负责 Tomcat
-路由和返回；原始方法为在 <code>@RequestMapping("/")</code>方法中声明
-<code>HttpServletRequest</code> 对象参数，再通过
-<code>getParameter(name)</code>
-获得对应参数字符串；现在处理函数只需定义好参数即可获取 GET 与 POST
-方法后接的各项参数；
-<code>@RequestParam(name="username", require=false)</code>
-设置不必须的后接参数；</li>
-<li>一个 <code>@RestController</code> 类的方法的返回值即为
-<code>@ResponseBody</code> ，若为复杂类型，会转换成 JSON
-返回给客户端；</li>
-<li>前端工程化框架打包的结果存放在 /Resources 中；</li>
-<li>启动类声明注解 <code>@SpringBootApplication</code> 中包含了
-<code>@ComponentScan</code> ；</li>
-<li>过滤器、Cookie、Session 等内容属于 JavaWeb；JWT、OSS
-等技术属于解决方案；接受请求、相应数据、拦截器、全局异常处理等 Spring 内
-Web 功能属于 SpringMVC；IoC、DI、AOP、事务管理等架构理念支持属于 Spring
-Framework，JDBC 等数据库操作被封装在 MyBatis；后三者统称为
-SSM；SpringBoot 用于快捷启动整个项目的开发；</li>
-</ul>
-<h2 id="mybatis">Mybatis</h2>
-<ul>
-<li>在 application.properties
-中配置连接四要素：Driver、URL、Username、Password；</li>
-<li>接口类使用 <code>@Mapper</code> 注解，返回值变量定义前加
-<code>@Select("command")</code>
-注解，会自动将查询答案返回到此变量中，也可以定义方法；增删改的操作类似；使用
-<code>@Options</code> 返回插入后条目的主键值；可以用
-<code>@Results</code> 和 <code>@Result</code>
-字段注解手动映射返回值封装；</li>
-<li>使用 <code>getConnection()</code> 获取数据库连接池的连接；可使用
-lombok 工具包根据特定注解自动生成各类方法（getter()、toString()
-等）；</li>
-</ul>
-]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
@@ -2447,6 +2361,92 @@ Work）：搜索一个数使其与区块数据一起被（SHA-256）哈希后得
       </tags>
   </entry>
   <entry>
+    <title>Java Spring 系列入门</title>
+    <url>/2024/10/11/Java-Spring-%E7%B3%BB%E5%88%97%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[<h2 id="spring-framework">Spring Framework</h2>
+<ul>
+<li>IoC（Inversion of Control）：程序中不主动 new
+对象，而是由外部（Spring
+的容器）提供对象，实现充分解耦；这一创建权的转移称为控制反转，这些被管理的对象称为
+Bean；</li>
+<li>DI（Dependency Injection）：在容器中建立各个 Bean
+之间的依赖关系的过程，称为依赖注入；</li>
+<li>Maven Dependency 中导入 spring-context 坐标后：</li>
+</ul>
+<span id="more"></span>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 在 resources/ 中创建 applicationContext.xml：</span></span><br><span class="line"><span class="comment">// 可添加 autowire 自动注入依赖</span></span><br><span class="line">&lt;bean id=”bookService” class=”com.example.service.impl.BookServiceImpl”&gt;</span><br><span class="line">	&lt;property name=<span class="string">&quot;bookDao&quot;</span> ref=<span class="string">&quot;bookDao&quot;</span> /&gt; <span class="comment">/* Setter 注入 */</span></span><br><span class="line">	<span class="comment">// name 为构造函数形参名，可改为使用 type，或使用 index=&quot;0&quot;</span></span><br><span class="line">	&lt;constructor-arg name=<span class="string">&quot;bookDao&quot;</span> ref=<span class="string">&quot;bookDao&quot;</span> /&gt; <span class="comment">/* 构造器注入 */</span></span><br><span class="line">	&lt;property name=<span class="string">&quot;databaseName&quot;</span> value=<span class="string">&quot;mysql&quot;</span> /&gt;</span><br><span class="line">&lt;/bean&gt;</span><br><span class="line"><span class="comment">// name 起别名，scope 设置不为单例（默认为 singleton）</span></span><br><span class="line">&lt;bean id=<span class="string">&quot;bookDao&quot;</span> name=<span class="string">&quot;dao dao1&quot;</span> class=<span class="string">&quot;com.example.dao.impl.BookDaoImpl&quot;</span></span><br><span class="line">	scope=<span class="string">&quot;prototype&quot;</span> init-method=<span class="string">&quot;init&quot;</span> destroy-method=<span class="string">&quot;destroy&quot;</span> /&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 给 BookDao 定义 Setter 方法或构造方法，然后添加</span></span><br><span class="line"><span class="type">ClassPathXmlApplicationContext</span> <span class="variable">ctx</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ClassPathXmlApplicationContext</span>(<span class="string">&quot;applicationContext.xml&quot;</span>);</span><br><span class="line"><span class="type">BookService</span> <span class="variable">bookService</span> <span class="operator">=</span> (BookService)ctx.getBean(<span class="string">&quot;bookService&quot;</span>);</span><br><span class="line">ctx.close(); 或 ctx.registerShutdownHook();</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Bean 的生命周期：创建对象（内存分配）→ 构造 → 属性注入（Setter）→
+初始化（继承自 InitializingBean 的 afterPropertiesSet()）→ 使用 →
+销毁（继承自 DisposableBean 的 destroy()）；</li>
+<li>Bean Factory ⇒ ApplicationContext ⇒
+ClassPathXmlApplicationContext；</li>
+</ul>
+<h2 id="spring-boot">Spring Boot</h2>
+<ul>
+<li>Spring Boot Web 内置 Tomcat，兼容 Servlet 与 JSP
+规范；三层架构：Controller（控制层）、Service（业务逻辑层）、DAO（数据访问层
+/ 持久层）；</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 注解配置 Bean</span></span><br><span class="line">&lt;context:component-scan base-<span class="keyword">package</span>=<span class="string">&quot;com.example&quot;</span> /&gt;</span><br><span class="line"><span class="comment">// 纯注解 SpringConfig.java</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ComponentScan(&quot;com.example&quot;)</span></span><br><span class="line"><span class="meta">@PropertySource(&quot;jdbc.properties&quot;)</span></span><br><span class="line"><span class="meta">@Import(&#123;JdbcConfig.class&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SpringConfig</span> &#123;</span><br><span class="line">	<span class="comment">// 用于第三方 Bean</span></span><br><span class="line">	<span class="meta">@Bean</span></span><br><span class="line">	<span class="keyword">public</span> DataSource <span class="title function_">dataSource</span><span class="params">(BookService bookService)</span> &#123;</span><br><span class="line">		<span class="type">DataSource</span> <span class="variable">ds</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DataSource</span>();</span><br><span class="line">		ds.setUsername(<span class="string">&quot;root&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span> ds;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 代码里改为</span></span><br><span class="line"><span class="type">ApplicationContext</span> <span class="variable">ctx</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AnnotationConfigApplicationContext</span>(SpringConfig.class);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>通过注解开发支持无 XML 配置；纯注解开发：
+<code>@Component("bookDao")</code> ，三个与之完全等同的注解：
+<code>@Service</code> 、 <code>@Repository</code> 、
+<code>@Controller</code> ；</li>
+<li><code>@Scope("prototype")</code> ， <code>@PostConstruct</code> ，
+<code>@PreDestroy</code> ， <code>@Autowired</code>
+（默认按类型注入）；</li>
+<li><code>@Primary</code>
+（指定优先此类对象）、<code>@Qualifier("")+@AutoWired</code>
+（类型耦合）、 <code>@Resource(name="")</code>（名字耦合，不推荐）、
+<code>@Value("")</code> ；</li>
+</ul>
+<h2 id="springmvc">SpringMVC</h2>
+<ul>
+<li>使用 <code>@RestController</code> 声明 Controller 负责 Tomcat
+路由和返回；原始方法为在 <code>@RequestMapping("/")</code>方法中声明
+<code>HttpServletRequest</code> 对象参数，再通过
+<code>getParameter(name)</code>
+获得对应参数字符串；现在处理函数只需定义好参数即可获取 GET 与 POST
+方法后接的各项参数；
+<code>@RequestParam(name="username", require=false)</code>
+设置不必须的后接参数；</li>
+<li>一个 <code>@RestController</code> 类的方法的返回值即为
+<code>@ResponseBody</code> ，若为复杂类型，会转换成 JSON
+返回给客户端；</li>
+<li>前端工程化框架打包的结果存放在 /Resources 中；</li>
+<li>启动类声明注解 <code>@SpringBootApplication</code> 中包含了
+<code>@ComponentScan</code> ；</li>
+<li>过滤器、Cookie、Session 等内容属于 JavaWeb；JWT、OSS
+等技术属于解决方案；接受请求、相应数据、拦截器、全局异常处理等 Spring 内
+Web 功能属于 SpringMVC；IoC、DI、AOP、事务管理等架构理念支持属于 Spring
+Framework，JDBC 等数据库操作被封装在 MyBatis；后三者统称为
+SSM；SpringBoot 用于快捷启动整个项目的开发；</li>
+</ul>
+<h2 id="mybatis">Mybatis</h2>
+<ul>
+<li>在 application.properties
+中配置连接四要素：Driver、URL、Username、Password；</li>
+<li>接口类使用 <code>@Mapper</code> 注解，返回值变量定义前加
+<code>@Select("command")</code>
+注解，会自动将查询答案返回到此变量中，也可以定义方法；增删改的操作类似；使用
+<code>@Options</code> 返回插入后条目的主键值；可以用
+<code>@Results</code> 和 <code>@Result</code>
+字段注解手动映射返回值封装；</li>
+<li>使用 <code>getConnection()</code> 获取数据库连接池的连接；可使用
+lombok 工具包根据特定注解自动生成各类方法（getter()、toString()
+等）；</li>
+</ul>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Mac工作环境配置</title>
     <url>/2023/07/13/Mac%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<p>外部文件：</p>
@@ -2516,43 +2516,126 @@ Control</a>，若失败：</p>
       </tags>
   </entry>
   <entry>
-    <title>Makefile和CMake初级使用</title>
-    <url>/2023/07/19/Makefile%E5%92%8CCMake%E5%88%9D%E7%BA%A7%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="makefile">Makefile</h2>
+    <title>Pine 源码阅读笔记</title>
+    <url>/2023/11/20/Pine-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<p>Pine 是一个使用 C++17 编写的高并发框架，支持 Linux / MacOS
+跨平台；它也是 <a
+href="https://github.com/yuesong-feng/30dayMakeCppServer/tree/main">30
+天自制 C++ 服务器</a>（目前更至第十六天）的配套代码。</p>
+<p>本文为 <a href="https://github.com/yuesong-feng/pine">Github 源码</a>
+阅读笔记。</p>
+<p>前置技能：</p>
 <ul>
-<li>Makefile三部分：目标、依赖、执行语句；</li>
-<li>递归执行：若不存在目标文件或目标文件修改时间早于依赖文件，则先产生对应依赖文件，再执行语句；</li>
-<li>所有.o文件均由对应.c文件生成，<code>$&lt;</code>为第一个依赖文件，<code>$@</code>为目标，<code>$^</code>为所有不重复的依赖文件，以空格分开；</li>
-<li><code>src = $(wildcard ./*.c)</code>得到空格隔开的所有.c文件名；<code>obj = $(patsubst %.c, %.o, $(src))</code>
-代表将src中的所有.c替换成.o；<code>obj = $(src: %.c=%.o)</code>
-能得到同样效果；</li>
-<li><code>.PHONY</code>代表clean为伪目标</li>
+<li>Modern C++ （包括并行库）；</li>
+<li>网络编程基础
+<ul>
+<li><strong>《Linux 高性能服务器编程》——
+游双</strong>：服务器编程必读；</li>
+<li><strong>《Linux 多线程服务端编程：使用 muduo C++ 网络库》——
+陈硕</strong>：经典网络库 muduo 作者，本框架采用类 muduo 架构；</li>
+<li><strong>《C++ 服务器开发精髓》——
+张远龙</strong>：类似以上两本书的组合，编写年份较新，对部分技术做了相应更新；</li>
+<li><strong>《UNIX网络编程卷1：套接字联网API》、《UNIX网络编程卷2：进程间通信》</strong>：可以作为字典书；</li>
+</ul></li>
 </ul>
 <span id="more"></span>
-<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line">src = <span class="variable">$(<span class="built_in">wildcard</span> ./*.c)</span>  </span><br><span class="line">obj = <span class="variable">$(<span class="built_in">patsubst</span> %.c, %.o, <span class="variable">$(src)</span>)</span>  </span><br><span class="line"><span class="comment">#obj = $(src:%.c=%.o)  </span></span><br><span class="line">target = app  </span><br><span class="line">CC = gcc  </span><br><span class="line"></span><br><span class="line"><span class="variable">$(target)</span>: <span class="variable">$(obj)</span>  </span><br><span class="line">    <span class="variable">$(CC)</span> <span class="variable">$(obj)</span> -o <span class="variable">$(target)</span>  </span><br><span class="line"></span><br><span class="line"><span class="section">%.o: %.c  </span></span><br><span class="line">    <span class="variable">$(CC)</span> -c <span class="variable">$&lt;</span> -o <span class="variable">$@</span>  </span><br><span class="line"></span><br><span class="line"><span class="meta"><span class="keyword">.PHONY</span>: clean  </span></span><br><span class="line"><span class="section">clean:  </span></span><br><span class="line">    rm -rf <span class="variable">$(obj)</span> <span class="variable">$(target)</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line">CC := clang</span><br><span class="line">CXX := clang++</span><br><span class="line"></span><br><span class="line">.PHONY all</span><br><span class="line"><span class="section">all: answer</span></span><br><span class="line"></span><br><span class="line">objects := main.o answer.o</span><br><span class="line"><span class="section">answer: <span class="variable">$(objects)</span></span></span><br><span class="line">	<span class="variable">$(CXX)</span> -o <span class="variable">$@</span> <span class="variable">$(objects)</span></span><br><span class="line"></span><br><span class="line"><span class="section">main.o: answer.hpp</span></span><br><span class="line"><span class="section">answer.o: answer.hpp</span></span><br><span class="line"></span><br><span class="line">.PHONY clean</span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	rm -f answer(objects)</span><br></pre></td></tr></table></figure>
-<h2 id="cmake">CMake</h2>
+<h2 id="框架介绍">框架介绍</h2>
 <ul>
-<li><a
-href="https://www.bilibili.com/video/BV14h41187FZ/?vd_source=9282f15e6d326725afd47615733d4bd1">视频教程</a></li>
-<li>在my_project目录下存放源文件和CMakeLists.txt，另新建文件夹build，进入后执行<code>cmake ..</code>在build目录下生成Makefile文件，再执行<code>cmake —-build .</code>生成可执行文件；上述命令等价于<code>cmake -B build &amp;&amp; cmake —-build build</code>
-；</li>
-<li>VSCode配置：<code>brew install cmake</code> 后安装CMake和CMake
-Tools，先编写CMakeLists.txt，再<code>Cmd+Shift+P</code> 调出CMake: Quick
-Start即可；</li>
-<li>常见操作：</li>
+<li>程序采用类 muduo 结构，one loop per thread，多 Reactor
+多线程模式，支持同步 / 异步 Socket I/O（仅代表 Socket
+无操作时是否立即返回，本质均为同步 IO，均在应用进程中占用 CPU
+时间）；常使用 ET + 非阻塞 Socket IO 模式；</li>
+<li>Server 是核心类，持有
+main-Reactor、sub-Reactors、Acceptor、Connection、线程池；</li>
+<li>Socket 为 socket 底层操作的封装，Poller 为对一系列 fd 及其 epoll
+相关操作的封装（对每个管理的 fd 持有其对应的 Channel），Channel
+为对每个文件描述符的具体操作的封装；Buffer 为 I/O 缓冲区的封装；</li>
+<li>每个事件循环 EventLoop 与一个 Poller 对应，支持随时增删需要管理的
+fd；</li>
+<li>main-Reactor 对应 Acceptor，在主线程中执行；</li>
+<li>每个 Connection 维护一个连接，随机将其分配给一个 sub-Reactor
+持有的事件循环；</li>
+<li>每个 Reactor 即一个事件循环；线程池中每个线程对应一个
+sub-Reactor，从有锁任务队列中取出一个 task；每个 task
+与一个事件循环对应；</li>
+<li>可能存在某时刻一个线程恰好完成了它的事件循环维护的所有连接，也没有再给它分配新的连接；此时它可以再从有锁任务队列中取一个
+task；但由于目前设计为一个线程对应一个
+task，因此实际上它会立即返回；</li>
+<li>任务、事件循环、Reactor、线程、Poller 在此框架中一一对应；</li>
 </ul>
-<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line">cmake_minimum_required(VERSION 3.15.0) <span class="comment"># 指定最小版本</span></span><br><span class="line">project(My_Project) <span class="comment"># 指定项目名称</span></span><br><span class="line"></span><br><span class="line">set(CMAKE_BUILD_TYPE <span class="string">&quot;Release&quot;</span>)</span><br><span class="line">set(CMAKE_CXX_FLAGS_DEBUG <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -g -Werror -Wextra -pedantic -std=c++14&quot;</span>)</span><br><span class="line">set(CMAKE_CXX_FLAGS_RELEASE <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -std=c++14 -O2&quot;</span>)</span><br><span class="line"></span><br><span class="line">add_executable(demo demo.cpp) <span class="comment"># 生成可执行文件（Linux: demo, Windows: demo.exe）</span></span><br><span class="line">add_library(common STATIC util1.cpp) <span class="comment"># 生成静态库（Linux: common.a, Windows: common.lib）</span></span><br><span class="line">add_library(common SHARED util2.cpp util3.cpp) <span class="comment"># 生成动态库或共享库（Linux: common.so, Windows: common.dll, MacOS: common.bundle, common.dylib）</span></span><br><span class="line"></span><br><span class="line">file(GLOB SRC_LIST <span class="string">&quot;*.cpp&quot;</span> <span class="string">&quot;protocal/*.cpp&quot;</span>)</span><br><span class="line">add_library(demo $&#123;SRC_LIST&#125;)</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">set(SRC_LIST main.cpp test.cpp)</span><br><span class="line">list(APPEND SRC_LIST test2.cpp)</span><br><span class="line">list(REMOVE_ITEM SRC_LIST test2.cpp)</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">aux_source_directory(. SRC_LIST) <span class="comment"># 搜索当前目录下所有可编译单元（.cpp文件）</span></span><br><span class="line">aux_source_directory(protocol SRC_PROTOCOL_LIST)</span><br><span class="line">add_library(demo $&#123;SRC_LIST&#125; $&#123;SRC_PROTOCOL_LIST&#125;)</span><br><span class="line"></span><br><span class="line">foreach(source $&#123;srcs&#125;)</span><br><span class="line">get_filename_component(name $&#123;source&#125; NAME/EXT/DIRECTORY/ABSOLUTE) <span class="comment"># 文件名/扩展名/目录路径/绝对路径</span></span><br><span class="line">add_executable($&#123;name&#125; $&#123;source&#125;)</span><br><span class="line">endforeach(source)</span><br><span class="line"></span><br><span class="line">include_directories($&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/<span class="keyword">include</span>) <span class="comment"># 设置头文件包含目录，将路径增加至CPLUS_INCLUDE_PATH变量</span></span><br><span class="line">set(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -I $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;&quot;</span>) <span class="comment"># 等价于</span></span><br><span class="line">link_libraries(<span class="string">&quot;/include/util.so&quot;</span>) <span class="comment"># 写在add_executable之前</span></span><br><span class="line"></span><br><span class="line">link_directories($&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/libs) <span class="comment"># 设置链接库搜索目录，将路径增加至LD_LIBRARY_PATH变量</span></span><br><span class="line">set(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -L $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/libs&quot;</span>) <span class="comment"># 等价于</span></span><br><span class="line"></span><br><span class="line">find_package(Protobuf REQUIRED) <span class="comment"># 查找外部包</span></span><br><span class="line">target_link_libraries(demo lib.a $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/libs/lib.so) <span class="comment"># 设置需要链接的库</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 自动执行子目录下的CMakeLists.txt</span></span><br><span class="line">add_subdirectory($&#123;PROJECT_SOURCE_DIR&#125;/src/proto)</span><br><span class="line">include_directories($&#123;PROJECT_BINARY_DIR&#125;/src/proto)</span><br><span class="line"></span><br><span class="line">message($&#123;PROJECT_SOURCE_DIR&#125;)</span><br><span class="line">message(<span class="string">&quot;build with debug mode&quot;</span>)</span><br><span class="line">message(WARNING <span class="string">&quot;this is warnning message&quot;</span>)</span><br><span class="line">message(FATAL_ERROR <span class="string">&quot;this build has many error&quot;</span>) <span class="comment"># FATAL_ERROR 会导致编译失败</span></span><br></pre></td></tr></table></figure>
+<h2 id="各模块分析">各模块分析</h2>
+<h3 id="socket">Socket</h3>
 <ul>
-<li>文件目录形式：</li>
+<li>直接持有一个文件描述符 fd；</li>
+<li>支持设置 fd，获取 addr，设置 Socket I/O
+阻塞模式，获取缓冲区中可读取字节数，socket()、bind()、listen()、accept()、connect()
+的函数封装；</li>
 </ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">- my_project/</span><br><span class="line">  - build/</span><br><span class="line">    - Makefile</span><br><span class="line">    - helloworld.exe</span><br><span class="line">  - CmakeLists.txt</span><br><span class="line">  - helloworld.cpp</span><br></pre></td></tr></table></figure>
+<h3 id="channel">Channel</h3>
+<ul>
+<li>直接持有
+fd，监听事件功能二进制状态，准备事件功能二进制状态，是否存在，由
+Acceptor 与 Connection
+指定的读回调、写回调；以裸指针形式指向其所在事件循环；</li>
+<li>支持对直接持有的成员进行设置；根据准备事件二进制状态执行对应回调；</li>
+</ul>
+<h3 id="poller">Poller</h3>
+<ul>
+<li>直接持有一个 fd 和一个 epoll_event 指针（Linux）或一个 kevent
+指针（MacOS）；</li>
+<li>支持创建 epoll，拉取 epoll 并相应设置 Channel
+二进制状态（返回有更新的 Channel 序列），根据 Channel
+注册、删除事件（同时删除 Channel）；</li>
+</ul>
+<h3 id="buffer">Buffer</h3>
+<ul>
+<li>直接持有一个 <code>std::string</code>
+缓冲区，封装了对它的赋值、取长度、清空操作；</li>
+</ul>
+<h3 id="eventloop">EventLoop</h3>
+<ul>
+<li>以 <code>unique_ptr</code> 形式持有一个 Poller；</li>
+<li>支持无限循环地执行 epoll 中有更新的各个 Channel
+的回调，以及更新与删除某个 Channel；</li>
+</ul>
+<h3 id="threadpool">ThreadPool</h3>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ThreadPool.h</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ThreadPool</span> &#123;</span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="built_in">DISALLOW_COPY_AND_MOVE</span>(ThreadPool);</span><br><span class="line">  <span class="function"><span class="keyword">explicit</span> <span class="title">ThreadPool</span><span class="params">(<span class="type">unsigned</span> <span class="type">int</span> size = std::thread::hardware_concurrency())</span></span>;</span><br><span class="line">  ~<span class="built_in">ThreadPool</span>();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">F</span>, <span class="keyword">class</span>... Args&gt;</span><br><span class="line">  <span class="function"><span class="keyword">auto</span> <span class="title">Add</span><span class="params">(F &amp;&amp;f, Args &amp;&amp;...args)</span> -&gt; std::future&lt;<span class="keyword">typename</span> std::invoke_result&lt;F, Args...&gt;::type&gt;</span>;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">  std::vector&lt;std::thread&gt; workers_; <span class="comment">// 每个 worker 持有一个 lambda 函数，循环处理每个 task，某一时刻发现队列空则返回</span></span><br><span class="line">  std::queue&lt;std::function&lt;<span class="type">void</span>()&gt;&gt; tasks_; <span class="comment">// 每个 task 持有一个 package_task，在 worker 中的循环中被调用</span></span><br><span class="line">  std::mutex queue_mtx_; <span class="comment">// 对 task 队列的互斥锁</span></span><br><span class="line">  std::condition_variable queue_cv_; <span class="comment">// 对 task 队列的条件变量</span></span><br><span class="line">  std::atomic&lt;<span class="type">bool</span>&gt; stop_&#123;<span class="literal">false</span>&#125;; <span class="comment">// 是否停止该线程池运行，析构时直接设为 true 并逐个 worker 调用 join()</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不能放在cpp文件，C++编译器不支持模版的分离编译</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">F</span>, <span class="keyword">class</span>... Args&gt;</span><br><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">ThreadPool::Add</span><span class="params">(F &amp;&amp;f, Args &amp;&amp;...args)</span> -&gt; std::future&lt;<span class="keyword">typename</span> std::invoke_result&lt;F, Args...&gt;::type&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">using</span> return_type = <span class="keyword">typename</span> std::invoke_result&lt;F, Args...&gt;::type;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">auto</span> task = std::make_shared&lt;std::packaged_task&lt;<span class="built_in">return_type</span>()&gt;&gt;(std::<span class="built_in">bind</span>(std::forward&lt;F&gt;(f), std::forward&lt;Args&gt;(args)...));</span><br><span class="line"></span><br><span class="line">  std::future&lt;return_type&gt; res = task-&gt;<span class="built_in">get_future</span>();</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(queue_mtx_)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// don&#x27;t allow enqueueing after stopping the pool</span></span><br><span class="line">    <span class="keyword">if</span> (stop_) &#123;</span><br><span class="line">      <span class="keyword">throw</span> std::<span class="built_in">runtime_error</span>(<span class="string">&quot;enqueue on stopped ThreadPool&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    tasks_.<span class="built_in">emplace</span>([task]()&#123; (*task)(); &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  queue_cv_.<span class="built_in">notify_one</span>();</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ThreadPool.cpp</span></span><br><span class="line">ThreadPool::<span class="built_in">ThreadPool</span>(<span class="type">unsigned</span> <span class="type">int</span> size) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">    workers_.<span class="built_in">emplace_back</span>([<span class="keyword">this</span>]() &#123;</span><br><span class="line">      <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        std::function&lt;<span class="built_in">void</span>()&gt; task;</span><br><span class="line">        &#123;</span><br><span class="line">          std::unique_lock&lt;std::mutex&gt; <span class="built_in">lock</span>(queue_mtx_);</span><br><span class="line">          queue_cv_.<span class="built_in">wait</span>(lock, [<span class="keyword">this</span>]() &#123; <span class="keyword">return</span> stop_ || !tasks_.<span class="built_in">empty</span>(); &#125;);</span><br><span class="line">          <span class="keyword">if</span> (stop_ &amp;&amp; tasks_.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">          &#125;</span><br><span class="line">          task = std::<span class="built_in">move</span>(tasks_.<span class="built_in">front</span>());</span><br><span class="line">          tasks_.<span class="built_in">pop</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">task</span>();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ThreadPool::~<span class="built_in">ThreadPool</span>() &#123;</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(queue_mtx_)</span></span>;</span><br><span class="line">    stop_ = <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  queue_cv_.<span class="built_in">notify_all</span>();</span><br><span class="line">  <span class="keyword">for</span> (std::thread &amp;th : workers_) &#123;</span><br><span class="line">    <span class="keyword">if</span> (th.<span class="built_in">joinable</span>()) &#123;</span><br><span class="line">      th.<span class="built_in">join</span>();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="acceptor">Acceptor</h3>
+<ul>
+<li>每个 Acceptor 以 <code>unique_ptr</code> 形式持有一个 Socket 和一个
+Channel 用于管理监听端口行为，直接持有一个由 Server 指定的连接回调
+new_connection_callback()；</li>
+<li>构造时，构造一个新的 Socket 绑定到固定端口 127.0.0.1:1234
+并开启监听，并为其构造一个对应 Channel，将自己的连接函数
+AcceptConnection()（包含接受客户端连接操作和
+new_connection_callback()）设为 Channel 的读回调；</li>
+</ul>
+<h3 id="connection">Connection</h3>
+<ul>
+<li>每个 Connection 以 <code>unique_ptr</code> 形式持有一个 Socket
+和一个 Channel，以 <code>unique_ptr</code>
+形式持有读缓冲和写缓冲；直接持有由 Server 指定的一个 delete_connection()
+回调和一个 on_recv()
+回调；持有一个状态：非法、连接中、已连接、已关闭四个之一；</li>
+<li>构造时新建一个 Channel 并将 Server 指定的 fd 与 EventLoop 指定给新
+Channel，开启 ET 读；</li>
+<li>支持阻塞 / 非阻塞连接读 / 写；</li>
+</ul>
+<h3 id="tcpserver">TcpServer</h3>
+<ul>
+<li>以 <code>unique_ptr</code> 形式持有一个 main-Reactor（即
+EventLoop）、多个 sub-Reactors、一个 Acceptor、一个 ThreadPool；</li>
+<li>直接持有一个 map&lt;int,
+unique_ptr<Connection>&gt;，以及由程序员指定的 on_connect() 与 on_recv()
+回调；</li>
+</ul>
 ]]></content>
       <categories>
         <category>笔记</category>
       </categories>
       <tags>
         <tag>C++</tag>
+        <tag>网络编程</tag>
       </tags>
   </entry>
   <entry>
@@ -2979,129 +3062,6 @@ optional；</li>
       </tags>
   </entry>
   <entry>
-    <title>Pine 源码阅读笔记</title>
-    <url>/2023/11/20/Pine-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<p>Pine 是一个使用 C++17 编写的高并发框架，支持 Linux / MacOS
-跨平台；它也是 <a
-href="https://github.com/yuesong-feng/30dayMakeCppServer/tree/main">30
-天自制 C++ 服务器</a>（目前更至第十六天）的配套代码。</p>
-<p>本文为 <a href="https://github.com/yuesong-feng/pine">Github 源码</a>
-阅读笔记。</p>
-<p>前置技能：</p>
-<ul>
-<li>Modern C++ （包括并行库）；</li>
-<li>网络编程基础
-<ul>
-<li><strong>《Linux 高性能服务器编程》——
-游双</strong>：服务器编程必读；</li>
-<li><strong>《Linux 多线程服务端编程：使用 muduo C++ 网络库》——
-陈硕</strong>：经典网络库 muduo 作者，本框架采用类 muduo 架构；</li>
-<li><strong>《C++ 服务器开发精髓》——
-张远龙</strong>：类似以上两本书的组合，编写年份较新，对部分技术做了相应更新；</li>
-<li><strong>《UNIX网络编程卷1：套接字联网API》、《UNIX网络编程卷2：进程间通信》</strong>：可以作为字典书；</li>
-</ul></li>
-</ul>
-<span id="more"></span>
-<h2 id="框架介绍">框架介绍</h2>
-<ul>
-<li>程序采用类 muduo 结构，one loop per thread，多 Reactor
-多线程模式，支持同步 / 异步 Socket I/O（仅代表 Socket
-无操作时是否立即返回，本质均为同步 IO，均在应用进程中占用 CPU
-时间）；常使用 ET + 非阻塞 Socket IO 模式；</li>
-<li>Server 是核心类，持有
-main-Reactor、sub-Reactors、Acceptor、Connection、线程池；</li>
-<li>Socket 为 socket 底层操作的封装，Poller 为对一系列 fd 及其 epoll
-相关操作的封装（对每个管理的 fd 持有其对应的 Channel），Channel
-为对每个文件描述符的具体操作的封装；Buffer 为 I/O 缓冲区的封装；</li>
-<li>每个事件循环 EventLoop 与一个 Poller 对应，支持随时增删需要管理的
-fd；</li>
-<li>main-Reactor 对应 Acceptor，在主线程中执行；</li>
-<li>每个 Connection 维护一个连接，随机将其分配给一个 sub-Reactor
-持有的事件循环；</li>
-<li>每个 Reactor 即一个事件循环；线程池中每个线程对应一个
-sub-Reactor，从有锁任务队列中取出一个 task；每个 task
-与一个事件循环对应；</li>
-<li>可能存在某时刻一个线程恰好完成了它的事件循环维护的所有连接，也没有再给它分配新的连接；此时它可以再从有锁任务队列中取一个
-task；但由于目前设计为一个线程对应一个
-task，因此实际上它会立即返回；</li>
-<li>任务、事件循环、Reactor、线程、Poller 在此框架中一一对应；</li>
-</ul>
-<h2 id="各模块分析">各模块分析</h2>
-<h3 id="socket">Socket</h3>
-<ul>
-<li>直接持有一个文件描述符 fd；</li>
-<li>支持设置 fd，获取 addr，设置 Socket I/O
-阻塞模式，获取缓冲区中可读取字节数，socket()、bind()、listen()、accept()、connect()
-的函数封装；</li>
-</ul>
-<h3 id="channel">Channel</h3>
-<ul>
-<li>直接持有
-fd，监听事件功能二进制状态，准备事件功能二进制状态，是否存在，由
-Acceptor 与 Connection
-指定的读回调、写回调；以裸指针形式指向其所在事件循环；</li>
-<li>支持对直接持有的成员进行设置；根据准备事件二进制状态执行对应回调；</li>
-</ul>
-<h3 id="poller">Poller</h3>
-<ul>
-<li>直接持有一个 fd 和一个 epoll_event 指针（Linux）或一个 kevent
-指针（MacOS）；</li>
-<li>支持创建 epoll，拉取 epoll 并相应设置 Channel
-二进制状态（返回有更新的 Channel 序列），根据 Channel
-注册、删除事件（同时删除 Channel）；</li>
-</ul>
-<h3 id="buffer">Buffer</h3>
-<ul>
-<li>直接持有一个 <code>std::string</code>
-缓冲区，封装了对它的赋值、取长度、清空操作；</li>
-</ul>
-<h3 id="eventloop">EventLoop</h3>
-<ul>
-<li>以 <code>unique_ptr</code> 形式持有一个 Poller；</li>
-<li>支持无限循环地执行 epoll 中有更新的各个 Channel
-的回调，以及更新与删除某个 Channel；</li>
-</ul>
-<h3 id="threadpool">ThreadPool</h3>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ThreadPool.h</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ThreadPool</span> &#123;</span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="built_in">DISALLOW_COPY_AND_MOVE</span>(ThreadPool);</span><br><span class="line">  <span class="function"><span class="keyword">explicit</span> <span class="title">ThreadPool</span><span class="params">(<span class="type">unsigned</span> <span class="type">int</span> size = std::thread::hardware_concurrency())</span></span>;</span><br><span class="line">  ~<span class="built_in">ThreadPool</span>();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">F</span>, <span class="keyword">class</span>... Args&gt;</span><br><span class="line">  <span class="function"><span class="keyword">auto</span> <span class="title">Add</span><span class="params">(F &amp;&amp;f, Args &amp;&amp;...args)</span> -&gt; std::future&lt;<span class="keyword">typename</span> std::invoke_result&lt;F, Args...&gt;::type&gt;</span>;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">  std::vector&lt;std::thread&gt; workers_; <span class="comment">// 每个 worker 持有一个 lambda 函数，循环处理每个 task，某一时刻发现队列空则返回</span></span><br><span class="line">  std::queue&lt;std::function&lt;<span class="type">void</span>()&gt;&gt; tasks_; <span class="comment">// 每个 task 持有一个 package_task，在 worker 中的循环中被调用</span></span><br><span class="line">  std::mutex queue_mtx_; <span class="comment">// 对 task 队列的互斥锁</span></span><br><span class="line">  std::condition_variable queue_cv_; <span class="comment">// 对 task 队列的条件变量</span></span><br><span class="line">  std::atomic&lt;<span class="type">bool</span>&gt; stop_&#123;<span class="literal">false</span>&#125;; <span class="comment">// 是否停止该线程池运行，析构时直接设为 true 并逐个 worker 调用 join()</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不能放在cpp文件，C++编译器不支持模版的分离编译</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">F</span>, <span class="keyword">class</span>... Args&gt;</span><br><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">ThreadPool::Add</span><span class="params">(F &amp;&amp;f, Args &amp;&amp;...args)</span> -&gt; std::future&lt;<span class="keyword">typename</span> std::invoke_result&lt;F, Args...&gt;::type&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">using</span> return_type = <span class="keyword">typename</span> std::invoke_result&lt;F, Args...&gt;::type;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">auto</span> task = std::make_shared&lt;std::packaged_task&lt;<span class="built_in">return_type</span>()&gt;&gt;(std::<span class="built_in">bind</span>(std::forward&lt;F&gt;(f), std::forward&lt;Args&gt;(args)...));</span><br><span class="line"></span><br><span class="line">  std::future&lt;return_type&gt; res = task-&gt;<span class="built_in">get_future</span>();</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(queue_mtx_)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// don&#x27;t allow enqueueing after stopping the pool</span></span><br><span class="line">    <span class="keyword">if</span> (stop_) &#123;</span><br><span class="line">      <span class="keyword">throw</span> std::<span class="built_in">runtime_error</span>(<span class="string">&quot;enqueue on stopped ThreadPool&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    tasks_.<span class="built_in">emplace</span>([task]()&#123; (*task)(); &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  queue_cv_.<span class="built_in">notify_one</span>();</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ThreadPool.cpp</span></span><br><span class="line">ThreadPool::<span class="built_in">ThreadPool</span>(<span class="type">unsigned</span> <span class="type">int</span> size) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">    workers_.<span class="built_in">emplace_back</span>([<span class="keyword">this</span>]() &#123;</span><br><span class="line">      <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        std::function&lt;<span class="built_in">void</span>()&gt; task;</span><br><span class="line">        &#123;</span><br><span class="line">          std::unique_lock&lt;std::mutex&gt; <span class="built_in">lock</span>(queue_mtx_);</span><br><span class="line">          queue_cv_.<span class="built_in">wait</span>(lock, [<span class="keyword">this</span>]() &#123; <span class="keyword">return</span> stop_ || !tasks_.<span class="built_in">empty</span>(); &#125;);</span><br><span class="line">          <span class="keyword">if</span> (stop_ &amp;&amp; tasks_.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">          &#125;</span><br><span class="line">          task = std::<span class="built_in">move</span>(tasks_.<span class="built_in">front</span>());</span><br><span class="line">          tasks_.<span class="built_in">pop</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">task</span>();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ThreadPool::~<span class="built_in">ThreadPool</span>() &#123;</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(queue_mtx_)</span></span>;</span><br><span class="line">    stop_ = <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  queue_cv_.<span class="built_in">notify_all</span>();</span><br><span class="line">  <span class="keyword">for</span> (std::thread &amp;th : workers_) &#123;</span><br><span class="line">    <span class="keyword">if</span> (th.<span class="built_in">joinable</span>()) &#123;</span><br><span class="line">      th.<span class="built_in">join</span>();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="acceptor">Acceptor</h3>
-<ul>
-<li>每个 Acceptor 以 <code>unique_ptr</code> 形式持有一个 Socket 和一个
-Channel 用于管理监听端口行为，直接持有一个由 Server 指定的连接回调
-new_connection_callback()；</li>
-<li>构造时，构造一个新的 Socket 绑定到固定端口 127.0.0.1:1234
-并开启监听，并为其构造一个对应 Channel，将自己的连接函数
-AcceptConnection()（包含接受客户端连接操作和
-new_connection_callback()）设为 Channel 的读回调；</li>
-</ul>
-<h3 id="connection">Connection</h3>
-<ul>
-<li>每个 Connection 以 <code>unique_ptr</code> 形式持有一个 Socket
-和一个 Channel，以 <code>unique_ptr</code>
-形式持有读缓冲和写缓冲；直接持有由 Server 指定的一个 delete_connection()
-回调和一个 on_recv()
-回调；持有一个状态：非法、连接中、已连接、已关闭四个之一；</li>
-<li>构造时新建一个 Channel 并将 Server 指定的 fd 与 EventLoop 指定给新
-Channel，开启 ET 读；</li>
-<li>支持阻塞 / 非阻塞连接读 / 写；</li>
-</ul>
-<h3 id="tcpserver">TcpServer</h3>
-<ul>
-<li>以 <code>unique_ptr</code> 形式持有一个 main-Reactor（即
-EventLoop）、多个 sub-Reactors、一个 Acceptor、一个 ThreadPool；</li>
-<li>直接持有一个 map&lt;int,
-unique_ptr<Connection>&gt;，以及由程序员指定的 on_connect() 与 on_recv()
-回调；</li>
-</ul>
-]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>C++</tag>
-        <tag>网络编程</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Rust 笔记</title>
     <url>/2023/11/20/Rust-%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<p><strong>参考</strong>：</p>
@@ -3471,6 +3431,121 @@ $ 符号；</li>
       </categories>
       <tags>
         <tag>Swift</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Unity 远程真机调试插件开发</title>
+    <url>/2023/08/12/Unity-%E8%BF%9C%E7%A8%8B%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/</url>
+    <content><![CDATA[<p><strong>项目目标</strong>：完成远程真机调试插件，实现对端侧 3D/XR
+场景的 Unity 实时场景部署与调试；</p>
+<p><strong>具体内容</strong>：</p>
+<ol type="1">
+<li>在端侧构建调试 SDK，用于接收 Unity 发送的命令，和向 Unity
+同步状态；</li>
+<li>在 Unity 中基于插件实现Debug Server，用于和端侧进行实时通信（Unity
+场景快速导出并推送到端侧）和同步状态（Unity
+场景双向状态同步调试）；</li>
+<li>PC端：MacOS，移动端：iOS；</li>
+</ol>
+<span id="more"></span>
+<p>阶段任务概要：</p>
+<ul>
+<li>端侧 DebugSDK 技术选型 - Unity / <strong>C++</strong>，Unity
+插件技术选型 - OC / <strong>C++</strong></li>
+<li>通信协议选型：Socket Raw Packet / <strong>gRPC + Protobuf</strong> /
+Hybrid (Raw Packet + RPC)</li>
+<li>基础 Socket 通道搭建：Unity Socket Server (nc test)、Socket
+Client</li>
+<li>RPC 通道搭建：Unity RPC、iOS gRPC、C/S 双端互调</li>
+</ul>
+<h2 id="unity-c插件开发基础">Unity C++插件开发基础</h2>
+<p>参考：</p>
+<ul>
+<li>官网介绍：<a
+href="https://learn.microsoft.com/en-us/dotnet/fundamentals/">.NET</a>，<a
+href="https://docs.unity.cn/2023.2/Documentation/Manual/Plugins.html">Plugin，</a><a
+href="https://learn.microsoft.com/zh-cn/dotnet/standard/managed-code">托管代码，</a><a
+href="https://learn.microsoft.com/zh-cn/dotnet/standard/native-interop/pinvoke">P/Invoke</a>，<a
+href="https://www.mono-project.com/docs/advanced/pinvoke/">Mono
+Runtime官网对P/Invoke的介绍</a>；</li>
+<li>P/Invoke：<a href="https://www.jacksondunstan.com/articles/3938">C++
+Scripting: Part 1 – C#/C++ Communication</a>，<a
+href="https://www.cnblogs.com/herenzhiming/articles/6688804.html">C#与C/C++的交互（PInvoke）</a>，<a
+href="https://www.jianshu.com/p/06db6d0109db">Create A Native Plugin For
+Unity</a>，<a
+href="https://kyochow.github.io/articles/2020/10/12/1602495480321.html">关于Unity
+Native插件的开发</a>，<a
+href="https://www.jianshu.com/p/65bb18513f19">Unity与C++交互入门(1)</a>，<a
+href="https://rafalwilinski.medium.com/tutorial-create-c-c-plugins-for-unity3d-dbde7f67454#.hqsjain5e">Tutorial
+— Create C/C++ plugins for Unity3D</a>，<a
+href="https://rustcc.cn/article?id=3b8241d0-c4ca-4f49-8e07-0a5142b00f59">Rust
+FFI 编程 - FFI 概述</a></li>
+<li>插件开发：<a href="https://www.jianshu.com/p/183695196f02">Unity
+3D编辑器插件开发</a>，<a
+href="https://www.cnblogs.com/yzx885059439/p/14497026.html">Unity3D插件开发教程</a>，<a
+href="https://developer.aliyun.com/article/69190">开发unity插件——一次搞定unity编辑器常用功能</a></li>
+</ul>
+<p>.NET使用CIL作为高级语言与机器语言的中间层以实现跨平台，且使用公共语言运行时CLR（支持提前AOT和实时JIT类型），无论使用的是Mono、.NET
+Framework还是.NET
+Core。将执行过程交由运行时管理（如自动内存管理、安全边界、类型安全等）的代码称为托管代码（Managed
+Code）；直接运行编译出的机器语言而不依赖运行时的代码称为原生代码（Native
+Code）。二者各有优势和局限性，具体见官网介绍。Unity最常用的托管代码形式插件使用C#语言，原生插件可以使用C/C++/Objective-C等。.NET中，C#与C++的互操作（Interop）可以通过P/Invoke实现（也可以使用C++/CLI作为中间层，但Mono不支持）。</p>
+<p>Unity native 插件开发流程：C++ → C API → 打包 → C# 封装接口。</p>
+<p>在 Safe Mode 下 C# 与 C++ 无法直接交互，C++ 需要包装成 C API，由 C#
+调用 C API。 插件包：Android 打包成 <code>so</code>，IOS 打包成
+framework 或者 <code>.a</code>，macOS 打包成
+<code>.bundle</code>，Windows 打包成 dll。Windows 放在
+<code>Plugins/x86(x64)</code> 目录下，Mac 直接放在 <code>Plugins</code>
+目录下，iOS 放在 <code>Plugins/iOS</code> 目录下，Android 放在
+<code>Plugins/Android/libs/armeabi-v7a</code>
+目录下。如果修改了本地插件，需要将 dll 或者 bundle 覆盖了之后重启 Unity,
+不然还是会使用老的 Native Plugin。</p>
+<p>CMakeLists.txt：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cmake_minimum_required</span>(VERSION <span class="number">3.5</span>)</span><br><span class="line"><span class="built_in">project</span>(UnityPlugin)</span><br><span class="line"></span><br><span class="line"><span class="built_in">aux_source_directory</span>(. src) # 搜索当前目录下所有.cpp文件放入$&#123;src&#125;</span><br><span class="line"><span class="built_in">aux_source_directory</span>(channel.cpp lib) # 需要编成.dylib的文件</span><br><span class="line"></span><br><span class="line"># C++编译标准</span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_STANDARD <span class="number">11</span>)</span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_STANDARD_REQUIRED ON)</span><br><span class="line"># 添加编译选项</span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -fms-extensions&quot;</span>)</span><br><span class="line"></span><br><span class="line"># 生成可执行文件</span><br><span class="line"></span><br><span class="line"><span class="built_in">add_executable</span>(main $&#123;src&#125;)</span><br><span class="line"></span><br><span class="line"># 生成.bundle文件</span><br><span class="line"></span><br><span class="line"># <span class="built_in">add_library</span>(project1 MODULE $&#123;lib&#125;) #编译为程序资源包 *.bundle</span><br><span class="line"># <span class="built_in">set_target_properties</span>(project1 PROPERTIES BUNDLE TRUE)</span><br><span class="line"></span><br><span class="line"># 设置生成.bundle文件的相关参数</span><br><span class="line"><span class="built_in">set</span>(MACOSX_BUNDLE_BUNDLE_NAME <span class="string">&quot;ChannelPlugin&quot;</span>)</span><br><span class="line"><span class="built_in">set</span>(MACOSX_BUNDLE_BUNDLE_VERSION <span class="string">&quot;1.0.0&quot;</span>)</span><br><span class="line"></span><br><span class="line"># 添加源文件生成共享库</span><br><span class="line"><span class="built_in">add_library</span>(ChannelPlugin SHARED channel.cpp)</span><br><span class="line"></span><br><span class="line"># 设置.bundle文件的输出路径</span><br><span class="line"><span class="built_in">set_target_properties</span>(ChannelPlugin PROPERTIES</span><br><span class="line">  OUTPUT_NAME ChannelPlugin</span><br><span class="line">  LIBRARY_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  ARCHIVE_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  RUNTIME_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  BUNDLE_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"># 设置.bundle文件的资源文件</span><br><span class="line"><span class="built_in">set_source_files_properties</span>(</span><br><span class="line">  <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  PROPERTIES MACOSX_PACKAGE_LOCATION <span class="string">&quot;/&quot;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>channel.h头文件：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> CHANNEL_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> CHANNEL_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> __cplusplus</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXTERN_C extern <span class="string">&quot;C&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXTERN_C</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> EXPORT_API</span></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> UNITY_METRO </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXPORT_API EXTERN_C __declspec(dllexport) __stdcall </span></span><br><span class="line"><span class="meta">#<span class="keyword">elif</span> UNITY_WIN </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXPORT_API EXTERN_C __declspec(dllexport) </span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span> </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXPORT_API EXTERN_C</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* EXPORT_API*/</span></span></span><br><span class="line"></span><br><span class="line"><span class="function">EXPORT_API <span class="type">int</span> <span class="title">func</span><span class="params">(<span class="type">int</span> x)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* CHANNEL_H*/</span></span></span><br></pre></td></tr></table></figure>
+<p>在所有出现 <code>func</code> 声明或定义的时候都要带
+<code>EXPORT_API</code> ；将 /bundles 中的 .dylib
+文件复制到Unity的Assets/Plugins下，将 C#
+插件放入Assets/Editor下即可。</p>
+<p>注意：Unity
+改变C#脚本后会实时重编译，但在移入新.dylib文件并不会，需要退出重新进入
+Unity 项目。</p>
+<h2 id="rpc-协议选型与通道搭建">RPC 协议选型与通道搭建</h2>
+<p>参考：<a
+href="https://doc.oschina.net/grpc">gRPC官方文档中文版</a>，<a
+href="https://grpc.io/docs/">gRPC官方文档</a>，<a
+href="https://protobuf.dev/overview/">Protocol Buffer官方文档</a></p>
+<p>gRPC是一个高性能、通用的开源RPC框架，其由Google
+2015年主要面向移动应用开发并基于HTTP/2协议标准而设计，基于ProtoBuf序列化协议开发，且支持众多开发语言。</p>
+<p>RPC
+的主要目的是让客户端可以像调用函数一样直接与服务端通信，尽可能使网络交互过程变得透明。使用时，首先需要在
+.proto
+文件中定义各个函数原型与数据结构（将作为函数参数传递，也就是网络传输的数据），然后
+Protobuf 会根据 .proto 生成桩程序 demo.pb.cc 和
+demo.pb.h（这两个文件不应被用户修改），gRPC 再生成 demo.grpc.pb.cc 和
+demo.grpc.pb.h（这两个文件也一般无需修改），最后用户在自定义程序
+demo.client 和 demo.server 中自定义需要的操作和传递的信息。</p>
+<p>具体安装使用方法：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install autoconf automake libtool pkg-config <span class="comment"># 安装依赖库</span></span><br><span class="line">brew install protobuf grpc</span><br><span class="line"><span class="built_in">export</span> MY_INSTALL_DIR=<span class="variable">$HOME</span>/.local/share <span class="comment"># 自定义安装路径</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="string">&quot;<span class="variable">$MY_INSTALL_DIR</span>/bin:<span class="variable">$PATH</span>&quot;</span></span><br><span class="line">git <span class="built_in">clone</span> --recurse-submodules -b v1.56.0 --depth 1 --shallow-submodules https://github.com/grpc/grpc</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> grpc</span><br><span class="line"><span class="built_in">mkdir</span> -p cmake/build</span><br><span class="line"><span class="built_in">pushd</span> cmake/build</span><br><span class="line">cmake -DgRPC_INSTALL=ON -DgRPC_BUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=<span class="variable">$MY_INSTALL_DIR</span> ../..</span><br><span class="line">make -j 4</span><br><span class="line">make install</span><br><span class="line"><span class="built_in">popd</span></span><br></pre></td></tr></table></figure>
+<p>重新生成gRPC代码：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> examples/cpp/helloworld/cmake/build</span><br><span class="line"><span class="comment"># 重新生成 helloworld.pb.&#123;h,cc&#125; 和 helloworld.grpc.pb.&#123;h,cc&#125;</span></span><br><span class="line">make helloworld.grpc.pb.o</span><br><span class="line"><span class="comment"># 实际运行的是以下两条命令：</span></span><br><span class="line">protoc -I ../../protos --grpc_out=. --plugin=protoc-gen-grpc=`<span class="built_in">which</span> grpc_cpp_plugin` ../../protos/helloworld.proto</span><br><span class="line">protoc -I ../../protos --cpp_out=. ../../protos/helloworld.proto</span><br><span class="line"><span class="comment"># 用户自行修改my_project/下的.cc代码</span></span><br><span class="line">make -j 4</span><br><span class="line">./greeter_server</span><br><span class="line">./greeter_client</span><br></pre></td></tr></table></figure>
+<p>目录结构：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cpp/</span><br><span class="line">	my_project/</span><br><span class="line">		cmake/</span><br><span class="line">			build/</span><br><span class="line">		greeter_client.cc</span><br><span class="line">		greeter_server.cc</span><br><span class="line">proto/</span><br><span class="line">	my_project.proto</span><br></pre></td></tr></table></figure>
+<p>调通后，同样依照官方手册调通 Objective-C 语言的 gRPC
+（仅支持客户端）。然后修改 CMakeLists.txt 文件以得到 .dylib
+文件，从而导入到 Unity 中被插件调用。</p>
+<p>至此，我们已经能够实现在 Unity 上通过 C#
+脚本实时获取场景树信息（Unity 序列化方案目前采用<a
+href="https://kuroha.vip/unity/unity_jsonutility.html">JsonUtility</a>），并通过跨语言互操作将信息传递给
+C++ gRPC，再通过 gRPC 实时传输至客户端（可以由客户端每 0.1
+秒发送一次请求），最后客户端拿到 Unity 场景树信息后在本地重建场景。</p>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>Unity</tag>
       </tags>
   </entry>
   <entry>
@@ -4021,118 +4096,146 @@ trait 返回：</li>
       </tags>
   </entry>
   <entry>
-    <title>Unity 远程真机调试插件开发</title>
-    <url>/2023/08/12/Unity-%E8%BF%9C%E7%A8%8B%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/</url>
-    <content><![CDATA[<p><strong>项目目标</strong>：完成远程真机调试插件，实现对端侧 3D/XR
-场景的 Unity 实时场景部署与调试；</p>
-<p><strong>具体内容</strong>：</p>
-<ol type="1">
-<li>在端侧构建调试 SDK，用于接收 Unity 发送的命令，和向 Unity
-同步状态；</li>
-<li>在 Unity 中基于插件实现Debug Server，用于和端侧进行实时通信（Unity
-场景快速导出并推送到端侧）和同步状态（Unity
-场景双向状态同步调试）；</li>
-<li>PC端：MacOS，移动端：iOS；</li>
-</ol>
+    <title>大语言模型（LLM）随笔</title>
+    <url>/2025/02/20/%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%EF%BC%88LLM%EF%BC%89%E9%9A%8F%E7%AC%94/</url>
+    <content><![CDATA[<p><em>本文知识截止至 2025.2.20</em></p>
+<p>以下每节标题的标注表示该技术在这个时期趋于成熟。</p>
+<h2 id="transformer-介绍gpt-3-及之前">Transformer 介绍（GPT-3
+及之前）</h2>
+<p>Transformer 是这波 AI
+热潮的起点，除了它的发明以外，大模型没有魔法。</p>
+<p>Transformer 结构的
+LLM，本质是一个可并行加速的有损压缩包：它将海量的知识、语法、运算模式、应答模式等等压缩到自己的权重中。</p>
+<p>其本体是一个由线性、非线性变换组成的复杂函数，这个函数是一个文章续写器：输入是一段（编码后的）文本，输出是对这段文本的续写下一个词。与之前模型不同的是，每个预测词的生成都会考虑之前所有词（包括输入和已经生成的词），综合计算得到下一个预测词，且这个过程可以并行。</p>
+<p>每次运行这个函数，会输出一个模型预测的概率最大的续写在输入之后的词（实际上是
+token），然后将这个词接在输入之后形成新的输入再次运行函数，一直循环直到模型生成表示停止的
+token；（以上为最基础的过程，现在已有 MTP 等优化技术）。</p>
+<p>这个函数中的参数（如线性变换的系数）是可训练的，训练过程是将文字资料的一部分输入给函数，然后将函数生成的续写与文字资料原本的后续做比对，根据差异调整函数参数。</p>
 <span id="more"></span>
-<p>阶段任务概要：</p>
+<h2 id="模型训练与推理gpt-3.5">模型训练与推理（GPT-3.5）</h2>
+<p>训练：通过调整模型参数（也即上文中的“函数参数”），使这个文章续写器的内容生成质量更高、更符合人类需要，主要包含两类：</p>
 <ul>
-<li>端侧 DebugSDK 技术选型 - Unity / <strong>C++</strong>，Unity
-插件技术选型 - OC / <strong>C++</strong></li>
-<li>通信协议选型：Socket Raw Packet / <strong>gRPC + Protobuf</strong> /
-Hybrid (Raw Packet + RPC)</li>
-<li>基础 Socket 通道搭建：Unity Socket Server (nc test)、Socket
-Client</li>
-<li>RPC 通道搭建：Unity RPC、iOS gRPC、C/S 双端互调</li>
-</ul>
-<h2 id="unity-c插件开发基础">Unity C++插件开发基础</h2>
-<p>参考：</p>
+<li><p>预训练（Pre-train）：输入（筛选后的）互联网上的海量知识，使模型学习知识、语法、运算模式等；这一步使模型成为一个语法（基本）通顺、简单数学运算（大体）正确、知识（部分）正确的文本续写器；这一步结束时，会得到一个能说会道的续写器（成为
+Base 模型），但并不能正确理解并回应人类要求；</p></li>
+<li><p>后训练（Post-train）：这个训练阶段用于将续写器调整成指令应答器，即让模型学会“回答”人类的指令，而不只是续写；以下为两个常见步骤（由于这一部分的训练数据量远小于
+Pretrain，因此常被称为微调 Fine-tuning）：</p>
 <ul>
-<li>官网介绍：<a
-href="https://learn.microsoft.com/en-us/dotnet/fundamentals/">.NET</a>，<a
-href="https://docs.unity.cn/2023.2/Documentation/Manual/Plugins.html">Plugin，</a><a
-href="https://learn.microsoft.com/zh-cn/dotnet/standard/managed-code">托管代码，</a><a
-href="https://learn.microsoft.com/zh-cn/dotnet/standard/native-interop/pinvoke">P/Invoke</a>，<a
-href="https://www.mono-project.com/docs/advanced/pinvoke/">Mono
-Runtime官网对P/Invoke的介绍</a>；</li>
-<li>P/Invoke：<a href="https://www.jacksondunstan.com/articles/3938">C++
-Scripting: Part 1 – C#/C++ Communication</a>，<a
-href="https://www.cnblogs.com/herenzhiming/articles/6688804.html">C#与C/C++的交互（PInvoke）</a>，<a
-href="https://www.jianshu.com/p/06db6d0109db">Create A Native Plugin For
-Unity</a>，<a
-href="https://kyochow.github.io/articles/2020/10/12/1602495480321.html">关于Unity
-Native插件的开发</a>，<a
-href="https://www.jianshu.com/p/65bb18513f19">Unity与C++交互入门(1)</a>，<a
-href="https://rafalwilinski.medium.com/tutorial-create-c-c-plugins-for-unity3d-dbde7f67454#.hqsjain5e">Tutorial
-— Create C/C++ plugins for Unity3D</a>，<a
-href="https://rustcc.cn/article?id=3b8241d0-c4ca-4f49-8e07-0a5142b00f59">Rust
-FFI 编程 - FFI 概述</a></li>
-<li>插件开发：<a href="https://www.jianshu.com/p/183695196f02">Unity
-3D编辑器插件开发</a>，<a
-href="https://www.cnblogs.com/yzx885059439/p/14497026.html">Unity3D插件开发教程</a>，<a
-href="https://developer.aliyun.com/article/69190">开发unity插件——一次搞定unity编辑器常用功能</a></li>
+<li>Instruction Tuning：Supervised
+Fine-Tuning（SFT）的一种，使用人工标注的任务数据训练模型；训练者人工生成大量
+&lt;用户提问, 机器应有的应答&gt; 对。这个过程可以使用 LLM 辅助，由 LLM
+生成文本，人只需要将其整理编排成一个合适的回答。如下例，前两行是训练数据。训练完成，开始推理时，会将用户提问包装成后两行的形式，让大模型续写：</li>
 </ul>
-<p>.NET使用CIL作为高级语言与机器语言的中间层以实现跨平台，且使用公共语言运行时CLR（支持提前AOT和实时JIT类型），无论使用的是Mono、.NET
-Framework还是.NET
-Core。将执行过程交由运行时管理（如自动内存管理、安全边界、类型安全等）的代码称为托管代码（Managed
-Code）；直接运行编译出的机器语言而不依赖运行时的代码称为原生代码（Native
-Code）。二者各有优势和局限性，具体见官网介绍。Unity最常用的托管代码形式插件使用C#语言，原生插件可以使用C/C++/Objective-C等。.NET中，C#与C++的互操作（Interop）可以通过P/Invoke实现（也可以使用C++/CLI作为中间层，但Mono不支持）。</p>
-<p>Unity native 插件开发流程：C++ → C API → 打包 → C# 封装接口。</p>
-<p>在 Safe Mode 下 C# 与 C++ 无法直接交互，C++ 需要包装成 C API，由 C#
-调用 C API。 插件包：Android 打包成 <code>so</code>，IOS 打包成
-framework 或者 <code>.a</code>，macOS 打包成
-<code>.bundle</code>，Windows 打包成 dll。Windows 放在
-<code>Plugins/x86(x64)</code> 目录下，Mac 直接放在 <code>Plugins</code>
-目录下，iOS 放在 <code>Plugins/iOS</code> 目录下，Android 放在
-<code>Plugins/Android/libs/armeabi-v7a</code>
-目录下。如果修改了本地插件，需要将 dll 或者 bundle 覆盖了之后重启 Unity,
-不然还是会使用老的 Native Plugin。</p>
-<p>CMakeLists.txt：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cmake_minimum_required</span>(VERSION <span class="number">3.5</span>)</span><br><span class="line"><span class="built_in">project</span>(UnityPlugin)</span><br><span class="line"></span><br><span class="line"><span class="built_in">aux_source_directory</span>(. src) # 搜索当前目录下所有.cpp文件放入$&#123;src&#125;</span><br><span class="line"><span class="built_in">aux_source_directory</span>(channel.cpp lib) # 需要编成.dylib的文件</span><br><span class="line"></span><br><span class="line"># C++编译标准</span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_STANDARD <span class="number">11</span>)</span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_STANDARD_REQUIRED ON)</span><br><span class="line"># 添加编译选项</span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -fms-extensions&quot;</span>)</span><br><span class="line"></span><br><span class="line"># 生成可执行文件</span><br><span class="line"></span><br><span class="line"><span class="built_in">add_executable</span>(main $&#123;src&#125;)</span><br><span class="line"></span><br><span class="line"># 生成.bundle文件</span><br><span class="line"></span><br><span class="line"># <span class="built_in">add_library</span>(project1 MODULE $&#123;lib&#125;) #编译为程序资源包 *.bundle</span><br><span class="line"># <span class="built_in">set_target_properties</span>(project1 PROPERTIES BUNDLE TRUE)</span><br><span class="line"></span><br><span class="line"># 设置生成.bundle文件的相关参数</span><br><span class="line"><span class="built_in">set</span>(MACOSX_BUNDLE_BUNDLE_NAME <span class="string">&quot;ChannelPlugin&quot;</span>)</span><br><span class="line"><span class="built_in">set</span>(MACOSX_BUNDLE_BUNDLE_VERSION <span class="string">&quot;1.0.0&quot;</span>)</span><br><span class="line"></span><br><span class="line"># 添加源文件生成共享库</span><br><span class="line"><span class="built_in">add_library</span>(ChannelPlugin SHARED channel.cpp)</span><br><span class="line"></span><br><span class="line"># 设置.bundle文件的输出路径</span><br><span class="line"><span class="built_in">set_target_properties</span>(ChannelPlugin PROPERTIES</span><br><span class="line">  OUTPUT_NAME ChannelPlugin</span><br><span class="line">  LIBRARY_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  ARCHIVE_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  RUNTIME_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  BUNDLE_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"># 设置.bundle文件的资源文件</span><br><span class="line"><span class="built_in">set_source_files_properties</span>(</span><br><span class="line">  <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  PROPERTIES MACOSX_PACKAGE_LOCATION <span class="string">&quot;/&quot;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<p>channel.h头文件：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> CHANNEL_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> CHANNEL_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> __cplusplus</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXTERN_C extern <span class="string">&quot;C&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXTERN_C</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> EXPORT_API</span></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> UNITY_METRO </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXPORT_API EXTERN_C __declspec(dllexport) __stdcall </span></span><br><span class="line"><span class="meta">#<span class="keyword">elif</span> UNITY_WIN </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXPORT_API EXTERN_C __declspec(dllexport) </span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span> </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXPORT_API EXTERN_C</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* EXPORT_API*/</span></span></span><br><span class="line"></span><br><span class="line"><span class="function">EXPORT_API <span class="type">int</span> <span class="title">func</span><span class="params">(<span class="type">int</span> x)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* CHANNEL_H*/</span></span></span><br></pre></td></tr></table></figure>
-<p>在所有出现 <code>func</code> 声明或定义的时候都要带
-<code>EXPORT_API</code> ；将 /bundles 中的 .dylib
-文件复制到Unity的Assets/Plugins下，将 C#
-插件放入Assets/Editor下即可。</p>
-<p>注意：Unity
-改变C#脚本后会实时重编译，但在移入新.dylib文件并不会，需要退出重新进入
-Unity 项目。</p>
-<h2 id="rpc-协议选型与通道搭建">RPC 协议选型与通道搭建</h2>
-<p>参考：<a
-href="https://doc.oschina.net/grpc">gRPC官方文档中文版</a>，<a
-href="https://grpc.io/docs/">gRPC官方文档</a>，<a
-href="https://protobuf.dev/overview/">Protocol Buffer官方文档</a></p>
-<p>gRPC是一个高性能、通用的开源RPC框架，其由Google
-2015年主要面向移动应用开发并基于HTTP/2协议标准而设计，基于ProtoBuf序列化协议开发，且支持众多开发语言。</p>
-<p>RPC
-的主要目的是让客户端可以像调用函数一样直接与服务端通信，尽可能使网络交互过程变得透明。使用时，首先需要在
-.proto
-文件中定义各个函数原型与数据结构（将作为函数参数传递，也就是网络传输的数据），然后
-Protobuf 会根据 .proto 生成桩程序 demo.pb.cc 和
-demo.pb.h（这两个文件不应被用户修改），gRPC 再生成 demo.grpc.pb.cc 和
-demo.grpc.pb.h（这两个文件也一般无需修改），最后用户在自定义程序
-demo.client 和 demo.server 中自定义需要的操作和传递的信息。</p>
-<p>具体安装使用方法：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install autoconf automake libtool pkg-config <span class="comment"># 安装依赖库</span></span><br><span class="line">brew install protobuf grpc</span><br><span class="line"><span class="built_in">export</span> MY_INSTALL_DIR=<span class="variable">$HOME</span>/.local/share <span class="comment"># 自定义安装路径</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="string">&quot;<span class="variable">$MY_INSTALL_DIR</span>/bin:<span class="variable">$PATH</span>&quot;</span></span><br><span class="line">git <span class="built_in">clone</span> --recurse-submodules -b v1.56.0 --depth 1 --shallow-submodules https://github.com/grpc/grpc</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> grpc</span><br><span class="line"><span class="built_in">mkdir</span> -p cmake/build</span><br><span class="line"><span class="built_in">pushd</span> cmake/build</span><br><span class="line">cmake -DgRPC_INSTALL=ON -DgRPC_BUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=<span class="variable">$MY_INSTALL_DIR</span> ../..</span><br><span class="line">make -j 4</span><br><span class="line">make install</span><br><span class="line"><span class="built_in">popd</span></span><br></pre></td></tr></table></figure>
-<p>重新生成gRPC代码：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> examples/cpp/helloworld/cmake/build</span><br><span class="line"><span class="comment"># 重新生成 helloworld.pb.&#123;h,cc&#125; 和 helloworld.grpc.pb.&#123;h,cc&#125;</span></span><br><span class="line">make helloworld.grpc.pb.o</span><br><span class="line"><span class="comment"># 实际运行的是以下两条命令：</span></span><br><span class="line">protoc -I ../../protos --grpc_out=. --plugin=protoc-gen-grpc=`<span class="built_in">which</span> grpc_cpp_plugin` ../../protos/helloworld.proto</span><br><span class="line">protoc -I ../../protos --cpp_out=. ../../protos/helloworld.proto</span><br><span class="line"><span class="comment"># 用户自行修改my_project/下的.cc代码</span></span><br><span class="line">make -j 4</span><br><span class="line">./greeter_server</span><br><span class="line">./greeter_client</span><br></pre></td></tr></table></figure>
-<p>目录结构：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cpp/</span><br><span class="line">	my_project/</span><br><span class="line">		cmake/</span><br><span class="line">			build/</span><br><span class="line">		greeter_client.cc</span><br><span class="line">		greeter_server.cc</span><br><span class="line">proto/</span><br><span class="line">	my_project.proto</span><br></pre></td></tr></table></figure>
-<p>调通后，同样依照官方手册调通 Objective-C 语言的 gRPC
-（仅支持客户端）。然后修改 CMakeLists.txt 文件以得到 .dylib
-文件，从而导入到 Unity 中被插件调用。</p>
-<p>至此，我们已经能够实现在 Unity 上通过 C#
-脚本实时获取场景树信息（Unity 序列化方案目前采用<a
-href="https://kuroha.vip/unity/unity_jsonutility.html">JsonUtility</a>），并通过跨语言互操作将信息传递给
-C++ gRPC，再通过 gRPC 实时传输至客户端（可以由客户端每 0.1
-秒发送一次请求），最后客户端拿到 Unity 场景树信息后在本地重建场景。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">&lt;|im_start|&gt;user&lt;|im_sep|&gt;What is 2+2?<span class="tag">&lt;<span class="name">im_end</span>&gt;</span></span><br><span class="line">&lt;|im_start|&gt;assistant&lt;|im_sep|&gt;2+2 = 4<span class="tag">&lt;<span class="name">im_end</span>&gt;</span></span><br><span class="line"></span><br><span class="line">&lt;|im_start|&gt;user&lt;|im_sep|&gt;What is 3+4?<span class="tag">&lt;<span class="name">im_end</span>&gt;</span></span><br><span class="line">&lt;|im_start|&gt;assistant&lt;|im_sep|&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Reinforcement Learning from Human
+Feedback（RLHF）：人类标注者对模型的不同输出进行排序，告诉模型什么样的输出相对更优；通过强化学习的奖励机制，使模型做出调整；这将人类从生成指令-应答对的工作中解放出来，而只需要评价，大幅减少工作量。</li>
+</ul></li>
+</ul>
+<p>需要意识到的是，后训练让模型能够应答人类指令，但这并不改变它本质上仍然是一个“续写器”的事实，只是它续写的内容能够构成对输入指令的应答；</p>
+<p>推理：训练结束后，参数固定，输入指令（以下称为
+prompt），获得应答；</p>
+<h2 id="模型能力">模型能力</h2>
+<p>之所以后训练能够起效，是因为随着参数量和训练数据的增长，大模型涌现出了以下能力：</p>
+<ul>
+<li>泛化能力：可以粗略理解为“模仿能力”，它能找出训练文本或输入文本的一定规律，并使得输出也按照此规律；这使得
+few-shot 甚至 zero-shot 成为可能；</li>
+<li>推理能力：在数学、逻辑等理科层面进行多步逻辑推演的能力；</li>
+</ul>
+<p>此外，大模型还擅长完全复述，这使得输入中的一串特定文本（如一个名字、一串秘钥）能够被完全一致地输出；</p>
+<p>相反，大模型不擅长以下问题：</p>
+<ul>
+<li>直接作答：大模型确实有推理能力，但由于模型是一个词一个词地输出，因此推理能力也分摊到每个词之上；对于一个逻辑问题，模型需要先分析（输出推理的过程）再得到结果，如果强行使它直接报出答案，正确率会很低；</li>
+<li>计数问题：数用户输入中有多少个字母等；这是一个典型的“直接作答”问题，如果不可以拉长推理过程，回答很可能出错；</li>
+<li>严格地推理：因为 LLM
+是概率模型，每个预测词的输出都是选择概率最高的那一个；</li>
+<li>改变知识：由于知识储存在模型参数中，而用户的使用不影响模型参数，因此一旦参数确定，用户无法改变大模型的知识和“信念”；</li>
+<li>自我识别（self-recognition）：再次重复，大模型的本质是经过大量人为调整后的“续写器”，它之所以能条理清晰地应答用户指令，很大程度是因为它在
+SFT
+阶段学习了相似的用户指令，然后凭借模型自身的模仿能力，模仿生成了一段能够应答新用户问题的输出。</li>
+</ul>
+<h2 id="多模态与工具使用gpt-4o">多模态与工具使用（GPT-4o）</h2>
+<p>多模态大模型使用共享 Transformer
+结构，通过编码等技术使得文字、图像、音频最终能被嵌入到同一个 Transformer
+结构中，从而在统一的框架下进行处理；</p>
+<p>此外，大模型可以使用一些外部工具（浏览器搜索、计算器、代码执行器等），其流程是模型经过
+SFT
+后，学习到在一些情况下，生成需要在浏览器中搜索的关键字、需要计算器辅助计算的算式等，并用特殊特殊
+token 包裹，然后暂停输出；系统取出特殊 token
+中间的关键字或算式，交给浏览器或计算器执行，并将结果重新输入到模型中；此时模型根据输入继续预测输出，得到结果。</p>
+<p>可以认为一个 LLM 应用（如
+ChatGPT）是一个操作系统，其中核心是大模型（即续写器），外围是各类可以与
+LLM
+交互的工具。这些工具提供确定的计算结果、或是最新的网络搜索结果并交给大模型。</p>
+<h2 id="模型推理gpt-o1">模型推理（GPT-o1）</h2>
+<p>从前文我们已经可以得出，模型推理所需要的一个必要条件：让多个 token
+分摊推理任务，而不是期望一个 token
+完成全部的推理操作。此外，一个自然的想法是，对于很多问题，人类无法指定思考过程（也并不重视此过程而只重视结果），因此希望大模型自己学习出推理的能力。</p>
+<p>这两个想法分别诞生了以下两个 Reasoning 关键技术：</p>
+<ol type="1">
+<li>慢思考：通过拉长 Chain of
+Thought（思维链）长度，输出大段思考过程，从而减轻单个 token
+的推理负担。这一技术用输出长度换取推理准确度；</li>
+<li>强化学习：对于一些强逻辑性的推理问题，只提供问题和结果，设置合理的奖励函数，让模型自己训练出合理的思考方式；方法有
+PPO、GRPO
+等，这些方法可以让模型在思考的过程的某几个时刻有“自我纠错”的能力，以及重复验证的能力（类似于人类解答和检查理科试题时“用不同方法各算一次看结果是否一致”的技巧）。</li>
+</ol>
+<p>从此开始，大模型开始具备“思考”的能力。</p>
+<h2 id="未来展望">未来展望</h2>
+<p>以下为我个人极其简单粗略的预测。</p>
+<h3 id="回答准确度">回答准确度</h3>
+<p>这一点可以通过继续扩大基础模型参数量和训练文本量、拉长思维链、使用更优秀的强化学习实现。</p>
+<p>但是，这三点的发展都将很快进入瓶颈。模型参数量和训练文本量都已经几乎达到上限（Pre-training
+as we know it will unquestionably
+end），思维链目前已经很长，而更优秀的强化学习算法则是极难发现的。</p>
+<p>个人预测，这一轮大模型的上限将很大程度上取决于强化学习、对比学习、模仿学习等算法的进展。</p>
+<h3 id="记忆能力">记忆能力</h3>
+<p>大模型的上下文记忆能力仍然不够。目前的典型值为
+128K，这个长度对于常规问答来说足够，但对于需要多步处理的复杂问题（如需要多次改进的编程问题、要数百步数千步才能解决的数学难题、各类因素和参数繁杂的工程问题），这个长度远远不够。</p>
+<p>目前已有针对此问题提出的一些解决方案（如改用 Sparse
+Attention，只计算与当前 token 关联较大的之前 token
+的信息），有希望让时空复杂度低于传统 Full Attention
+的长度平方复杂度而达到近线性；</p>
+<p>个人预测，在不远的未来，大模型上下文能力能有显著增强，以至于可以覆盖
+90% 以上的<em>单次</em>复杂任务。</p>
+<h3 id="推理成本">推理成本</h3>
+<p>目前以 MoE 为首的稀疏模型架构正在快速取代传统 Attention
+架构，显卡支持的量化精度也在不断降低，以这个趋势发展，大模型成本将进一步降低。</p>
+<p>另一方面，端侧设备往往并不需要存储大量知识，而只需要存储语法和应答模式（均用于人机交互），因此所需的参数量会远低于目前的大模型，个人预测对于端侧
+AI 助理或机器人 AI 大脑（语言指令部分），70B 模型即可胜任。目前，核显 PC
+或手机可以以相对可以接受的速度运行 14B 左右的模型。14B 与 70B
+之间的鸿沟将由硬件与 MLsys 领域的发展来跨越。</p>
+<p>个人认为，边缘设备（PC、手机、机器人）将有机会具有运行特化模型的能力，具体可行性取决于是否能跨越
+14B 到 70B 的鸿沟；</p>
+<h3 id="多模态能力">多模态能力</h3>
+<p>目前大模型多模态能力还非常差，将多个模态的数据统一到同一空间下的难度较高，特别是图片、视频、富文本文件。</p>
+<p>另一方面，在工厂、户外等场景中，有更多其它形式的富文本格式信息输入，除非有能够泛化处理各个模态信息的技术突破，否则很难胜任各类场景。</p>
+<p>个人认为，未来多模态能力将有发展，能够应对更多的多模态场景，但取得突破难度较大。</p>
+<h3 id="ai-agent">AI Agent</h3>
+<p>在前文提到的工具使用过程中，AI 充当系统大脑的角色，这个系统就是
+Agent。在完成多场景、多阶段、多目标任务时，可能需要多个 Agent
+相互协调、合作，结合多个外围工具，最终完成任务。</p>
+<p>这是最难攻破的领域，上文所有能力均需要突破，才能达到强大 Agent
+的基础要求。如果高完成度实现，可以认为摸到 AGI 的门槛（但距离真正的 AGI
+还很远，暂时不必要考虑）。</p>
+<p>个人认为，这一轮 AI 热潮能诞生强 AI Agent 的概率极低，诞生 AGI
+的概率更是几乎为零。但这不代表当前 LLM 路线并不能通往
+AGI，只是至少还需要一两个 Transformer
+级别的技术突破，短期内还不可能。</p>
+<p>顺带一提，取代程序员岗位并不需要这么强的
+Agent，因此取代程序员的进程会相对更快，但也要求前文四个方向全面突破，不是一蹴而就的事情。</p>
+<h3 id="其余能力">其余能力</h3>
+<ul>
+<li>Test-time training：短期内不会有太大发展；</li>
+<li>可解释性：短期内没有希望；</li>
+<li>动态知识更新：将来知识更新成本会降低，频率会上升；</li>
+<li>混合专家系统与定制化：每个领域都将会有所进展，能够提高相关领域研究效率，但不会对有太大影响；</li>
+<li>创新与设计能力：暂时不会有显著进展；</li>
+<li>人类智慧：暂时不需要考虑 AI 能够拥有自我意识的可能性；</li>
+<li>自我迭代：会有进展，但难以突破。</li>
+</ul>
 ]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
       <tags>
-        <tag>Unity</tag>
+        <tag>机器学习</tag>
       </tags>
   </entry>
   <entry>
@@ -4403,13 +4506,385 @@ Epistles），指新约书信中的八卷作者非保罗的书信。</p>
       </tags>
   </entry>
   <entry>
+    <title>留美备忘录</title>
+    <url>/2024/10/11/%E7%95%99%E7%BE%8E%E5%A4%87%E5%BF%98%E5%BD%95/</url>
+    <content><![CDATA[<h2 id="护照">护照</h2>
+<ul>
+<li>护照最好在户籍地公安局办理，在其它地区公安局会寄送到户籍地审核，所需资料也按户籍地标准要求；</li>
+<li>护照办理流程：带身份证，自助机器生成表格，拍照，填表格，在人工柜台办理，拿回执，数日后凭回执取护照；仅凭身份证也可取护照，可以选择寄送；</li>
+<li>在美国，护照充当最权威的身份证的作用，但可以使用驾照等证明文件作为大多数时间的身份证明；</li>
+</ul>
+<span id="more"></span>
+<h2 id="签证">签证</h2>
+<ul>
+<li>步骤：
+<ul>
+<li>获取对应学校 I-20，打印后签名即可；</li>
+<li>填写 <a href="https://ceac.state.gov/genniv/">DS-160
+申请表</a>；</li>
+<li>支付 <a
+href="https://www.ustraveldocs.com/cn/zh/payment-options">F-1 签证费</a>
+和 <a href="https://www.fmjfee.com/i901fee/index.html">SEVIS I-901
+费用</a>；</li>
+<li>准备文件：学校成绩单、托福 GRE
+成绩单、Offer、资产证明与关系证明、身份证、护照、DS-160
+表确认单、面签预约确认单、SEVIS I-901 缴费凭证、六个月内拍摄的 2 英寸 x
+2 英寸（5.1 厘米 x 5.1 厘米）照片、学习计划和简历；</li>
+<li>预约并参加面试；</li>
+</ul></li>
+<li>若 check 则收走护照，4-6 周后进入处理流程，再数个工作日后 issue；EMS
+邮寄护照和签证（本人签收或委托信）；</li>
+</ul>
+<h2 id="流量">流量</h2>
+<ul>
+<li>美国三大运营商：Verizon、T-Mobile、AT&amp;T；其余流量套餐：Mint
+Mobile、Visible 等；</li>
+<li>先买国内运营商的国际套餐或国际漫游（或淘宝买 Sim
+卡），到美国后买那边运营商的卡即可；</li>
+<li>我的套餐：<a href="https://www.att.com/prepaid/plans/">AT&amp;T $25
+套餐</a>；</li>
+</ul>
+<h2 id="银行卡">银行卡</h2>
+<ul>
+<li>先用家长 Visa 信用卡办一张副卡，在美国消费后由家人还款；</li>
+<li>到美国后再办一张美国信用卡（BOA 或 Chase）；</li>
+<li>有两个账户，checking account 用于日常消费，saving account
+用于存钱（年化利率仅 0.01%，消费超过 6 次每次需交
+$10，总体用处不大）；</li>
+<li>信用卡可以透支，部分消费会有返现，使用美国借记卡还款；学生由于没有稳定收入，借记卡金额需要境外汇款，过程产生的手续费可能与返现抵消，因此用处不大；</li>
+</ul>
+<h2 id="飞机">飞机</h2>
+<ul>
+<li>机票在携程上直接购买即可，注意价格变动大；</li>
+<li>准备纸质备忘录，记录常用电话、信息等，防止手机不能用；</li>
+<li>剃须刀、充电宝、电池不要放箱子里；火柴、打火机等均不能带；</li>
+<li>不需要参与行李过海关的环节，只有人过海关；</li>
+<li>廉航随身行李不收费，托运行李一般每件在 $60~$100
+左右（联乘直挂只算一次）；</li>
+<li>肉、液体、种子等管控较严，其余食品管控较松；</li>
+<li>只有两步：值机和登机；行李直挂转机无需值机，找到 transit 或 transfer
+的地点即可；非直挂需要先去 baggage claim 取行李，再去 connection
+重新值机；</li>
+</ul>
+<h2 id="生活">生活</h2>
+<ul>
+<li>租房不带家具，带家电；</li>
+<li>购物有消费税；非快餐店吃饭给最少 18% 的小费；</li>
+<li>消费使用刷卡或现金；</li>
+<li>对机动车之外的交通工具不太友好；</li>
+<li>多数情况可以用驾照 permit 代替护照证明身份；</li>
+<li>人们打招呼很热情；</li>
+<li>坐公交车在路边招手即可，想下车拉一下黄色杆即可；</li>
+<li>UPS 退货要留着快递盒，否则得买他的袋子；Whole food store
+则不需要；</li>
+</ul>
+<h2 id="其它">其它</h2>
+<ul>
+<li>Duke 直接通过校内平台在 Lancaster 租房，提前找好室友；</li>
+<li>到国际旅行卫生保健中心体检、打疫苗、填写学校要求的强制疫苗表、领小红本与小黄本；有签证可以免体检费；</li>
+<li>自行打印成绩单后找校教务处密封盖章，自行邮寄。拿到学位证和毕业证后在档案馆办理翻译证明，同样在教务处密封盖章；</li>
+</ul>
+<h2 id="单位">单位</h2>
+<ul>
+<li>华氏度：F = 32 + 1.8 * C；100 F ≈ 37.78 C；</li>
+<li>美制加仑：1 gallon-us ≈ 3.8 L；</li>
+<li>液量盎司：1 gallon-us = 8 pt = 128 fl oz；1 fl oz ≈ 30 ml；</li>
+<li>磅：1 Lb ≈ 454 g；</li>
+<li>英尺：1 ft ≈ 30.48 cm；1 ft = 12 in；</li>
+<li>英寸：1 in ≈ 2.54 cm；</li>
+</ul>
+<h2 id="找工">找工</h2>
+<p>资料：</p>
+<p>https://github.com/eliaszon/Programmers-Overseas-Job-Interview-Handbook?tab=readme-ov-file</p>
+<p>https://www.eecsresume.com/article</p>
+<h3 id="简历">简历</h3>
+<ul>
+<li>写好 Linkedin Profile，另外为每个岗位类型准备一份简历；建议使用
+Overleaf Resume 模板；</li>
+<li>简历保证不超过一页，附上自己的联系方式；</li>
+<li>实习 Bullet Point 按【目的、内容、工具、特色、提升】来写；</li>
+<li>项目 Bullet Point 按【内容、特色、工具、细节、工作量】来写；第一个
+BP 用于概述；</li>
+<li>使用“最小项目法”，思考符合当前描述的最小项目，从而丰富内容；</li>
+</ul>
+<h3 id="投递">投递</h3>
+<ul>
+<li>Github 上会有当年开放的所有岗位，包括 Intern 和
+NG，实时更新；此外主流求职平台有：<a
+href="https://www.linkedin.com/jobs/search/?currentJobId=3968882269">Linkedin</a>、<a
+href="https://www.indeed.com/?from=jobsearch-empty-whatwhere">Indeed</a>、<a
+href="https://www.google.com/search?q=software+engineer+jobs&amp;hl=en&amp;oq=software+engineer+jobs&amp;ibp=htl;jobs&amp;sa=X&amp;htivrt=jobs&amp;htichips=&amp;htischips=#htivrt=jobs&amp;htidocid=iBeBi4RlDep4KEcnAAAAAA%3D%3D&amp;fpstate=tldetail">Google
+Career</a>、<a
+href="https://www.glassdoor.com/Job/index.htm">Glassdoor</a>、<a
+href="https://app.joinhandshake.com/stu/postings">Handshake</a>；</li>
+</ul>
+<h3 id="面试">面试</h3>
+<ul>
+<li>提前了解公司，展现热情，强调自己需要这份工作；</li>
+<li>准备常问问题的回答（特别是 Behavior
+Questions）；准备反问的问题（技术栈、给员工的建议）；面试完后邮件感谢；</li>
+<li>面试写题环节要注重
+Communication，即使写不出来也要多明确需求、描述想法；</li>
+</ul>
+<h3 id="其它-1">其它</h3>
+<ul>
+<li>美国目前主要招 8+ yoe ，Entry-level 招的非常少；需要公司帮抽
+H-1B；</li>
+<li>Amazon 和 Meta 都是 General
+Hire（目前招人少），其余公司均寻求技术栈一致的；</li>
+<li>时间线：入学当年 7 月开始找第二年暑期 Summer Intern；</li>
+<li>常见 OA 平台：CodeSignal、HackerRank；</li>
+</ul>
+]]></content>
+      <categories>
+        <category>记录</category>
+      </categories>
+      <tags>
+        <tag>其它</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>部分基础编程术语中英对照表</title>
+    <url>/2024/10/11/%E9%83%A8%E5%88%86%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E6%9C%AF%E8%AF%AD%E4%B8%AD%E8%8B%B1%E5%AF%B9%E7%85%A7%E8%A1%A8/</url>
+    <content><![CDATA[<h1 id="部分基础编程术语中英对照表">部分基础编程术语中英对照表</h1>
+<table>
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 13%" />
+<col style="width: 15%" />
+<col style="width: 23%" />
+<col style="width: 9%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr>
+<th>中文</th>
+<th>English</th>
+<th>中文</th>
+<th>English</th>
+<th>中文</th>
+<th>English</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>逗号</td>
+<td>comma</td>
+<td>句号</td>
+<td>period</td>
+<td>波浪号</td>
+<td>tilde</td>
+</tr>
+<tr>
+<td>冒号</td>
+<td>colon</td>
+<td>分号</td>
+<td>semicolon</td>
+<td>省略号</td>
+<td>ellipsis</td>
+</tr>
+<tr>
+<td>问号</td>
+<td>question mark</td>
+<td>感叹号</td>
+<td>exclamation mark</td>
+<td>引号</td>
+<td>quotation marks</td>
+</tr>
+<tr>
+<td>小括号</td>
+<td>parentheses</td>
+<td>中括号</td>
+<td>square brackets</td>
+<td>大括号</td>
+<td>curly braces</td>
+</tr>
+<tr>
+<td>星号</td>
+<td>asterisk</td>
+<td>与号（&amp;）</td>
+<td>ampersand</td>
+<td>井号</td>
+<td>number sign / hash / pound</td>
+</tr>
+<tr>
+<td>下划线</td>
+<td>underline</td>
+<td>百分号</td>
+<td>percent sign</td>
+<td>连字符</td>
+<td>hyphen</td>
+</tr>
+<tr>
+<td>斜杠</td>
+<td>slash</td>
+<td>反斜杠</td>
+<td>backslash</td>
+<td>`</td>
+<td>back-tick</td>
+</tr>
+<tr>
+<td>取模</td>
+<td>modulus</td>
+<td>余数</td>
+<td>remainder</td>
+<td>加数</td>
+<td>addend</td>
+</tr>
+<tr>
+<td>被除数</td>
+<td>dividend</td>
+<td>除数</td>
+<td>divisor</td>
+<td>乘数</td>
+<td>multiplier</td>
+</tr>
+<tr>
+<td>被减数</td>
+<td>minuend</td>
+<td>减数</td>
+<td>subtracter</td>
+<td>操作数</td>
+<td>operand</td>
+</tr>
+<tr>
+<td>语法</td>
+<td>syntax</td>
+<td>语义</td>
+<td>semantics</td>
+<td>变量</td>
+<td>variable</td>
+</tr>
+<tr>
+<td>标识符</td>
+<td>identifier</td>
+<td>初始化</td>
+<td>initialize</td>
+<td>语句</td>
+<td>statement</td>
+</tr>
+<tr>
+<td>赋值</td>
+<td>assignment</td>
+<td>表达式</td>
+<td>expression</td>
+<td>优先级</td>
+<td>precedence</td>
+</tr>
+<tr>
+<td>形参</td>
+<td>parameter</td>
+<td>实参</td>
+<td>argument</td>
+<td>栈帧</td>
+<td>stack frame</td>
+</tr>
+<tr>
+<td>作用域</td>
+<td>scope</td>
+<td>局部</td>
+<td>local</td>
+<td>全局</td>
+<td>global</td>
+</tr>
+<tr>
+<td>转义</td>
+<td>escape</td>
+<td>短路</td>
+<td>short circuit</td>
+<td>嵌套</td>
+<td>nest</td>
+</tr>
+<tr>
+<td>语法糖</td>
+<td>syntactic sugar</td>
+<td>通配</td>
+<td>glob</td>
+<td>描述符</td>
+<td>descriptor</td>
+</tr>
+<tr>
+<td>终端</td>
+<td>terminal</td>
+<td>缓冲</td>
+<td>buffer</td>
+<td>内存</td>
+<td>memory</td>
+</tr>
+<tr>
+<td>编译</td>
+<td>compile</td>
+<td>单例</td>
+<td>singleton</td>
+<td>运算符</td>
+<td>operator</td>
+</tr>
+<tr>
+<td>一元</td>
+<td>unary</td>
+<td>二元</td>
+<td>binary</td>
+<td>三元</td>
+<td>ternary</td>
+</tr>
+<tr>
+<td>可变（数量）</td>
+<td>variadic</td>
+<td>精度</td>
+<td>precision</td>
+<td>上下文</td>
+<td>context</td>
+</tr>
+<tr>
+<td>类型转换（人为）</td>
+<td>cast</td>
+<td>类型转换（编译器）</td>
+<td>type promotion / conversion</td>
+<td>递归</td>
+<td>recursion</td>
+</tr>
+<tr>
+<td>并发</td>
+<td>concurrent</td>
+<td>并行 / 并联</td>
+<td>parallel</td>
+<td>串行 / 串联</td>
+<td>serial</td>
+</tr>
+<tr>
+<td>演绎</td>
+<td>deduction</td>
+<td>归纳</td>
+<td>induction</td>
+<td>约简</td>
+<td>reduction</td>
+</tr>
+<tr>
+<td>分隔符</td>
+<td>delimiter</td>
+<td>字典序</td>
+<td>lexicographic order</td>
+<td>字面量</td>
+<td>literal</td>
+</tr>
+</tbody>
+</table>
+]]></content>
+      <categories>
+        <category>其它</category>
+      </categories>
+      <tags>
+        <tag>其它</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>大模型推理优化笔记</title>
     <url>/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h2 id="总体框架">总体框架</h2>
+    <content><![CDATA[<span id="more"></span>
+<h2 id="总体框架">总体框架</h2>
 <p>来源：<a href="https://github.com/chenzomi12/AIInfra">ZOMI</a>；</p>
 <p><img src="Arch-1.png" /></p>
 <p><img src="Arch-2.png" /></p>
-<span id="more"></span>
 <h2 id="gpu-architecture">GPU Architecture</h2>
 <h3 id="体系结构以-hopper-为例">体系结构（以 Hopper 为例）</h3>
 <ul>
@@ -4850,284 +5325,43 @@ Scheduling）；</li>
       </tags>
   </entry>
   <entry>
-    <title>大语言模型（LLM）随笔</title>
-    <url>/2025/02/20/%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%EF%BC%88LLM%EF%BC%89%E9%9A%8F%E7%AC%94/</url>
-    <content><![CDATA[<p><em>本文知识截止至 2025.2.20</em></p>
-<p>以下每节标题的标注表示该技术在这个时期趋于成熟。</p>
-<h2 id="transformer-介绍gpt-3-及之前">Transformer 介绍（GPT-3
-及之前）</h2>
-<p>Transformer 是这波 AI
-热潮的起点，除了它的发明以外，大模型没有魔法。</p>
-<p>Transformer 结构的
-LLM，本质是一个可并行加速的有损压缩包：它将海量的知识、语法、运算模式、应答模式等等压缩到自己的权重中。</p>
-<p>其本体是一个由线性、非线性变换组成的复杂函数，这个函数是一个文章续写器：输入是一段（编码后的）文本，输出是对这段文本的续写下一个词。与之前模型不同的是，每个预测词的生成都会考虑之前所有词（包括输入和已经生成的词），综合计算得到下一个预测词，且这个过程可以并行。</p>
-<p>每次运行这个函数，会输出一个模型预测的概率最大的续写在输入之后的词（实际上是
-token），然后将这个词接在输入之后形成新的输入再次运行函数，一直循环直到模型生成表示停止的
-token；（以上为最基础的过程，现在已有 MTP 等优化技术）。</p>
-<p>这个函数中的参数（如线性变换的系数）是可训练的，训练过程是将文字资料的一部分输入给函数，然后将函数生成的续写与文字资料原本的后续做比对，根据差异调整函数参数。</p>
-<span id="more"></span>
-<h2 id="模型训练与推理gpt-3.5">模型训练与推理（GPT-3.5）</h2>
-<p>训练：通过调整模型参数（也即上文中的“函数参数”），使这个文章续写器的内容生成质量更高、更符合人类需要，主要包含两类：</p>
+    <title>Makefile和CMake初级使用</title>
+    <url>/2023/07/19/Makefile%E5%92%8CCMake%E5%88%9D%E7%BA%A7%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="makefile">Makefile</h2>
 <ul>
-<li><p>预训练（Pre-train）：输入（筛选后的）互联网上的海量知识，使模型学习知识、语法、运算模式等；这一步使模型成为一个语法（基本）通顺、简单数学运算（大体）正确、知识（部分）正确的文本续写器；这一步结束时，会得到一个能说会道的续写器（成为
-Base 模型），但并不能正确理解并回应人类要求；</p></li>
-<li><p>后训练（Post-train）：这个训练阶段用于将续写器调整成指令应答器，即让模型学会“回答”人类的指令，而不只是续写；以下为两个常见步骤（由于这一部分的训练数据量远小于
-Pretrain，因此常被称为微调 Fine-tuning）：</p>
-<ul>
-<li>Instruction Tuning：Supervised
-Fine-Tuning（SFT）的一种，使用人工标注的任务数据训练模型；训练者人工生成大量
-&lt;用户提问, 机器应有的应答&gt; 对。这个过程可以使用 LLM 辅助，由 LLM
-生成文本，人只需要将其整理编排成一个合适的回答。如下例，前两行是训练数据。训练完成，开始推理时，会将用户提问包装成后两行的形式，让大模型续写：</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">&lt;|im_start|&gt;user&lt;|im_sep|&gt;What is 2+2?<span class="tag">&lt;<span class="name">im_end</span>&gt;</span></span><br><span class="line">&lt;|im_start|&gt;assistant&lt;|im_sep|&gt;2+2 = 4<span class="tag">&lt;<span class="name">im_end</span>&gt;</span></span><br><span class="line"></span><br><span class="line">&lt;|im_start|&gt;user&lt;|im_sep|&gt;What is 3+4?<span class="tag">&lt;<span class="name">im_end</span>&gt;</span></span><br><span class="line">&lt;|im_start|&gt;assistant&lt;|im_sep|&gt;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>Reinforcement Learning from Human
-Feedback（RLHF）：人类标注者对模型的不同输出进行排序，告诉模型什么样的输出相对更优；通过强化学习的奖励机制，使模型做出调整；这将人类从生成指令-应答对的工作中解放出来，而只需要评价，大幅减少工作量。</li>
-</ul></li>
-</ul>
-<p>需要意识到的是，后训练让模型能够应答人类指令，但这并不改变它本质上仍然是一个“续写器”的事实，只是它续写的内容能够构成对输入指令的应答；</p>
-<p>推理：训练结束后，参数固定，输入指令（以下称为
-prompt），获得应答；</p>
-<h2 id="模型能力">模型能力</h2>
-<p>之所以后训练能够起效，是因为随着参数量和训练数据的增长，大模型涌现出了以下能力：</p>
-<ul>
-<li>泛化能力：可以粗略理解为“模仿能力”，它能找出训练文本或输入文本的一定规律，并使得输出也按照此规律；这使得
-few-shot 甚至 zero-shot 成为可能；</li>
-<li>推理能力：在数学、逻辑等理科层面进行多步逻辑推演的能力；</li>
-</ul>
-<p>此外，大模型还擅长完全复述，这使得输入中的一串特定文本（如一个名字、一串秘钥）能够被完全一致地输出；</p>
-<p>相反，大模型不擅长以下问题：</p>
-<ul>
-<li>直接作答：大模型确实有推理能力，但由于模型是一个词一个词地输出，因此推理能力也分摊到每个词之上；对于一个逻辑问题，模型需要先分析（输出推理的过程）再得到结果，如果强行使它直接报出答案，正确率会很低；</li>
-<li>计数问题：数用户输入中有多少个字母等；这是一个典型的“直接作答”问题，如果不可以拉长推理过程，回答很可能出错；</li>
-<li>严格地推理：因为 LLM
-是概率模型，每个预测词的输出都是选择概率最高的那一个；</li>
-<li>改变知识：由于知识储存在模型参数中，而用户的使用不影响模型参数，因此一旦参数确定，用户无法改变大模型的知识和“信念”；</li>
-<li>自我识别（self-recognition）：再次重复，大模型的本质是经过大量人为调整后的“续写器”，它之所以能条理清晰地应答用户指令，很大程度是因为它在
-SFT
-阶段学习了相似的用户指令，然后凭借模型自身的模仿能力，模仿生成了一段能够应答新用户问题的输出。</li>
-</ul>
-<h2 id="多模态与工具使用gpt-4o">多模态与工具使用（GPT-4o）</h2>
-<p>多模态大模型使用共享 Transformer
-结构，通过编码等技术使得文字、图像、音频最终能被嵌入到同一个 Transformer
-结构中，从而在统一的框架下进行处理；</p>
-<p>此外，大模型可以使用一些外部工具（浏览器搜索、计算器、代码执行器等），其流程是模型经过
-SFT
-后，学习到在一些情况下，生成需要在浏览器中搜索的关键字、需要计算器辅助计算的算式等，并用特殊特殊
-token 包裹，然后暂停输出；系统取出特殊 token
-中间的关键字或算式，交给浏览器或计算器执行，并将结果重新输入到模型中；此时模型根据输入继续预测输出，得到结果。</p>
-<p>可以认为一个 LLM 应用（如
-ChatGPT）是一个操作系统，其中核心是大模型（即续写器），外围是各类可以与
-LLM
-交互的工具。这些工具提供确定的计算结果、或是最新的网络搜索结果并交给大模型。</p>
-<h2 id="模型推理gpt-o1">模型推理（GPT-o1）</h2>
-<p>从前文我们已经可以得出，模型推理所需要的一个必要条件：让多个 token
-分摊推理任务，而不是期望一个 token
-完成全部的推理操作。此外，一个自然的想法是，对于很多问题，人类无法指定思考过程（也并不重视此过程而只重视结果），因此希望大模型自己学习出推理的能力。</p>
-<p>这两个想法分别诞生了以下两个 Reasoning 关键技术：</p>
-<ol type="1">
-<li>慢思考：通过拉长 Chain of
-Thought（思维链）长度，输出大段思考过程，从而减轻单个 token
-的推理负担。这一技术用输出长度换取推理准确度；</li>
-<li>强化学习：对于一些强逻辑性的推理问题，只提供问题和结果，设置合理的奖励函数，让模型自己训练出合理的思考方式；方法有
-PPO、GRPO
-等，这些方法可以让模型在思考的过程的某几个时刻有“自我纠错”的能力，以及重复验证的能力（类似于人类解答和检查理科试题时“用不同方法各算一次看结果是否一致”的技巧）。</li>
-</ol>
-<p>从此开始，大模型开始具备“思考”的能力。</p>
-<h2 id="未来展望">未来展望</h2>
-<p>以下为我个人极其简单粗略的预测。</p>
-<h3 id="回答准确度">回答准确度</h3>
-<p>这一点可以通过继续扩大基础模型参数量和训练文本量、拉长思维链、使用更优秀的强化学习实现。</p>
-<p>但是，这三点的发展都将很快进入瓶颈。模型参数量和训练文本量都已经几乎达到上限（Pre-training
-as we know it will unquestionably
-end），思维链目前已经很长，而更优秀的强化学习算法则是极难发现的。</p>
-<p>个人预测，这一轮大模型的上限将很大程度上取决于强化学习、对比学习、模仿学习等算法的进展。</p>
-<h3 id="记忆能力">记忆能力</h3>
-<p>大模型的上下文记忆能力仍然不够。目前的典型值为
-128K，这个长度对于常规问答来说足够，但对于需要多步处理的复杂问题（如需要多次改进的编程问题、要数百步数千步才能解决的数学难题、各类因素和参数繁杂的工程问题），这个长度远远不够。</p>
-<p>目前已有针对此问题提出的一些解决方案（如改用 Sparse
-Attention，只计算与当前 token 关联较大的之前 token
-的信息），有希望让时空复杂度低于传统 Full Attention
-的长度平方复杂度而达到近线性；</p>
-<p>个人预测，在不远的未来，大模型上下文能力能有显著增强，以至于可以覆盖
-90% 以上的<em>单次</em>复杂任务。</p>
-<h3 id="推理成本">推理成本</h3>
-<p>目前以 MoE 为首的稀疏模型架构正在快速取代传统 Attention
-架构，显卡支持的量化精度也在不断降低，以这个趋势发展，大模型成本将进一步降低。</p>
-<p>另一方面，端侧设备往往并不需要存储大量知识，而只需要存储语法和应答模式（均用于人机交互），因此所需的参数量会远低于目前的大模型，个人预测对于端侧
-AI 助理或机器人 AI 大脑（语言指令部分），70B 模型即可胜任。目前，核显 PC
-或手机可以以相对可以接受的速度运行 14B 左右的模型。14B 与 70B
-之间的鸿沟将由硬件与 MLsys 领域的发展来跨越。</p>
-<p>个人认为，边缘设备（PC、手机、机器人）将有机会具有运行特化模型的能力，具体可行性取决于是否能跨越
-14B 到 70B 的鸿沟；</p>
-<h3 id="多模态能力">多模态能力</h3>
-<p>目前大模型多模态能力还非常差，将多个模态的数据统一到同一空间下的难度较高，特别是图片、视频、富文本文件。</p>
-<p>另一方面，在工厂、户外等场景中，有更多其它形式的富文本格式信息输入，除非有能够泛化处理各个模态信息的技术突破，否则很难胜任各类场景。</p>
-<p>个人认为，未来多模态能力将有发展，能够应对更多的多模态场景，但取得突破难度较大。</p>
-<h3 id="ai-agent">AI Agent</h3>
-<p>在前文提到的工具使用过程中，AI 充当系统大脑的角色，这个系统就是
-Agent。在完成多场景、多阶段、多目标任务时，可能需要多个 Agent
-相互协调、合作，结合多个外围工具，最终完成任务。</p>
-<p>这是最难攻破的领域，上文所有能力均需要突破，才能达到强大 Agent
-的基础要求。如果高完成度实现，可以认为摸到 AGI 的门槛（但距离真正的 AGI
-还很远，暂时不必要考虑）。</p>
-<p>个人认为，这一轮 AI 热潮能诞生强 AI Agent 的概率极低，诞生 AGI
-的概率更是几乎为零。但这不代表当前 LLM 路线并不能通往
-AGI，只是至少还需要一两个 Transformer
-级别的技术突破，短期内还不可能。</p>
-<p>顺带一提，取代程序员岗位并不需要这么强的
-Agent，因此取代程序员的进程会相对更快，但也要求前文四个方向全面突破，不是一蹴而就的事情。</p>
-<h3 id="其余能力">其余能力</h3>
-<ul>
-<li>Test-time training：短期内不会有太大发展；</li>
-<li>可解释性：短期内没有希望；</li>
-<li>动态知识更新：将来知识更新成本会降低，频率会上升；</li>
-<li>混合专家系统与定制化：每个领域都将会有所进展，能够提高相关领域研究效率，但不会对有太大影响；</li>
-<li>创新与设计能力：暂时不会有显著进展；</li>
-<li>人类智慧：暂时不需要考虑 AI 能够拥有自我意识的可能性；</li>
-<li>自我迭代：会有进展，但难以突破。</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>机器学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>留美备忘录</title>
-    <url>/2024/10/11/%E7%95%99%E7%BE%8E%E5%A4%87%E5%BF%98%E5%BD%95/</url>
-    <content><![CDATA[<h2 id="护照">护照</h2>
-<ul>
-<li>护照最好在户籍地公安局办理，在其它地区公安局会寄送到户籍地审核，所需资料也按户籍地标准要求；</li>
-<li>护照办理流程：带身份证，自助机器生成表格，拍照，填表格，在人工柜台办理，拿回执，数日后凭回执取护照；仅凭身份证也可取护照，可以选择寄送；</li>
-<li>在美国，护照充当最权威的身份证的作用，但可以使用驾照等证明文件作为大多数时间的身份证明；</li>
+<li>Makefile三部分：目标、依赖、执行语句；</li>
+<li>递归执行：若不存在目标文件或目标文件修改时间早于依赖文件，则先产生对应依赖文件，再执行语句；</li>
+<li>所有.o文件均由对应.c文件生成，<code>$&lt;</code>为第一个依赖文件，<code>$@</code>为目标，<code>$^</code>为所有不重复的依赖文件，以空格分开；</li>
+<li><code>src = $(wildcard ./*.c)</code>得到空格隔开的所有.c文件名；<code>obj = $(patsubst %.c, %.o, $(src))</code>
+代表将src中的所有.c替换成.o；<code>obj = $(src: %.c=%.o)</code>
+能得到同样效果；</li>
+<li><code>.PHONY</code>代表clean为伪目标</li>
 </ul>
 <span id="more"></span>
-<h2 id="签证">签证</h2>
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line">src = <span class="variable">$(<span class="built_in">wildcard</span> ./*.c)</span>  </span><br><span class="line">obj = <span class="variable">$(<span class="built_in">patsubst</span> %.c, %.o, <span class="variable">$(src)</span>)</span>  </span><br><span class="line"><span class="comment">#obj = $(src:%.c=%.o)  </span></span><br><span class="line">target = app  </span><br><span class="line">CC = gcc  </span><br><span class="line"></span><br><span class="line"><span class="variable">$(target)</span>: <span class="variable">$(obj)</span>  </span><br><span class="line">    <span class="variable">$(CC)</span> <span class="variable">$(obj)</span> -o <span class="variable">$(target)</span>  </span><br><span class="line"></span><br><span class="line"><span class="section">%.o: %.c  </span></span><br><span class="line">    <span class="variable">$(CC)</span> -c <span class="variable">$&lt;</span> -o <span class="variable">$@</span>  </span><br><span class="line"></span><br><span class="line"><span class="meta"><span class="keyword">.PHONY</span>: clean  </span></span><br><span class="line"><span class="section">clean:  </span></span><br><span class="line">    rm -rf <span class="variable">$(obj)</span> <span class="variable">$(target)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line">CC := clang</span><br><span class="line">CXX := clang++</span><br><span class="line"></span><br><span class="line">.PHONY all</span><br><span class="line"><span class="section">all: answer</span></span><br><span class="line"></span><br><span class="line">objects := main.o answer.o</span><br><span class="line"><span class="section">answer: <span class="variable">$(objects)</span></span></span><br><span class="line">	<span class="variable">$(CXX)</span> -o <span class="variable">$@</span> <span class="variable">$(objects)</span></span><br><span class="line"></span><br><span class="line"><span class="section">main.o: answer.hpp</span></span><br><span class="line"><span class="section">answer.o: answer.hpp</span></span><br><span class="line"></span><br><span class="line">.PHONY clean</span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	rm -f answer(objects)</span><br></pre></td></tr></table></figure>
+<h2 id="cmake">CMake</h2>
 <ul>
-<li>步骤：
-<ul>
-<li>获取对应学校 I-20，打印后签名即可；</li>
-<li>填写 <a href="https://ceac.state.gov/genniv/">DS-160
-申请表</a>；</li>
-<li>支付 <a
-href="https://www.ustraveldocs.com/cn/zh/payment-options">F-1 签证费</a>
-和 <a href="https://www.fmjfee.com/i901fee/index.html">SEVIS I-901
-费用</a>；</li>
-<li>准备文件：学校成绩单、托福 GRE
-成绩单、Offer、资产证明与关系证明、身份证、护照、DS-160
-表确认单、面签预约确认单、SEVIS I-901 缴费凭证、六个月内拍摄的 2 英寸 x
-2 英寸（5.1 厘米 x 5.1 厘米）照片、学习计划和简历；</li>
-<li>预约并参加面试；</li>
-</ul></li>
-<li>若 check 则收走护照，4-6 周后进入处理流程，再数个工作日后 issue；EMS
-邮寄护照和签证（本人签收或委托信）；</li>
+<li><a
+href="https://www.bilibili.com/video/BV14h41187FZ/?vd_source=9282f15e6d326725afd47615733d4bd1">视频教程</a></li>
+<li>在my_project目录下存放源文件和CMakeLists.txt，另新建文件夹build，进入后执行<code>cmake ..</code>在build目录下生成Makefile文件，再执行<code>cmake —-build .</code>生成可执行文件；上述命令等价于<code>cmake -B build &amp;&amp; cmake —-build build</code>
+；</li>
+<li>VSCode配置：<code>brew install cmake</code> 后安装CMake和CMake
+Tools，先编写CMakeLists.txt，再<code>Cmd+Shift+P</code> 调出CMake: Quick
+Start即可；</li>
+<li>常见操作：</li>
 </ul>
-<h2 id="流量">流量</h2>
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line">cmake_minimum_required(VERSION 3.15.0) <span class="comment"># 指定最小版本</span></span><br><span class="line">project(My_Project) <span class="comment"># 指定项目名称</span></span><br><span class="line"></span><br><span class="line">set(CMAKE_BUILD_TYPE <span class="string">&quot;Release&quot;</span>)</span><br><span class="line">set(CMAKE_CXX_FLAGS_DEBUG <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -g -Werror -Wextra -pedantic -std=c++14&quot;</span>)</span><br><span class="line">set(CMAKE_CXX_FLAGS_RELEASE <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -std=c++14 -O2&quot;</span>)</span><br><span class="line"></span><br><span class="line">add_executable(demo demo.cpp) <span class="comment"># 生成可执行文件（Linux: demo, Windows: demo.exe）</span></span><br><span class="line">add_library(common STATIC util1.cpp) <span class="comment"># 生成静态库（Linux: common.a, Windows: common.lib）</span></span><br><span class="line">add_library(common SHARED util2.cpp util3.cpp) <span class="comment"># 生成动态库或共享库（Linux: common.so, Windows: common.dll, MacOS: common.bundle, common.dylib）</span></span><br><span class="line"></span><br><span class="line">file(GLOB SRC_LIST <span class="string">&quot;*.cpp&quot;</span> <span class="string">&quot;protocal/*.cpp&quot;</span>)</span><br><span class="line">add_library(demo $&#123;SRC_LIST&#125;)</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">set(SRC_LIST main.cpp test.cpp)</span><br><span class="line">list(APPEND SRC_LIST test2.cpp)</span><br><span class="line">list(REMOVE_ITEM SRC_LIST test2.cpp)</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">aux_source_directory(. SRC_LIST) <span class="comment"># 搜索当前目录下所有可编译单元（.cpp文件）</span></span><br><span class="line">aux_source_directory(protocol SRC_PROTOCOL_LIST)</span><br><span class="line">add_library(demo $&#123;SRC_LIST&#125; $&#123;SRC_PROTOCOL_LIST&#125;)</span><br><span class="line"></span><br><span class="line">foreach(source $&#123;srcs&#125;)</span><br><span class="line">get_filename_component(name $&#123;source&#125; NAME/EXT/DIRECTORY/ABSOLUTE) <span class="comment"># 文件名/扩展名/目录路径/绝对路径</span></span><br><span class="line">add_executable($&#123;name&#125; $&#123;source&#125;)</span><br><span class="line">endforeach(source)</span><br><span class="line"></span><br><span class="line">include_directories($&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/<span class="keyword">include</span>) <span class="comment"># 设置头文件包含目录，将路径增加至CPLUS_INCLUDE_PATH变量</span></span><br><span class="line">set(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -I $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;&quot;</span>) <span class="comment"># 等价于</span></span><br><span class="line">link_libraries(<span class="string">&quot;/include/util.so&quot;</span>) <span class="comment"># 写在add_executable之前</span></span><br><span class="line"></span><br><span class="line">link_directories($&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/libs) <span class="comment"># 设置链接库搜索目录，将路径增加至LD_LIBRARY_PATH变量</span></span><br><span class="line">set(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -L $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/libs&quot;</span>) <span class="comment"># 等价于</span></span><br><span class="line"></span><br><span class="line">find_package(Protobuf REQUIRED) <span class="comment"># 查找外部包</span></span><br><span class="line">target_link_libraries(demo lib.a $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/libs/lib.so) <span class="comment"># 设置需要链接的库</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 自动执行子目录下的CMakeLists.txt</span></span><br><span class="line">add_subdirectory($&#123;PROJECT_SOURCE_DIR&#125;/src/proto)</span><br><span class="line">include_directories($&#123;PROJECT_BINARY_DIR&#125;/src/proto)</span><br><span class="line"></span><br><span class="line">message($&#123;PROJECT_SOURCE_DIR&#125;)</span><br><span class="line">message(<span class="string">&quot;build with debug mode&quot;</span>)</span><br><span class="line">message(WARNING <span class="string">&quot;this is warnning message&quot;</span>)</span><br><span class="line">message(FATAL_ERROR <span class="string">&quot;this build has many error&quot;</span>) <span class="comment"># FATAL_ERROR 会导致编译失败</span></span><br></pre></td></tr></table></figure>
 <ul>
-<li>美国三大运营商：Verizon、T-Mobile、AT&amp;T；其余流量套餐：Mint
-Mobile、Visible 等；</li>
-<li>先买国内运营商的国际套餐或国际漫游（或淘宝买 Sim
-卡），到美国后买那边运营商的卡即可；</li>
-<li>我的套餐：<a href="https://www.att.com/prepaid/plans/">AT&amp;T $25
-套餐</a>；</li>
+<li>文件目录形式：</li>
 </ul>
-<h2 id="银行卡">银行卡</h2>
-<ul>
-<li>先用家长 Visa 信用卡办一张副卡，在美国消费后由家人还款；</li>
-<li>到美国后再办一张美国信用卡（BOA 或 Chase）；</li>
-<li>有两个账户，checking account 用于日常消费，saving account
-用于存钱（年化利率仅 0.01%，消费超过 6 次每次需交
-$10，总体用处不大）；</li>
-<li>信用卡可以透支，部分消费会有返现，使用美国借记卡还款；学生由于没有稳定收入，借记卡金额需要境外汇款，过程产生的手续费可能与返现抵消，因此用处不大；</li>
-</ul>
-<h2 id="飞机">飞机</h2>
-<ul>
-<li>机票在携程上直接购买即可，注意价格变动大；</li>
-<li>准备纸质备忘录，记录常用电话、信息等，防止手机不能用；</li>
-<li>剃须刀、充电宝、电池不要放箱子里；火柴、打火机等均不能带；</li>
-<li>不需要参与行李过海关的环节，只有人过海关；</li>
-<li>廉航随身行李不收费，托运行李一般每件在 $60~$100
-左右（联乘直挂只算一次）；</li>
-<li>肉、液体、种子等管控较严，其余食品管控较松；</li>
-<li>只有两步：值机和登机；行李直挂转机无需值机，找到 transit 或 transfer
-的地点即可；非直挂需要先去 baggage claim 取行李，再去 connection
-重新值机；</li>
-</ul>
-<h2 id="生活">生活</h2>
-<ul>
-<li>租房不带家具，带家电；</li>
-<li>购物有消费税；非快餐店吃饭给最少 18% 的小费；</li>
-<li>消费使用刷卡或现金；</li>
-<li>对机动车之外的交通工具不太友好；</li>
-<li>多数情况可以用驾照 permit 代替护照证明身份；</li>
-<li>人们打招呼很热情；</li>
-<li>坐公交车在路边招手即可，想下车拉一下黄色杆即可；</li>
-<li>UPS 退货要留着快递盒，否则得买他的袋子；Whole food store
-则不需要；</li>
-</ul>
-<h2 id="其它">其它</h2>
-<ul>
-<li>Duke 直接通过校内平台在 Lancaster 租房，提前找好室友；</li>
-<li>到国际旅行卫生保健中心体检、打疫苗、填写学校要求的强制疫苗表、领小红本与小黄本；有签证可以免体检费；</li>
-<li>自行打印成绩单后找校教务处密封盖章，自行邮寄。拿到学位证和毕业证后在档案馆办理翻译证明，同样在教务处密封盖章；</li>
-</ul>
-<h2 id="单位">单位</h2>
-<ul>
-<li>华氏度：F = 32 + 1.8 * C；100 F ≈ 37.78 C；</li>
-<li>美制加仑：1 gallon-us ≈ 3.8 L；</li>
-<li>液量盎司：1 gallon-us = 8 pt = 128 fl oz；1 fl oz ≈ 30 ml；</li>
-<li>磅：1 Lb ≈ 454 g；</li>
-<li>英尺：1 ft ≈ 30.48 cm；1 ft = 12 in；</li>
-<li>英寸：1 in ≈ 2.54 cm；</li>
-</ul>
-<h2 id="找工">找工</h2>
-<p>资料：</p>
-<p>https://github.com/eliaszon/Programmers-Overseas-Job-Interview-Handbook?tab=readme-ov-file</p>
-<p>https://www.eecsresume.com/article</p>
-<h3 id="简历">简历</h3>
-<ul>
-<li>写好 Linkedin Profile，另外为每个岗位类型准备一份简历；建议使用
-Overleaf Resume 模板；</li>
-<li>简历保证不超过一页，附上自己的联系方式；</li>
-<li>实习 Bullet Point 按【目的、内容、工具、特色、提升】来写；</li>
-<li>项目 Bullet Point 按【内容、特色、工具、细节、工作量】来写；第一个
-BP 用于概述；</li>
-<li>使用“最小项目法”，思考符合当前描述的最小项目，从而丰富内容；</li>
-</ul>
-<h3 id="投递">投递</h3>
-<ul>
-<li>Github 上会有当年开放的所有岗位，包括 Intern 和
-NG，实时更新；此外主流求职平台有：<a
-href="https://www.linkedin.com/jobs/search/?currentJobId=3968882269">Linkedin</a>、<a
-href="https://www.indeed.com/?from=jobsearch-empty-whatwhere">Indeed</a>、<a
-href="https://www.google.com/search?q=software+engineer+jobs&amp;hl=en&amp;oq=software+engineer+jobs&amp;ibp=htl;jobs&amp;sa=X&amp;htivrt=jobs&amp;htichips=&amp;htischips=#htivrt=jobs&amp;htidocid=iBeBi4RlDep4KEcnAAAAAA%3D%3D&amp;fpstate=tldetail">Google
-Career</a>、<a
-href="https://www.glassdoor.com/Job/index.htm">Glassdoor</a>、<a
-href="https://app.joinhandshake.com/stu/postings">Handshake</a>；</li>
-</ul>
-<h3 id="面试">面试</h3>
-<ul>
-<li>提前了解公司，展现热情，强调自己需要这份工作；</li>
-<li>准备常问问题的回答（特别是 Behavior
-Questions）；准备反问的问题（技术栈、给员工的建议）；面试完后邮件感谢；</li>
-<li>面试写题环节要注重
-Communication，即使写不出来也要多明确需求、描述想法；</li>
-</ul>
-<h3 id="其它-1">其它</h3>
-<ul>
-<li>美国目前主要招 8+ yoe ，Entry-level 招的非常少；需要公司帮抽
-H-1B；</li>
-<li>Amazon 和 Meta 都是 General
-Hire（目前招人少），其余公司均寻求技术栈一致的；</li>
-<li>时间线：入学当年 7 月开始找第二年暑期 Summer Intern；</li>
-<li>常见 OA 平台：CodeSignal、HackerRank；</li>
-</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">- my_project/</span><br><span class="line">  - build/</span><br><span class="line">    - Makefile</span><br><span class="line">    - helloworld.exe</span><br><span class="line">  - CmakeLists.txt</span><br><span class="line">  - helloworld.cpp</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>记录</category>
+        <category>笔记</category>
       </categories>
       <tags>
-        <tag>其它</tag>
+        <tag>C++</tag>
       </tags>
   </entry>
   <entry>
@@ -5485,240 +5719,6 @@ ti），它也是独立的</em>；</li>
       </categories>
       <tags>
         <tag>哲学</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>部分基础编程术语中英对照表</title>
-    <url>/2024/10/11/%E9%83%A8%E5%88%86%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E6%9C%AF%E8%AF%AD%E4%B8%AD%E8%8B%B1%E5%AF%B9%E7%85%A7%E8%A1%A8/</url>
-    <content><![CDATA[<h1 id="部分基础编程术语中英对照表">部分基础编程术语中英对照表</h1>
-<table>
-<colgroup>
-<col style="width: 14%" />
-<col style="width: 13%" />
-<col style="width: 15%" />
-<col style="width: 23%" />
-<col style="width: 9%" />
-<col style="width: 23%" />
-</colgroup>
-<thead>
-<tr>
-<th>中文</th>
-<th>English</th>
-<th>中文</th>
-<th>English</th>
-<th>中文</th>
-<th>English</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>逗号</td>
-<td>comma</td>
-<td>句号</td>
-<td>period</td>
-<td>波浪号</td>
-<td>tilde</td>
-</tr>
-<tr>
-<td>冒号</td>
-<td>colon</td>
-<td>分号</td>
-<td>semicolon</td>
-<td>省略号</td>
-<td>ellipsis</td>
-</tr>
-<tr>
-<td>问号</td>
-<td>question mark</td>
-<td>感叹号</td>
-<td>exclamation mark</td>
-<td>引号</td>
-<td>quotation marks</td>
-</tr>
-<tr>
-<td>小括号</td>
-<td>parentheses</td>
-<td>中括号</td>
-<td>square brackets</td>
-<td>大括号</td>
-<td>curly braces</td>
-</tr>
-<tr>
-<td>星号</td>
-<td>asterisk</td>
-<td>与号（&amp;）</td>
-<td>ampersand</td>
-<td>井号</td>
-<td>number sign / hash / pound</td>
-</tr>
-<tr>
-<td>下划线</td>
-<td>underline</td>
-<td>百分号</td>
-<td>percent sign</td>
-<td>连字符</td>
-<td>hyphen</td>
-</tr>
-<tr>
-<td>斜杠</td>
-<td>slash</td>
-<td>反斜杠</td>
-<td>backslash</td>
-<td>`</td>
-<td>back-tick</td>
-</tr>
-<tr>
-<td>取模</td>
-<td>modulus</td>
-<td>余数</td>
-<td>remainder</td>
-<td>加数</td>
-<td>addend</td>
-</tr>
-<tr>
-<td>被除数</td>
-<td>dividend</td>
-<td>除数</td>
-<td>divisor</td>
-<td>乘数</td>
-<td>multiplier</td>
-</tr>
-<tr>
-<td>被减数</td>
-<td>minuend</td>
-<td>减数</td>
-<td>subtracter</td>
-<td>操作数</td>
-<td>operand</td>
-</tr>
-<tr>
-<td>语法</td>
-<td>syntax</td>
-<td>语义</td>
-<td>semantics</td>
-<td>变量</td>
-<td>variable</td>
-</tr>
-<tr>
-<td>标识符</td>
-<td>identifier</td>
-<td>初始化</td>
-<td>initialize</td>
-<td>语句</td>
-<td>statement</td>
-</tr>
-<tr>
-<td>赋值</td>
-<td>assignment</td>
-<td>表达式</td>
-<td>expression</td>
-<td>优先级</td>
-<td>precedence</td>
-</tr>
-<tr>
-<td>形参</td>
-<td>parameter</td>
-<td>实参</td>
-<td>argument</td>
-<td>栈帧</td>
-<td>stack frame</td>
-</tr>
-<tr>
-<td>作用域</td>
-<td>scope</td>
-<td>局部</td>
-<td>local</td>
-<td>全局</td>
-<td>global</td>
-</tr>
-<tr>
-<td>转义</td>
-<td>escape</td>
-<td>短路</td>
-<td>short circuit</td>
-<td>嵌套</td>
-<td>nest</td>
-</tr>
-<tr>
-<td>语法糖</td>
-<td>syntactic sugar</td>
-<td>通配</td>
-<td>glob</td>
-<td>描述符</td>
-<td>descriptor</td>
-</tr>
-<tr>
-<td>终端</td>
-<td>terminal</td>
-<td>缓冲</td>
-<td>buffer</td>
-<td>内存</td>
-<td>memory</td>
-</tr>
-<tr>
-<td>编译</td>
-<td>compile</td>
-<td>单例</td>
-<td>singleton</td>
-<td>运算符</td>
-<td>operator</td>
-</tr>
-<tr>
-<td>一元</td>
-<td>unary</td>
-<td>二元</td>
-<td>binary</td>
-<td>三元</td>
-<td>ternary</td>
-</tr>
-<tr>
-<td>可变（数量）</td>
-<td>variadic</td>
-<td>精度</td>
-<td>precision</td>
-<td>上下文</td>
-<td>context</td>
-</tr>
-<tr>
-<td>类型转换（人为）</td>
-<td>cast</td>
-<td>类型转换（编译器）</td>
-<td>type promotion / conversion</td>
-<td>递归</td>
-<td>recursion</td>
-</tr>
-<tr>
-<td>并发</td>
-<td>concurrent</td>
-<td>并行 / 并联</td>
-<td>parallel</td>
-<td>串行 / 串联</td>
-<td>serial</td>
-</tr>
-<tr>
-<td>演绎</td>
-<td>deduction</td>
-<td>归纳</td>
-<td>induction</td>
-<td>约简</td>
-<td>reduction</td>
-</tr>
-<tr>
-<td>分隔符</td>
-<td>delimiter</td>
-<td>字典序</td>
-<td>lexicographic order</td>
-<td>字面量</td>
-<td>literal</td>
-</tr>
-</tbody>
-</table>
-]]></content>
-      <categories>
-        <category>其它</category>
-      </categories>
-      <tags>
-        <tag>其它</tag>
       </tags>
   </entry>
 </search>
