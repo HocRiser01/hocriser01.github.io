@@ -391,6 +391,133 @@ target="_blank" rel="noopener" href="https://github.com/sunface/rust-by-practice
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://47.99.133.133/2025/04/21/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="HocRiser">
+      <meta itemprop="description" content="平凡即是喜乐">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="朝汐">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/04/21/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">强化学习入门笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2025-04-21 14:00:15 / 修改时间：14:02:04" itemprop="dateCreated datePublished" datetime="2025-04-21T14:00:15-04:00">2025-04-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>11k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>21 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><a
+target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1sd4y167NS">强化学习的数学原理</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1rooaYVEk8/">RL
+基本原理</a></p>
+<h2 id="一基本概念">一、基本概念</h2>
+<ul>
+<li>Agent：操作主体；</li>
+<li>State：agent 所处状态（位置、速度等）；State Space：状态集合；</li>
+<li>Action：可采取的行动，依赖于 state： <span
+class="math inline">\(\mathcal{A}(s_i)\)</span>；State Transition：采取
+action 后 state 的转变；</li>
+<li>Policy：agent 在特定 state 采取的 action：概率表达为 <span
+class="math inline">\(\pi(a_i | s_1)\)</span>；</li>
+<li>Reward：采取某个 action 后得到的奖励（可负）； <span
+class="math inline">\(p(r=1 | s1, a1)\)</span>；</li>
+<li>Trajectory：一条 state-action-reward 链；Return：一个 Trajectory
+沿途所有 Reward 之和；Discount Rate：计算 Discounted Return 时，reward
+随步数的衰减因子 <span class="math inline">\(\gamma\)</span>；</li>
+<li>Episode：走到终止态 Terminal State 的一个 Trajectory；没有 terminal
+state 的任务称为 Continuing Tasks；通过将 target state 设为 absorbing
+state（吸收态，采取行动仍回到自身且 reward 为
+0），或仍直接视为普通状态，我们可以统一 episodic 和 continuing
+tasks；</li>
+<li>Markov Decision Process（MDP）：
+<ul>
+<li>具有 State（<span
+class="math inline">\(\mathcal{S}\)</span>）、Action（<span
+class="math inline">\(\mathcal{A}(s)\)</span>）和 Reward（<span
+class="math inline">\(\mathcal{R}(s, a)\)</span>）；</li>
+<li>具有 state transition probability <span
+class="math inline">\(p(s’|s, a)\)</span>、reward probability <span
+class="math inline">\(p(r|s, a)\)</span>；</li>
+<li>具有 Policy <span class="math inline">\(\pi(a|s)\)</span>；</li>
+<li>无记忆性：memoryless property：<span class="math inline">\(p(s_{t+1}
+| a_{t+1}, s_t, \cdots, a_1, s_0) = p(s_{t+1} | a_{t+1}, s_t)\)</span>，
+<span class="math inline">\(p(r_{t+1} | a_{t+1}, s_t, \cdots, a_1, s_0)
+= p(r_{t+1} | a_{t+1}, s_t)\)</span></li>
+</ul></li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/04/21/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1050,310 +1177,6 @@ Bean；</li>
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://47.99.133.133/2024/10/11/%E9%83%A8%E5%88%86%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E6%9C%AF%E8%AF%AD%E4%B8%AD%E8%8B%B1%E5%AF%B9%E7%85%A7%E8%A1%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="HocRiser">
-      <meta itemprop="description" content="平凡即是喜乐">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="朝汐">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/10/11/%E9%83%A8%E5%88%86%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E6%9C%AF%E8%AF%AD%E4%B8%AD%E8%8B%B1%E5%AF%B9%E7%85%A7%E8%A1%A8/" class="post-title-link" itemprop="url">部分基础编程术语中英对照表</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2024-10-11 23:30:52 / 修改时间：23:31:48" itemprop="dateCreated datePublished" datetime="2024-10-11T23:30:52-04:00">2024-10-11</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%85%B6%E5%AE%83/" itemprop="url" rel="index"><span itemprop="name">其它</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>900</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="部分基础编程术语中英对照表">部分基础编程术语中英对照表</h1>
-<table>
-<colgroup>
-<col style="width: 14%" />
-<col style="width: 13%" />
-<col style="width: 15%" />
-<col style="width: 23%" />
-<col style="width: 9%" />
-<col style="width: 23%" />
-</colgroup>
-<thead>
-<tr>
-<th>中文</th>
-<th>English</th>
-<th>中文</th>
-<th>English</th>
-<th>中文</th>
-<th>English</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>逗号</td>
-<td>comma</td>
-<td>句号</td>
-<td>period</td>
-<td>波浪号</td>
-<td>tilde</td>
-</tr>
-<tr>
-<td>冒号</td>
-<td>colon</td>
-<td>分号</td>
-<td>semicolon</td>
-<td>省略号</td>
-<td>ellipsis</td>
-</tr>
-<tr>
-<td>问号</td>
-<td>question mark</td>
-<td>感叹号</td>
-<td>exclamation mark</td>
-<td>引号</td>
-<td>quotation marks</td>
-</tr>
-<tr>
-<td>小括号</td>
-<td>parentheses</td>
-<td>中括号</td>
-<td>square brackets</td>
-<td>大括号</td>
-<td>curly braces</td>
-</tr>
-<tr>
-<td>星号</td>
-<td>asterisk</td>
-<td>与号（&amp;）</td>
-<td>ampersand</td>
-<td>井号</td>
-<td>number sign / hash / pound</td>
-</tr>
-<tr>
-<td>下划线</td>
-<td>underline</td>
-<td>百分号</td>
-<td>percent sign</td>
-<td>连字符</td>
-<td>hyphen</td>
-</tr>
-<tr>
-<td>斜杠</td>
-<td>slash</td>
-<td>反斜杠</td>
-<td>backslash</td>
-<td>`</td>
-<td>back-tick</td>
-</tr>
-<tr>
-<td>取模</td>
-<td>modulus</td>
-<td>余数</td>
-<td>remainder</td>
-<td>加数</td>
-<td>addend</td>
-</tr>
-<tr>
-<td>被除数</td>
-<td>dividend</td>
-<td>除数</td>
-<td>divisor</td>
-<td>乘数</td>
-<td>multiplier</td>
-</tr>
-<tr>
-<td>被减数</td>
-<td>minuend</td>
-<td>减数</td>
-<td>subtracter</td>
-<td>操作数</td>
-<td>operand</td>
-</tr>
-<tr>
-<td>语法</td>
-<td>syntax</td>
-<td>语义</td>
-<td>semantics</td>
-<td>变量</td>
-<td>variable</td>
-</tr>
-<tr>
-<td>标识符</td>
-<td>identifier</td>
-<td>初始化</td>
-<td>initialize</td>
-<td>语句</td>
-<td>statement</td>
-</tr>
-<tr>
-<td>赋值</td>
-<td>assignment</td>
-<td>表达式</td>
-<td>expression</td>
-<td>优先级</td>
-<td>precedence</td>
-</tr>
-<tr>
-<td>形参</td>
-<td>parameter</td>
-<td>实参</td>
-<td>argument</td>
-<td>栈帧</td>
-<td>stack frame</td>
-</tr>
-<tr>
-<td>作用域</td>
-<td>scope</td>
-<td>局部</td>
-<td>local</td>
-<td>全局</td>
-<td>global</td>
-</tr>
-<tr>
-<td>转义</td>
-<td>escape</td>
-<td>短路</td>
-<td>short circuit</td>
-<td>嵌套</td>
-<td>nest</td>
-</tr>
-<tr>
-<td>语法糖</td>
-<td>syntactic sugar</td>
-<td>通配</td>
-<td>glob</td>
-<td>描述符</td>
-<td>descriptor</td>
-</tr>
-<tr>
-<td>终端</td>
-<td>terminal</td>
-<td>缓冲</td>
-<td>buffer</td>
-<td>内存</td>
-<td>memory</td>
-</tr>
-<tr>
-<td>编译</td>
-<td>compile</td>
-<td>单例</td>
-<td>singleton</td>
-<td>运算符</td>
-<td>operator</td>
-</tr>
-<tr>
-<td>一元</td>
-<td>unary</td>
-<td>二元</td>
-<td>binary</td>
-<td>三元</td>
-<td>ternary</td>
-</tr>
-<tr>
-<td>可变（数量）</td>
-<td>variadic</td>
-<td>精度</td>
-<td>precision</td>
-<td>上下文</td>
-<td>context</td>
-</tr>
-<tr>
-<td>类型转换（人为）</td>
-<td>cast</td>
-<td>类型转换（编译器）</td>
-<td>type promotion / conversion</td>
-<td>递归</td>
-<td>recursion</td>
-</tr>
-<tr>
-<td>并发</td>
-<td>concurrent</td>
-<td>并行 / 并联</td>
-<td>parallel</td>
-<td>串行 / 串联</td>
-<td>serial</td>
-</tr>
-<tr>
-<td>演绎</td>
-<td>deduction</td>
-<td>归纳</td>
-<td>induction</td>
-<td>约简</td>
-<td>reduction</td>
-</tr>
-<tr>
-<td>分隔符</td>
-<td>delimiter</td>
-<td>字典序</td>
-<td>lexicographic order</td>
-<td>字面量</td>
-<td>literal</td>
-</tr>
-</tbody>
-</table>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1425,7 +1248,7 @@ Bean；</li>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1508,13 +1331,13 @@ Bean；</li>
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">159k</span>
+    <span title="站点总字数">170k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">4:49</span>
+    <span title="站点阅读时长">5:10</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>
