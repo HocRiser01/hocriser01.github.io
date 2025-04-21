@@ -958,7 +958,7 @@ a)\)</span>；</li>
 </ul>
 <h2 id="三贝尔曼最优公式">三、贝尔曼最优公式</h2>
 <ul>
-<li>若所有 $s$ <span class="math inline">\(s\)</span><span
+<li>若所有 <span class="math inline">\(s\)</span>，<span
 class="math inline">\(v_{\pi_1}(s) \geq v_{\pi_2}(s)\)</span>，则称
 <span class="math inline">\(\pi_1\)</span> 比 <span
 class="math inline">\(\pi_2\)</span> 更好；</li>
@@ -1128,6 +1128,7 @@ a) \\
 \bar{q}_t = r_{t+1} + \gamma r_{t+2} + \gamma^2 r_{t+3} + \cdots
 \end{array}\]</span>
 <p>$$</p></li>
+<li></li>
 </ul>
 <h2 id="八值函数近似">八、值函数近似</h2>
 <ul>
