@@ -898,6 +898,7 @@ class="math inline">\(M\)</span> 维度不共享。因此可以理解为，将 <
 class="math inline">\(B\)</span> 的每列按 <span
 class="math inline">\(block\_size\)</span> 划分为多个竖条，总块数为
 <span class="math inline">\(K / block\_size \times M\)</span>。</p>
+<span id="more"></span>
 <h2 id="初探">初探</h2>
 <h3 id="conv_fpaint4b">CONV_FpAInt4B</h3>
 <p>首先，卷积可以按照原始定义实现，我们对 <span
@@ -1154,7 +1155,6 @@ n)\)</span>：
       </categories>
       <tags>
         <tag>机器学习</tag>
-        <tag>C++</tag>
       </tags>
   </entry>
   <entry>

@@ -28,10 +28,9 @@
 <meta property="og:description" content="问题定义 输入两个 Tensor：\(input[Batch, Ci, Ih, Iw]\) （经典 NCHW 布局）、\(kernel[Co, Ci, Kh, Kw]\)（为适应 Coalesced Access 可重排为 \([Co, Kh, Kw, Ci]\)），其中前者为 FP32&#x2F;FP16 类型，后者为 INT4&#x2F;INT8 类型。输出卷积结果。 可以发现，对于 \(Iw &#x3D; Ih &#x3D; Ow">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-07-04T11:13:30.000Z">
-<meta property="article:modified_time" content="2025-07-04T11:14:33.608Z">
+<meta property="article:modified_time" content="2025-07-04T11:15:19.689Z">
 <meta property="article:author" content="HocRiser">
 <meta property="article:tag" content="机器学习">
-<meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://47.99.133.133/2025/07/04/Per-block-%E9%87%8F%E5%8C%96%E6%B7%B7%E5%90%88%E7%B2%BE%E5%BA%A6%E5%8D%B7%E7%A7%AF%E5%AE%9E%E7%8E%B0%E4%B8%8E-GEMM%E3%80%81GEMV-%E4%BC%98%E5%8C%96/">
@@ -192,7 +191,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2025-07-04 19:13:30 / 修改时间：19:14:33" itemprop="dateCreated datePublished" datetime="2025-07-04T19:13:30+08:00">2025-07-04</time>
+              <time title="创建时间：2025-07-04 19:13:30 / 修改时间：19:15:19" itemprop="dateCreated datePublished" datetime="2025-07-04T19:13:30+08:00">2025-07-04</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -253,6 +252,7 @@ class="math inline">\(M\)</span> 维度不共享。因此可以理解为，将 <
 class="math inline">\(B\)</span> 的每列按 <span
 class="math inline">\(block\_size\)</span> 划分为多个竖条，总块数为
 <span class="math inline">\(K / block\_size \times M\)</span>。</p>
+<span id="more"></span>
 <h2 id="初探">初探</h2>
 <h3 id="conv_fpaint4b">CONV_FpAInt4B</h3>
 <p>首先，卷积可以按照原始定义实现，我们对 <span
@@ -513,7 +513,6 @@ n)\)</span>：
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
-              <a href="/tags/C/" rel="tag"># C++</a>
           </div>
 
         
