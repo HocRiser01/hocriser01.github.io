@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"47.99.133.133","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="总体框架">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大模型推理优化笔记">
+<meta property="og:url" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="朝汐">
+<meta property="og:description" content="总体框架">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/Arch-1.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/Arch-2.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/gpu-overall.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/sm-arch.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/sub-core.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/h100-arg-1.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/h100-arg-2.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/h100-arg-3.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/h100-arg-4.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/h100-arg-5.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/h100-arch.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/gb200-arg-1.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/gb200-arg-2.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/flashattention.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/mixed-precision-1.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/mixed-precision-2.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/dpsk-1.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/quant-1.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/quant-2.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/quant-3.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/cutlass-1.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/cutlass-2.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/cutlass-3.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/cutlass-4.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/trtllm.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/triton-1.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/triton-2.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/nemo.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/mnn-1.png">
+<meta property="og:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/mnn-2.png">
+<meta property="article:published_time" content="2025-03-05T02:24:13.000Z">
+<meta property="article:modified_time" content="2025-03-05T14:48:01.123Z">
+<meta property="article:author" content="HocRiser">
+<meta property="article:tag" content="机器学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/Arch-1.png">
+
+<link rel="canonical" href="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>大模型推理优化笔记 | 朝汐</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">朝汐</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">如星空般深蓝</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-gallery">
+
+    <a href="/gallery/" rel="section"><i class="fa fa-image fa-fw"></i>Gallery</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/HocRiser01" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://47.99.133.133/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="HocRiser">
+      <meta itemprop="description" content="平凡即是喜乐">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="朝汐">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          大模型推理优化笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-03-04 21:24:13" itemprop="dateCreated datePublished" datetime="2025-03-04T21:24:13-05:00">2025-03-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-03-05 09:48:01" itemprop="dateModified" datetime="2025-03-05T09:48:01-05:00">2025-03-05</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>8.6k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>16 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="总体框架">总体框架</h2>
+<span id="more"></span>
+<p>来源：<a target="_blank" rel="noopener" href="https://github.com/chenzomi12/AIInfra">ZOMI</a>；</p>
+<p><img src="Arch-1.png" /></p>
+<p><img src="Arch-2.png" /></p>
+<h2 id="gpu-architecture">GPU Architecture</h2>
+<h3 id="体系结构以-hopper-为例">体系结构（以 Hopper 为例）</h3>
+<ul>
+<li><p>一个 GPU 包含 132 个 SM，80GB Global Memory（位于 HBM3（High
+Bandwidth Memory） 芯片，此外还有常量内存和纹理内存），50MB L2 Cache（跨
+SM 共享）；</p>
+<p><img src="gpu-overall.png" /></p></li>
+<li><p>一个 SM 中有 128 个 CUDA Core（具体见后文参数表截图），4 个 Sub
+Core（每个 Sub Core有一个 Warp Scheduler 和一个 Dispatch Unit
+共同控制指令发射），4 个 Tensor Core，1 个 TMA，228KB Shared Memory（L1
+缓存，几百 K），256KB Register File，以及一般不需要考虑的 LSU 和 L0/L1
+Instruction Cache；</p>
+<p><img src="sm-arch.png" /></p></li>
+<li><p>每个 CUDA Core 有整数、浮点运算单元，寄存器；寄存器放不下的放在
+Local Memory （线程独占，但实际存放在 Global Memory 或 L2 Cache
+中）；</p></li>
+<li><p>Tensor Core：</p>
+<ul>
+<li><strong>Ampere（A100）</strong> 4×4×16 FP16, BF16, TF32, INT8；</li>
+<li><strong>Hopper（H100）</strong> 8×8×16 FP8, FP16, BF16, TF32,
+INT8</li>
+<li><strong>Blackwell（GB200）</strong> 16×16×16 FP4, FP8, FP16,
+BF16</li>
+</ul>
+<figure>
+<img src="sub-core.png" alt="image.png" />
+<figcaption aria-hidden="true">image.png</figcaption>
+</figure></li>
+<li><p>NCCL：</p>
+<ul>
+<li>NVLink：高速 GPU 互联总线（对应 CPU 的
+PCIe）与通信协议，支持统一内存访问（Unified Memory Access）；</li>
+<li>NVSwitch：NVLink 专用交换芯片（Switch Fabric），允许 All-to-All
+Communication，解决直连拓扑的限制；</li>
+<li>Broadcast：从一个 GPU 向所有 GPU
+发送数据，用于模型参数广播（Distributed Training）；</li>
+<li>Scatter：将一个 GPU 数据复制到多个 GPU，用于参数分配；</li>
+<li>Reduce：将所有 GPU 数据汇总累加到一个 GPU，用于参数收集；</li>
+<li>All-Reduce：计算所有 GPU 的数据和，并同步到每个
+GPU，用于梯度平均（Data Parallel）；</li>
+<li>Gather：将所有 GPU 数据汇总存储到一个 GPU；</li>
+<li>All-Gather：所有 GPU 共享所有 GPU 的数据，用于模型并行（Tensor
+Parallel）；</li>
+<li>ReduceScatter：Reduce + Scatter 结合，用于高效梯度传输；</li>
+</ul></li>
+</ul>
+<h3 id="hopper-架构参数">Hopper 架构参数</h3>
+<ul>
+<li><p><a
+target="_blank" rel="noopener" href="https://developer.nvidia.com/blog/nvidia-ampere-architecture-in-depth/">Ampere
+官方介绍</a>，<a
+target="_blank" rel="noopener" href="https://developer.nvidia.com/blog/nvidia-hopper-architecture-in-depth/">Hopper
+官方介绍</a>，<a
+target="_blank" rel="noopener" href="https://resources.nvidia.com/en-us-data-center-overview/gtc22-whitepaper-hopper">H100
+白皮书</a>；</p></li>
+<li><p>144 SMs(Streaming Multiprocessor) per full GPU</p></li>
+<li><p>128 FP32 CUDA Cores per SM, 18432 FP32 CUDA Cores per full
+GPU</p></li>
+<li><p>4 fourth-generation Tensor Cores per SM, 576 per full
+GPU</p></li>
+<li><p>60 MB L2 cache</p></li>
+<li><p>引入了 Thread Block Cluster 和 <a
+target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/708645371">Distributed Shared
+Memory</a>，硬件层面加入了 SM-to-SM Network；</p>
+<p><img src="h100-arg-1.png" /></p>
+<p><img src="h100-arg-2.png" /></p>
+<p><img src="h100-arg-3.png" /></p>
+<p><img src="h100-arg-4.png" /></p>
+<p><img src="h100-arg-5.png" /></p>
+<p><img src="h100-arch.png" /></p></li>
+</ul>
+<h3 id="blackwell-架构参数">Blackwell 架构参数</h3>
+<ul>
+<li><a
+target="_blank" rel="noopener" href="https://resources.nvidia.com/en-us-blackwell-architecture">Blackwell
+伪白皮书</a>；</li>
+<li>引入 FP4 / FP6；</li>
+</ul>
+<p><img src="gb200-arg-1.png" /></p>
+<p><img src="gb200-arg-2.png" /></p>
+<h3 id="cuda">CUDA</h3>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/680075822">入门1</a>，<a
+target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/690880124">入门2</a>，<a
+target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/contents.html">官方文档</a>，<a
+target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/index.html">部分官方文档索引</a>；<a
+target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/632244210">内存访问</a>；</li>
+<li>一个 Grid 对应一次 Kernel Launch；每个 Block 与 唯一一个 SM
+对应（一个 SM 可以同时处理多个 Block）；线程调度的基本单位是 Warp，一个
+Warp 32 个线程；</li>
+<li>通过 WMMA API 或 mma.sync PTX（asm volatile）
+指令<strong>异步</strong>调用 Tensor Core（或调用 cuBLAS 和 CUTLASS
+库，后者定制化程度更高），分配调度单位是 Warp；</li>
+</ul>
+<h2 id="transformer-优化">Transformer 优化</h2>
+<ul>
+<li><p>常见推理优化指标：</p>
+<ul>
+<li>Throughput（吞吐量）：单位时间内处理 token 数 / 请求数；</li>
+<li>TPS（Tokens Per Second）/ TPOT（Time Per Output Token）；</li>
+<li>TTFT（Time to First Token）/ First-Token Latency；</li>
+<li>MFU（Model FLOPs Utilization）模型算力利用率 / HFU（Hardware FLOPs
+Utilization）硬件算力利用率；</li>
+</ul></li>
+<li><p>分布式训练：</p>
+<ul>
+<li>数据并行（Data Parallelism）：将模型复制 n
+份，输入不同的小批量数据（mini-batch）并行训练，最后 All-Reduce
+合并梯度更新；扩展：DeepSpeed ZeRO-1（优化器状态拆分）/
+2（梯度信息拆分）/ 3（参数动态加载）；</li>
+<li>流水线并行 Pipeline Parallelism：每个 GPU 负责几层，同时与前后 GPU
+交互数据（后、前向传播），相当于纵向切割；需要尽可能减少 Bubble；</li>
+<li>张量并行（Tensor Parallelism）：单个算子拆到多个 GPU
+上，相当于横向切割；与流水线并行统称模型并行（Model Parallelism）；</li>
+<li>LoRA：冻结其余参数，只微调 Attention
+权重；使用低秩矩阵（将一个大矩阵拆成两个秩更低的矩阵之和）分解减少存储需求；</li>
+</ul></li>
+<li><p>Attention 相关公式：</p>
+<ul>
+<li><p><strong>前向传播公式：</strong></p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbf{a}^{(0)} &amp;= \mathbf{x} \\
+\mathbf{z}^{(l)} &amp;= \mathbf{W}^{(l)} \, \mathbf{a}^{(l-1)} +
+\mathbf{b}^{(l)}, \quad l=1,2,\ldots,L \\
+\mathbf{a}^{(l)} &amp;= f^{(l)}\left(\mathbf{z}^{(l)}\right), \quad
+l=1,2,\ldots,L \\
+L &amp;= \mathcal{L}\left(\mathbf{a}^{(L)}, \mathbf{y}\right)
+\end{aligned}
+\]</span></p></li>
+<li><p><strong>反向传播公式（</strong> <span
+class="math inline">\(\odot\)</span>
+为逐元素相乘）<strong>：</strong></p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{\delta}^{(L)} &amp;= \nabla_{\mathbf{a}^{(L)}} \mathcal{L}
+\odot f^{(L){\prime}}\left(\mathbf{z}^{(L)}\right) \\
+\boldsymbol{\delta}^{(l)} &amp;= \left(\mathbf{W}^{(l+1)T}
+\boldsymbol{\delta}^{(l+1)}\right) \odot
+f^{(l){\prime}}\left(\mathbf{z}^{(l)}\right), \quad l=L-1,\ldots,1 \\
+\frac{\partial L}{\partial \mathbf{W}^{(l)}} &amp;=
+\boldsymbol{\delta}^{(l)} \, \mathbf{a}^{(l-1)T} \\
+\frac{\partial L}{\partial \mathbf{b}^{(l)}} &amp;=
+\boldsymbol{\delta}^{(l)}
+\end{aligned}
+\]</span></p></li>
+<li><p>Self-Attention（ <span class="math inline">\(\mathbf{X} \in
+\mathbb{R}^{n \times d}, \ \mathbf{W}^{Q}, \mathbf{W}^{K},
+\mathbf{W}^{V} \in \mathbb{R}^{d \times d_k},\ d_k=d/head\)</span>）：
+其它优化：</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbf{Q} &amp;= \mathbf{X} \mathbf{W}^{Q}, \\
+\mathbf{K} &amp;= \mathbf{X} \mathbf{W}^{K}, \\
+\mathbf{V} &amp;= \mathbf{X} \mathbf{W}^{V}
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\mathbf{A} =
+\text{softmax}(\frac{\mathbf{Q}\mathbf{K}^T}{\sqrt{d_k}})\mathbf{V}, \\
+a_{ij} = \frac{\exp\left(\frac{q_i \cdot
+k_j}{\sqrt{d_k}}\right)}{\sum_{j{\prime}=1}^{n} \exp\left(\frac{q_i
+\cdot k_{j{\prime}}}{\sqrt{d_k}}\right)}\mathbf{V}
+\]</span></p></li>
+<li><p>Multi-Head Attention：</p>
+<p><span class="math display">\[
+\text{head}_i = \text{Attention}(Q_i, K_i, V_i) = \text{softmax} \left(
+\frac{Q_i K_i^T}{\sqrt{d_k}} \right) V_i
+\]</span></p>
+<p><span class="math display">\[
+\text{MultiHead}(Q, K, V) = \text{Concat} ( \text{head}_1,
+\text{head}_2, \cdots, \text{head}_h ) W^O
+\]</span></p></li>
+</ul></li>
+<li><p>Attention 优化：</p>
+<ul>
+<li><p>KV-Cache：每次新加一个 token（上次的输出）， <span
+class="math inline">\(Q\)</span> 新增一行， <span
+class="math inline">\(QK^T\)</span> 新增一行（由 <span
+class="math inline">\(Q\)</span> 新增那行与整个 <span
+class="math inline">\(K\)</span> 共同算得）， <span
+class="math inline">\(A\)</span> 新增一行（由 <span
+class="math inline">\(QK^T\)</span> 的最新行与整个 <span
+class="math inline">\(V\)</span> 共同算得）；一般分至少 30% 显存用于
+KV-Cache；</p></li>
+<li><p>KV-Cache Reuse：常用 KV Cache 常驻显存，适合 Long System Prompt
+场景；</p></li>
+<li><p><a
+target="_blank" rel="noopener" href="https://www.zhihu.com/question/611905691/answer/3457031781">PagedAttention</a>：由于序列增长速度快，需要类似
+OS 的内存分配机制，设一个块表（Block
+Table），用于从连续的逻辑地址映射到不连续的物理地址；<a
+target="_blank" rel="noopener" href="https://juejin.cn/post/7259249904778018853">GIF
+演示</a>；</p></li>
+<li><p><a
+target="_blank" rel="noopener" href="https://juejin.cn/post/7259287148321800253">FlashAttention</a>：合理利用
+GPU 内存结构，减少访存次数；计算复杂度保持 <span
+class="math inline">\(O(n^2)\)</span> 但不存储 <span
+class="math inline">\(O(n^2)\)</span> 的权重矩阵；尽量将 GMEM 的访存移到
+SMEM 中；</p>
+<p><img src="flashattention.png" /></p></li>
+<li><p>LinearAttention：利用核函数（Kernel）和低秩分解将时空复杂度均从
+<span class="math inline">\(QK^T\)</span> 的 <span
+class="math inline">\(O(n^2)\)</span> 降到 <span
+class="math inline">\(\phi(Q) \cdot \phi(K)^T = KQ^T\)</span> 的 <span
+class="math inline">\(O(n^2)\)</span>；</p></li>
+<li><p>StreamingAttention：类似 Sliding Window
+Attention，将全局注意力限制在常数级别的固定窗口内以达到加速，又尽可能捕捉到全局信息；</p></li>
+</ul></li>
+<li><p>其它优化：</p>
+<ul>
+<li>Continuous Batching（In-flight Batching）：因此当一个 Batch
+中某个回答结束后，立即加入新的回答以填满 Batch；</li>
+<li>Chunked Prefill / Context：将长 Prompts 拆成多个
+Chunks，按批次计算，允许多个请求共享资源；提高吞吐量、降低推理延迟、节省计算资源，避免某个
+Generation Phase 的 token 由于进来一个超长 Context
+而被阻塞；对显存大小要求更高、访存代价更高；</li>
+<li>Grouped-Query Attention：多个 Head 共享一组 Key 和
+Value；Multi-Query Attention：所有 Head 共享一组 Key 和 Value；</li>
+<li>Split-K：矩阵乘法维度分割；</li>
+<li>模型压缩：量化（Quantization）、蒸馏（Distillation）、剪枝（Pruning）、二值化（Binarization）；</li>
+<li>训练部分：<a
+target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1UQw2erEPW">Training
+Resiliency</a>；</li>
+<li>Batch GEMM：允许多个形状相同的矩阵对并行计算，在单一 Kernel
+内完成；Grouped GEMM 允许不同形状，限制更少；</li>
+</ul></li>
+</ul>
+<h2 id="量化"><strong>量化</strong></h2>
+<ul>
+<li><p>混合精度训练：</p>
+<p><img src="mixed-precision-1.png" /></p>
+<p><img src="mixed-precision-2.png" /></p></li>
+<li><p>DeepSeek-V3 中的混合精度：</p>
+<p><img src="dpsk-1.png" /></p></li>
+<li><p>作用：保精度加速、省显存；指标：性能、精度、显存；</p>
+<p><img src="quant-1.png" /></p>
+<p><img src="quant-2.png" /></p></li>
+<li><p>TRT-LLM
+会将量化（Quant）、重量化（ReQuant）和反量化（DeQuant）均作为算子；</p>
+<p><img src="quant-3.png" /></p></li>
+<li><p>量化参数：缩放因子（scale）和零点（zero-point）；</p></li>
+<li><p>各类方法：</p>
+<ul>
+<li><a
+target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/548174416">训练时量化</a>（Quant
+Aware Training）：插入伪量化算子（Fake
+Quant，作用通常是检测数据极差以确定缩放因子、阶梯化高精度数据），作为高精度模型一部分参与微调，然后导出为低精度；这些伪量化算子在推理时直接做常量折叠；</li>
+<li>训练后量化（Post-Training
+Quantization）：离线静态、动态量化：用一些实际数据分布模拟输入用于校准（Calibration），使用
+KL
+散度（计算真实激活值分布与预测分布的相对熵差异）计算量化参数；静态量化参数固定，动态量化则会根据输入确定
+scale 和 zero-point；目前推理引擎多使用静态；</li>
+<li>激活感知量化（Activation-aware Weight
+Quantization）：静态，根据不同通道在前向传播中的影响（离群值、关键
+Channel 等），针对性调整策略，仅量化影响小的参数；</li>
+<li>GPT-Q：静态，采用梯度下降，追求全局最优化，可以追求极低比特
+4bit；</li>
+</ul></li>
+<li><p>量化粒度：</p>
+<ol type="1">
+<li>Per-token，Per-channel，Per-tensor；</li>
+<li>Block（块级量化） + Double（双重量化） + Dynamic
+Quant（根据输入动态量化）；</li>
+</ol></li>
+</ul>
+<h2 id="nvidia-ai-software">NVIDIA AI Software</h2>
+<h3 id="cutlass"><a
+target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1XH4y1c7JZ">Cutlass</a></h3>
+<p><img src="cutlass-1.png" /></p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/703256080">CUDA
+矩阵乘法</a>；<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/461060382">Cutlass
+入门</a>；<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/697571068">Tensor Core
+利用</a>；</p></li>
+<li><p>可以做 Kernel Fusion，直接成果 Fused Multi-Head
+Attention；</p></li>
+<li><p>流水优化：在前一个 Thread 做运算的同时做后一个 Thread 的 Data
+Loading（Prefetch），从而掩盖访存 Latency；</p>
+<ul>
+<li>Prologue：Launch，Load Activation，Load Weights；</li>
+<li>Main Loop（Tensor Core 使用阶段）；</li>
+<li>Epilogue：Store Activation；</li>
+</ul></li>
+<li><p>Cutlass 2.x：针对 Pre-Hopper archs（Ada sm_89 及之前）；</p>
+<ul>
+<li>计算完成后，在 Shared Memory 中做 Epilogue 和
+Alignment，对齐后使用更大访存 API 写回 Global Memory；</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">using</span> <span class="variable">ThreadBlockShape</span> <span class="operator">=</span> cutlass::gemm::GemmShape&lt;<span class="number">128</span>, <span class="number">128</span>, <span class="number">64</span>&gt;; </span><br><span class="line"><span class="type">using</span> <span class="variable">ShapeMMAWarp</span> <span class="operator">=</span> cutlass::gemm::GemmShape&lt;<span class="number">64</span>, <span class="number">64</span>, <span class="number">64</span>&gt;; </span><br><span class="line"><span class="type">using</span> <span class="variable">ShapeMMAThread</span> <span class="operator">=</span> cutlass::gemm::GemmShape&lt;<span class="number">16</span>, <span class="number">8</span>, <span class="number">16</span>&gt;;</span><br><span class="line"><span class="type">using</span> <span class="variable">EpilogueOp</span> <span class="operator">=</span> cutlass::epilogue::thread::LinearCombination&lt;...&gt;;</span><br></pre></td></tr></table></figure></li>
+<li><p>Cutlass 3.x：增加 Hopper sm_90a kernels；</p>
+<ul>
+<li><p>只需要指定 BlockShaper 和 ClusterShape，WarpShape
+会自动推断；</p></li>
+<li><p>分阶段使用 <code>using</code> 指定 Shape 和操作而非一次性全塞进
+<code>cutlass::gemm::device::Gemm</code> 中；</p></li>
+<li><p>自动根据 Alignment 是否符合 TMA 要求决定使用 UTMALDG 还是 LDGSTS
+异步指令，前者只需一个或两个 Warp 做异步 Data Loading，其余 Warp 只做
+Tensor Core 计算（在所需数据加载完之后）；</p></li>
+<li><p>Kernel Scheduler: Warp Specialized + Pingpong；使用 Barrier
+做同步；</p></li>
+<li><p>绿色代表 Producer Warps（Prologue / Epilogue），蓝色代表 TC
+Warps（Tensor Core Calculation）；</p>
+<p><img src="cutlass-2.png" /></p>
+<p><img src="cutlass-3.png" /></p></li>
+</ul></li>
+<li><p>CuTe：Cutlass 3.0 提出；</p>
+<ul>
+<li><p>Layout&lt;Shape, Stride&gt;：将 n-D 逻辑坐标映射到 1-D
+物理索引；Shape 指定逻辑矩阵形状，Stride
+按行、列、层的顺序指定相邻两值在物理索引的距离；</p></li>
+<li><p>Tensor&lt;Ptr, Layout&gt;：Layout + 对应物理空间指针；同一个 Ptr
+可以组合不同 Layout；</p></li>
+<li><p>关键数据传输指令：Copy 和 TiledCopy；</p>
+<p><img src="cutlass-4.png" /></p></li>
+</ul></li>
+</ul>
+<h3 id="tensorrt-llm">TensorRT-LLM</h3>
+<ul>
+<li><p>TensorRT 不支持多卡、未对 LLM 做针对性适配；</p></li>
+<li><p>FasterTransformer 太上层、C++
+搭建、未发布为产品，不再维护；</p></li>
+<li><p>TRT-LLM 结合了 FasterTransformer 的性能和 TRT
+的迭代速度；</p></li>
+<li><p>对非 LLM 模型可以直接使用 TensorRT Engine 搭建，再与 TRT-LLM
+Engine 结合成 Pipeline；也支持用户自定义模型架构；</p></li>
+<li><p>显存结构：Weight、Internal Activation Tensors（Activation）、IO
+Tensors（KV-Cache）；max_num_tokens 参数决定了 Activation
+的维度，从而影响剩余的 KV-Cache 大小；</p></li>
+<li><p>支持量化：</p>
+<ul>
+<li><p>FP16 / BF16；</p></li>
+<li><p>Weight-only（INT8 / INT4）；</p></li>
+<li><p>W4A16（AWQ / GPTQ）；</p></li>
+<li><p>W8A8 SmoothQuant（INT8）；</p></li>
+<li><p>FP8（Hopper / Ada Lovelace）；</p></li>
+<li><p>KV Cache Quantization（INT8 / FP8）；</p>
+<p><img src="trtllm.png" /></p></li>
+</ul></li>
+<li><p>架构流程：</p>
+<ul>
+<li>Convert Checkpoint：ONNX 等模型导入，反序列化，转换成计算图和
+Inference IR；在此指定 TP、PP Size 和 Data Type；</li>
+<li>Define Model Architecture：预设各类主流 LLM；</li>
+<li>Load weight &amp; Build engine：构建一个独立的执行引擎；根据当前 GPU
+做 Self-Attention 优化、混合精度量化和反量化、算子融合与图优化、Kernel
+级别流水线优化；NVIDIA AMMO 低精度量化校准库；</li>
+<li>Execution：推理，Summarize，MMLU 评估；</li>
+</ul></li>
+</ul>
+<h3 id="megatron-lm">Megatron-LM</h3>
+<ul>
+<li>多种并行模式混合的分布式训练框架，使用多种并行；</li>
+<li>混合精度矩乘：使用 FP16 前、反向传播但主权重仍为 FP32；通过 Loss
+Scaling（计算梯度前将损失 L 乘上缩放因子 S，更新时再除以
+S）避免数值下溢；</li>
+<li>引入 Context Parallelism 和 Sequence Parallelism；</li>
+</ul>
+<h3 id="triton">Triton</h3>
+<ul>
+<li><p>多框架（PyTorch、TensorFlow）、多种请求（实时、批处理、流式）、多种硬件（CPU、GPU）、跨平台的统一推理服务；</p></li>
+<li><p>可与 K8S 结合以实现 MLOps，提供性能评估等功能；</p></li>
+<li><p>动态批处理：多个请求打包成一个 Batch（PD 可以被打进一个
+Batch）；</p></li>
+<li><p>一卡多用：提供请求调度功能；</p></li>
+<li><p>版本管理：方便 A/B 测试、在线更新与回滚、日志与监控；</p></li>
+<li><p>模型仓库、配置文件；</p></li>
+<li><p>API：RESTful 与 gRPC 与客户端交互；</p>
+<p><img src="triton-1.png" /></p>
+<p><img src="triton-2.png" /></p></li>
+</ul>
+<h3 id="nemo">NeMo</h3>
+<ul>
+<li><p>在 Triton 基础上新增端到端云上训练、微调与部署：同样包含
+Megatron-LM 中带有 Transformer Engine 的核心功能
+Megatron-Core；</p></li>
+<li><p>推理：NeMo Framework Inference 即 TRT-LLM
+开发与运行时库；</p></li>
+<li><p>多模态、结构化数据处理（Curation）；简化各项配置；</p></li>
+<li><p>检测硬件，自动选择合适的超参（Batch Size、Data Type
+等）；</p></li>
+<li><p>SFT、RLHF 等后训练支持；</p></li>
+<li><p>企业级安全性；</p>
+<p><img src="nemo.png" /></p></li>
+</ul>
+<h3 id="nim">NIM</h3>
+<ul>
+<li>与 Triton
+同层级或更高层级的版本管理、动态批处理、负载均衡、监控与管理；</li>
+<li>原生支持容器化与 K8S
+云原生部署，开箱即用（OOTB），更易扩展，更适配多机部署；</li>
+<li>与 Triton 一样后端使用 TensorRT-LLM；</li>
+<li>解耦【应用层代码】与【模型代码、权重、Infrastructure】；</li>
+<li>NIM Pod 可与 KServer 等结合；</li>
+</ul>
+<h2 id="其它推理框架"><strong>其它推理框架</strong></h2>
+<ul>
+<li><p>推理框架常见架构：</p>
+<ul>
+<li>Inference IR：将 TensorFlow、ONNX 等格式转换为统一中间表示；</li>
+<li>Pre Optimization：公共表达式消除、死代码优化、代数简化；</li>
+<li>Optimization：算子融合（典型：Conv2d+BN+RELU ⇒
+CBR）、冗余算子消除、算子替换、常量折叠；</li>
+<li>Post Optimization：数据格式转换、内存布局优化、重复算子合并；</li>
+</ul></li>
+<li><p>MNN：</p>
+<ul>
+<li><p>针对移动端和嵌入式的轻量推理框架，支持 iOS 和支持 POSIX
+的所有系统；</p></li>
+<li><p>无依赖，深度裁剪：静态库体积 iOS 几 M，安卓几百 K；</p></li>
+<li><p>组成部分：Converter（前端多种格式转换 → 图优化、算子融合） ⇒
+Interpreter（Engine 加载转换后的模型，Backends 支持
+Metal、OpenCL、Vulkan 等多种实现）</p></li>
+<li><p>其它优化：预推理（评估不同计算策略的资源需求，预分配资源），手写汇编低精度运算库、关键算子；</p>
+<p><img src="mnn-1.png" /></p>
+<p><img src="mnn-2.png" /></p></li>
+</ul></li>
+<li><p><a
+target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/706097807">MoonCake</a>：</p>
+<ul>
+<li>PD 分离：解耦 Prefill（Context Phase，Compute
+Bound，计算密集、带宽打不满）和 Decode（Generation Phase，Memory
+Bound，访存密集、算力不满）两阶段（即分布式内存系统 +
+流处理系统）；</li>
+<li>构建全局 KVCache Pool，实现以 Cache 为中心的调度（KVCache-centric
+Scheduling）；</li>
+</ul></li>
+<li><p>vLLM：</p>
+<ul>
+<li>PagedAttention：除了解决显存分配问题外，可以更方便地实现部分 Cache
+的共用，特别是共用前缀的情况；</li>
+<li>Continuous Batching，将任务分为 waiting、running、swapped
+三类，计算结束的立即释放；</li>
+</ul></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/02/20/%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%EF%BC%88LLM%EF%BC%89%E9%9A%8F%E7%AC%94/" rel="prev" title="大语言模型（LLM）随笔">
+      <i class="fa fa-chevron-left"></i> 大语言模型（LLM）随笔
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2025/04/21/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/" rel="next" title="强化学习入门笔记">
+      强化学习入门笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E4%BD%93%E6%A1%86%E6%9E%B6"><span class="nav-number">1.</span> <span class="nav-text">总体框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gpu-architecture"><span class="nav-number">2.</span> <span class="nav-text">GPU Architecture</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E4%BB%A5-hopper-%E4%B8%BA%E4%BE%8B"><span class="nav-number">2.1.</span> <span class="nav-text">体系结构（以 Hopper 为例）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hopper-%E6%9E%B6%E6%9E%84%E5%8F%82%E6%95%B0"><span class="nav-number">2.2.</span> <span class="nav-text">Hopper 架构参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#blackwell-%E6%9E%B6%E6%9E%84%E5%8F%82%E6%95%B0"><span class="nav-number">2.3.</span> <span class="nav-text">Blackwell 架构参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cuda"><span class="nav-number">2.4.</span> <span class="nav-text">CUDA</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#transformer-%E4%BC%98%E5%8C%96"><span class="nav-number">3.</span> <span class="nav-text">Transformer 优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8F%E5%8C%96"><span class="nav-number">4.</span> <span class="nav-text">量化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nvidia-ai-software"><span class="nav-number">5.</span> <span class="nav-text">NVIDIA AI Software</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#cutlass"><span class="nav-number">5.1.</span> <span class="nav-text">Cutlass</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tensorrt-llm"><span class="nav-number">5.2.</span> <span class="nav-text">TensorRT-LLM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#megatron-lm"><span class="nav-number">5.3.</span> <span class="nav-text">Megatron-LM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#triton"><span class="nav-number">5.4.</span> <span class="nav-text">Triton</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nemo"><span class="nav-number">5.5.</span> <span class="nav-text">NeMo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nim"><span class="nav-number">5.6.</span> <span class="nav-text">NIM</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E5%AE%83%E6%8E%A8%E7%90%86%E6%A1%86%E6%9E%B6"><span class="nav-number">6.</span> <span class="nav-text">其它推理框架</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="HocRiser"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">HocRiser</p>
+  <div class="site-description" itemprop="description">平凡即是喜乐</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HocRiser01" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;HocRiser01" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hocriser@gmail.com" title="E-Mail → mailto:hocriser@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.csdn.net/GGN_2015" title="https:&#x2F;&#x2F;blog.csdn.net&#x2F;GGN_2015" rel="noopener" target="_blank">GGN_2015</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://yirannn.com/" title="https:&#x2F;&#x2F;yirannn.com&#x2F;" rel="noopener" target="_blank">Yirannn</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://oceanpresent.art/" title="https:&#x2F;&#x2F;oceanpresent.art&#x2F;" rel="noopener" target="_blank">OceanPresent</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://atoposyz.github.io/" title="https:&#x2F;&#x2F;atoposyz.github.io&#x2F;" rel="noopener" target="_blank">Atoposyz</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">皖ICP备2023012352号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">HocRiser</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">Symbols count total: </span>
+    <span title="Symbols count total">205k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">Reading time total &asymp;</span>
+    <span title="Reading time total">6:13</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("03/01/2023 10:00:00"); //此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

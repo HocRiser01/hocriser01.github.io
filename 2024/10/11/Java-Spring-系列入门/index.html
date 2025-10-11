@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"47.99.133.133","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Spring Framework  IoC（Inversion of Control）：程序中不主动 new 对象，而是由外部（Spring 的容器）提供对象，实现充分解耦；这一创建权的转移称为控制反转，这些被管理的对象称为 Bean； DI（Dependency Injection）：在容器中建立各个 Bean 之间的依赖关系的过程，称为依赖注入； Maven Dependency 中导入 sp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java Spring 系列入门">
+<meta property="og:url" content="http://47.99.133.133/2024/10/11/Java-Spring-%E7%B3%BB%E5%88%97%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="朝汐">
+<meta property="og:description" content="Spring Framework  IoC（Inversion of Control）：程序中不主动 new 对象，而是由外部（Spring 的容器）提供对象，实现充分解耦；这一创建权的转移称为控制反转，这些被管理的对象称为 Bean； DI（Dependency Injection）：在容器中建立各个 Bean 之间的依赖关系的过程，称为依赖注入； Maven Dependency 中导入 sp">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-10-12T03:33:35.000Z">
+<meta property="article:modified_time" content="2024-10-12T03:35:05.216Z">
+<meta property="article:author" content="HocRiser">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://47.99.133.133/2024/10/11/Java-Spring-%E7%B3%BB%E5%88%97%E5%85%A5%E9%97%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Java Spring 系列入门 | 朝汐</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">朝汐</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">如星空般深蓝</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-gallery">
+
+    <a href="/gallery/" rel="section"><i class="fa fa-image fa-fw"></i>Gallery</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/HocRiser01" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://47.99.133.133/2024/10/11/Java-Spring-%E7%B3%BB%E5%88%97%E5%85%A5%E9%97%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="HocRiser">
+      <meta itemprop="description" content="平凡即是喜乐">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="朝汐">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java Spring 系列入门
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2024-10-11 23:33:35 / Modified: 23:35:05" itemprop="dateCreated datePublished" datetime="2024-10-11T23:33:35-04:00">2024-10-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>3k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>5 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="spring-framework">Spring Framework</h2>
+<ul>
+<li>IoC（Inversion of Control）：程序中不主动 new
+对象，而是由外部（Spring
+的容器）提供对象，实现充分解耦；这一创建权的转移称为控制反转，这些被管理的对象称为
+Bean；</li>
+<li>DI（Dependency Injection）：在容器中建立各个 Bean
+之间的依赖关系的过程，称为依赖注入；</li>
+<li>Maven Dependency 中导入 spring-context 坐标后：</li>
+</ul>
+<span id="more"></span>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在 resources/ 中创建 applicationContext.xml：</span></span><br><span class="line"><span class="comment">// 可添加 autowire 自动注入依赖</span></span><br><span class="line">&lt;bean id=”bookService” class=”com.example.service.impl.BookServiceImpl”&gt;</span><br><span class="line">	&lt;property name=<span class="string">&quot;bookDao&quot;</span> ref=<span class="string">&quot;bookDao&quot;</span> /&gt; <span class="comment">/* Setter 注入 */</span></span><br><span class="line">	<span class="comment">// name 为构造函数形参名，可改为使用 type，或使用 index=&quot;0&quot;</span></span><br><span class="line">	&lt;constructor-arg name=<span class="string">&quot;bookDao&quot;</span> ref=<span class="string">&quot;bookDao&quot;</span> /&gt; <span class="comment">/* 构造器注入 */</span></span><br><span class="line">	&lt;property name=<span class="string">&quot;databaseName&quot;</span> value=<span class="string">&quot;mysql&quot;</span> /&gt;</span><br><span class="line">&lt;/bean&gt;</span><br><span class="line"><span class="comment">// name 起别名，scope 设置不为单例（默认为 singleton）</span></span><br><span class="line">&lt;bean id=<span class="string">&quot;bookDao&quot;</span> name=<span class="string">&quot;dao dao1&quot;</span> class=<span class="string">&quot;com.example.dao.impl.BookDaoImpl&quot;</span></span><br><span class="line">	scope=<span class="string">&quot;prototype&quot;</span> init-method=<span class="string">&quot;init&quot;</span> destroy-method=<span class="string">&quot;destroy&quot;</span> /&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 给 BookDao 定义 Setter 方法或构造方法，然后添加</span></span><br><span class="line"><span class="type">ClassPathXmlApplicationContext</span> <span class="variable">ctx</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ClassPathXmlApplicationContext</span>(<span class="string">&quot;applicationContext.xml&quot;</span>);</span><br><span class="line"><span class="type">BookService</span> <span class="variable">bookService</span> <span class="operator">=</span> (BookService)ctx.getBean(<span class="string">&quot;bookService&quot;</span>);</span><br><span class="line">ctx.close(); 或 ctx.registerShutdownHook();</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Bean 的生命周期：创建对象（内存分配）→ 构造 → 属性注入（Setter）→
+初始化（继承自 InitializingBean 的 afterPropertiesSet()）→ 使用 →
+销毁（继承自 DisposableBean 的 destroy()）；</li>
+<li>Bean Factory ⇒ ApplicationContext ⇒
+ClassPathXmlApplicationContext；</li>
+</ul>
+<h2 id="spring-boot">Spring Boot</h2>
+<ul>
+<li>Spring Boot Web 内置 Tomcat，兼容 Servlet 与 JSP
+规范；三层架构：Controller（控制层）、Service（业务逻辑层）、DAO（数据访问层
+/ 持久层）；</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 注解配置 Bean</span></span><br><span class="line">&lt;context:component-scan base-<span class="keyword">package</span>=<span class="string">&quot;com.example&quot;</span> /&gt;</span><br><span class="line"><span class="comment">// 纯注解 SpringConfig.java</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ComponentScan(&quot;com.example&quot;)</span></span><br><span class="line"><span class="meta">@PropertySource(&quot;jdbc.properties&quot;)</span></span><br><span class="line"><span class="meta">@Import(&#123;JdbcConfig.class&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SpringConfig</span> &#123;</span><br><span class="line">	<span class="comment">// 用于第三方 Bean</span></span><br><span class="line">	<span class="meta">@Bean</span></span><br><span class="line">	<span class="keyword">public</span> DataSource <span class="title function_">dataSource</span><span class="params">(BookService bookService)</span> &#123;</span><br><span class="line">		<span class="type">DataSource</span> <span class="variable">ds</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DataSource</span>();</span><br><span class="line">		ds.setUsername(<span class="string">&quot;root&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span> ds;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 代码里改为</span></span><br><span class="line"><span class="type">ApplicationContext</span> <span class="variable">ctx</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AnnotationConfigApplicationContext</span>(SpringConfig.class);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>通过注解开发支持无 XML 配置；纯注解开发：
+<code>@Component("bookDao")</code> ，三个与之完全等同的注解：
+<code>@Service</code> 、 <code>@Repository</code> 、
+<code>@Controller</code> ；</li>
+<li><code>@Scope("prototype")</code> ， <code>@PostConstruct</code> ，
+<code>@PreDestroy</code> ， <code>@Autowired</code>
+（默认按类型注入）；</li>
+<li><code>@Primary</code>
+（指定优先此类对象）、<code>@Qualifier("")+@AutoWired</code>
+（类型耦合）、 <code>@Resource(name="")</code>（名字耦合，不推荐）、
+<code>@Value("")</code> ；</li>
+</ul>
+<h2 id="springmvc">SpringMVC</h2>
+<ul>
+<li>使用 <code>@RestController</code> 声明 Controller 负责 Tomcat
+路由和返回；原始方法为在 <code>@RequestMapping("/")</code>方法中声明
+<code>HttpServletRequest</code> 对象参数，再通过
+<code>getParameter(name)</code>
+获得对应参数字符串；现在处理函数只需定义好参数即可获取 GET 与 POST
+方法后接的各项参数；
+<code>@RequestParam(name="username", require=false)</code>
+设置不必须的后接参数；</li>
+<li>一个 <code>@RestController</code> 类的方法的返回值即为
+<code>@ResponseBody</code> ，若为复杂类型，会转换成 JSON
+返回给客户端；</li>
+<li>前端工程化框架打包的结果存放在 /Resources 中；</li>
+<li>启动类声明注解 <code>@SpringBootApplication</code> 中包含了
+<code>@ComponentScan</code> ；</li>
+<li>过滤器、Cookie、Session 等内容属于 JavaWeb；JWT、OSS
+等技术属于解决方案；接受请求、相应数据、拦截器、全局异常处理等 Spring 内
+Web 功能属于 SpringMVC；IoC、DI、AOP、事务管理等架构理念支持属于 Spring
+Framework，JDBC 等数据库操作被封装在 MyBatis；后三者统称为
+SSM；SpringBoot 用于快捷启动整个项目的开发；</li>
+</ul>
+<h2 id="mybatis">Mybatis</h2>
+<ul>
+<li>在 application.properties
+中配置连接四要素：Driver、URL、Username、Password；</li>
+<li>接口类使用 <code>@Mapper</code> 注解，返回值变量定义前加
+<code>@Select("command")</code>
+注解，会自动将查询答案返回到此变量中，也可以定义方法；增删改的操作类似；使用
+<code>@Options</code> 返回插入后条目的主键值；可以用
+<code>@Results</code> 和 <code>@Result</code>
+字段注解手动映射返回值封装；</li>
+<li>使用 <code>getConnection()</code> 获取数据库连接池的连接；可使用
+lombok 工具包根据特定注解自动生成各类方法（getter()、toString()
+等）；</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/10/11/%E9%83%A8%E5%88%86%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E6%9C%AF%E8%AF%AD%E4%B8%AD%E8%8B%B1%E5%AF%B9%E7%85%A7%E8%A1%A8/" rel="prev" title="部分基础编程术语中英对照表">
+      <i class="fa fa-chevron-left"></i> 部分基础编程术语中英对照表
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/10/11/%E7%95%99%E7%BE%8E%E5%A4%87%E5%BF%98%E5%BD%95/" rel="next" title="留美备忘录">
+      留美备忘录 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#spring-framework"><span class="nav-number">1.</span> <span class="nav-text">Spring Framework</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spring-boot"><span class="nav-number">2.</span> <span class="nav-text">Spring Boot</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#springmvc"><span class="nav-number">3.</span> <span class="nav-text">SpringMVC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mybatis"><span class="nav-number">4.</span> <span class="nav-text">Mybatis</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="HocRiser"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">HocRiser</p>
+  <div class="site-description" itemprop="description">平凡即是喜乐</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HocRiser01" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;HocRiser01" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hocriser@gmail.com" title="E-Mail → mailto:hocriser@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.csdn.net/GGN_2015" title="https:&#x2F;&#x2F;blog.csdn.net&#x2F;GGN_2015" rel="noopener" target="_blank">GGN_2015</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://yirannn.com/" title="https:&#x2F;&#x2F;yirannn.com&#x2F;" rel="noopener" target="_blank">Yirannn</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://oceanpresent.art/" title="https:&#x2F;&#x2F;oceanpresent.art&#x2F;" rel="noopener" target="_blank">OceanPresent</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://atoposyz.github.io/" title="https:&#x2F;&#x2F;atoposyz.github.io&#x2F;" rel="noopener" target="_blank">Atoposyz</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">皖ICP备2023012352号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">HocRiser</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">Symbols count total: </span>
+    <span title="Symbols count total">205k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">Reading time total &asymp;</span>
+    <span title="Reading time total">6:13</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("03/01/2023 10:00:00"); //此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

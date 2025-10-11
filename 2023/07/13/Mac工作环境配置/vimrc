@@ -1,0 +1,287 @@
+set nocompatible              " be iMproved, required
+filetype off                  " required
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+
+
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+" Put your non-Plugin stuff after this line
+
+set number
+set background=dark
+colorscheme hybrid
+
+" ----------- for NERDTree ----------- #
+
+autocmd vimenter * NERDTree  "自动开启Nerdtree
+"let g:NERDTreeWinSize = 25 "设定 NERDTree 视窗大小
+"开启/关闭nerdtree快捷键
+map <C-f> :NERDTreeToggle<CR>
+"let NERDTreeShowBookmarks=1  " 开启Nerdtree时自动显示Bookmarks
+"打开vim时如果没有文件自动打开NERDTree
+autocmd vimenter * if !argc()|NERDTree|endif
+"当NERDTree为剩下的唯一窗口时自动关闭
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+"设置树的显示图标
+let g:NERDTreeDirArrowExpandable = '▶'
+let g:NERDTreeDirArrowCollapsible = '▼'
+let NERDTreeIgnore = ['\.pyc$']  " 过滤所有.pyc文件不显示
+"let g:NERDTreeShowLineNumbers=1  " 是否显示行号
+let g:NERDTreeHidden=0     "不显示隐藏文件
+"Making it prettier
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+" 不显示隐藏文件
+let g:NERDTreeHidden=0
+" 过滤: 所有指定文件和文件夹不显示
+let NERDTreeIgnore = ['\.pyc$', '\.swp', '\.swo', '\.vscode', '__pycache__']
+set encoding=utf8
+set guifont=DroidSansMono_NFM:h11
+
+set laststatus=2  "永远显示状态栏
+let g:airline_powerline_fonts = 1  " 支持 powerline 字体
+let g:airline#extensions#tabline#enabled = 1 "显示窗口tab和buffer
+let g:airline_theme='molokai'  " molokai配色不错
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+" let g:airline_left_sep = '▶'
+let g:airline_left_alt_sep = '❯'
+" let g:airline_right_sep = '◀'
+let g:airline_right_alt_sep = '❮'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = '⎇'
+
+set mouse=a
+
+" ----- VIM 常用配置 ------ 
+"打开语法高亮。自动识别代码，使用多种颜色显示。
+if has("syntax")
+  syntax on
+endif
+if filereadable("/etc/vim/vimrc.local")
+  source /etc/vim/vimrc.local
+endif
+"显示行号
+set number
+ 
+"显示当前是处于命令模式还是插入模式
+set showmode
+"显示当前输入的命令
+set showcmd
+ 
+"开启文件类型检查，并且载入与该类型对应的缩进规则，比如当前是.cpp文件，就加载cpp文件对应的缩进规则
+filetype indent on
+"按下回车键后，下一行的缩进会自动跟上一行的缩进保持一致。
+set autoindent
+ 
+"按下Tab键时对应的空格数
+set tabstop=4
+"设置Tab自动转换为空格
+set expandtab
+ 
+"每个Tab转换的时候对应几个空格
+set softtabstop=4
+"光标所在行高亮
+set cursorline
+ 
+"光标遇到圆括号、方括号、大括号时，自动高亮对应的另一个圆括号、方括号和大括号。
+set showmatch
+"搜索时高亮显示匹配结果
+set hlsearch
+ 
+"输入搜索模式时，每输入一个字符，就自动跳到第一个匹配的结果。
+set incsearch
+"vim需要记住1000次历史操作
+set history=1000
+ 
+"打开文件监视。如果在编辑过程中文件发生外部改变（比如被别的编辑器编辑了），就会发出提示。
+set autoread
+ 
+"命令模式下，底部操作指令按下 Tab 键自动补全。第一次按下 Tab，会显示所有匹配的操作指令的清单；第二次按下 Tab，会依次选择各个指令。
+set wildmenu
+set wildmode=longest:list,full
+
+" 不自动换行
+set nowrap
+
+" ------- 缩进设置 ---------- 
+set ts=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+set autoindent
+
+" Use <Tab> and <S-Tab> to navigate the completion list
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" ------- 另一个配置文件 -------
+
+set go=             " 不要图形按钮  
+set guifont=Courier_New:h10:cANSI   " 设置字体  
+set syntax=on           " 语法高亮  
+set showcmd         " 输入的命令显示出来，看的清楚些  
+set cmdheight=1     " 命令行（在状态行下）的高度，设置为1  
+set foldenable      " 允许折叠  
+set foldmethod=manual   " 手动折叠  
+set nocompatible  "去掉讨厌的有关vi一致性模式，避免以前版本的一些bug和局限  
+
+function! CompileRunGcc()
+    exec "w"
+    if &filetype == 'c'
+        exec '!gcc % -o %< -g -Wall'
+        exec '!time ./%<'
+    elseif &filetype == 'cpp'
+        exec '!g++ % -o %< -g -Wall'
+        exec '!time ./%<'
+    elseif &filetype == 'python3'
+        exec '!time python3 %'
+    elseif &filetype == 'sh'
+        :!time bash %
+    endif
+endfunction
+
+" F5一键编译运行
+nmap <F5> :call CompileRunGcc()<CR>
+
+" 设置当文件被改动时自动载入
+set autoread
+"允许插件  
+
+filetype plugin on
+
+"共享剪贴板  ubuntu系统需要先安装 vim-gtk
+"sudo apt install vim-gtk
+"Ctrl + c :复制
+"Ctrl + v :粘贴
+set clipboard=unnamed
+vnoremap <C-c> "+yy<cr>  
+vnoremap <C-v> "+p<cr>
+vmap "+y :w !pbcopy<CR><CR>  
+nmap "+p :r !pbpaste<CR><CR> 
+
+"自动保存
+set autowrite
+set ruler                   " 打开状态栏标尺
+set cursorline              " 突出显示当前行
+set cursorcolumn            " 突出显示当前列
+" highlight cursorline    cterm=NONE ctermbg=black ctermfg=gray guibg=NONE guifg=NONE
+highlight cursorColumn  cterm=NONE ctermbg=black ctermfg=gray guibg=NONE guifg=NONE
+
+set magic                   " 设置魔术
+set guioptions-=T           " 隐藏工具栏
+set guioptions-=m           " 隐藏菜单栏
+" 设置在状态行显示的信息
+set foldcolumn=0
+set foldmethod=indent 
+set foldlevel=3 
+set foldenable              " 开始折叠
+
+" 不要使用vi的键盘模式，而是vim自己的
+set nocompatible
+" 去掉输入错误的提示声音
+set noeb
+" 在处理未保存或只读文件的时候，弹出确认
+set confirm
+" 自动缩进
+set autoindent
+set cindent
+" Tab键的宽度
+set tabstop=4
+" 统一缩进为4
+set softtabstop=4
+set shiftwidth=4
+" 不要用空格代替制表符
+set noexpandtab
+" 在行和段开始处使用制表符
+set smarttab
+" 显示行号
+set number
+" 打开相对行号
+set relativenumber
+" 历史记录数
+set history=1000
+"禁止生成临时文件
+set nobackup
+set noswapfile
+"搜索忽略大小写
+set ignorecase
+"搜索逐字符高亮
+set hlsearch
+set incsearch
+"行内替换
+set gdefault
+"编码设置
+set enc=utf-8
+set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936
+set termencoding=utf-8
+set encoding=utf-8
+set fileencodings=ucs-bom,utf-8,cp936
+set fileencoding=utf-8
+"语言设置
+set langmenu=zh_CN.UTF-8
+set helplang=cn
+" 命令行（在状态行下）的高度，默认为1，这里是2
+set cmdheight=2
+" 侦测文件类型
+filetype on
+" 载入文件类型插件
+filetype plugin on
+" 为特定文件类型载入相关缩进文件
+filetype indent on
+" 保存全局变量
+set viminfo+=!
+" 带有如下符号的单词不要被换行分割
+set iskeyword+=_,$,@,%,#,-
+" 字符间插入的像素行数目
+set linespace=0
+" 增强模式中的命令行自动完成操作
+set wildmenu
+" 使回格键（backspace）正常处理in安装dent, eol, start等
+set backspace=2
+" 允许backspace和光标键跨越行边界
+set whichwrap+=<,>,h,l
+" 可以在buffer的任何地方使用鼠标（类似office中在工作区双击鼠标定位）
+set mouse=a
+set selection=exclusive
+set selectmode=mouse,key
+" 通过使用: commands命令，告诉我们文件的哪一行被改变过
+set report=0
+" 在被分割的窗口间显示空白，便于阅读
+set fillchars=vert:\ ,stl:\ ,stlnc:\
+" 高亮显示匹配的括号
+set showmatch
+" 匹配括号高亮的时间（单位是十分之一秒）
+set matchtime=1
+" 光标移动到buffer的顶部和底部时保持3行距离
+set scrolloff=3
+" 为C程序提供自动缩进
+set smartindent
+"自动补全
+:inoremap ( ()<ESC>i
+:inoremap ) <c-r>=ClosePair(')')<CR>
+:inoremap { {<CR>}<ESC>O
+:inoremap } <c-r>=ClosePair('}')<CR>
+:inoremap [ []<ESC>i
+:inoremap ] <c-r>=ClosePair(']')<CR>
+:inoremap " ""<ESC>i
+:inoremap ' ''<ESC>i
+filetype plugin indent on 
+"打开文件类型检测, 加了这句才可以用智能补全
+set completeopt=longest,menu

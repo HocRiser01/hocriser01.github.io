@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"47.99.133.133","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="强化学习的数学原理 RL 基本原理 一、基本概念  Agent：操作主体； State：agent 所处状态（位置、速度等）；State Space：状态集合； Action：可采取的行动，依赖于 state： \(\mathcal{A}(s_i)\)；State Transition：采取 action 后 state 的转变； Policy：agent 在特定 state 采取的 action">
+<meta property="og:type" content="article">
+<meta property="og:title" content="强化学习入门笔记">
+<meta property="og:url" content="http://47.99.133.133/2025/04/21/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="朝汐">
+<meta property="og:description" content="强化学习的数学原理 RL 基本原理 一、基本概念  Agent：操作主体； State：agent 所处状态（位置、速度等）；State Space：状态集合； Action：可采取的行动，依赖于 state： \(\mathcal{A}(s_i)\)；State Transition：采取 action 后 state 的转变； Policy：agent 在特定 state 采取的 action">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-04-21T18:00:15.000Z">
+<meta property="article:modified_time" content="2025-04-21T20:16:21.571Z">
+<meta property="article:author" content="HocRiser">
+<meta property="article:tag" content="机器学习">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://47.99.133.133/2025/04/21/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>强化学习入门笔记 | 朝汐</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">朝汐</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">如星空般深蓝</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-gallery">
+
+    <a href="/gallery/" rel="section"><i class="fa fa-image fa-fw"></i>Gallery</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/HocRiser01" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://47.99.133.133/2025/04/21/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="HocRiser">
+      <meta itemprop="description" content="平凡即是喜乐">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="朝汐">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          强化学习入门笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2025-04-21 14:00:15 / Modified: 16:16:21" itemprop="dateCreated datePublished" datetime="2025-04-21T14:00:15-04:00">2025-04-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>11k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>21 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><a
+target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1sd4y167NS">强化学习的数学原理</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1rooaYVEk8/">RL
+基本原理</a></p>
+<h2 id="一基本概念">一、基本概念</h2>
+<ul>
+<li>Agent：操作主体；</li>
+<li>State：agent 所处状态（位置、速度等）；State Space：状态集合；</li>
+<li>Action：可采取的行动，依赖于 state： <span
+class="math inline">\(\mathcal{A}(s_i)\)</span>；State Transition：采取
+action 后 state 的转变；</li>
+<li>Policy：agent 在特定 state 采取的 action：概率表达为 <span
+class="math inline">\(\pi(a_i | s_1)\)</span>；</li>
+<li>Reward：采取某个 action 后得到的奖励（可负）； <span
+class="math inline">\(p(r=1 | s1, a1)\)</span>；</li>
+<li>Trajectory：一条 state-action-reward 链；Return：一个 Trajectory
+沿途所有 Reward 之和；Discount Rate：计算 Discounted Return 时，reward
+随步数的衰减因子 <span class="math inline">\(\gamma\)</span>；</li>
+<li>Episode：走到终止态 Terminal State 的一个 Trajectory；没有 terminal
+state 的任务称为 Continuing Tasks；通过将 target state 设为 absorbing
+state（吸收态，采取行动仍回到自身且 reward 为
+0），或仍直接视为普通状态，我们可以统一 episodic 和 continuing
+tasks；</li>
+<li>Markov Decision Process（MDP）：
+<ul>
+<li>具有 State（<span
+class="math inline">\(\mathcal{S}\)</span>）、Action（<span
+class="math inline">\(\mathcal{A}(s)\)</span>）和 Reward（<span
+class="math inline">\(\mathcal{R}(s, a)\)</span>）；</li>
+<li>具有 state transition probability <span
+class="math inline">\(p(s’|s, a)\)</span>、reward probability <span
+class="math inline">\(p(r|s, a)\)</span>；</li>
+<li>具有 Policy <span class="math inline">\(\pi(a|s)\)</span>；</li>
+<li>无记忆性：memoryless property：<span class="math inline">\(p(s_{t+1}
+| a_{t+1}, s_t, \cdots, a_1, s_0) = p(s_{t+1} | a_{t+1}, s_t)\)</span>，
+<span class="math inline">\(p(r_{t+1} | a_{t+1}, s_t, \cdots, a_1, s_0)
+= p(r_{t+1} | a_{t+1}, s_t)\)</span></li>
+</ul></li>
+</ul>
+<span id="more"></span>
+<h2 id="二贝尔曼公式">二、贝尔曼公式</h2>
+<ul>
+<li>对一个特定的 Trajectory，设 <span class="math inline">\(v_i\)</span>
+为处于 <span class="math inline">\(s_i\)</span> 时，此后得到的总
+Return，则有 <span class="math inline">\(v_i = r_i + \gamma
+v_{next}\)</span>，写成向量形式有 <span class="math inline">\(v = r +
+\gamma \mathrm{P} v\)</span>，其中 <span
+class="math inline">\(v\)</span>、<span class="math inline">\(r\)</span>
+均为向量，<span class="math inline">\(\mathrm{P}\)</span>
+为转移矩阵；这就是 deterministic problem（即无随机任务）的 Bellman
+equation；</li>
+<li>对于有概率的任务：
+<ul>
+<li><span class="math inline">\(S_t \xrightarrow{A_t} R_{t+1}, S_{t+1}
+\xrightarrow{A_{t+1}} R_{t+2}, S_{t+2} \xrightarrow{A_{t+2}} R_{t+3},
+\dots\)</span></li>
+<li><span class="math inline">\(G_t = R_{t+1} + \gamma R_{t+2} +
+\gamma^2 R_{t+3} + \cdots = R_{t+1} + \gamma G_{t+1}\)</span></li>
+<li>State Value：当前 Policy 在当前 State 处之后所获 Return
+的期望，可拆成 immediate reward 和 future reward 两部分：</li>
+<li><span class="math inline">\(v_{\pi}(s) = \mathbb{E}[G_t|S_t = s] =
+\mathbb{E}[R_{t+1}|S_t = s] + \gamma\mathbb{E}[R_{t+1}|S_t = s] \\=
+\sum_a \pi(a|s) \sum_r p(r|s, a) r + \gamma\sum_{s&#39;} v_\pi(s&#39;)
+\sum_a p(s&#39;|s, a) \pi(a|s) \\= \sum_a \pi(a|s) \left[ \sum_r p(r|s,
+a) r + \gamma \sum_{s&#39;} p(s&#39;|s, a) v_\pi(s&#39;) \right], \quad
+\forall s \in \mathcal{S}.\)</span></li>
+<li>联立所有状态的 Bellman 等式，最终得到 <span
+class="math inline">\(v_\pi = r_\pi + \gamma P_\pi v_\pi\)</span>，其中
+<span class="math inline">\(v_\pi\)</span> 和 <span
+class="math inline">\(r_\pi\)</span> 均为长度为状态数 <span
+class="math inline">\(n\)</span> 的列向量；</li>
+</ul></li>
+<li>Bellman
+公式的两种解法：直接解方程（必然有解，但复杂度较高），以及迭代法 [1]：
+<span class="math inline">\(v_{k+1} = r_\pi + \gamma P_\pi
+v_k\)</span>，可以证明最终 <span class="math inline">\(v\)</span>
+收敛到解析解；</li>
+<li>Action Value： <span class="math inline">\(q_\pi(s, a) =
+\mathbb{E}[G_t|S_t = s, A_t = a]\)</span>，可以得到 <span
+class="math inline">\(v_\pi(s) = \sum_a \pi(a|s) q_\pi(s,
+a)\)</span>；</li>
+</ul>
+<h2 id="三贝尔曼最优公式">三、贝尔曼最优公式</h2>
+<ul>
+<li>若所有 <span class="math inline">\(s\)</span>，<span
+class="math inline">\(v_{\pi_1}(s) \geq v_{\pi_2}(s)\)</span>，则称
+<span class="math inline">\(\pi_1\)</span> 比 <span
+class="math inline">\(\pi_2\)</span> 更好；</li>
+<li>Bellman Optimality Equation： <span class="math inline">\(v =
+\mathrm{max}_\pi (r_\pi + \gamma P_\pi v)\)</span>，就是求使得 Bellman
+Equation 的 <span class="math inline">\(v_\pi(s)\)</span> 最大的 <span
+class="math inline">\(\pi\)</span>；</li>
+<li>使用 Contraction Mapping Theorem 可以证明：每次都将 Policy
+改为固定走 Action Value 最大的那个 Action
+[2]，多轮迭代后一定<em>指数</em>收敛至最优解，且此解是存在且唯一的、deterministic
+的；</li>
+<li>对于给定 <span class="math inline">\(\pi\)</span> <span
+class="math inline">\(\pi\)</span><span class="math inline">\(v_{k+1} =
+f(v_k) = max_\pi(r_\pi + \gamma P_\pi v_k)\)</span> 得到 <span
+class="math inline">\(v^* = max_\pi(r_\pi = \gamma P_\pi
+v^*)\)</span>，再求 <span class="math inline">\(\pi^* =
+\mathrm{argmax}_\pi (r_\pi + \gamma P_\pi
+v^*)\)</span>，此时得到<em>最优</em>策略；</li>
+<li>定理：将所有 r 作正线性变换（ar+b，a
+为正数）之后，最优策略不变；</li>
+<li>注意：<span class="math inline">\(\gamma\)</span>
+的衰减使得模型会求尽快到达 target state 的策略；</li>
+</ul>
+<h2 id="四值迭代与策略迭代">四、值迭代与策略迭代</h2>
+<ul>
+<li>值迭代：先得到初始 <span
+class="math inline">\(v_0\)</span>，求得当前策略下的 <span
+class="math inline">\(q_k(s, a)\)</span>，并以此得到 <span
+class="math inline">\(a^*_k(s) = \mathrm{argmax}_a q_k(a,
+s)\)</span>，然后做一次 [2] 得到 <span
+class="math inline">\(\pi_{k+1}\)</span>，再做<em>一次</em> [1] 得到
+<span class="math inline">\(v_{k+1}(s)\)</span>；</li>
+<li>策略迭代：先随机得到 <span
+class="math inline">\(\pi_0\)</span>，再用 [1] 求当前 <span
+class="math inline">\(v_{\pi_k}\)</span>（这一步包含多次迭代），再用 [2]
+得到 <span class="math inline">\(\pi_{k+1}\)</span>，如此循环迭代；</li>
+<li>truncated（截断策略迭代）：二者折中，每轮迭代数步 <span
+class="math inline">\(v\)</span>；</li>
+<li>Policy Evaluation： <span class="math inline">\(v_{\pi_k} =
+r_{\pi_k} + \gamma P_{\pi_k} v_{\pi_k}\)</span>；</li>
+<li>Policy Improvement：<span class="math inline">\(\pi_{k+1} =
+\mathrm{argmax}_\pi (r_\pi + \gamma P_\pi v_{\pi_k})\)</span>；</li>
+</ul>
+<h2 id="五蒙特卡洛方法">五、蒙特卡洛方法</h2>
+<ul>
+<li>Model-free 的、Offline 的 Policy Update 方法：需要等 episode
+走完才能更新；</li>
+<li>MC-Basic：求 <span class="math inline">\(q_k(s, a)\)</span>
+时，用回第二节中的期望式，而非需要概率函数的形式；即使用蒙特卡洛随机走到终点（episode）做一次采样，最后统合采样结果得到期望；</li>
+<li>MC Exploring Starts：每个 episode 的后缀同样是一个
+episode，一次采样可更新多个 (s, a) 对的值；从每个 (s, a)
+都要出发一次；</li>
+<li>MC <span
+class="math inline">\(\varepsilon\)</span>-Greedy：非最优行动也会有概率取到；一次
+episode 可以非常长，不再需要每个 (s, a) 都出发；平衡
+exploitation（充分利用）和 exploration（探索）；</li>
+</ul>
+<h2 id="六随机近似与随机梯度下降">六、随机近似与随机梯度下降</h2>
+<ul>
+<li>增量式求平均数： <span class="math inline">\(w_{k+1} = w_k -
+\frac{1}{k} (w_k - x_k)\)</span>；</li>
+<li>Stochastic Approximation：随机迭代类算法；</li>
+<li>Robbins-Monro 算法： <span class="math inline">\(w_{k+1} = w_k - a_k
+\tilde{g}(w_k, \eta_k)\)</span>；有严格的条件；</li>
+<li>想求 <span class="math inline">\(\theta^*\)</span> 使得 <span
+class="math inline">\(\mathbb{E}[f(\theta^*, X)] = 0\)</span> 时，可使用
+<span class="math inline">\(w_{k+1} = w_k + a_k f(w_k,
+X_k)\)</span>，其中 <span class="math inline">\(X\)</span> 为随机变量，
+<span class="math inline">\(X_k\)</span> 为第 k 个时间步的采样值；</li>
+<li>Stochastic Gradient Descent ：随机梯度下降算法，RM
+算法的一个特例；</li>
+<li>GD（需要知道函数）：<span class="math inline">\(w_{k+1} = w_k -
+\alpha_k \nabla_w \mathbb{E}[f(w_k, X)] = w_k - \alpha_k
+\mathbb{E}[\nabla_w f(w_k, X)]\)</span>；</li>
+<li>BGD（Batch）：<span class="math inline">\(\mathbb{E}[\nabla_w f(w_k,
+X)] \approx \frac{1}{n} \sum_{i=1}^{n} \nabla_w f(w_k,
+x_i)\)</span>；</li>
+<li>SGD：Batch 中 n = 1；MBGD：把采样分成多组，每次用一组（即 Batch 中 n
+= m）；</li>
+</ul>
+<h2 id="七时序差分">七、时序差分</h2>
+<ul>
+<li><p>TD 算法：求解 Bellman 公式的 RM 算法</p>
+<ul>
+<li>对于 <span class="math inline">\(s_t\)</span>：<span
+class="math inline">\(v_{t+1}(s_t) = v_t(s_t) - \alpha_t(s_t) \left[
+v_t(s_t) - \left[ r_{t+1} + \gamma v_t(s_{t+1}) \right]
+\right]\)</span></li>
+<li>其它未走到状态，state value 估值不变，<span
+class="math inline">\(v_{t+1}(s) = v_{t}(s)\)</span>；</li>
+<li>第二项是学习率乘上当前与期望修正项的差异；</li>
+<li>TD Target： <span class="math inline">\(\bar{v}_t \doteq r_{t+1} +
+\gamma v_t(s_{t+1})\)</span>，TD Error： <span
+class="math inline">\(\delta_t \doteq v_t(s_t) - \left[ r_{t+1} + \gamma
+v_t(s_{t+1}) \right]\)</span>；</li>
+<li>该算法只用于估计给定 policy 的 state value，即不依赖模型地计算
+Bellman equation；</li>
+<li>Model-free 的 Bellman equation： <span
+class="math inline">\(v_\pi(s) = \mathbb{E} \left[ R + \gamma
+v_\pi(S&#39;) \mid S = s \right]\)</span>；</li>
+</ul></li>
+<li><p>Sarsa（state-action-reward-state-action）算法：估计 action value
+用于做 Policy Evaluation</p>
+<ul>
+<li>Sarsa：<span class="math inline">\(q_{t+1}(s_t, a_t) = q_t(s_t, a_t)
+- \alpha_t(s_t, a_t) \left[ q_t(s_t, a_t) - \left[ r_{t+1} + \gamma
+q_t(s_{t+1}, a_{t+1}) \right] \right]\)</span></li>
+<li>Model-free 的 action value：<span class="math inline">\(q_\pi(s, a)
+= \mathbb{E} \left[ R + \gamma q_\pi(S&#39;, A&#39;) \mid s, a
+\right]\)</span></li>
+<li>Online 算法：每走一步都可以迭代更新；</li>
+<li>Expected Sarsa：将 Sarsa 最后一项改为 <span
+class="math inline">\(\gamma \mathbb{E}[q_t(s_{t+1}, A)]\)</span>，即
+<span class="math inline">\(v_t(s_{t+1}) = \mathbb{E}[q_t(s_{t+1},
+A)]\)</span></li>
+<li>所对应的 Bellman 公式：<span class="math inline">\(q_\pi(s, a) =
+\mathbb{E} \left[ R_{t+1} + \gamma v_\pi(S_{t+1}) \mid S_t = s, A_t = a
+\right]\)</span></li>
+<li>Sarsa：<span class="math inline">\(G_t^{(1)} = R_{t+1} + \gamma
+q_\pi(S_{t+1}, A_{t+1})\)</span></li>
+<li>n-step Sarsa（Half-Online 算法）：<span
+class="math inline">\(G_t^{(n)} = R_{t+1} + \gamma R_{t+2} + \cdots +
+\gamma^n q_\pi(S_{t+n}, A_{t+n})\)</span></li>
+<li>MC： <span class="math inline">\(G_t^{(\infty)} = R_{t+1} + \gamma
+R_{t+2} + \gamma^2 R_{t+3} + \cdots\)</span></li>
+<li>据此，n-step Sarsa 的迭代公式为 <span
+class="math inline">\(q_{t+1}(s_t, a_t) = q_t(s_t, a_t) - \alpha_t(s_t,
+a_t) \left[ q_t(s_t, a_t) - \left( r_{t+1} + \gamma r_{t+2} + \cdots +
+\gamma^n q_t(s_{t+n}, a_{t+n}) \right) \right]\)</span></li>
+</ul></li>
+<li><p>Q-Learning 算法：直接估计最优 action value</p>
+<ul>
+<li><span class="math inline">\(q_{t+1}(s_t, a_t) = q_t(s_t, a_t) -
+\alpha_t(s_t, a_t) \left[ q_t(s_t, a_t) - \left( r_{t+1} + \gamma
+\max_{a \in \mathcal{A}} q_t(s_{t+1}, a) \right) \right]\)</span></li>
+<li>求解的是 Bellman <em>最优</em>方程：<span class="math inline">\(q(s,
+a) = \mathbb{E} \left[ R_{t+1} + \gamma \max_{a} q(S_{t+1}, a)
+\,\middle|\, S_t = s, A_t = a \right]\)</span></li>
+</ul></li>
+<li><p>On-Policy 概念</p>
+<ul>
+<li>Behavior Policy：用于产生经验的 Policy；Target Policy：需要最优化的
+Policy；</li>
+<li>二者相同时为 On-Policy，不同时为 Off-Policy；</li>
+<li>Sarsa 和 MC 是 On-Policy，Q-Learning 可以是 Off-Policy；</li>
+</ul></li>
+<li><p>总结：</p>
+<p>$$</p>
+<span class="math display">\[\begin{array}{l|l}
+\textbf{Algorithm} &amp; \textbf{Expression of } \bar{q}_t \\
+\hline
+\text{Sarsa} &amp;
+\bar{q}_t = r_{t+1} + \gamma q_t(s_{t+1}, a_{t+1}) \\
+
+\text{n-step Sarsa} &amp;
+\bar{q}_t = r_{t+1} + \gamma r_{t+2} + \cdots + \gamma^n q_t(s_{t+n},
+a_{t+n}) \\
+
+\text{Expected Sarsa} &amp;
+\bar{q}_t = r_{t+1} + \gamma \sum_a \pi_t(a \mid s_{t+1}) q_t(s_{t+1},
+a) \\
+
+\text{Q-learning} &amp;
+\bar{q}_t = r_{t+1} + \gamma \max_a q_t(s_{t+1}, a) \\
+
+\text{Monte Carlo} &amp;
+\bar{q}_t = r_{t+1} + \gamma r_{t+2} + \gamma^2 r_{t+3} + \cdots
+\end{array}\]</span>
+<p>$$</p></li>
+</ul>
+<h2 id="八值函数近似">八、值函数近似</h2>
+<ul>
+<li>值函数近似：用函数 <span class="math inline">\(\hat{v}(s,
+w)\)</span> 拟合这些点：<span class="math inline">\(v_\pi(s_1), \ldots,
+v_\pi(s_{|\mathcal{S}|})\)</span>；</li>
+<li>线性函数近似：<span class="math inline">\(\hat{v}(s, w) = \phi^T(s)
+w\)</span>，即类似 <span class="math inline">\(as^2 + bs + c\)</span>
+形式，<span class="math inline">\(w\)</span> 即 <span
+class="math inline">\([a, b, c]^T\)</span>；</li>
+<li>Tabular 的算法是直接更新 <span class="math inline">\(q\)</span>
+表，值函数近似算法则是更新 <span
+class="math inline">\(w\)</span>，因此公式中 <span
+class="math inline">\(q\)</span> 新增一个 <span
+class="math inline">\(w\)</span> 参数即可（仍然都是 value update
+阶段的算法）；</li>
+<li>需要最优化的评估函数：<span class="math inline">\(J(w) = \mathbb{E}
+\left[ \left( v_\pi(S) - \hat{v}(S, w) \right)^2 \right]\)</span></li>
+<li>两种方法，Normal Distribution（各状态权重均等）与 Stationary
+Distribution（状态权重等于它在 Episode 中出现的比例）；</li>
+<li>Stationary Distribution： <span class="math inline">\({d_\pi(s)}_{s
+\in S}\)</span> 表示一个 episode 中状态 <span
+class="math inline">\(s\)</span> 的占比，当 episode
+无限长时趋向于一个定值，且理论值符合等式 <span
+class="math inline">\(d_\pi^T = d_\pi^T P_\pi\)</span>；于是 <span
+class="math inline">\(J(w) = \sum_{s \in \mathcal{S}} d_\pi(s) \left(
+v_\pi(s) - \hat{v}(s, w) \right)^2\)</span>；</li>
+<li>GD：<span class="math inline">\(w_{k+1} = w_k - \alpha_k \nabla_w
+J(w_k)\)</span>；为避免求期望，我们使用 SGD（一次只用一个样本）：<span
+class="math inline">\(w_{t+1} = w_t + \alpha_t \left( v_\pi(s_t) -
+\hat{v}(s_t, w_t) \right) \nabla_w \hat{v}(s_t, w_t)\)</span>；</li>
+<li>用 MC（替换为 <span class="math inline">\(g_t\)</span>） 或
+TD（替换为 <span class="math inline">\(r_{t+1} + \gamma \hat{v}(s_{t+1},
+w_t)\)</span>）做迭代逼近求 <span
+class="math inline">\(v_\pi(s_t)\)</span>；</li>
+<li>DQN：用神经网络拟合 <span class="math inline">\(\hat{v}(s,
+w)\)</span>
+<ul>
+<li>回顾 Q-Learning 要最小化的目标函数： <span
+class="math inline">\(J(w) = \mathbb{E} \left[ \left( R + \gamma \max_{a
+\in \mathcal{A}(S&#39;)} \hat{q}(S&#39;, a, w) - \hat{q}(S, A, w)
+\right)^2 \right]\)</span>；</li>
+<li>现在，使用两个神经网络分别拟合两项 q：<span class="math inline">\(J
+= \mathbb{E} \left[ \left( R + \gamma \max_{a \in \mathcal{A}(S&#39;)}
+\hat{q}(S&#39;, a, w_T) - \hat{q}(S, A, w) \right)^2
+\right]\)</span>；先固定 <span class="math inline">\(w_T\)</span> 更新
+<span class="math inline">\(w\)</span>，再反过来，如此反复；</li>
+<li>于是，我们将 <span class="math inline">\(s\)</span>、<span
+class="math inline">\(a\)</span>（作为输入特征）、<span
+class="math inline">\(y_T = R + \gamma \max_{a \in \mathcal{A}(S&#39;)}
+\hat{q}(S&#39;, a, w_T)\)</span>（作为 label）送进神经网络，训练 <span
+class="math inline">\(w\)</span>；迭代一定次数后 <span
+class="math inline">\(w_T = w\)</span>；</li>
+<li>Experience Replay：将样本打散均匀采样，使得一个 episode
+中的采样之间不存在因果关系；</li>
+</ul></li>
+</ul>
+<h2 id="九策略梯度方法">九、策略梯度方法</h2>
+<ul>
+<li>将 <span class="math inline">\(\pi\)</span> 的写法从表格改为函数：
+<span class="math inline">\(\pi(a|s, \theta)\)</span>；梯度方法即 <span
+class="math inline">\(\theta_{t+1} = \theta_t + \alpha \nabla_\theta
+J(\theta_t)\)</span>；</li>
+<li>两个指标：
+<ul>
+<li>average state value <span class="math inline">\(\bar{v}_\pi =
+\mathbb{E}[v_\pi(S)] = \mathbb{E} \left[ \sum_{t=0}^{\infty} \gamma^t
+R_{t+1} \right] = \sum_{s \in \mathcal{S}} d(s) \, v_\pi(s) = d^T
+v_\pi\)</span></li>
+<li>average reward <span class="math inline">\(\bar{r}_\pi \doteq
+\sum_{s \in \mathcal{S}} d_\pi(s)\, r_\pi(s) = \mathbb{E}[r_\pi(S)] =
+\lim_{n \to \infty} \frac{1}{n} \, \mathbb{E} \left[ \sum_{k=1}^{n}
+R_{t+k} \right]\)</span>，其中 <span class="math inline">\(r_\pi(s)
+\doteq \sum_{a \in \mathcal{A}} \pi(a|s) \, r(s, a)\)</span>；</li>
+<li>有性质：<span class="math inline">\(\bar{r}_\pi = (1 - \gamma) \,
+\bar{v}_\pi\)</span>；</li>
+</ul></li>
+<li>目标函数的梯度计算：<span class="math inline">\(\nabla_\theta
+J(\theta) = \sum_{s \in \mathcal{S}} \eta(s) \sum_{a \in \mathcal{A}}
+\nabla_\theta \pi(a|s, \theta) \, q_\pi(s, a) = \mathbb{E} \left[
+\nabla_\theta \ln \pi(A \mid S, \theta) \, q_\pi(S, A)
+\right]\)</span>，其中 <span class="math inline">\(J(\theta)\)</span>
+可以是 <span class="math inline">\(\bar{v}_\pi\)</span>、 <span
+class="math inline">\(\bar{r}_\pi\)</span> 或 <span
+class="math inline">\(\bar{v}_\pi^0\)</span>；</li>
+<li>梯度上升：
+<ul>
+<li><span class="math inline">\(\theta_{t+1} = \theta_t + \alpha
+\nabla_\theta J(\theta) = \theta_t + \alpha \, \mathbb{E} \left[
+\nabla_\theta \ln \pi(A|S, \theta_t) \, q_\pi(S, A)
+\right]\)</span>；</li>
+<li>使用 Stochastic 避免期望，并用 MC 或 TD 方法近似 <span
+class="math inline">\(q_\pi\)</span>即可得到： <span
+class="math inline">\(\theta_{t+1} = \theta_t + \alpha \nabla_\theta \ln
+\pi(a_t|s_t, \theta_t) \, q_t(s_t, a_t)\)</span>；其中使用 MC
+近似的方法就被成为 REINFORCE；</li>
+<li>将上式变形并将括号部分算作 <span
+class="math inline">\(\beta_t\)</span>，会发现实际上就是在优化 <span
+class="math inline">\(\pi(a_t|s_t, \theta_t)\)</span>：<span
+class="math inline">\(\theta_{t+1} = \theta_t + \alpha \left(
+\frac{q_t(s_t, a_t)}{\pi(a_t \mid s_t, \theta_t)} \right) \nabla_\theta
+\pi(a_t|s_t, \theta_t)\)</span>；观察 <span
+class="math inline">\(\beta_t\)</span>（步长）与 <span
+class="math inline">\(q_t\)</span> 成正比，与 <span
+class="math inline">\(\pi\)</span> 成反比，符合直觉；</li>
+</ul></li>
+</ul>
+<h2 id="十actor-critic-方法">十、Actor-Critic 方法</h2>
+<ul>
+<li>Actor 代表 policy update（上一节中的 <span
+class="math inline">\(\theta_t\)</span> 迭代式），Critic 代表 policy
+evaluation（MC 或 TD求 <span class="math inline">\(q_t\)</span>，其中用
+TD 求的方法就是 QAC 方法）；</li>
+<li>A2C 或 TD AC 算法：推导易证将上一节的梯度减去一项 <span
+class="math inline">\(b(S)\)</span>，对结果没有影响： <span
+class="math inline">\(\nabla_\theta J(\theta)= \mathbb{E}_{S \sim
+\eta,\, A \sim \pi} \left[ \nabla_\theta \log \pi(A|S, \theta_t) \left(
+q_\pi(S, A) - b(S) \right) \right]\)</span>；经过推导，为了方便，通常将
+<span class="math inline">\(b(S)\)</span> 选为 <span
+class="math inline">\(v_\pi(S)\)</span>，从而减小方差，使估值更准确；同样具有直觉理解：<span
+class="math inline">\(q_\pi(S, A) - v_\pi(S)\)</span>
+代表“优势函数”，我们更应在意策略的相对性而非绝对数值；</li>
+<li>公式化为： <span class="math inline">\(\theta_{t+1} = \theta_t +
+\alpha \nabla_\theta \log \pi(a_t|s_t, \theta_t) \, \delta_t(s_t, a_t) =
+\theta_t + \alpha \left( \frac{\delta_t(s_t, a_t)}{\pi(a_t \mid s_t,
+\theta_t)} \right) \nabla_\theta \pi(a_t \mid s_t,
+\theta_t)\)</span>，其中 <span class="math inline">\(\delta\)</span>
+即优势函数；</li>
+<li>通过重要性采样实现 off-policy： <span
+class="math inline">\(\mathbb{E}_{X \sim p_0}[X]= \sum_x p_0(x) x
+= \sum_x p_1(x) \frac{p_0(x)}{p_1(x)} x
+= \mathbb{E}_{X \sim p_1} \left[ f(X) \right]\)</span>，允许我们在 p1
+分布下获取 p0 分布的期望；于是在原式上除以原分布，乘上现分布（behavior
+policy <span class="math inline">\(\beta(a|s)\)</span>）即可；</li>
+<li>因为 <span class="math inline">\(\pi(a|s, 0) &gt;
+0\)</span>，因此之前的方法均为 stochastic 方法；Deterministic Policy
+Gradient（DPG）：改为确定型 <span class="math inline">\(a = \mu(s,
+\theta) \dot{=} \mu(s)\)</span>；同样推导得到：<span
+class="math inline">\(\nabla_\theta J(\theta) = \sum_{s \in \mathcal{S}}
+\rho_\mu(s) \, \nabla_\theta \mu(s) \, \nabla_a q_\mu(s, a) \big|_{a =
+\mu(s)}\)</span>；该方法为 off-policy；</li>
+</ul>
+<h2 id="十一ppo">十一、PPO</h2>
+<ul>
+<li>TRPO（Trust Region Policy Optimization）：
+<ul>
+<li>同样使用重要性采样，保证可信域中新策略比久策略更优；</li>
+<li>推导得到： <span class="math inline">\(J(\theta’) - J(\theta) =
+\mathbb{E}_{s_t \sim p\theta(s_t)} \left[ \mathbb{E}_{a_t \sim
+\pi_\theta(a_t | s_t)} \left[ \frac{\pi_{\theta&#39;}(a_t |
+s_t)}{\pi_\theta(a_t | s_t)} \cdot \gamma^t \cdot A_{\pi_\theta}(s_t,
+a_t) \right] \right]\)</span>;</li>
+<li>此时即求： <span class="math inline">\(\arg\max_{\theta&#39;}
+\mathbb{E}_{s \sim \nu_\theta,\, a \sim \pi_\theta(\cdot|s)} \left[
+\frac{\pi_{\theta&#39;}(a|s)}{\pi_\theta(a | s)} \cdot A_{\pi_\theta}(s,
+a) \right] \quad \text{s.t.} \quad D_{\mathrm{KL}}(\pi_\theta(\cdot|s)
+\,\|\, \pi_{\theta&#39;}(\cdot|s)) \leq \delta\)</span>；</li>
+</ul></li>
+<li>PPO（Proximal Policy Optimization）：
+<ul>
+<li>四个模型：策略（Policy / Actor）、价值（Value /
+Critic）、奖励（Reward）、参考（Ref），其中只有前两个模型参与参数更新；</li>
+<li>两个损失：策略、价值；</li>
+<li>在 TRPO 基础上加一个 <span class="math inline">\(\beta\)</span>
+项做实时调整： <span class="math inline">\(\arg\max_{\theta&#39;}
+\mathbb{E}_{s \sim \nu_\theta,\, a \sim \pi_\theta(\cdot|s)} \left[
+\frac{\pi_{\theta&#39;}(a | s)}{\pi_\theta(a | s)} \cdot
+\hat{A}_{\pi\theta}(s, a) -\beta \, D_{\mathrm{KL}}\left[
+\pi_\theta(\cdot|s) \, \| \, \pi_{\theta&#39;}(\cdot|s) \right]
+\right]\)</span>，其中 <span class="math inline">\(\left\{
+\begin{aligned} \beta &amp;\leftarrow \beta / 2 &amp; \text{if }
+D_{\mathrm{KL}} &lt; \delta / 1.5 \\ \beta &amp;\leftarrow \beta \times
+2 &amp; \text{if } D_{\mathrm{KL}} &gt; \delta \times 1.5 \end{aligned}
+\right.\)</span></li>
+<li>或直接做截断：<span class="math inline">\(\arg\max_{\theta&#39;}
+\mathbb{E}_{s \sim \nu\theta,\, a \sim \pi_\theta(\cdot|s)} \left[ \min
+\left( \frac{\pi_{\theta&#39;}(a|s)}{\pi_\theta(a|s)}
+\hat{A}_{\pi\theta}(s,a), \
+\text{clip}\left(\frac{\pi_{\theta&#39;}(a|s)}{\pi_\theta(a|s)}, 1 -
+\epsilon, 1 + \epsilon\right) \hat{A}_{\pi\theta}(s,a) \right)
+\right]\)</span></li>
+</ul></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/03/04/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/" rel="prev" title="大模型推理优化笔记">
+      <i class="fa fa-chevron-left"></i> 大模型推理优化笔记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2025/07/04/Per-block-%E9%87%8F%E5%8C%96%E6%B7%B7%E5%90%88%E7%B2%BE%E5%BA%A6%E5%8D%B7%E7%A7%AF%E5%AE%9E%E7%8E%B0%E4%B8%8E-GEMM%E3%80%81GEMV-%E4%BC%98%E5%8C%96/" rel="next" title="Per-block 量化混合精度卷积实现与 GEMM、GEMV 优化">
+      Per-block 量化混合精度卷积实现与 GEMM、GEMV 优化 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">一、基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E8%B4%9D%E5%B0%94%E6%9B%BC%E5%85%AC%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">二、贝尔曼公式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E8%B4%9D%E5%B0%94%E6%9B%BC%E6%9C%80%E4%BC%98%E5%85%AC%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">三、贝尔曼最优公式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E5%80%BC%E8%BF%AD%E4%BB%A3%E4%B8%8E%E7%AD%96%E7%95%A5%E8%BF%AD%E4%BB%A3"><span class="nav-number">4.</span> <span class="nav-text">四、值迭代与策略迭代</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%96%B9%E6%B3%95"><span class="nav-number">5.</span> <span class="nav-text">五、蒙特卡洛方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E9%9A%8F%E6%9C%BA%E8%BF%91%E4%BC%BC%E4%B8%8E%E9%9A%8F%E6%9C%BA%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D"><span class="nav-number">6.</span> <span class="nav-text">六、随机近似与随机梯度下降</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E6%97%B6%E5%BA%8F%E5%B7%AE%E5%88%86"><span class="nav-number">7.</span> <span class="nav-text">七、时序差分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AB%E5%80%BC%E5%87%BD%E6%95%B0%E8%BF%91%E4%BC%BC"><span class="nav-number">8.</span> <span class="nav-text">八、值函数近似</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B9%9D%E7%AD%96%E7%95%A5%E6%A2%AF%E5%BA%A6%E6%96%B9%E6%B3%95"><span class="nav-number">9.</span> <span class="nav-text">九、策略梯度方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81actor-critic-%E6%96%B9%E6%B3%95"><span class="nav-number">10.</span> <span class="nav-text">十、Actor-Critic 方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E4%B8%80ppo"><span class="nav-number">11.</span> <span class="nav-text">十一、PPO</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="HocRiser"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">HocRiser</p>
+  <div class="site-description" itemprop="description">平凡即是喜乐</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HocRiser01" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;HocRiser01" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hocriser@gmail.com" title="E-Mail → mailto:hocriser@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.csdn.net/GGN_2015" title="https:&#x2F;&#x2F;blog.csdn.net&#x2F;GGN_2015" rel="noopener" target="_blank">GGN_2015</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://yirannn.com/" title="https:&#x2F;&#x2F;yirannn.com&#x2F;" rel="noopener" target="_blank">Yirannn</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://oceanpresent.art/" title="https:&#x2F;&#x2F;oceanpresent.art&#x2F;" rel="noopener" target="_blank">OceanPresent</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://atoposyz.github.io/" title="https:&#x2F;&#x2F;atoposyz.github.io&#x2F;" rel="noopener" target="_blank">Atoposyz</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">皖ICP备2023012352号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">HocRiser</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">Symbols count total: </span>
+    <span title="Symbols count total">205k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">Reading time total &asymp;</span>
+    <span title="Reading time total">6:13</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("03/01/2023 10:00:00"); //此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

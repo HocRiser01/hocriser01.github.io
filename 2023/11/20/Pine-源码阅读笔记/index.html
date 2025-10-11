@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"47.99.133.133","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Pine 是一个使用 C++17 编写的高并发框架，支持 Linux &#x2F; MacOS 跨平台；它也是 30 天自制 C++ 服务器（目前更至第十六天）的配套代码。 本文为 Github 源码 阅读笔记。 前置技能：  Modern C++ （包括并行库）； 网络编程基础  《Linux 高性能服务器编程》—— 游双：服务器编程必读； 《Linux 多线程服务端编程：使用 muduo C++ 网络库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pine 源码阅读笔记">
+<meta property="og:url" content="http://47.99.133.133/2023/11/20/Pine-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="朝汐">
+<meta property="og:description" content="Pine 是一个使用 C++17 编写的高并发框架，支持 Linux &#x2F; MacOS 跨平台；它也是 30 天自制 C++ 服务器（目前更至第十六天）的配套代码。 本文为 Github 源码 阅读笔记。 前置技能：  Modern C++ （包括并行库）； 网络编程基础  《Linux 高性能服务器编程》—— 游双：服务器编程必读； 《Linux 多线程服务端编程：使用 muduo C++ 网络库">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-11-20T22:50:13.000Z">
+<meta property="article:modified_time" content="2025-07-04T11:13:50.838Z">
+<meta property="article:author" content="HocRiser">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="网络编程">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://47.99.133.133/2023/11/20/Pine-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Pine 源码阅读笔记 | 朝汐</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">朝汐</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">如星空般深蓝</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-gallery">
+
+    <a href="/gallery/" rel="section"><i class="fa fa-image fa-fw"></i>Gallery</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/HocRiser01" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://47.99.133.133/2023/11/20/Pine-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="HocRiser">
+      <meta itemprop="description" content="平凡即是喜乐">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="朝汐">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Pine 源码阅读笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-11-20 17:50:13" itemprop="dateCreated datePublished" datetime="2023-11-20T17:50:13-05:00">2023-11-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-07-04 07:13:50" itemprop="dateModified" datetime="2025-07-04T07:13:50-04:00">2025-07-04</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>4.3k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>8 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Pine 是一个使用 C++17 编写的高并发框架，支持 Linux / MacOS
+跨平台；它也是 <a
+target="_blank" rel="noopener" href="https://github.com/yuesong-feng/30dayMakeCppServer/tree/main">30
+天自制 C++ 服务器</a>（目前更至第十六天）的配套代码。</p>
+<p>本文为 <a target="_blank" rel="noopener" href="https://github.com/yuesong-feng/pine">Github 源码</a>
+阅读笔记。</p>
+<p>前置技能：</p>
+<ul>
+<li>Modern C++ （包括并行库）；</li>
+<li>网络编程基础
+<ul>
+<li><strong>《Linux 高性能服务器编程》——
+游双</strong>：服务器编程必读；</li>
+<li><strong>《Linux 多线程服务端编程：使用 muduo C++ 网络库》——
+陈硕</strong>：经典网络库 muduo 作者，本框架采用类 muduo 架构；</li>
+<li><strong>《C++ 服务器开发精髓》——
+张远龙</strong>：类似以上两本书的组合，编写年份较新，对部分技术做了相应更新；</li>
+<li><strong>《UNIX网络编程卷1：套接字联网API》、《UNIX网络编程卷2：进程间通信》</strong>：可以作为字典书；</li>
+</ul></li>
+</ul>
+<span id="more"></span>
+<h2 id="框架介绍">框架介绍</h2>
+<ul>
+<li>程序采用类 muduo 结构，one loop per thread，多 Reactor
+多线程模式，支持同步 / 异步 Socket I/O（仅代表 Socket
+无操作时是否立即返回，本质均为同步 IO，均在应用进程中占用 CPU
+时间）；常使用 ET + 非阻塞 Socket IO 模式；</li>
+<li>Server 是核心类，持有
+main-Reactor、sub-Reactors、Acceptor、Connection、线程池；</li>
+<li>Socket 为 socket 底层操作的封装，Poller 为对一系列 fd 及其 epoll
+相关操作的封装（对每个管理的 fd 持有其对应的 Channel），Channel
+为对每个文件描述符的具体操作的封装；Buffer 为 I/O 缓冲区的封装；</li>
+<li>每个事件循环 EventLoop 与一个 Poller 对应，支持随时增删需要管理的
+fd；</li>
+<li>main-Reactor 对应 Acceptor，在主线程中执行；</li>
+<li>每个 Connection 维护一个连接，随机将其分配给一个 sub-Reactor
+持有的事件循环；</li>
+<li>每个 Reactor 即一个事件循环；线程池中每个线程对应一个
+sub-Reactor，从有锁任务队列中取出一个 task；每个 task
+与一个事件循环对应；</li>
+<li>可能存在某时刻一个线程恰好完成了它的事件循环维护的所有连接，也没有再给它分配新的连接；此时它可以再从有锁任务队列中取一个
+task；但由于目前设计为一个线程对应一个
+task，因此实际上它会立即返回；</li>
+<li>任务、事件循环、Reactor、线程、Poller 在此框架中一一对应；</li>
+</ul>
+<h2 id="各模块分析">各模块分析</h2>
+<h3 id="socket">Socket</h3>
+<ul>
+<li>直接持有一个文件描述符 fd；</li>
+<li>支持设置 fd，获取 addr，设置 Socket I/O
+阻塞模式，获取缓冲区中可读取字节数，socket()、bind()、listen()、accept()、connect()
+的函数封装；</li>
+</ul>
+<h3 id="channel">Channel</h3>
+<ul>
+<li>直接持有
+fd，监听事件功能二进制状态，准备事件功能二进制状态，是否存在，由
+Acceptor 与 Connection
+指定的读回调、写回调；以裸指针形式指向其所在事件循环；</li>
+<li>支持对直接持有的成员进行设置；根据准备事件二进制状态执行对应回调；</li>
+</ul>
+<h3 id="poller">Poller</h3>
+<ul>
+<li>直接持有一个 fd 和一个 epoll_event 指针（Linux）或一个 kevent
+指针（MacOS）；</li>
+<li>支持创建 epoll，拉取 epoll 并相应设置 Channel
+二进制状态（返回有更新的 Channel 序列），根据 Channel
+注册、删除事件（同时删除 Channel）；</li>
+</ul>
+<h3 id="buffer">Buffer</h3>
+<ul>
+<li>直接持有一个 <code>std::string</code>
+缓冲区，封装了对它的赋值、取长度、清空操作；</li>
+</ul>
+<h3 id="eventloop">EventLoop</h3>
+<ul>
+<li>以 <code>unique_ptr</code> 形式持有一个 Poller；</li>
+<li>支持无限循环地执行 epoll 中有更新的各个 Channel
+的回调，以及更新与删除某个 Channel；</li>
+</ul>
+<h3 id="threadpool">ThreadPool</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ThreadPool.h</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ThreadPool</span> &#123;</span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="built_in">DISALLOW_COPY_AND_MOVE</span>(ThreadPool);</span><br><span class="line">  <span class="function"><span class="keyword">explicit</span> <span class="title">ThreadPool</span><span class="params">(<span class="type">unsigned</span> <span class="type">int</span> size = std::thread::hardware_concurrency())</span></span>;</span><br><span class="line">  ~<span class="built_in">ThreadPool</span>();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">F</span>, <span class="keyword">class</span>... Args&gt;</span><br><span class="line">  <span class="function"><span class="keyword">auto</span> <span class="title">Add</span><span class="params">(F &amp;&amp;f, Args &amp;&amp;...args)</span> -&gt; std::future&lt;<span class="keyword">typename</span> std::invoke_result&lt;F, Args...&gt;::type&gt;</span>;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">  std::vector&lt;std::thread&gt; workers_; <span class="comment">// 每个 worker 持有一个 lambda 函数，循环处理每个 task，某一时刻发现队列空则返回</span></span><br><span class="line">  std::queue&lt;std::function&lt;<span class="type">void</span>()&gt;&gt; tasks_; <span class="comment">// 每个 task 持有一个 package_task，在 worker 中的循环中被调用</span></span><br><span class="line">  std::mutex queue_mtx_; <span class="comment">// 对 task 队列的互斥锁</span></span><br><span class="line">  std::condition_variable queue_cv_; <span class="comment">// 对 task 队列的条件变量</span></span><br><span class="line">  std::atomic&lt;<span class="type">bool</span>&gt; stop_&#123;<span class="literal">false</span>&#125;; <span class="comment">// 是否停止该线程池运行，析构时直接设为 true 并逐个 worker 调用 join()</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不能放在cpp文件，C++编译器不支持模版的分离编译</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">F</span>, <span class="keyword">class</span>... Args&gt;</span><br><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">ThreadPool::Add</span><span class="params">(F &amp;&amp;f, Args &amp;&amp;...args)</span> -&gt; std::future&lt;<span class="keyword">typename</span> std::invoke_result&lt;F, Args...&gt;::type&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">using</span> return_type = <span class="keyword">typename</span> std::invoke_result&lt;F, Args...&gt;::type;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">auto</span> task = std::make_shared&lt;std::packaged_task&lt;<span class="built_in">return_type</span>()&gt;&gt;(std::<span class="built_in">bind</span>(std::forward&lt;F&gt;(f), std::forward&lt;Args&gt;(args)...));</span><br><span class="line"></span><br><span class="line">  std::future&lt;return_type&gt; res = task-&gt;<span class="built_in">get_future</span>();</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(queue_mtx_)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// don&#x27;t allow enqueueing after stopping the pool</span></span><br><span class="line">    <span class="keyword">if</span> (stop_) &#123;</span><br><span class="line">      <span class="keyword">throw</span> std::<span class="built_in">runtime_error</span>(<span class="string">&quot;enqueue on stopped ThreadPool&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    tasks_.<span class="built_in">emplace</span>([task]()&#123; (*task)(); &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  queue_cv_.<span class="built_in">notify_one</span>();</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ThreadPool.cpp</span></span><br><span class="line">ThreadPool::<span class="built_in">ThreadPool</span>(<span class="type">unsigned</span> <span class="type">int</span> size) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">    workers_.<span class="built_in">emplace_back</span>([<span class="keyword">this</span>]() &#123;</span><br><span class="line">      <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        std::function&lt;<span class="built_in">void</span>()&gt; task;</span><br><span class="line">        &#123;</span><br><span class="line">          std::unique_lock&lt;std::mutex&gt; <span class="built_in">lock</span>(queue_mtx_);</span><br><span class="line">          queue_cv_.<span class="built_in">wait</span>(lock, [<span class="keyword">this</span>]() &#123; <span class="keyword">return</span> stop_ || !tasks_.<span class="built_in">empty</span>(); &#125;);</span><br><span class="line">          <span class="keyword">if</span> (stop_ &amp;&amp; tasks_.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">          &#125;</span><br><span class="line">          task = std::<span class="built_in">move</span>(tasks_.<span class="built_in">front</span>());</span><br><span class="line">          tasks_.<span class="built_in">pop</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">task</span>();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ThreadPool::~<span class="built_in">ThreadPool</span>() &#123;</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(queue_mtx_)</span></span>;</span><br><span class="line">    stop_ = <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  queue_cv_.<span class="built_in">notify_all</span>();</span><br><span class="line">  <span class="keyword">for</span> (std::thread &amp;th : workers_) &#123;</span><br><span class="line">    <span class="keyword">if</span> (th.<span class="built_in">joinable</span>()) &#123;</span><br><span class="line">      th.<span class="built_in">join</span>();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="acceptor">Acceptor</h3>
+<ul>
+<li>每个 Acceptor 以 <code>unique_ptr</code> 形式持有一个 Socket 和一个
+Channel 用于管理监听端口行为，直接持有一个由 Server 指定的连接回调
+new_connection_callback()；</li>
+<li>构造时，构造一个新的 Socket 绑定到固定端口 127.0.0.1:1234
+并开启监听，并为其构造一个对应 Channel，将自己的连接函数
+AcceptConnection()（包含接受客户端连接操作和
+new_connection_callback()）设为 Channel 的读回调；</li>
+</ul>
+<h3 id="connection">Connection</h3>
+<ul>
+<li>每个 Connection 以 <code>unique_ptr</code> 形式持有一个 Socket
+和一个 Channel，以 <code>unique_ptr</code>
+形式持有读缓冲和写缓冲；直接持有由 Server 指定的一个 delete_connection()
+回调和一个 on_recv()
+回调；持有一个状态：非法、连接中、已连接、已关闭四个之一；</li>
+<li>构造时新建一个 Channel 并将 Server 指定的 fd 与 EventLoop 指定给新
+Channel，开启 ET 读；</li>
+<li>支持阻塞 / 非阻塞连接读 / 写；</li>
+</ul>
+<h3 id="tcpserver">TcpServer</h3>
+<ul>
+<li>以 <code>unique_ptr</code> 形式持有一个 main-Reactor（即
+EventLoop）、多个 sub-Reactors、一个 Acceptor、一个 ThreadPool；</li>
+<li>直接持有一个 map&lt;int,
+unique_ptr<Connection>&gt;，以及由程序员指定的 on_connect() 与 on_recv()
+回调；</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C++</a>
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="tag"># 网络编程</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/11/20/Modern-C-%EF%BC%8811-26%EF%BC%89%E7%AC%94%E8%AE%B0/" rel="prev" title="Modern C++（11~26）笔记">
+      <i class="fa fa-chevron-left"></i> Modern C++（11~26）笔记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/11/20/Rust-%E7%AC%94%E8%AE%B0/" rel="next" title="Rust 笔记">
+      Rust 笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">框架介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%84%E6%A8%A1%E5%9D%97%E5%88%86%E6%9E%90"><span class="nav-number">2.</span> <span class="nav-text">各模块分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#socket"><span class="nav-number">2.1.</span> <span class="nav-text">Socket</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#channel"><span class="nav-number">2.2.</span> <span class="nav-text">Channel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#poller"><span class="nav-number">2.3.</span> <span class="nav-text">Poller</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#buffer"><span class="nav-number">2.4.</span> <span class="nav-text">Buffer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#eventloop"><span class="nav-number">2.5.</span> <span class="nav-text">EventLoop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#threadpool"><span class="nav-number">2.6.</span> <span class="nav-text">ThreadPool</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#acceptor"><span class="nav-number">2.7.</span> <span class="nav-text">Acceptor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#connection"><span class="nav-number">2.8.</span> <span class="nav-text">Connection</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tcpserver"><span class="nav-number">2.9.</span> <span class="nav-text">TcpServer</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="HocRiser"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">HocRiser</p>
+  <div class="site-description" itemprop="description">平凡即是喜乐</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HocRiser01" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;HocRiser01" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hocriser@gmail.com" title="E-Mail → mailto:hocriser@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.csdn.net/GGN_2015" title="https:&#x2F;&#x2F;blog.csdn.net&#x2F;GGN_2015" rel="noopener" target="_blank">GGN_2015</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://yirannn.com/" title="https:&#x2F;&#x2F;yirannn.com&#x2F;" rel="noopener" target="_blank">Yirannn</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://oceanpresent.art/" title="https:&#x2F;&#x2F;oceanpresent.art&#x2F;" rel="noopener" target="_blank">OceanPresent</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://atoposyz.github.io/" title="https:&#x2F;&#x2F;atoposyz.github.io&#x2F;" rel="noopener" target="_blank">Atoposyz</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">皖ICP备2023012352号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">HocRiser</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">Symbols count total: </span>
+    <span title="Symbols count total">205k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">Reading time total &asymp;</span>
+    <span title="Reading time total">6:13</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("03/01/2023 10:00:00"); //此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

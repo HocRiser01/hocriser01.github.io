@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"47.99.133.133","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="https:&#x2F;&#x2F;open.163.com&#x2F;newview&#x2F;movie&#x2F;free?pid&#x3D;IEU2H8NIJ&amp;mid&#x3D;VEU2H8NKA Supervised Learning &amp; Gradient Descent Notation:  \(m\) &#x3D; #training examples. \(n\) &#x3D; #features \(x\) &#x3D; input variables &#x2F; fe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Andrew Ng - Machine Learning - Stanford">
+<meta property="og:url" content="http://47.99.133.133/2023/07/19/Andrew-Ng-Machine-Learning-Stanford/index.html">
+<meta property="og:site_name" content="朝汐">
+<meta property="og:description" content="https:&#x2F;&#x2F;open.163.com&#x2F;newview&#x2F;movie&#x2F;free?pid&#x3D;IEU2H8NIJ&amp;mid&#x3D;VEU2H8NKA Supervised Learning &amp; Gradient Descent Notation:  \(m\) &#x3D; #training examples. \(n\) &#x3D; #features \(x\) &#x3D; input variables &#x2F; fe">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-07-19T20:29:29.000Z">
+<meta property="article:modified_time" content="2023-08-12T01:42:13.310Z">
+<meta property="article:author" content="HocRiser">
+<meta property="article:tag" content="机器学习">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://47.99.133.133/2023/07/19/Andrew-Ng-Machine-Learning-Stanford/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Andrew Ng - Machine Learning - Stanford | 朝汐</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">朝汐</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">如星空般深蓝</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-gallery">
+
+    <a href="/gallery/" rel="section"><i class="fa fa-image fa-fw"></i>Gallery</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/HocRiser01" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://47.99.133.133/2023/07/19/Andrew-Ng-Machine-Learning-Stanford/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="HocRiser">
+      <meta itemprop="description" content="平凡即是喜乐">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="朝汐">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Andrew Ng - Machine Learning - Stanford
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-07-19 16:29:29" itemprop="dateCreated datePublished" datetime="2023-07-19T16:29:29-04:00">2023-07-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-08-11 21:42:13" itemprop="dateModified" datetime="2023-08-11T21:42:13-04:00">2023-08-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>6.8k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>12 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>https://open.163.com/newview/movie/free?pid=IEU2H8NIJ&amp;mid=VEU2H8NKA</p>
+<h2 id="supervised-learning-gradient-descent">Supervised Learning &amp;
+Gradient Descent</h2>
+<p>Notation:</p>
+<ul>
+<li><span class="math inline">\(m\)</span> = #training examples.</li>
+<li><span class="math inline">\(n\)</span> = #features</li>
+<li><span class="math inline">\(x\)</span> = input variables /
+features.</li>
+<li><span class="math inline">\(y\)</span> = output variable / target
+variable</li>
+<li><span class="math inline">\((x, y)\)</span> = training example
+<ul>
+<li>The i-th: <span
+class="math inline">\((x^{(i)},y^{(i)})\)</span></li>
+</ul></li>
+</ul>
+<span id="more"></span>
+<p><span
+class="math inline">\(h(x)=h_\theta(x)=\theta_0+\theta_1x_1+\theta_2x_2+...+\theta_nx_n\)</span></p>
+<p>let <span class="math inline">\(x_0\)</span> be 1,then</p>
+<p><span class="math inline">\(h(x) = \sum_{i=0}^{n}\theta_ix_i=\theta^T
+x\)</span></p>
+<p><span class="math inline">\(Minimize_{\theta}\ \ J(\theta) =
+\frac{1}{2} \sum_{i=1}^m(h_\theta(x^{(i)})-y^{(i)})^2\)</span></p>
+<p>(Least squares linear regression)</p>
+<p>Start with <span class="math inline">\(\theta =
+\boldsymbol{0}\)</span></p>
+<p>Notice:<span class="math inline">\(\theta,x,y\)</span> are all
+<em>vectors</em> now.</p>
+<p><strong>Batch Gradient Descent</strong>:</p>
+<p><span class="math inline">\(\theta_i := \theta_i -
+\alpha\frac{\partial}{\partial\theta_i}J(\theta) = \theta_i -
+\alpha(h_\theta(x)-y)x_i = \theta_i - \alpha \sum_{j = 1}^n
+(h_\theta(x^{(j)}) - y^{(j)})x_i^{(j)}\)</span></p>
+<p>(Repeat until convergence)</p>
+<p><strong>Stochastic Gradient Descent</strong>:</p>
+<p>For j:=1 to m <span class="math inline">\(\theta_i := \theta_i -
+\alpha(h_\theta(x^{(j)})-y^{(j)})x_i^{(j)}\ (For\ all\ i)\)</span></p>
+<p>(one <span class="math inline">\((x,y)\)</span> for one step)</p>
+<p><strong>Def</strong>:<span class="math display">\[\nabla_\theta
+J=\left[ \begin{array}\\ \frac{\partial J}{\partial \theta_0} \\ \vdots
+\\ \frac{\partial J}{\partial \theta_n} \end{array}\right]\]</span></p>
+<p>So:Gradient Descent:<span class="math inline">\(\theta :=\theta -
+\alpha \nabla_\theta J\ \ (\theta,\nabla J \in
+\mathbb{R^{n+1}})\)</span></p>
+<p><span class="math inline">\(f(A):\mathbb{R^{m \times n}} \mapsto
+\mathbb{R}\)</span></p>
+<p><strong>Def</strong>:<span class="math inline">\(\nabla_A f(A)=\left[
+\begin{array}\\ \frac{\partial f}{\partial A_{1,1}} &amp; \cdots &amp;
+\frac{\partial f
+}{\partial A_{1,n}} \\ \vdots &amp; \ddots &amp; \vdots \\
+\frac{\partial f}{\partial A_{m,1}} &amp; \cdots &amp; \frac{\partial
+f}{\partial A_{m,n}}\end{array} \right]\)</span></p>
+<p><span class="math inline">\(tr\ A = \sum_{i=1}^{n} A_{i,i}\ \ (A \in
+\mathbb{R^{n*n}})\)</span></p>
+<p><strong>Fact</strong>:</p>
+<p><span class="math inline">\(tr\ AB=tr\ BA\)</span></p>
+<p><span class="math inline">\(tr\ ABC = tr\ CAB = tr\ BCA\)</span></p>
+<p><span class="math inline">\(f(A) = tr\ AB,\nabla_A tr\ AB =
+B^T\)</span></p>
+<p><span class="math inline">\(\nabla_A tr\ ABA^TC = CAB +
+C^TAB^T\)</span></p>
+<p><span class="math inline">\(X = \left[\begin{array}\\(x^{(i)})^T \\
+\vdots \\ (x^{(m)})^T\end{array}\right]\)</span></p>
+<p><span class="math inline">\(\frac{1}{2}(X \theta - y)^T(X\theta - y)
+= \frac{1}{2}\sum_{i=1}^{m}(h(x^{(i)})-y^{(i)})^2 =
+J(\theta)\)</span></p>
+<p><span class="math inline">\(\begin{aligned} &amp;\nabla_\theta
+J(\theta)\\ =&amp; \nabla_\theta \frac{1}{2}(X \theta - y)^T(X\theta -
+y) \\ =&amp; \frac{1}{2} \nabla_\theta tr (\theta^TX^TX\theta - \theta^T
+X^Ty-y^TX\theta +y^Ty) \\ =&amp; \frac{1}{2}(\nabla_\theta tr\
+\theta\theta^TX^TX-\nabla_\theta tr\ y^TX\theta - \nabla_\theta
+y^TX\theta)\\ =&amp; X^TX\theta - X^Ty \end{aligned}\)</span></p>
+<p>Let it be 0,then</p>
+<p><span class="math inline">\(\theta = (X^TX)^{-1}X^Ty\)</span></p>
+<p>Vector Scaling:<span class="math inline">\(x_i = \frac{x_i -
+\mu_i}{s_i}\)</span></p>
+<p>Where <span class="math inline">\(\mu_i\)</span> is the average of
+all the values for feature (i) and <span
+class="math inline">\(s_i\)</span> is the range of values (max - min),
+or <span class="math inline">\(s_i\)</span> is the standard
+deviation.</p>
+<h2 id="underfitting-and-overfitting">Underfitting and Overfitting</h2>
+<p><strong>Parametric Learning Algorithm</strong>:The number of
+parameters grows with m.</p>
+<p>A non-parametric learning Algorithm:<strong>Locally Weighted
+Regression</strong> (LOESS)</p>
+<p>To evaluate <span class="math inline">\(h\)</span> at a certain <span
+class="math inline">\(x\)</span></p>
+<p>LR(Linear Regression):Fit <span class="math inline">\(\theta\)</span>
+to minimize <span
+class="math inline">\(\sum_{i}(y^{(i)}-\theta^Tx^{(i)})^2\)</span>
+,return <span class="math inline">\(\theta^TX\)</span></p>
+<p>LWR:Fit <span class="math inline">\(\theta\)</span> to minimize <span
+class="math inline">\(\sum_i
+w^{(i)}(y^{(i)}-\theta^Tx^{(i)})^2\)</span></p>
+<p>where <span
+class="math inline">\(w^{(i)}=exp(-\frac{(x^{(i)}-x)^2}{2\tau^2})\)</span>
+(<span class="math inline">\(\tau\)</span>:bandwidth parameter)</p>
+<p>If <span class="math inline">\(|x^{(i)}-x|\)</span> small, then <span
+class="math inline">\(w^{(i)}\approx 1\)</span></p>
+<p>If <span class="math inline">\(|x^{(i)}-x|\)</span> large, then <span
+class="math inline">\(w^{(i)}\approx 0\)</span></p>
+<p>One way to proof that the <strong>Least Squares</strong> works
+correctly.</p>
+<p>Assume <span class="math inline">\(y^{(i)} =
+\theta^Tx^{(i)}+\varepsilon^{(i)}\)</span></p>
+<p><span class="math inline">\(\varepsilon^{(i)} =
+error,\varepsilon^{(i)} \sim \mathscr{N}(O,\sigma^2)\)</span></p>
+<p><span class="math inline">\(P(\varepsilon^{(i)}) =
+\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(y^{(i)}-\theta^Tx^{(i)})^2}{2\sigma^2}}\sim
+\mathscr{N}(\theta^Tx^{(i)},\sigma^2)\)</span></p>
+<p>p.s.From Central Limit Theorem,we can know that <span
+class="math inline">\(y^{(i)}\)</span> given <span
+class="math inline">\(x^{(i)}\)</span> and parameterized by <span
+class="math inline">\(\theta\)</span> is distributed Gaussian。</p>
+<p><span class="math inline">\(\varepsilon^{(i)}\)</span>s are
+<strong>IID</strong> (Independently ,Identically Distributed)</p>
+<p><span class="math inline">\(L(\theta) =
+P(\overrightarrow{y}|X;\theta) = \prod_{i=1}^{m}
+P(y^{(i)}|x^{(i)};\theta) = \prod_{i=1}^m
+\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(y^{(i)}-\theta^Tx^{(i)})^2}{2\sigma^2}}\)</span>
+(Likelihood)</p>
+<p>The priciple of maximun likelihood:</p>
+<p><span class="math inline">\(\begin{aligned} l(\theta) =&amp; \log
+L(\theta) \\ =&amp; \log \prod_{i=1}^m
+\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(y^{(i)}-\theta^Tx^{(i)})^2}{2\sigma^2}}
+\\ =&amp; m\log\frac{1}{\sqrt{2\pi}\sigma} +
+\sum_{i=1}^m-\frac{(y^{(i)}-\theta^Tx^{(i)})^2}{2\sigma^2}\end{aligned}\)</span></p>
+<p>So maximize <span class="math inline">\(l(\theta)\)</span> is the
+same as minimizing <span
+class="math inline">\(\frac{\sum_{i=1}^m(y^{(i)} - \theta^Tx)^2}{2} =
+J(\theta)\)</span></p>
+<p><strong>Logistic Regression</strong>:<strong>Binary
+Classification</strong> (LR can't work well)</p>
+<p><span class="math inline">\(y\in\{0,1\},h_\theta
+(x)\in[0,1]\)</span></p>
+<p>choose:<span class="math inline">\(h_\theta(x) = g(\theta^TX) =
+\frac{1}{1+e^{-\theta^TX}}\)</span></p>
+<p><span class="math inline">\(g(z) = \frac{1}{1+e^{-z}}\)</span>
+(sigmoid function)</p>
+<p><span class="math inline">\(P(y = 1 | x; \theta) = h_\theta (x),P(y =
+0 | x ; \theta) = 1 - h_\theta(x)\)</span></p>
+<p>So <span class="math inline">\(P(y | x; \theta) = h_\theta(x)^y(1 -
+h_\theta(x))^{1-y}\)</span></p>
+<p><span class="math inline">\(L(\theta) = P(\overrightarrow{y} | x;
+\theta) = \prod_{i}P(y^{(i)} | x^{(i)}; \theta) = \prod_i
+h(x^{(i)})^{y(i)}(1 - h(x^{(i)}))^{1 - y^{(i)}}\)</span></p>
+<p><span class="math inline">\(l(\theta) = \log L(\theta) = \sum_{i=1}^m
+y^{(i)}\log h_\theta(x^{(i)}) + (1 - y^{(i)})\log (1 -
+h_\theta(x^{(i)}))\)</span></p>
+<p><span class="math inline">\(\theta := \theta + \alpha \nabla_\theta
+l(\theta)\)</span></p>
+<p><strong>Batch Gradient Ascent</strong></p>
+<p><span
+class="math inline">\(\frac{\partial}{\partial\theta_j}l(\theta) =
+\sum_{i=1}^m (y^{(i)} - h_\theta(x^{(i)}))x_j^{(i)}\)</span></p>
+<p><span class="math inline">\(\theta_j := \theta_j + \alpha\sum_{i=1}^m
+(y^{(i)} - h_\theta{(i)})x_j^{(i)}\)</span></p>
+<p><strong>Stochastic Gradient Descent</strong></p>
+<p><span class="math inline">\(\theta_j := \theta_j + \alpha(y^{(i)} -
+h(x^{(i)}))x_j^{(i)}\)</span></p>
+<p><span class="math inline">\(g(z) = \begin{cases} 1 &amp; if\
+z\geqslant 0 \\ 0 &amp; if\ otherwise\end{cases}\)</span></p>
+<p><span class="math inline">\(h_\theta(x) = g(\theta^Tx)\)</span></p>
+<p><span class="math inline">\(\theta_j := \theta_j +
+\alpha(y^{(i)}-h_\theta(x^{(i)}))x_j^{(i)}\)</span></p>
+<h2 id="newtons-methodnot-finished">Newton's Method(Not Finished)</h2>
+<p><span class="math inline">\(f(\theta)\)</span>,Find <span
+class="math inline">\(\theta\)</span> s.t. <span
+class="math inline">\(f(\theta) = 0\)</span></p>
+<p><span class="math inline">\(\Delta = \theta^{(t)} - \theta^{(t+1)} =
+\frac{f(\theta^{(t)})}{f&#39;(\theta^{(t)})}\)</span></p>
+<p><span class="math inline">\(l(\theta)\)</span> Want <span
+class="math inline">\(\theta\)</span> s.t. <span
+class="math inline">\(l(\theta) = 0\)</span></p>
+<p><span class="math inline">\(\theta^{(t+1)} = \theta^{(t)} -
+\frac{l&#39;(\theta^{(t)})}{l&#39;&#39;(\theta^{(t)})}\)</span></p>
+<p>More generally:</p>
+<p><span class="math inline">\(\theta^{(t+1)} = \theta^{(t)} -
+H^{-1}\nabla_\theta l\)</span></p>
+<p>Where H is the Hessian matrix</p>
+<p><span class="math inline">\(H_j = \frac{\partial^2 l}{\partial
+\theta_i \partial \theta_j}\)</span></p>
+<p><strong>Generalized Linear Methods</strong></p>
+<p><strong>Exponential Family Distributions</strong></p>
+<p><span class="math inline">\(P(y|x; \theta)\)</span></p>
+<p><span class="math inline">\(y \in \mathbb{R}\)</span>: Gaussian -&gt;
+Least Square</p>
+<p><span class="math inline">\(y \in \{0,1\}\)</span>:Bernoulli -&gt;
+Logisitic regression</p>
+<p><span class="math inline">\(Bernoulli(\Phi)\)</span> <span
+class="math inline">\(P(y = 1; \Phi) = \Phi\)</span> <span
+class="math inline">\(\mathscr{N}(\mu,\sigma^2)\)</span></p>
+<p><span class="math inline">\(P(y;\eta) = b(y)\exp(\eta^T T(y) -
+a(\eta))\)</span></p>
+<p><span class="math inline">\(\eta\)</span>-natural parameter</p>
+<p><span class="math inline">\(T(y)\)</span>-sufficient
+statistic(Usually <span class="math inline">\(T(y) = y\)</span>)</p>
+<p><span class="math inline">\(Ber(\Phi)\)</span> :</p>
+<p><span class="math inline">\(P(y;\Phi) = \Phi^y(1-\Phi)^{1-y} = \exp(y
+\log \Phi + (1 - y) \log (1 - \Phi)) = \exp(\log \frac{\Phi}{1 - \Phi} y
++ \log (1 - \Phi))\)</span></p>
+<p><span class="math inline">\(\eta = \log \frac{\Phi}{1 -
+\Phi}\)</span>,<span class="math inline">\(y = T(y)\)</span>,<span
+class="math inline">\(-a(\eta) = \log(1 - \Phi)\)</span></p>
+<p><span class="math inline">\(\Rightarrow \Phi = \frac{1}{1 +
+e^{-\eta}} \Rightarrow a(\eta) = -\log (1 - \Phi) = \log(1 +
+e^\eta)\)</span></p>
+<p><span class="math inline">\(T(y) = y\)</span>, <span
+class="math inline">\(b(y) = 1\)</span></p>
+<p><span class="math inline">\(\mathscr{N}(\mu, \sigma^2)\)</span> set
+<span class="math inline">\(\sigma^2 = 1\)</span></p>
+<p><span class="math inline">\(\frac{1}{\sqrt{2\pi}} \exp(-\frac{1}{2}(y
+- \mu)^2) =\frac{1}{\sqrt{2\pi}}\exp(-\frac{1}{2}y^2)\exp(\mu
+y-\frac{1}{2}\mu^2)\)</span></p>
+<p><span class="math inline">\(b(y) =
+\frac{1}{\sqrt{2\pi}}\exp(-\frac{1}{2}y^2)\)</span>, <span
+class="math inline">\(\mu = \eta\)</span>, <span
+class="math inline">\(T(y) = y\)</span>, <span
+class="math inline">\(a(\eta) = \frac{1}{2}\mu^2 =
+\frac{1}{2}\eta^2\)</span></p>
+<p><strong>Generalized Linear Models(GLM)</strong></p>
+<p>Assume:</p>
+<ol type="1">
+<li><p><span class="math inline">\(y|x;\theta \sim \text{Exp Family}
+(\eta)\)</span></p></li>
+<li><p>Given <span class="math inline">\(x\)</span>,goal is to output
+<span class="math inline">\(E[T(y)|x]\)</span>, Want <span
+class="math inline">\(h(x) = E[T(y)|x]\)</span></p></li>
+<li><p><span class="math inline">\(\eta = \theta^T x\)</span> (<span
+class="math inline">\(\eta_i = \theta_i^T x\)</span> if <span
+class="math inline">\(y \in \mathbb{R}^l\)</span>)</p></li>
+</ol>
+<p>Bernoulli: For fixed <span
+class="math inline">\(x,\theta\)</span>,algorithm output</p>
+<p><span class="math inline">\(h_\theta(x) = E[y|x;\theta] = P(y = 1 |
+x;\theta) = \Phi = \frac{1}{1+e^{-\eta}} = \frac{1}{1+e^{-\theta^T
+X}}\)</span></p>
+<p><span class="math inline">\(g(\eta) = E[y;\eta] =
+\frac{1}{1+e^{-\eta}}\)</span> (<strong>Canonical Response
+Function</strong>)</p>
+<p><span class="math inline">\(g^{-1}\)</span>:<strong>Canonical Link
+Function</strong></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/07/19/Makefile%E5%92%8CCMake%E5%88%9D%E7%BA%A7%E4%BD%BF%E7%94%A8/" rel="prev" title="Makefile和CMake初级使用">
+      <i class="fa fa-chevron-left"></i> Makefile和CMake初级使用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/07/19/Cousera%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="next" title="Cousera吴恩达机器学习笔记">
+      Cousera吴恩达机器学习笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#supervised-learning-gradient-descent"><span class="nav-number">1.</span> <span class="nav-text">Supervised Learning &amp;
+Gradient Descent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#underfitting-and-overfitting"><span class="nav-number">2.</span> <span class="nav-text">Underfitting and Overfitting</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#newtons-methodnot-finished"><span class="nav-number">3.</span> <span class="nav-text">Newton&#39;s Method(Not Finished)</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="HocRiser"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">HocRiser</p>
+  <div class="site-description" itemprop="description">平凡即是喜乐</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HocRiser01" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;HocRiser01" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hocriser@gmail.com" title="E-Mail → mailto:hocriser@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.csdn.net/GGN_2015" title="https:&#x2F;&#x2F;blog.csdn.net&#x2F;GGN_2015" rel="noopener" target="_blank">GGN_2015</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://yirannn.com/" title="https:&#x2F;&#x2F;yirannn.com&#x2F;" rel="noopener" target="_blank">Yirannn</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://oceanpresent.art/" title="https:&#x2F;&#x2F;oceanpresent.art&#x2F;" rel="noopener" target="_blank">OceanPresent</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://atoposyz.github.io/" title="https:&#x2F;&#x2F;atoposyz.github.io&#x2F;" rel="noopener" target="_blank">Atoposyz</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">皖ICP备2023012352号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">HocRiser</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">Symbols count total: </span>
+    <span title="Symbols count total">205k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">Reading time total &asymp;</span>
+    <span title="Reading time total">6:13</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("03/01/2023 10:00:00"); //此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
