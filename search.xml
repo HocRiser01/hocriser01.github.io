@@ -182,16 +182,14 @@ lights?</em></p>
 6
 万名员工，导致这座城市失业率一度达到两位数。市区空荡、房价暴跌，人们纷纷离开，去别的城市谋生，西雅图成了一座“被波音遗弃的城”。两位本地广告人在西雅图的州际公路
 I-5 上租下了一块大广告牌，写下了这句话。</p>
-<figure>
-<img src="lights.jpg" alt="lights" />
-<figcaption aria-hidden="true">lights</figcaption>
-</figure>
+<p><img src="lights.jpg" /></p>
 <p>时来运转，1970s
 末，波音逐渐恢复生产。1980s，微软成立并崛起于西雅图郊区的
 Redmond。1990s，亚马逊、星巴克、Nirvana
 等陆续登上世界舞台。软件、生物技术和互联网公司的蓬勃发展推动了经济的复兴，使西雅图成为
 2010 至 2020 年间美国发展速度最快的主要城市之一。</p>
 <p>西雅图重新点亮了自己的灯。</p>
+<span id="more"></span>
 <h2 id="启程">启程</h2>
 <p>12 月 17 日早，我们从北卡坐飞机抵达西雅图，开始了我们为期 20
 多天的美西之旅。我们落地后租了一辆尼桑
@@ -741,6 +739,97 @@ Function</strong></p>
       </tags>
   </entry>
   <entry>
+    <title>C++ Concurrency in Action - SECOND EDITION</title>
+    <url>/2023/09/22/C-Concurrency-in-Action-SECOND-EDITION/</url>
+    <content><![CDATA[<p>本文为此书中文译本前四章的读书笔记。</p>
+<p><a
+href="https://github.com/xiaoweiChen/CPP-Concurrency-In-Action-2ed-2019">https://github.com/xiaoweiChen/CPP-Concurrency-In-Action-2ed-2019</a></p>
+<h2 id="pthread.h">&lt;pthread.h&gt;</h2>
+<p>&lt;pthread.h&gt;是贴近底层的 POSIX 线程接口：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">pthread_create</span>()：创建一个新的线程。</span><br><span class="line"><span class="built_in">pthread_join</span>()：等待指定的线程退出，并回收其资源。</span><br><span class="line"><span class="built_in">pthread_detach</span>()：将指定的线程设置为分离状态，使其资源在退出时自动回收。</span><br><span class="line"><span class="built_in">pthread_exit</span>()：使当前线程退出，并返回指定的状态值。</span><br><span class="line"><span class="built_in">pthread_mutex_init</span>()：初始化互斥锁。</span><br><span class="line"><span class="built_in">pthread_mutex_destroy</span>()：销毁互斥锁。</span><br><span class="line"><span class="built_in">pthread_mutex_lock</span>()：尝试获取互斥锁，如果已经被其他线程占用，则阻塞等待。</span><br><span class="line"><span class="built_in">pthread_mutex_unlock</span>()：释放互斥锁。</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h2 id="thread">&lt;thread&gt;</h2>
+<p>C++11 提供<code>#include &lt;thread&gt;</code>
+头文件支持多线程，对C语言的<code>&lt;pthread.h&gt;</code>
+（POSIX线程接口）做了进一步的抽象和封装。新标准 <code>std::thread</code>
+提供了更高级的线程实现，使用面向对象、RAII 技术，在对象销毁时自动调用
+<code>join()</code> 和 <code>detach()</code>
+方法，避免手动管理线程资源和状态，且支持更好的可移植性：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">explicit</span> <span class="title">thread</span><span class="params">( Callable&amp;&amp; f, Args&amp;&amp;... args )</span></span>; <span class="comment">// 构造函数，参数可以是lambda函数</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">join</span><span class="params">()</span></span>; <span class="comment">// 阻塞等待线程退出并回收资源</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">detach</span><span class="params">()</span></span>; <span class="comment">// 将线程对象与线程执行状态分离，使其独立执行</span></span><br><span class="line"><span class="function"><span class="type">unsigned</span> <span class="type">int</span> <span class="title">hardware_concurrency</span><span class="params">()</span> <span class="keyword">noexcept</span></span>; <span class="comment">// 返回当前系统支持的线程并发数</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">joinable</span><span class="params">()</span> <span class="type">const</span> <span class="keyword">noexcept</span></span>; <span class="comment">// 判断线程是否可被加入</span></span><br><span class="line"><span class="function">thread::id <span class="title">get_id</span><span class="params">()</span> <span class="keyword">noexcept</span></span>; <span class="comment">// 获取当前线程 id，等同于在线程内调用 std::this_thread::get_id()，无线程时返回默认值 std::thread::type</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">yield</span><span class="params">()</span> <span class="keyword">noexcept</span></span>; <span class="comment">// 让出当前线程时间片</span></span><br><span class="line"><span class="comment">// 休眠指定时间或到指定时间点</span></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt; <span class="keyword">class</span> Rep, <span class="keyword">class</span> Period &gt;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">sleep_for</span><span class="params">( <span class="type">const</span> std::chrono::duration&lt;Rep, Period&gt;&amp; sleep_duration )</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt; <span class="keyword">class</span> Clock, <span class="keyword">class</span> Duration &gt;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">sleep_until</span><span class="params">( <span class="type">const</span> std::chrono::time_point&lt;Clock, Duration&gt;&amp; sleep_time )</span></span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>向函数传递指针或引用参数时应注意，线程的运行长度可能会超过参数的生命周期；</li>
+<li>若 <code>std::thread</code> 对象销毁之前仍未决定 <code>join()</code>
+或 <code>detach()</code>，程序会执行 <code>std::terminate()</code>
+终止；</li>
+<li>线程不可加入 / 分离的情况（均为 <code>joinable()</code>
+）：已经加入/分离、未绑定函数启动；</li>
+<li>有可能主线程已经结束，新线程构造函数还没执行完，因此可以用
+<code>std::ref()</code> 表示左值引用参数，使用 <code>std::move()</code>
+移动右值参数；</li>
+<li>通过 <code>std::move()</code> 转移线程所有权；</li>
+<li>执行的任务不能有返回值，需要返回值应使用 <code>future</code> ；</li>
+<li>给一个已绑定线程的变量赋值新线程会造成 <code>std::terminate()</code>
+；</li>
+<li>C++17 标准建议但未纳入标准的 RAII 的线程类型封装（C++20 中的
+<code>std::jthread</code> ）：</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">joining_thread</span> &#123;</span><br><span class="line">	std::thread t;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">joining_thread</span>() <span class="keyword">noexcept</span> = <span class="keyword">default</span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Callable,<span class="keyword">typename</span> ... Args&gt;</span></span><br><span class="line"><span class="function">	<span class="keyword">explicit</span> <span class="title">joining_thread</span><span class="params">(Callable&amp;&amp; func, Args&amp;&amp; ... args)</span>:</span></span><br><span class="line"><span class="function">	t(std::forward&lt;Callable&gt;(func), std::forward&lt;Args&gt;(args)...) &#123;</span>&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">explicit</span> <span class="title">joining_thread</span><span class="params">(std::thread t_)</span> <span class="keyword">noexcept</span>:</span></span><br><span class="line"><span class="function">	t(std::move(t_))&#123;</span>&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">joining_thread</span>(joining_thread&amp;&amp; other) <span class="keyword">noexcept</span>:</span><br><span class="line">	<span class="built_in">t</span>(std::<span class="built_in">move</span>(other.t))&#123;&#125;</span><br><span class="line"></span><br><span class="line">	joining_thread&amp; <span class="keyword">operator</span>=(joining_thread&amp;&amp; other) <span class="keyword">noexcept</span> &#123;</span><br><span class="line">		<span class="keyword">if</span>（<span class="built_in">joinable</span>()）<span class="built_in">join</span>();</span><br><span class="line">		t = std::<span class="built_in">move</span>(other.t);</span><br><span class="line">		<span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	joining_thread&amp; <span class="keyword">operator</span>=(std::thread other) <span class="keyword">noexcept</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="built_in">joinable</span>()) <span class="built_in">join</span>();</span><br><span class="line">		t = std::<span class="built_in">move</span>(other);</span><br><span class="line">		<span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	~<span class="built_in">joining_thread</span>() <span class="keyword">noexcept</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="built_in">joinable</span>()) <span class="built_in">join</span>();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">swap</span><span class="params">(joining_thread&amp; other)</span> <span class="keyword">noexcept</span> </span>&#123; t.<span class="built_in">swap</span>(other.t); &#125;</span><br><span class="line">	std::<span class="function">thread::id <span class="title">get_id</span><span class="params">()</span> <span class="type">const</span> <span class="keyword">noexcept</span></span>&#123; <span class="keyword">return</span> t.<span class="built_in">get_id</span>(); &#125;</span><br><span class="line">	<span class="function"><span class="type">bool</span> <span class="title">joinable</span><span class="params">()</span> <span class="type">const</span> <span class="keyword">noexcept</span> </span>&#123; <span class="keyword">return</span> t.<span class="built_in">joinable</span>(); &#125;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">join</span><span class="params">()</span> </span>&#123; t.<span class="built_in">join</span>(); &#125;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">detach</span><span class="params">()</span> </span>&#123; t.<span class="built_in">detach</span>(); &#125;</span><br><span class="line">	<span class="function">std::thread&amp; <span class="title">as_thread</span><span class="params">()</span> <span class="keyword">noexcept</span> </span>&#123; <span class="keyword">return</span> t; &#125;</span><br><span class="line">	<span class="function"><span class="type">const</span> std::thread&amp; <span class="title">as_thread</span><span class="params">()</span> <span class="type">const</span> <span class="keyword">noexcept</span> </span>&#123; <span class="keyword">return</span> t; &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="chrono">&lt;chrono&gt;</h2>
+<p><code>&lt;chrono&gt;</code>提供了一系列时间相关类型和函数：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> std::chrono::time_point&lt;std::chrono::system_clock&gt; system_time_point;</span><br><span class="line"><span class="keyword">typedef</span> std::chrono::time_point&lt;std::chrono::high_resolution_clock&gt; high_res_time_point;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> std::chrono::duration&lt;<span class="type">int</span>, std::ratio&lt;<span class="number">1</span>, <span class="number">1000</span>&gt;&gt; milliseconds;</span><br><span class="line"><span class="keyword">typedef</span> std::chrono::duration&lt;<span class="type">double</span>&gt; seconds;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> std::chrono::system_clock system_clock;</span><br><span class="line"><span class="keyword">typedef</span> std::chrono::steady_clock steady_clock;</span><br><span class="line"><span class="keyword">typedef</span> std::chrono::high_resolution_clock high_res_clock;</span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span> start = std::chrono::system_clock::<span class="built_in">now</span>(); <span class="comment">// 获取当前时间点</span></span><br><span class="line">std::chrono::milliseconds duration = std::chrono::<span class="built_in">milliseconds</span>(<span class="number">1000</span>); <span class="comment">// 定义一个时间段</span></span><br><span class="line">std::this_thread::<span class="built_in">sleep_for</span>(duration); <span class="comment">// 线程休眠指定的时间段</span></span><br><span class="line"><span class="keyword">auto</span> end = std::chrono::system_clock::<span class="built_in">now</span>(); <span class="comment">// 获取当前时间点</span></span><br><span class="line">std::chrono::duration&lt;<span class="type">double</span>&gt; elapsed_seconds = end - start; <span class="comment">// 计算时间点之间的差值</span></span><br><span class="line">std::cout &lt;&lt; elapsed_seconds.<span class="built_in">count</span>() &lt;&lt; <span class="string">&quot;s\n&quot;</span>; <span class="comment">// 输出时间间隔</span></span><br><span class="line"></span><br><span class="line">std::chrono::seconds s = std::chrono::<span class="built_in">duration_cast</span>&lt;std::chrono::seconds&gt; (ms); <span class="comment">// 有截断的显式类型转换</span></span><br><span class="line"></span><br><span class="line">std::chrono::hours <span class="comment">// 小时</span></span><br><span class="line">std::chrono::minutes <span class="comment">// 分钟</span></span><br><span class="line">std::chrono::seconds <span class="comment">// 秒</span></span><br><span class="line">std::chrono::milliseconds <span class="comment">// 毫秒</span></span><br><span class="line">std::chrono::microseconds <span class="comment">// 微秒</span></span><br><span class="line">std::chrono::nanoseconds <span class="comment">// 纳秒</span></span><br></pre></td></tr></table></figure>
+<h2 id="mutex">&lt;mutex&gt;</h2>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">std::mutex::<span class="built_in">lock</span>() <span class="comment">// 尝试获得锁，若被占用则阻塞</span></span><br><span class="line">std::mutex::<span class="built_in">try_lock</span>() <span class="comment">// 尝试获得锁，若被占用则立即返回 false</span></span><br><span class="line">std::mutex::<span class="built_in">unlock</span>() <span class="comment">// 释放锁</span></span><br><span class="line"><span class="comment">// 不建议使用以上成员函数，因为需要手动保证任何情况下结束都unlock()，以下是标准库提供的 RAII 的模板类</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用 lock_guard 对象进行对参数对象的加锁解锁，不需要再手动调用对象的lock()和unlock()</span></span><br><span class="line"><span class="comment">// lock_guard 析构时会自动调用对应对象的解锁，常与 mutex 一同私有定义在加锁类中</span></span><br><span class="line"><span class="comment">// adopt_lock 表示此锁已经被外部线程或外部代码锁定，以便接管它并在该线程退出作用域时自动释放锁</span></span><br><span class="line"><span class="comment">// defer_lock 表示不立即锁定</span></span><br><span class="line">std::<span class="built_in">lock</span>(lhs.m, rhs.m);</span><br><span class="line"><span class="function">std::lock_guard&lt;std::mutex&gt; <span class="title">lock_a</span><span class="params">(lhs.m,std::adopt_lock)</span></span>;</span><br><span class="line"><span class="function">std::lock_guard&lt;std::mutex&gt; <span class="title">lock_b</span><span class="params">(rhs.m,std::adopt_lock)</span></span>;</span><br><span class="line"><span class="comment">// C++17 支持自动模板类参数推导，以及可以同时为多个互斥量上锁的 scoped_lock</span></span><br><span class="line"><span class="function">std::scoped_lock <span class="title">lock</span><span class="params">(mutex1, mutex2, ...)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// unique_lock 可以手动 lock() 和 unlock()，也可以使用 std::lock(ul1, ul2)</span></span><br><span class="line"><span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(std::mutex)</span></span></span><br><span class="line"><span class="function"><span class="comment">// 占用空间稍多，稍慢，但还提供：try_lock(),</span></span></span><br><span class="line"><span class="function"><span class="comment">// release() 释放所有权但不解锁互斥量, reset() 释放所有权且自动解锁互斥量</span></span></span><br><span class="line"><span class="function"><span class="comment">// try_lock_for(), try_lock_until() 尝试获得锁，等待一定时间或等到特定时间</span></span></span><br><span class="line"><span class="function"><span class="comment">// owns_lock()返回是否持有互斥量所有权</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">template</span> &lt;<span class="keyword">class</span> Callable, <span class="keyword">class</span>... Args&gt;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">call_once</span><span class="params">(std::once_flag&amp; flag, Callable&amp;&amp; f, Args&amp;&amp;... args)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// </span></span><br><span class="line"><span class="comment">// C++17 引入的“读者-写者”锁 shared_mutex，支持 lock() 和 try_lock()</span></span><br><span class="line"><span class="comment">// 使用 shared_lock 获取多个共享锁（读锁），使用 unique_lock 获取一个独占锁（写锁）</span></span><br><span class="line"><span class="comment">// C++14 引入的 shared_timed_lock</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>在需要多个互斥量时，按固定顺序上锁，最好使用 <code>lock</code>
+同时上锁；</li>
+<li>避免将被保护量暴露给外界传入的可调用对象，避免在持有锁时调用外部代码；</li>
+<li>C++11 已保障 <code>static</code> 变量的线程安全；</li>
+<li>嵌套锁 <code>recursive_mutex</code>
+支持多次上锁，同等次数解锁后方可使用；</li>
+<li>C++17 引入的“读者-写者”锁 <code>shared_mutex</code>，支持
+<code>lock()</code> 和 <code>try_lock()</code>，使用
+<code>shared_lock</code> 获取多个共享锁（读锁），使用
+<code>unique_lock</code> 获取一个独占锁（写锁）；</li>
+<li>C++14 引入的 shared_timed_lock 在 shared_mutex 基础上还支持了
+<code>try_lock_for()</code> 和 <code>try_lock_until()</code>；</li>
+<li><code>std::time_mutex</code> 和
+<code>std::recursive_timed_mutex</code> 支持 <code>try_lock_for()</code>
+和 <code>try_lock_until()</code> ；</li>
+</ul>
+<h2 id="condition_variable">&lt;condition_variable&gt;</h2>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 一般持有一个 unique_lock，先 unlock()，然后 wait() 阻塞，在被其它线程唤醒后判断 Callable 是否为真</span></span><br><span class="line"><span class="comment">// 若为真，wait() 返回，重新 lock() 并继续执行；否则 wait() 继续阻塞或等待</span></span><br><span class="line"><span class="comment">// 伪唤醒次数不可知，故 Callable 不应有副作用</span></span><br><span class="line">std::condition_variable.<span class="built_in">wait</span>(lock, Callable)</span><br><span class="line">std::condition_variable.<span class="built_in">notify_one</span>() <span class="comment">// 随机唤醒一个等待的线程</span></span><br><span class="line">std::condition_variable.<span class="built_in">notify_all</span>() <span class="comment">// 唤醒所有等待线程</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>一般持有一个 <code>unique_lock</code>，先
+<code>unlock()</code>，然后 <code>wait()</code>
+阻塞，在被其它线程唤醒后判断 <code>Callable</code>
+是否为真。若为真，<code>wait()</code> 返回，重新 <code>lock()</code>
+并继续执行；否则 <code>wait()</code> 继续阻塞或等待；</li>
+</ul>
+<h2 id="future">&lt;future&gt;</h2>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">std::future&lt;<span class="type">int</span>&gt; answer = std::<span class="built_in">async</span>(func);</span><br><span class="line">cout &lt;&lt; answer.<span class="built_in">get</span>(); <span class="comment">// 阻塞直到得到结果</span></span><br><span class="line"></span><br><span class="line"><span class="function">std::package_task&lt;<span class="title">int</span><span class="params">(<span class="type">int</span>, <span class="type">int</span>)</span>&gt; <span class="title">task</span><span class="params">(func)</span></span>;</span><br><span class="line">std::future&lt;<span class="type">int</span>&gt; result = task.<span class="built_in">get_future</span>();</span><br><span class="line"><span class="type">int</span> sum = result.<span class="built_in">get</span>();</span><br><span class="line"></span><br><span class="line">std::promise&lt;<span class="type">int</span>&gt; p;</span><br><span class="line">std::future&lt;<span class="type">int</span>&gt; f = p.<span class="built_in">get_future</span>();</span><br><span class="line"><span class="function">std::thread <span class="title">t</span><span class="params">(func, std::ref(p))</span></span>;</span><br><span class="line"><span class="type">int</span> result = f.<span class="built_in">get</span>(); <span class="comment">// 等待到 func() 函数执行 p.set_value(int) 或 p.set_exception(std::current_exception())</span></span><br><span class="line">t.<span class="built_in">join</span>();</span><br><span class="line"><span class="comment">// 对应的函数写法：</span></span><br><span class="line"><span class="keyword">try</span>&#123; p.<span class="built_in">set_value</span>(<span class="built_in">func</span>()); &#125; <span class="built_in">catch</span> (...) &#123; p.<span class="built_in">set_exception</span>(std::<span class="built_in">copy_exception</span>(std::<span class="built_in">logic_error</span>(<span class="string">&quot;func&quot;</span>))); &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 可拷贝 future</span></span><br><span class="line"><span class="function">std::shared_future&lt;<span class="type">int</span>&gt; <span class="title">sf</span><span class="params">(std::move(f))</span></span>; <span class="comment">// 或 p.get_future() 或 f.share()</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 锁存器，位于 &lt;experimental/latch&gt;，当 count_down() 到 0 之后就绪</span></span><br><span class="line">std::<span class="function">experimental::latch <span class="title">done</span><span class="params">(thread_count)</span></span>;</span><br><span class="line">std::vector&lt;std::future&lt;<span class="type">void</span>&gt;&gt; <span class="built_in">threads</span>(thread_count);</span><br><span class="line">threads[i] = std::<span class="built_in">async</span>(std::launch::async, []&#123; done.<span class="built_in">count_down</span>(); &#125;);</span><br><span class="line">done.<span class="built_in">wait</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 栅栏，位于 &lt;experimental/barrier&gt;，当所有线程到达后会就绪</span></span><br><span class="line"><span class="comment">// 锁存器不可复用，栅栏可复用，故可用于循环</span></span><br><span class="line">std::<span class="function">experimental::barrier <span class="title">sync</span><span class="params">(num_threads)</span></span>;</span><br><span class="line"><span class="function">std::vector&lt;thread&gt; <span class="title">threads</span><span class="params">(num_threads)</span></span>;</span><br><span class="line">threads[i] = <span class="built_in">thread</span>([]&#123; sync.<span class="built_in">arrive_and_wait</span>(); <span class="built_in">do_something</span>(); sync.<span class="built_in">arrive_and_wait</span>(); &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>可以在 <code>async</code> 的 第一个参数中选择
+<code>std::launch::async</code> 使其在独立线程运行或
+<code>std::launch::deferred</code> 使其延迟至 <code>wait()</code> 或
+<code>get()</code> 时再运行，默认为二者的或；</li>
+<li><code>flex_barrier</code>
+有一个额外的构造函数，传入一个函数和线程数量。当所有线程都到达栅栏处，这个函数就由其中一个线程运行。</li>
+</ul>
+<h2 id="atomic">&lt;atomic&gt;</h2>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">std::atomic&lt;<span class="type">int</span>&gt; <span class="title">cnt</span><span class="params">(<span class="number">0</span>)</span></span>;</span><br><span class="line"><span class="built_in">load</span>(), <span class="built_in">store</span>() <span class="comment">// 以原子方式读写</span></span><br><span class="line"><span class="built_in">exchange</span>() <span class="comment">// 交换原子该值与给定的值，返回之前的值</span></span><br><span class="line"><span class="comment">// 以原子方式比较对象值和 expected 值，相等则设置为 desired 并返回 true，否则将 expected 设为当前对象的值并返回 false</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">compare_exchange_weak</span><span class="params">(T&amp; expected, T desired,</span></span></span><br><span class="line"><span class="params"><span class="function">	std::memory_order success = std::memory_order_seq_cst,</span></span></span><br><span class="line"><span class="params"><span class="function">	std::memory_order failure = std::memory_order_seq_cst)</span></span>;</span><br><span class="line"><span class="comment">// 参数与 weak 相同，若比较和交换操作失败，则直接将 expected 设为当前对象值以保证强一致性</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">compare_exchange_strong</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">operator</span> <span class="title">T</span><span class="params">()</span> <span class="comment">// 类型转换函数</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">// atomic_flag 只有 true 和 false 两种状态，用于实现自旋锁</span></span></span><br><span class="line"><span class="function">std::atomic_flag flag </span>= ATOMIC_FLAG_INIT; <span class="comment">// 特定宏定义方式初始化</span></span><br><span class="line"><span class="keyword">while</span> (flag.<span class="built_in">test_and_set</span>(std::memory_order_acquire)); <span class="comment">// 若对象被设置，则返回 true，否则设置之并返回 false</span></span><br><span class="line"><span class="built_in">do_something</span>();</span><br><span class="line"><span class="built_in">clear</span>() <span class="comment">// 将值设置为 false</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>本章底层高级操作较多，暂略</li>
+</ul>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
+        <tag>并发编程</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>C++ Primer读书笔记</title>
     <url>/2023/07/21/C-Primer%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<p>文中标明【11】的为C++11新增标准。</p>
@@ -1065,94 +1154,58 @@ href="https://changkun.de/modern-cpp/zh-cn/01-intro/#1-2-%E4%B8%8E-C-%E7%9A%84%E
       </tags>
   </entry>
   <entry>
-    <title>C++ Concurrency in Action - SECOND EDITION</title>
-    <url>/2023/09/22/C-Concurrency-in-Action-SECOND-EDITION/</url>
-    <content><![CDATA[<p>本文为此书中文译本前四章的读书笔记。</p>
-<p><a
-href="https://github.com/xiaoweiChen/CPP-Concurrency-In-Action-2ed-2019">https://github.com/xiaoweiChen/CPP-Concurrency-In-Action-2ed-2019</a></p>
-<h2 id="pthread.h">&lt;pthread.h&gt;</h2>
-<p>&lt;pthread.h&gt;是贴近底层的 POSIX 线程接口：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">pthread_create</span>()：创建一个新的线程。</span><br><span class="line"><span class="built_in">pthread_join</span>()：等待指定的线程退出，并回收其资源。</span><br><span class="line"><span class="built_in">pthread_detach</span>()：将指定的线程设置为分离状态，使其资源在退出时自动回收。</span><br><span class="line"><span class="built_in">pthread_exit</span>()：使当前线程退出，并返回指定的状态值。</span><br><span class="line"><span class="built_in">pthread_mutex_init</span>()：初始化互斥锁。</span><br><span class="line"><span class="built_in">pthread_mutex_destroy</span>()：销毁互斥锁。</span><br><span class="line"><span class="built_in">pthread_mutex_lock</span>()：尝试获取互斥锁，如果已经被其他线程占用，则阻塞等待。</span><br><span class="line"><span class="built_in">pthread_mutex_unlock</span>()：释放互斥锁。</span><br></pre></td></tr></table></figure>
+    <title>C++ 部分心得总结</title>
+    <url>/2023/08/12/C-%E9%83%A8%E5%88%86%E5%BF%83%E5%BE%97%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<h2 id="代码书写">代码书写</h2>
+<ul>
+<li>代码书写规范基本遵循 <a
+href="https://github.com/google/styleguide">谷歌代码书写规范</a>，<a
+href="https://zh-google-styleguide.readthedocs.io/en/latest/">中文版</a>；</li>
+<li>不使用<code>using namespace std</code>，不使用<code>goto</code>，不使用<code>vector&lt;bool&gt;</code>，使用<code>using</code>代替<code>typedef</code>；</li>
+<li>谨慎使用宏定义（尽可能使用<code>const</code>代替宏），<code>#</code>代表将宏参数内容转换成字符串，<code>##</code>代表将两个参数内容连接成为一个字符串；</li>
+<li>一个可参考的 C++
+工程目录结构：https://github.com/hattonl/cpp-project-structure</li>
+<li>一些常见的注释约定：<code>// TODO</code>（待办），<code>// FIXME</code>（待修复），<code>// HACK</code>（临时解决方案），<code>// NOTE</code>（备注），<code>// OPTIMIZE</code>（待优化），<code>// REVIEW</code>（待审查），<code>// DEPRECATED</code>（已过时）；</li>
+</ul>
 <span id="more"></span>
-<h2 id="thread">&lt;thread&gt;</h2>
-<p>C++11 提供<code>#include &lt;thread&gt;</code>
-头文件支持多线程，对C语言的<code>&lt;pthread.h&gt;</code>
-（POSIX线程接口）做了进一步的抽象和封装。新标准 <code>std::thread</code>
-提供了更高级的线程实现，使用面向对象、RAII 技术，在对象销毁时自动调用
-<code>join()</code> 和 <code>detach()</code>
-方法，避免手动管理线程资源和状态，且支持更好的可移植性：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">explicit</span> <span class="title">thread</span><span class="params">( Callable&amp;&amp; f, Args&amp;&amp;... args )</span></span>; <span class="comment">// 构造函数，参数可以是lambda函数</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">join</span><span class="params">()</span></span>; <span class="comment">// 阻塞等待线程退出并回收资源</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">detach</span><span class="params">()</span></span>; <span class="comment">// 将线程对象与线程执行状态分离，使其独立执行</span></span><br><span class="line"><span class="function"><span class="type">unsigned</span> <span class="type">int</span> <span class="title">hardware_concurrency</span><span class="params">()</span> <span class="keyword">noexcept</span></span>; <span class="comment">// 返回当前系统支持的线程并发数</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">joinable</span><span class="params">()</span> <span class="type">const</span> <span class="keyword">noexcept</span></span>; <span class="comment">// 判断线程是否可被加入</span></span><br><span class="line"><span class="function">thread::id <span class="title">get_id</span><span class="params">()</span> <span class="keyword">noexcept</span></span>; <span class="comment">// 获取当前线程 id，等同于在线程内调用 std::this_thread::get_id()，无线程时返回默认值 std::thread::type</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">yield</span><span class="params">()</span> <span class="keyword">noexcept</span></span>; <span class="comment">// 让出当前线程时间片</span></span><br><span class="line"><span class="comment">// 休眠指定时间或到指定时间点</span></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt; <span class="keyword">class</span> Rep, <span class="keyword">class</span> Period &gt;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">sleep_for</span><span class="params">( <span class="type">const</span> std::chrono::duration&lt;Rep, Period&gt;&amp; sleep_duration )</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt; <span class="keyword">class</span> Clock, <span class="keyword">class</span> Duration &gt;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">sleep_until</span><span class="params">( <span class="type">const</span> std::chrono::time_point&lt;Clock, Duration&gt;&amp; sleep_time )</span></span>;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>向函数传递指针或引用参数时应注意，线程的运行长度可能会超过参数的生命周期；</li>
-<li>若 <code>std::thread</code> 对象销毁之前仍未决定 <code>join()</code>
-或 <code>detach()</code>，程序会执行 <code>std::terminate()</code>
-终止；</li>
-<li>线程不可加入 / 分离的情况（均为 <code>joinable()</code>
-）：已经加入/分离、未绑定函数启动；</li>
-<li>有可能主线程已经结束，新线程构造函数还没执行完，因此可以用
-<code>std::ref()</code> 表示左值引用参数，使用 <code>std::move()</code>
-移动右值参数；</li>
-<li>通过 <code>std::move()</code> 转移线程所有权；</li>
-<li>执行的任务不能有返回值，需要返回值应使用 <code>future</code> ；</li>
-<li>给一个已绑定线程的变量赋值新线程会造成 <code>std::terminate()</code>
-；</li>
-<li>C++17 标准建议但未纳入标准的 RAII 的线程类型封装（C++20 中的
-<code>std::jthread</code> ）：</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">joining_thread</span> &#123;</span><br><span class="line">	std::thread t;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">joining_thread</span>() <span class="keyword">noexcept</span> = <span class="keyword">default</span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Callable,<span class="keyword">typename</span> ... Args&gt;</span></span><br><span class="line"><span class="function">	<span class="keyword">explicit</span> <span class="title">joining_thread</span><span class="params">(Callable&amp;&amp; func, Args&amp;&amp; ... args)</span>:</span></span><br><span class="line"><span class="function">	t(std::forward&lt;Callable&gt;(func), std::forward&lt;Args&gt;(args)...) &#123;</span>&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">explicit</span> <span class="title">joining_thread</span><span class="params">(std::thread t_)</span> <span class="keyword">noexcept</span>:</span></span><br><span class="line"><span class="function">	t(std::move(t_))&#123;</span>&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">joining_thread</span>(joining_thread&amp;&amp; other) <span class="keyword">noexcept</span>:</span><br><span class="line">	<span class="built_in">t</span>(std::<span class="built_in">move</span>(other.t))&#123;&#125;</span><br><span class="line"></span><br><span class="line">	joining_thread&amp; <span class="keyword">operator</span>=(joining_thread&amp;&amp; other) <span class="keyword">noexcept</span> &#123;</span><br><span class="line">		<span class="keyword">if</span>（<span class="built_in">joinable</span>()）<span class="built_in">join</span>();</span><br><span class="line">		t = std::<span class="built_in">move</span>(other.t);</span><br><span class="line">		<span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	joining_thread&amp; <span class="keyword">operator</span>=(std::thread other) <span class="keyword">noexcept</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="built_in">joinable</span>()) <span class="built_in">join</span>();</span><br><span class="line">		t = std::<span class="built_in">move</span>(other);</span><br><span class="line">		<span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	~<span class="built_in">joining_thread</span>() <span class="keyword">noexcept</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="built_in">joinable</span>()) <span class="built_in">join</span>();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">swap</span><span class="params">(joining_thread&amp; other)</span> <span class="keyword">noexcept</span> </span>&#123; t.<span class="built_in">swap</span>(other.t); &#125;</span><br><span class="line">	std::<span class="function">thread::id <span class="title">get_id</span><span class="params">()</span> <span class="type">const</span> <span class="keyword">noexcept</span></span>&#123; <span class="keyword">return</span> t.<span class="built_in">get_id</span>(); &#125;</span><br><span class="line">	<span class="function"><span class="type">bool</span> <span class="title">joinable</span><span class="params">()</span> <span class="type">const</span> <span class="keyword">noexcept</span> </span>&#123; <span class="keyword">return</span> t.<span class="built_in">joinable</span>(); &#125;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">join</span><span class="params">()</span> </span>&#123; t.<span class="built_in">join</span>(); &#125;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">detach</span><span class="params">()</span> </span>&#123; t.<span class="built_in">detach</span>(); &#125;</span><br><span class="line">	<span class="function">std::thread&amp; <span class="title">as_thread</span><span class="params">()</span> <span class="keyword">noexcept</span> </span>&#123; <span class="keyword">return</span> t; &#125;</span><br><span class="line">	<span class="function"><span class="type">const</span> std::thread&amp; <span class="title">as_thread</span><span class="params">()</span> <span class="type">const</span> <span class="keyword">noexcept</span> </span>&#123; <span class="keyword">return</span> t; &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="chrono">&lt;chrono&gt;</h2>
-<p><code>&lt;chrono&gt;</code>提供了一系列时间相关类型和函数：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> std::chrono::time_point&lt;std::chrono::system_clock&gt; system_time_point;</span><br><span class="line"><span class="keyword">typedef</span> std::chrono::time_point&lt;std::chrono::high_resolution_clock&gt; high_res_time_point;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> std::chrono::duration&lt;<span class="type">int</span>, std::ratio&lt;<span class="number">1</span>, <span class="number">1000</span>&gt;&gt; milliseconds;</span><br><span class="line"><span class="keyword">typedef</span> std::chrono::duration&lt;<span class="type">double</span>&gt; seconds;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> std::chrono::system_clock system_clock;</span><br><span class="line"><span class="keyword">typedef</span> std::chrono::steady_clock steady_clock;</span><br><span class="line"><span class="keyword">typedef</span> std::chrono::high_resolution_clock high_res_clock;</span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span> start = std::chrono::system_clock::<span class="built_in">now</span>(); <span class="comment">// 获取当前时间点</span></span><br><span class="line">std::chrono::milliseconds duration = std::chrono::<span class="built_in">milliseconds</span>(<span class="number">1000</span>); <span class="comment">// 定义一个时间段</span></span><br><span class="line">std::this_thread::<span class="built_in">sleep_for</span>(duration); <span class="comment">// 线程休眠指定的时间段</span></span><br><span class="line"><span class="keyword">auto</span> end = std::chrono::system_clock::<span class="built_in">now</span>(); <span class="comment">// 获取当前时间点</span></span><br><span class="line">std::chrono::duration&lt;<span class="type">double</span>&gt; elapsed_seconds = end - start; <span class="comment">// 计算时间点之间的差值</span></span><br><span class="line">std::cout &lt;&lt; elapsed_seconds.<span class="built_in">count</span>() &lt;&lt; <span class="string">&quot;s\n&quot;</span>; <span class="comment">// 输出时间间隔</span></span><br><span class="line"></span><br><span class="line">std::chrono::seconds s = std::chrono::<span class="built_in">duration_cast</span>&lt;std::chrono::seconds&gt; (ms); <span class="comment">// 有截断的显式类型转换</span></span><br><span class="line"></span><br><span class="line">std::chrono::hours <span class="comment">// 小时</span></span><br><span class="line">std::chrono::minutes <span class="comment">// 分钟</span></span><br><span class="line">std::chrono::seconds <span class="comment">// 秒</span></span><br><span class="line">std::chrono::milliseconds <span class="comment">// 毫秒</span></span><br><span class="line">std::chrono::microseconds <span class="comment">// 微秒</span></span><br><span class="line">std::chrono::nanoseconds <span class="comment">// 纳秒</span></span><br></pre></td></tr></table></figure>
-<h2 id="mutex">&lt;mutex&gt;</h2>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">std::mutex::<span class="built_in">lock</span>() <span class="comment">// 尝试获得锁，若被占用则阻塞</span></span><br><span class="line">std::mutex::<span class="built_in">try_lock</span>() <span class="comment">// 尝试获得锁，若被占用则立即返回 false</span></span><br><span class="line">std::mutex::<span class="built_in">unlock</span>() <span class="comment">// 释放锁</span></span><br><span class="line"><span class="comment">// 不建议使用以上成员函数，因为需要手动保证任何情况下结束都unlock()，以下是标准库提供的 RAII 的模板类</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用 lock_guard 对象进行对参数对象的加锁解锁，不需要再手动调用对象的lock()和unlock()</span></span><br><span class="line"><span class="comment">// lock_guard 析构时会自动调用对应对象的解锁，常与 mutex 一同私有定义在加锁类中</span></span><br><span class="line"><span class="comment">// adopt_lock 表示此锁已经被外部线程或外部代码锁定，以便接管它并在该线程退出作用域时自动释放锁</span></span><br><span class="line"><span class="comment">// defer_lock 表示不立即锁定</span></span><br><span class="line">std::<span class="built_in">lock</span>(lhs.m, rhs.m);</span><br><span class="line"><span class="function">std::lock_guard&lt;std::mutex&gt; <span class="title">lock_a</span><span class="params">(lhs.m,std::adopt_lock)</span></span>;</span><br><span class="line"><span class="function">std::lock_guard&lt;std::mutex&gt; <span class="title">lock_b</span><span class="params">(rhs.m,std::adopt_lock)</span></span>;</span><br><span class="line"><span class="comment">// C++17 支持自动模板类参数推导，以及可以同时为多个互斥量上锁的 scoped_lock</span></span><br><span class="line"><span class="function">std::scoped_lock <span class="title">lock</span><span class="params">(mutex1, mutex2, ...)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// unique_lock 可以手动 lock() 和 unlock()，也可以使用 std::lock(ul1, ul2)</span></span><br><span class="line"><span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(std::mutex)</span></span></span><br><span class="line"><span class="function"><span class="comment">// 占用空间稍多，稍慢，但还提供：try_lock(),</span></span></span><br><span class="line"><span class="function"><span class="comment">// release() 释放所有权但不解锁互斥量, reset() 释放所有权且自动解锁互斥量</span></span></span><br><span class="line"><span class="function"><span class="comment">// try_lock_for(), try_lock_until() 尝试获得锁，等待一定时间或等到特定时间</span></span></span><br><span class="line"><span class="function"><span class="comment">// owns_lock()返回是否持有互斥量所有权</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">template</span> &lt;<span class="keyword">class</span> Callable, <span class="keyword">class</span>... Args&gt;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">call_once</span><span class="params">(std::once_flag&amp; flag, Callable&amp;&amp; f, Args&amp;&amp;... args)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// </span></span><br><span class="line"><span class="comment">// C++17 引入的“读者-写者”锁 shared_mutex，支持 lock() 和 try_lock()</span></span><br><span class="line"><span class="comment">// 使用 shared_lock 获取多个共享锁（读锁），使用 unique_lock 获取一个独占锁（写锁）</span></span><br><span class="line"><span class="comment">// C++14 引入的 shared_timed_lock</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>在需要多个互斥量时，按固定顺序上锁，最好使用 <code>lock</code>
-同时上锁；</li>
-<li>避免将被保护量暴露给外界传入的可调用对象，避免在持有锁时调用外部代码；</li>
-<li>C++11 已保障 <code>static</code> 变量的线程安全；</li>
-<li>嵌套锁 <code>recursive_mutex</code>
-支持多次上锁，同等次数解锁后方可使用；</li>
-<li>C++17 引入的“读者-写者”锁 <code>shared_mutex</code>，支持
-<code>lock()</code> 和 <code>try_lock()</code>，使用
-<code>shared_lock</code> 获取多个共享锁（读锁），使用
-<code>unique_lock</code> 获取一个独占锁（写锁）；</li>
-<li>C++14 引入的 shared_timed_lock 在 shared_mutex 基础上还支持了
-<code>try_lock_for()</code> 和 <code>try_lock_until()</code>；</li>
-<li><code>std::time_mutex</code> 和
-<code>std::recursive_timed_mutex</code> 支持 <code>try_lock_for()</code>
-和 <code>try_lock_until()</code> ；</li>
-</ul>
-<h2 id="condition_variable">&lt;condition_variable&gt;</h2>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 一般持有一个 unique_lock，先 unlock()，然后 wait() 阻塞，在被其它线程唤醒后判断 Callable 是否为真</span></span><br><span class="line"><span class="comment">// 若为真，wait() 返回，重新 lock() 并继续执行；否则 wait() 继续阻塞或等待</span></span><br><span class="line"><span class="comment">// 伪唤醒次数不可知，故 Callable 不应有副作用</span></span><br><span class="line">std::condition_variable.<span class="built_in">wait</span>(lock, Callable)</span><br><span class="line">std::condition_variable.<span class="built_in">notify_one</span>() <span class="comment">// 随机唤醒一个等待的线程</span></span><br><span class="line">std::condition_variable.<span class="built_in">notify_all</span>() <span class="comment">// 唤醒所有等待线程</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>一般持有一个 <code>unique_lock</code>，先
-<code>unlock()</code>，然后 <code>wait()</code>
-阻塞，在被其它线程唤醒后判断 <code>Callable</code>
-是否为真。若为真，<code>wait()</code> 返回，重新 <code>lock()</code>
-并继续执行；否则 <code>wait()</code> 继续阻塞或等待；</li>
-</ul>
-<h2 id="future">&lt;future&gt;</h2>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">std::future&lt;<span class="type">int</span>&gt; answer = std::<span class="built_in">async</span>(func);</span><br><span class="line">cout &lt;&lt; answer.<span class="built_in">get</span>(); <span class="comment">// 阻塞直到得到结果</span></span><br><span class="line"></span><br><span class="line"><span class="function">std::package_task&lt;<span class="title">int</span><span class="params">(<span class="type">int</span>, <span class="type">int</span>)</span>&gt; <span class="title">task</span><span class="params">(func)</span></span>;</span><br><span class="line">std::future&lt;<span class="type">int</span>&gt; result = task.<span class="built_in">get_future</span>();</span><br><span class="line"><span class="type">int</span> sum = result.<span class="built_in">get</span>();</span><br><span class="line"></span><br><span class="line">std::promise&lt;<span class="type">int</span>&gt; p;</span><br><span class="line">std::future&lt;<span class="type">int</span>&gt; f = p.<span class="built_in">get_future</span>();</span><br><span class="line"><span class="function">std::thread <span class="title">t</span><span class="params">(func, std::ref(p))</span></span>;</span><br><span class="line"><span class="type">int</span> result = f.<span class="built_in">get</span>(); <span class="comment">// 等待到 func() 函数执行 p.set_value(int) 或 p.set_exception(std::current_exception())</span></span><br><span class="line">t.<span class="built_in">join</span>();</span><br><span class="line"><span class="comment">// 对应的函数写法：</span></span><br><span class="line"><span class="keyword">try</span>&#123; p.<span class="built_in">set_value</span>(<span class="built_in">func</span>()); &#125; <span class="built_in">catch</span> (...) &#123; p.<span class="built_in">set_exception</span>(std::<span class="built_in">copy_exception</span>(std::<span class="built_in">logic_error</span>(<span class="string">&quot;func&quot;</span>))); &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 可拷贝 future</span></span><br><span class="line"><span class="function">std::shared_future&lt;<span class="type">int</span>&gt; <span class="title">sf</span><span class="params">(std::move(f))</span></span>; <span class="comment">// 或 p.get_future() 或 f.share()</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 锁存器，位于 &lt;experimental/latch&gt;，当 count_down() 到 0 之后就绪</span></span><br><span class="line">std::<span class="function">experimental::latch <span class="title">done</span><span class="params">(thread_count)</span></span>;</span><br><span class="line">std::vector&lt;std::future&lt;<span class="type">void</span>&gt;&gt; <span class="built_in">threads</span>(thread_count);</span><br><span class="line">threads[i] = std::<span class="built_in">async</span>(std::launch::async, []&#123; done.<span class="built_in">count_down</span>(); &#125;);</span><br><span class="line">done.<span class="built_in">wait</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 栅栏，位于 &lt;experimental/barrier&gt;，当所有线程到达后会就绪</span></span><br><span class="line"><span class="comment">// 锁存器不可复用，栅栏可复用，故可用于循环</span></span><br><span class="line">std::<span class="function">experimental::barrier <span class="title">sync</span><span class="params">(num_threads)</span></span>;</span><br><span class="line"><span class="function">std::vector&lt;thread&gt; <span class="title">threads</span><span class="params">(num_threads)</span></span>;</span><br><span class="line">threads[i] = <span class="built_in">thread</span>([]&#123; sync.<span class="built_in">arrive_and_wait</span>(); <span class="built_in">do_something</span>(); sync.<span class="built_in">arrive_and_wait</span>(); &#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>可以在 <code>async</code> 的 第一个参数中选择
-<code>std::launch::async</code> 使其在独立线程运行或
-<code>std::launch::deferred</code> 使其延迟至 <code>wait()</code> 或
-<code>get()</code> 时再运行，默认为二者的或；</li>
-<li><code>flex_barrier</code>
-有一个额外的构造函数，传入一个函数和线程数量。当所有线程都到达栅栏处，这个函数就由其中一个线程运行。</li>
-</ul>
-<h2 id="atomic">&lt;atomic&gt;</h2>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">std::atomic&lt;<span class="type">int</span>&gt; <span class="title">cnt</span><span class="params">(<span class="number">0</span>)</span></span>;</span><br><span class="line"><span class="built_in">load</span>(), <span class="built_in">store</span>() <span class="comment">// 以原子方式读写</span></span><br><span class="line"><span class="built_in">exchange</span>() <span class="comment">// 交换原子该值与给定的值，返回之前的值</span></span><br><span class="line"><span class="comment">// 以原子方式比较对象值和 expected 值，相等则设置为 desired 并返回 true，否则将 expected 设为当前对象的值并返回 false</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">compare_exchange_weak</span><span class="params">(T&amp; expected, T desired,</span></span></span><br><span class="line"><span class="params"><span class="function">	std::memory_order success = std::memory_order_seq_cst,</span></span></span><br><span class="line"><span class="params"><span class="function">	std::memory_order failure = std::memory_order_seq_cst)</span></span>;</span><br><span class="line"><span class="comment">// 参数与 weak 相同，若比较和交换操作失败，则直接将 expected 设为当前对象值以保证强一致性</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">compare_exchange_strong</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">operator</span> <span class="title">T</span><span class="params">()</span> <span class="comment">// 类型转换函数</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">// atomic_flag 只有 true 和 false 两种状态，用于实现自旋锁</span></span></span><br><span class="line"><span class="function">std::atomic_flag flag </span>= ATOMIC_FLAG_INIT; <span class="comment">// 特定宏定义方式初始化</span></span><br><span class="line"><span class="keyword">while</span> (flag.<span class="built_in">test_and_set</span>(std::memory_order_acquire)); <span class="comment">// 若对象被设置，则返回 true，否则设置之并返回 false</span></span><br><span class="line"><span class="built_in">do_something</span>();</span><br><span class="line"><span class="built_in">clear</span>() <span class="comment">// 将值设置为 false</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>本章底层高级操作较多，暂略</li>
-</ul>
+<h2 id="errormessage.h">ErrorMessage.h</h2>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> ERRORMESSAGE_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ERRORMESSAGE_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// The total length of message should not exceed 2047 bytes.</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> make_error_message(message) make_error_message_raw(__FILE__, __FUNCTION__, __LINE__, (message))</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">static</span> std::string <span class="title">make_error_message_raw</span><span class="params">(std::string file, std::string function, <span class="type">int</span> line, std::string message)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> file + <span class="string">&quot;:\n|\n|----&quot;</span> + function + <span class="string">&quot; (line &quot;</span> + std::<span class="built_in">to_string</span>(line) + <span class="string">&quot;): \n     |\n     |---- error: &quot;</span> + message + <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> die_if_error(condition_true, output_message) \</span></span><br><span class="line"><span class="meta">     ((condition_true) ? 0 : (std::cerr &lt;&lt; (output_message), exit(1), 1))</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">// ERRORMESSAGE_H</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="pimpl">pImpl</h2>
+<p><a href="https://en.cppreference.com/w/cpp/language/pimpl">Pointer to
+implementation</a> 是一种编程技巧。</p>
+<p>场景一：某个头文件定义了一个类的各项成员与虚函数，如果此后这个头文件被修改，其对应的
+ABI
+将改变，从而只能重新编译此头文件及其依赖项。我们希望不将类的具体定义放在头文件中，从而加速编译，并获得更好的
+ABI 稳定性；</p>
+<p>场景二：在某个头文件中，一个类声明了另一个文件定义的类的指针作为其成员变量。当我们不希望引入对应头文件（可能造成头文件泄露）时，我们需要使用前向声明<code>class Type;</code>
+，但是 C++11
+之后的智能指针<code>unique_ptr</code>不支持不完整类型（因为需要对应类型的各项信息才能帮助释放），因此我们不希望将类成员变量定义直接放入头文件中；</p>
+<p>在这两个情形中，我们都不希望在头文件中定义类的具体信息。于是我们在头文件的类中定义一个嵌套类，所有原先类的成员变量和函数，都放入嵌套类中。头文件仅声明一个指向该嵌套类的<code>unique_ptr</code>，具体嵌套类的成员变量和函数均放入
+.cpp 源文件中实现。</p>
+<p>为了实现这一点， <code>unique_ptr</code>
+要求我们在头文件中显式声明外层类的特殊成员函数（构造、析构、拷贝构造、拷贝赋值、移动构造、移动赋值），并且如果不禁用某函数（即希望自定义函数或使用<code>= default</code>，不使用<code>= delete</code>），则必须在源文件中定义（无法直接在头文件中定义一个不完全类型的成员函数）。具体实现见上方官方链接。</p>
+<p>在官方示例中，使用了目前还未标准化的<code>std::experimental::propagate_const&lt;std::unique_ptr&lt;impl&gt;&gt; pImpl;</code>
+，它能够向内传递指针对象的常量性。通常情况下，无法通过一个指向常量的指针（pointer
+to
+const）修改它指向对象的成员变量，也无法调用它的变量成员函数。但使用嵌套类后，可以通过调用
+此指针指向的对象 内的 指向嵌套类对象的指针 指向的对象 的 成员函数
+间接修改那个嵌套类。举例：<code>object_ptr-&gt;pImpl-&gt;var_func()</code>。也就是说，嵌套类不传递常量性，因此必须通过此方法实现常量性的正确传递。</p>
+<h2 id="c-实现多客户端-tcp-通信">C++ 实现多客户端 TCP 通信</h2>
+<p>参考：</p>
+<p><a
+href="https://developer.aliyun.com/article/721543">C++并发编程（C++11到C++17）</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/405416697">Socket
+编程详解</a></p>
+<p>服务端：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thread&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;mutex&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;netdb.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;netinet/in.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> IP_PORT = <span class="number">8888</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> MAX_CLIENTS = <span class="number">10</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> BUFFER_SIZE = <span class="number">1024</span>;</span><br><span class="line"></span><br><span class="line">std::mutex mtx;</span><br><span class="line">std::vector&lt;<span class="type">int</span>&gt; clients;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">handle_client</span><span class="params">(<span class="type">int</span> client_socket)</span> </span>&#123;</span><br><span class="line">    <span class="type">char</span> buffer[BUFFER_SIZE];</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;------------------------------&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="comment">// 接收数据</span></span><br><span class="line">        <span class="built_in">memset</span>(buffer, <span class="number">0</span>, BUFFER_SIZE);</span><br><span class="line">        <span class="type">int</span> bytes_read = <span class="built_in">recv</span>(client_socket, buffer, BUFFER_SIZE, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">if</span> (bytes_read &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">            std::cerr &lt;&lt; <span class="string">&quot;Failed to receive data from client&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">            <span class="built_in">close</span>(client_socket);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        buffer[bytes_read] = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Received &quot;</span> &lt;&lt; bytes_read &lt;&lt; <span class="string">&quot; bytes: &quot;</span> &lt;&lt; buffer &lt;&lt; std::endl;</span><br><span class="line">        <span class="comment">// 发送数据</span></span><br><span class="line">        <span class="function">std::string <span class="title">message</span><span class="params">(buffer)</span></span>;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="function">std::lock_guard&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(mtx)</span></span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">auto</span> &amp;client: clients) &#123;</span><br><span class="line">                <span class="type">int</span> num_bytes_sent = <span class="built_in">send</span>(client, message.<span class="built_in">c_str</span>(), message.<span class="built_in">length</span>(), <span class="number">0</span>);</span><br><span class="line">                <span class="keyword">if</span> (num_bytes_sent &lt; <span class="number">0</span>) &#123;</span><br><span class="line">                    std::cerr &lt;&lt; <span class="string">&quot;Failed to send data to client&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">                    <span class="built_in">close</span>(client_socket);</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                std::cout &lt;&lt; <span class="string">&quot;Sent &quot;</span> &lt;&lt; message.<span class="built_in">length</span>() &lt;&lt; <span class="string">&quot; bytes: &quot;</span> &lt;&lt; message &lt;&lt; std::endl;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">close</span>(client_socket);</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function">std::lock_guard&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(mtx)</span></span>;</span><br><span class="line">        clients.<span class="built_in">erase</span>(std::<span class="built_in">remove</span>(clients.<span class="built_in">begin</span>(), clients.<span class="built_in">end</span>(), client_socket), clients.<span class="built_in">end</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 创建一个套接字</span></span><br><span class="line">    <span class="type">int</span> server_socket = <span class="built_in">socket</span>(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (server_socket &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        std::cerr &lt;&lt; <span class="string">&quot;Failed to create socket&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 绑定套接字到本地地址和端口</span></span><br><span class="line">    sockaddr_in server_address&#123;&#125;;</span><br><span class="line">    server_address.sin_family = AF_INET; <span class="comment">// IPv4</span></span><br><span class="line">    server_address.sin_addr.s_addr = <span class="built_in">htonl</span>(INADDR_ANY); <span class="comment">// 0.0.0.0 即本机</span></span><br><span class="line">    server_address.sin_port = <span class="built_in">htons</span>(IP_PORT);</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">bind</span>(server_socket, (sockaddr *)&amp;server_address, <span class="built_in">sizeof</span>(server_address)) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        std::cerr &lt;&lt; <span class="string">&quot;Failed to bind socket to local address and port&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="built_in">close</span>(server_socket);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 监听套接字，等待连接请求</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">listen</span>(server_socket, MAX_CLIENTS) &lt; <span class="number">0</span>) &#123; <span class="comment">// 可同时排队的客户端最大连接个数</span></span><br><span class="line">        std::cerr &lt;&lt; <span class="string">&quot;Failed to listen on socket&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="built_in">close</span>(server_socket);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Listening on 0.0.0.0:&quot;</span> &lt;&lt; IP_PORT &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="comment">// 接受连接请求，返回一个新的套接字</span></span><br><span class="line">        sockaddr_in client_address&#123;&#125;;</span><br><span class="line">        <span class="type">socklen_t</span> client_address_size = <span class="built_in">sizeof</span>(client_address);</span><br><span class="line">        <span class="type">int</span> client_socket = <span class="built_in">accept</span>(server_socket, (sockaddr*)&amp;client_address, &amp;client_address_size);</span><br><span class="line">        <span class="keyword">if</span> (client_socket &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            std::cerr &lt;&lt; <span class="string">&quot;Error: Failed to accept client connection.&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">            <span class="built_in">close</span>(server_socket);</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Accepted client connection from &quot;</span> &lt;&lt; <span class="built_in">inet_ntoa</span>(client_address.sin_addr) &lt;&lt; <span class="string">&quot;:&quot;</span> &lt;&lt; <span class="built_in">ntohs</span>(client_address.sin_port) &lt;&lt; std::endl;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="function">std::lock_guard&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(mtx)</span></span>;</span><br><span class="line">            clients.<span class="built_in">push_back</span>(client_socket);</span><br><span class="line">        &#125;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;New client connected: &quot;</span> &lt;&lt; <span class="built_in">inet_ntoa</span>(client_address.sin_addr) &lt;&lt; <span class="string">&quot;:&quot;</span> &lt;&lt; <span class="built_in">ntohs</span>(client_address.sin_port) &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">        std::<span class="built_in">thread</span>(handle_client, client_socket).<span class="built_in">detach</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">close</span>(server_socket);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>客户端：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;netinet/in.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> IP_PORT = <span class="number">8888</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> BUFFER_SIZE = <span class="number">1024</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 创建一个套接字</span></span><br><span class="line">    <span class="type">int</span> client_socket = <span class="built_in">socket</span>(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (client_socket &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        std::cerr &lt;&lt; <span class="string">&quot;Failed to create socket&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 连接到服务器</span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">sockaddr_in</span> server_address;</span><br><span class="line">    std::<span class="built_in">memset</span>(&amp;server_address, <span class="number">0</span>, <span class="built_in">sizeof</span>(server_address));</span><br><span class="line">    server_address.sin_family = AF_INET;</span><br><span class="line">    server_address.sin_addr.s_addr = <span class="built_in">inet_addr</span>(<span class="string">&quot;127.0.0.1&quot;</span>);</span><br><span class="line">    server_address.sin_port = <span class="built_in">htons</span>(IP_PORT);</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">connect</span>(client_socket, (<span class="keyword">struct</span> sockaddr *)&amp;server_address, <span class="built_in">sizeof</span>(server_address)) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        std::cerr &lt;&lt; <span class="string">&quot;Failed to connect to server&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="built_in">close</span>(client_socket);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Connected to server at &quot;</span> &lt;&lt; <span class="built_in">inet_ntoa</span>(server_address.sin_addr) &lt;&lt; <span class="string">&quot;:&quot;</span> &lt;&lt; <span class="built_in">ntohs</span>(server_address.sin_port) &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>)&#123;</span><br><span class="line"></span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;------------------------------&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    	std::string request_message; <span class="comment">// 注意读入数据需要小于1024 Bytes</span></span><br><span class="line">    	std::cout &lt;&lt; <span class="string">&quot;Input the message you want to send to server&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    	std::<span class="built_in">getline</span>(std::cin, request_message);</span><br><span class="line">    	<span class="keyword">if</span> (request_message == <span class="string">&quot;exit&quot;</span>)&#123;</span><br><span class="line">    		std::cout &lt;&lt; <span class="string">&quot;Bye&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    		<span class="keyword">break</span>;</span><br><span class="line">    	&#125;</span><br><span class="line"></span><br><span class="line">    	<span class="comment">// 发送数据</span></span><br><span class="line">	    <span class="type">int</span> num_bytes_sent = <span class="built_in">send</span>(client_socket, request_message.<span class="built_in">c_str</span>(), request_message.<span class="built_in">length</span>() , <span class="number">0</span>);</span><br><span class="line">	    <span class="keyword">if</span> (num_bytes_sent &lt; <span class="number">0</span>) &#123;</span><br><span class="line">	        std::cerr &lt;&lt; <span class="string">&quot;Failed to send data to server&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">	        <span class="built_in">close</span>(client_socket);</span><br><span class="line">	        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	    &#125;</span><br><span class="line">	    std::cout &lt;&lt; <span class="string">&quot;Sent &quot;</span> &lt;&lt; num_bytes_sent &lt;&lt; <span class="string">&quot; bytes: &quot;</span> &lt;&lt; request_message &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">	    <span class="comment">// 接收数据</span></span><br><span class="line">	    <span class="type">char</span> buffer[BUFFER_SIZE];</span><br><span class="line">	    <span class="type">int</span> num_bytes_received = <span class="built_in">recv</span>(client_socket, buffer, <span class="built_in">sizeof</span>(buffer), <span class="number">0</span>);</span><br><span class="line">	    <span class="keyword">if</span> (num_bytes_received &lt; <span class="number">0</span>) &#123;</span><br><span class="line">	        std::cerr &lt;&lt; <span class="string">&quot;Failed to receive data from server&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">	        <span class="built_in">close</span>(client_socket);</span><br><span class="line">	        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	    &#125;</span><br><span class="line">	    buffer[num_bytes_received] = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">	    std::cout &lt;&lt; <span class="string">&quot;Received &quot;</span> &lt;&lt; num_bytes_received &lt;&lt; <span class="string">&quot; bytes: &quot;</span> &lt;&lt; buffer &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 关闭套接字</span></span><br><span class="line">    <span class="built_in">close</span>(client_socket);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>笔记</category>
       </categories>
       <tags>
         <tag>C++</tag>
-        <tag>并发编程</tag>
       </tags>
   </entry>
   <entry>
@@ -1586,207 +1639,6 @@ months，就业向（MSCS研究向，课程设置类似），不可转博</p>
       </tags>
   </entry>
   <entry>
-    <title>C++ 部分心得总结</title>
-    <url>/2023/08/12/C-%E9%83%A8%E5%88%86%E5%BF%83%E5%BE%97%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<h2 id="代码书写">代码书写</h2>
-<ul>
-<li>代码书写规范基本遵循 <a
-href="https://github.com/google/styleguide">谷歌代码书写规范</a>，<a
-href="https://zh-google-styleguide.readthedocs.io/en/latest/">中文版</a>；</li>
-<li>不使用<code>using namespace std</code>，不使用<code>goto</code>，不使用<code>vector&lt;bool&gt;</code>，使用<code>using</code>代替<code>typedef</code>；</li>
-<li>谨慎使用宏定义（尽可能使用<code>const</code>代替宏），<code>#</code>代表将宏参数内容转换成字符串，<code>##</code>代表将两个参数内容连接成为一个字符串；</li>
-<li>一个可参考的 C++
-工程目录结构：https://github.com/hattonl/cpp-project-structure</li>
-<li>一些常见的注释约定：<code>// TODO</code>（待办），<code>// FIXME</code>（待修复），<code>// HACK</code>（临时解决方案），<code>// NOTE</code>（备注），<code>// OPTIMIZE</code>（待优化），<code>// REVIEW</code>（待审查），<code>// DEPRECATED</code>（已过时）；</li>
-</ul>
-<span id="more"></span>
-<h2 id="errormessage.h">ErrorMessage.h</h2>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> ERRORMESSAGE_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ERRORMESSAGE_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// The total length of message should not exceed 2047 bytes.</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> make_error_message(message) make_error_message_raw(__FILE__, __FUNCTION__, __LINE__, (message))</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">static</span> std::string <span class="title">make_error_message_raw</span><span class="params">(std::string file, std::string function, <span class="type">int</span> line, std::string message)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> file + <span class="string">&quot;:\n|\n|----&quot;</span> + function + <span class="string">&quot; (line &quot;</span> + std::<span class="built_in">to_string</span>(line) + <span class="string">&quot;): \n     |\n     |---- error: &quot;</span> + message + <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> die_if_error(condition_true, output_message) \</span></span><br><span class="line"><span class="meta">     ((condition_true) ? 0 : (std::cerr &lt;&lt; (output_message), exit(1), 1))</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">// ERRORMESSAGE_H</span></span></span><br></pre></td></tr></table></figure>
-<h2 id="pimpl">pImpl</h2>
-<p><a href="https://en.cppreference.com/w/cpp/language/pimpl">Pointer to
-implementation</a> 是一种编程技巧。</p>
-<p>场景一：某个头文件定义了一个类的各项成员与虚函数，如果此后这个头文件被修改，其对应的
-ABI
-将改变，从而只能重新编译此头文件及其依赖项。我们希望不将类的具体定义放在头文件中，从而加速编译，并获得更好的
-ABI 稳定性；</p>
-<p>场景二：在某个头文件中，一个类声明了另一个文件定义的类的指针作为其成员变量。当我们不希望引入对应头文件（可能造成头文件泄露）时，我们需要使用前向声明<code>class Type;</code>
-，但是 C++11
-之后的智能指针<code>unique_ptr</code>不支持不完整类型（因为需要对应类型的各项信息才能帮助释放），因此我们不希望将类成员变量定义直接放入头文件中；</p>
-<p>在这两个情形中，我们都不希望在头文件中定义类的具体信息。于是我们在头文件的类中定义一个嵌套类，所有原先类的成员变量和函数，都放入嵌套类中。头文件仅声明一个指向该嵌套类的<code>unique_ptr</code>，具体嵌套类的成员变量和函数均放入
-.cpp 源文件中实现。</p>
-<p>为了实现这一点， <code>unique_ptr</code>
-要求我们在头文件中显式声明外层类的特殊成员函数（构造、析构、拷贝构造、拷贝赋值、移动构造、移动赋值），并且如果不禁用某函数（即希望自定义函数或使用<code>= default</code>，不使用<code>= delete</code>），则必须在源文件中定义（无法直接在头文件中定义一个不完全类型的成员函数）。具体实现见上方官方链接。</p>
-<p>在官方示例中，使用了目前还未标准化的<code>std::experimental::propagate_const&lt;std::unique_ptr&lt;impl&gt;&gt; pImpl;</code>
-，它能够向内传递指针对象的常量性。通常情况下，无法通过一个指向常量的指针（pointer
-to
-const）修改它指向对象的成员变量，也无法调用它的变量成员函数。但使用嵌套类后，可以通过调用
-此指针指向的对象 内的 指向嵌套类对象的指针 指向的对象 的 成员函数
-间接修改那个嵌套类。举例：<code>object_ptr-&gt;pImpl-&gt;var_func()</code>。也就是说，嵌套类不传递常量性，因此必须通过此方法实现常量性的正确传递。</p>
-<h2 id="c-实现多客户端-tcp-通信">C++ 实现多客户端 TCP 通信</h2>
-<p>参考：</p>
-<p><a
-href="https://developer.aliyun.com/article/721543">C++并发编程（C++11到C++17）</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/405416697">Socket
-编程详解</a></p>
-<p>服务端：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thread&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;mutex&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;netdb.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;netinet/in.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> IP_PORT = <span class="number">8888</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> MAX_CLIENTS = <span class="number">10</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> BUFFER_SIZE = <span class="number">1024</span>;</span><br><span class="line"></span><br><span class="line">std::mutex mtx;</span><br><span class="line">std::vector&lt;<span class="type">int</span>&gt; clients;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">handle_client</span><span class="params">(<span class="type">int</span> client_socket)</span> </span>&#123;</span><br><span class="line">    <span class="type">char</span> buffer[BUFFER_SIZE];</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;------------------------------&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="comment">// 接收数据</span></span><br><span class="line">        <span class="built_in">memset</span>(buffer, <span class="number">0</span>, BUFFER_SIZE);</span><br><span class="line">        <span class="type">int</span> bytes_read = <span class="built_in">recv</span>(client_socket, buffer, BUFFER_SIZE, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">if</span> (bytes_read &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">            std::cerr &lt;&lt; <span class="string">&quot;Failed to receive data from client&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">            <span class="built_in">close</span>(client_socket);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        buffer[bytes_read] = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Received &quot;</span> &lt;&lt; bytes_read &lt;&lt; <span class="string">&quot; bytes: &quot;</span> &lt;&lt; buffer &lt;&lt; std::endl;</span><br><span class="line">        <span class="comment">// 发送数据</span></span><br><span class="line">        <span class="function">std::string <span class="title">message</span><span class="params">(buffer)</span></span>;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="function">std::lock_guard&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(mtx)</span></span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">auto</span> &amp;client: clients) &#123;</span><br><span class="line">                <span class="type">int</span> num_bytes_sent = <span class="built_in">send</span>(client, message.<span class="built_in">c_str</span>(), message.<span class="built_in">length</span>(), <span class="number">0</span>);</span><br><span class="line">                <span class="keyword">if</span> (num_bytes_sent &lt; <span class="number">0</span>) &#123;</span><br><span class="line">                    std::cerr &lt;&lt; <span class="string">&quot;Failed to send data to client&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">                    <span class="built_in">close</span>(client_socket);</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                std::cout &lt;&lt; <span class="string">&quot;Sent &quot;</span> &lt;&lt; message.<span class="built_in">length</span>() &lt;&lt; <span class="string">&quot; bytes: &quot;</span> &lt;&lt; message &lt;&lt; std::endl;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">close</span>(client_socket);</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function">std::lock_guard&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(mtx)</span></span>;</span><br><span class="line">        clients.<span class="built_in">erase</span>(std::<span class="built_in">remove</span>(clients.<span class="built_in">begin</span>(), clients.<span class="built_in">end</span>(), client_socket), clients.<span class="built_in">end</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 创建一个套接字</span></span><br><span class="line">    <span class="type">int</span> server_socket = <span class="built_in">socket</span>(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (server_socket &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        std::cerr &lt;&lt; <span class="string">&quot;Failed to create socket&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 绑定套接字到本地地址和端口</span></span><br><span class="line">    sockaddr_in server_address&#123;&#125;;</span><br><span class="line">    server_address.sin_family = AF_INET; <span class="comment">// IPv4</span></span><br><span class="line">    server_address.sin_addr.s_addr = <span class="built_in">htonl</span>(INADDR_ANY); <span class="comment">// 0.0.0.0 即本机</span></span><br><span class="line">    server_address.sin_port = <span class="built_in">htons</span>(IP_PORT);</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">bind</span>(server_socket, (sockaddr *)&amp;server_address, <span class="built_in">sizeof</span>(server_address)) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        std::cerr &lt;&lt; <span class="string">&quot;Failed to bind socket to local address and port&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="built_in">close</span>(server_socket);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 监听套接字，等待连接请求</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">listen</span>(server_socket, MAX_CLIENTS) &lt; <span class="number">0</span>) &#123; <span class="comment">// 可同时排队的客户端最大连接个数</span></span><br><span class="line">        std::cerr &lt;&lt; <span class="string">&quot;Failed to listen on socket&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="built_in">close</span>(server_socket);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Listening on 0.0.0.0:&quot;</span> &lt;&lt; IP_PORT &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="comment">// 接受连接请求，返回一个新的套接字</span></span><br><span class="line">        sockaddr_in client_address&#123;&#125;;</span><br><span class="line">        <span class="type">socklen_t</span> client_address_size = <span class="built_in">sizeof</span>(client_address);</span><br><span class="line">        <span class="type">int</span> client_socket = <span class="built_in">accept</span>(server_socket, (sockaddr*)&amp;client_address, &amp;client_address_size);</span><br><span class="line">        <span class="keyword">if</span> (client_socket &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            std::cerr &lt;&lt; <span class="string">&quot;Error: Failed to accept client connection.&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">            <span class="built_in">close</span>(server_socket);</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Accepted client connection from &quot;</span> &lt;&lt; <span class="built_in">inet_ntoa</span>(client_address.sin_addr) &lt;&lt; <span class="string">&quot;:&quot;</span> &lt;&lt; <span class="built_in">ntohs</span>(client_address.sin_port) &lt;&lt; std::endl;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="function">std::lock_guard&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(mtx)</span></span>;</span><br><span class="line">            clients.<span class="built_in">push_back</span>(client_socket);</span><br><span class="line">        &#125;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;New client connected: &quot;</span> &lt;&lt; <span class="built_in">inet_ntoa</span>(client_address.sin_addr) &lt;&lt; <span class="string">&quot;:&quot;</span> &lt;&lt; <span class="built_in">ntohs</span>(client_address.sin_port) &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">        std::<span class="built_in">thread</span>(handle_client, client_socket).<span class="built_in">detach</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">close</span>(server_socket);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>客户端：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;netinet/in.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> IP_PORT = <span class="number">8888</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> BUFFER_SIZE = <span class="number">1024</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 创建一个套接字</span></span><br><span class="line">    <span class="type">int</span> client_socket = <span class="built_in">socket</span>(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (client_socket &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        std::cerr &lt;&lt; <span class="string">&quot;Failed to create socket&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 连接到服务器</span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">sockaddr_in</span> server_address;</span><br><span class="line">    std::<span class="built_in">memset</span>(&amp;server_address, <span class="number">0</span>, <span class="built_in">sizeof</span>(server_address));</span><br><span class="line">    server_address.sin_family = AF_INET;</span><br><span class="line">    server_address.sin_addr.s_addr = <span class="built_in">inet_addr</span>(<span class="string">&quot;127.0.0.1&quot;</span>);</span><br><span class="line">    server_address.sin_port = <span class="built_in">htons</span>(IP_PORT);</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">connect</span>(client_socket, (<span class="keyword">struct</span> sockaddr *)&amp;server_address, <span class="built_in">sizeof</span>(server_address)) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        std::cerr &lt;&lt; <span class="string">&quot;Failed to connect to server&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="built_in">close</span>(client_socket);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Connected to server at &quot;</span> &lt;&lt; <span class="built_in">inet_ntoa</span>(server_address.sin_addr) &lt;&lt; <span class="string">&quot;:&quot;</span> &lt;&lt; <span class="built_in">ntohs</span>(server_address.sin_port) &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>)&#123;</span><br><span class="line"></span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;------------------------------&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    	std::string request_message; <span class="comment">// 注意读入数据需要小于1024 Bytes</span></span><br><span class="line">    	std::cout &lt;&lt; <span class="string">&quot;Input the message you want to send to server&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    	std::<span class="built_in">getline</span>(std::cin, request_message);</span><br><span class="line">    	<span class="keyword">if</span> (request_message == <span class="string">&quot;exit&quot;</span>)&#123;</span><br><span class="line">    		std::cout &lt;&lt; <span class="string">&quot;Bye&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    		<span class="keyword">break</span>;</span><br><span class="line">    	&#125;</span><br><span class="line"></span><br><span class="line">    	<span class="comment">// 发送数据</span></span><br><span class="line">	    <span class="type">int</span> num_bytes_sent = <span class="built_in">send</span>(client_socket, request_message.<span class="built_in">c_str</span>(), request_message.<span class="built_in">length</span>() , <span class="number">0</span>);</span><br><span class="line">	    <span class="keyword">if</span> (num_bytes_sent &lt; <span class="number">0</span>) &#123;</span><br><span class="line">	        std::cerr &lt;&lt; <span class="string">&quot;Failed to send data to server&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">	        <span class="built_in">close</span>(client_socket);</span><br><span class="line">	        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	    &#125;</span><br><span class="line">	    std::cout &lt;&lt; <span class="string">&quot;Sent &quot;</span> &lt;&lt; num_bytes_sent &lt;&lt; <span class="string">&quot; bytes: &quot;</span> &lt;&lt; request_message &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">	    <span class="comment">// 接收数据</span></span><br><span class="line">	    <span class="type">char</span> buffer[BUFFER_SIZE];</span><br><span class="line">	    <span class="type">int</span> num_bytes_received = <span class="built_in">recv</span>(client_socket, buffer, <span class="built_in">sizeof</span>(buffer), <span class="number">0</span>);</span><br><span class="line">	    <span class="keyword">if</span> (num_bytes_received &lt; <span class="number">0</span>) &#123;</span><br><span class="line">	        std::cerr &lt;&lt; <span class="string">&quot;Failed to receive data from server&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">	        <span class="built_in">close</span>(client_socket);</span><br><span class="line">	        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	    &#125;</span><br><span class="line">	    buffer[num_bytes_received] = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">	    std::cout &lt;&lt; <span class="string">&quot;Received &quot;</span> &lt;&lt; num_bytes_received &lt;&lt; <span class="string">&quot; bytes: &quot;</span> &lt;&lt; buffer &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 关闭套接字</span></span><br><span class="line">    <span class="built_in">close</span>(client_socket);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>C++</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Go 语法笔记</title>
-    <url>/2023/09/23/Go-%E8%AF%AD%E6%B3%95%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<ul>
-<li>Go 是静态、强类型语言；</li>
-</ul>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main <span class="comment">// 定义包名</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span> <span class="comment">// 引入包</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 没有 init() 时的程序入口，可执行程序必须包含</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123; <span class="comment">// 注意大括号不能换行</span></span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	 当标识符以一个大写字母开头，就可以被外部包的代码所使用（public），</span></span><br><span class="line"><span class="comment">	 否则对包外不可见（protected）</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	fmt.Println(<span class="string">&quot;Hello, World!&quot;</span>) <span class="comment">// 不需要分号，除非一行多条语句</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<ul>
-<li><strong>运行</strong>：
-<ul>
-<li>使用 <code>go run main.go</code> 直接执行，或使用
-<code>go build main.go</code> 生成可执行文件 ；</li>
-</ul></li>
-<li><strong>数据类型</strong>：
-<ul>
-<li><code>bool</code> 、 <code>int</code> 、 <code>uint</code> 、
-<code>float32</code> 、 <code>float64</code> 、 <code>complex64</code>
-、 <code>complex128</code> 、 <code>string</code> （UTF-8）等；</li>
-<li>指针、数组、 <code>struct</code> 、 <code>Channel</code>
-、函数、切片、接口、 <code>Map</code> ；</li>
-<li>类似 Java，基础类型为值类型，高级类型为引用；</li>
-<li>交换值： <code>a, b = b, a</code> ；</li>
-</ul></li>
-<li><strong>变量声明</strong>：
-<ul>
-<li><code>var identifier1, identifier2 [type] [= value1, value2]</code>
-（不赋初值自动赋零值），可以根据赋初值自动判定类型；</li>
-<li>可以用 <code>a := 50</code> 直接声明（只能在函数体内）；</li>
-</ul></li>
-<li><strong>表达式</strong>：
-<ul>
-<li>基本类似于 C
-语言；自增自减运算只能单独作为表达式，不能用于赋值语句；</li>
-</ul></li>
-<li><strong>常量定义</strong>：
-<ul>
-<li><code>const identifier [type] = value</code> ；</li>
-</ul></li>
-<li><strong>条件、循环语句</strong>：
-<ul>
-<li>基本相当于 C 语言删去条件括号；</li>
-<li><strong>范围（range）</strong>： for-each 型循环：
-<code>for key, value := range oldMap</code></li>
-</ul></li>
-<li><strong>函数声明</strong>：
-<ul>
-<li><code>func myFunction(a, b int, s *string) (int, string) &#123;&#125;</code>
-，无返回值则省略；</li>
-<li>传参均为传值（包括数组等，切片为传引用），想传引用只能
-<code>s *string</code> ，调用 <code>*s</code> ；</li>
-</ul></li>
-<li><strong>匿名函数作闭包</strong>：
-<ul>
-<li><code>func add(x int) func(x int)(string, int) &#123; return func(x int)(string, int) &#123; ... &#125; &#125;</code>
-；</li>
-</ul></li>
-<li><strong>方法</strong>：
-<ul>
-<li>包含了接受者的函数；</li>
-<li><code>func (c Circle) getArea() float64 &#123; ... &#125;</code> ，调用
-<code>c.getArea()</code> ；</li>
-<li>没有 <code>this</code> 指针，直接使用参数名 <code>c</code> ；</li>
-</ul></li>
-<li><strong>数组</strong>：
-<ul>
-<li><code>var value = [3][2]int&#123;&#123;1, 2&#125;, &#123;3, 4&#125;, &#123;5, 6&#125;&#125;</code> ；</li>
-<li>可以用 <code>[...]</code> 自动获取初始化列表个数；</li>
-</ul></li>
-<li><strong>指针</strong>：
-<ul>
-<li>类似 C，输出为一个整数，空值为 <code>nil</code> ；</li>
-<li>类型声明从左往右读，右侧是左侧的定语（与 C 相反）；</li>
-</ul></li>
-<li><strong>struct 类型</strong>：
-<ul>
-<li>不包含方法，可以转换为 JSON；</li>
-<li>指向 <code>struct</code> 的指针获取成员变量可以不带星号：
-<code>ptr.a</code>
-，但这个自动解引用只做了一级，多级需要手动解引用到一级；</li>
-</ul></li>
-<li><strong>切片（slice）</strong>：
-<ul>
-<li><code>var identifier []type</code> ，可以使用
-<code>make([]T, length, [capacity])</code> ，length 为实际长度（即
-r-l），capacity 为最大容量（即数组长度-l） ，对应有 <code>len()</code>
-和 <code>cap()</code> 函数；</li>
-<li>使用 <code>s := arr[:]</code>
-创建数组<strong><em>引用</em></strong>，左闭右开类似 Python Numpy；</li>
-<li>未初始化时为 <code>nil</code> ；</li>
-<li>直接修改切片会影响它相关联的其余切片或原数组，但 <code>append</code>
-会让切片和与它相关的切片和数组脱钩，而地址不变；</li>
-<li>切片的 capacity 增长<strong><em>大致</em></strong>为每次两倍；</li>
-</ul></li>
-</ul>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">slices = <span class="built_in">append</span>(slices, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>); </span><br><span class="line">slices1 = <span class="built_in">make</span>([]<span class="type">int</span>, <span class="built_in">len</span>(slices), <span class="built_in">cap</span>(slices) * <span class="number">2</span>)</span><br><span class="line"><span class="built_in">copy</span>(slices1, slices) <span class="comment">// slices 拷贝进 slices1</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li><strong>集合（Map）</strong>：无序键值对集合，</li>
-</ul>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">v1 := m[<span class="string">&quot;apple&quot;</span>]</span><br><span class="line">v2, ok := m[<span class="string">&quot;pear&quot;</span>]  <span class="comment">// 如果键不存在，ok 的值为 false，v2 的值为该类型的零值</span></span><br><span class="line">m[<span class="string">&quot;apple&quot;</span>] = <span class="number">5</span> <span class="comment">// 插入/修改</span></span><br><span class="line"><span class="keyword">for</span> key, value := <span class="keyword">range</span> m &#123;</span><br><span class="line">	<span class="built_in">delete</span>(m, key) <span class="comment">// 删除</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><strong>接口</strong>：
-<ul>
-<li>一个类型实现了一个接口包含的所有函数，它就实现了这个接口，从而可以实现多态；</li>
-<li>本质是一个指针，可以指向任何实现了它的类对象；</li>
-</ul></li>
-</ul>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> interface_name <span class="keyword">interface</span> &#123;</span><br><span class="line">   method_name1 [return_type]</span><br><span class="line">   ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(struct_name_variable struct_name)</span></span> method_name1() [return_type] &#123; ... &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Phone <span class="keyword">interface</span> &#123; call() &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> NokiaPhone <span class="keyword">struct</span> &#123; &#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(nokiaPhone NokiaPhone)</span></span> call() &#123; ... &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> IPhone <span class="keyword">struct</span> &#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(iPhone *IPhone)</span></span> call() &#123; ... &#125; <span class="comment">// 修改 iphone 内属性</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> phone Phone</span><br><span class="line"></span><br><span class="line">phone = <span class="built_in">new</span>(NokiaPhone)</span><br><span class="line">phone.call()</span><br><span class="line"></span><br><span class="line">phone = <span class="built_in">new</span>(IPhone)</span><br><span class="line">phone.call()</span><br></pre></td></tr></table></figure>
-<ul>
-<li><strong>异常</strong>：
-<ul>
-<li>是一个接口， <code>type error interface &#123; Error() string &#125;</code>
-，实现了 <code>Error()</code> 的类即可抛出异常；</li>
-<li>可通过 <code>return errors.New("...")</code> 生成错误信息；</li>
-<li><code>panic-recover</code> 机制：类似
-<code>try-catch</code>，发生异常时立即向上逐层返回并执行
-<code>defer</code>（ <code>defer</code> 中也可以抛出
-<code>panic</code>），直到被 <code>recover</code>
-捕获或退出到最外层；</li>
-<li><code>defer</code> 可以多次声明（需要在 <code>panic</code>
-之前声明），在发生异常或正常结束时执行，按先进后出（后声明的先执行）；</li>
-</ul></li>
-</ul>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 以下代码执行输出 three</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> err := <span class="built_in">recover</span>() ; err != <span class="literal">nil</span> &#123;</span><br><span class="line">            fmt.Println(err)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;()</span><br><span class="line">    <span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span>&#123; <span class="built_in">panic</span>(<span class="string">&quot;three&quot;</span>) &#125;()</span><br><span class="line">    <span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span>&#123; <span class="built_in">panic</span>(<span class="string">&quot;two&quot;</span>) &#125;()</span><br><span class="line">    <span class="built_in">panic</span>(<span class="string">&quot;one&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><strong>并发（Goroutine）</strong>：
-<ul>
-<li><code>go func(params)</code> 开启轻量级线程；</li>
-<li><strong>通道（Channel）</strong>： <code>ch &lt;- v</code> 把
-<code>v</code> 送给通道 <code>ch</code> ，
-<code>v[, ok] := &lt;- ch</code> 从通道接收数据给 <code>v</code> ；</li>
-<li>通道声明： <code>ch := make(chan int[, 100])</code>
-，默认无缓冲区；发送方在缓冲区满时会阻塞，接收方在缓冲区为空时会阻塞；</li>
-<li><code>close(c)</code> 关闭通道（缓冲区仍然存在）后接收方的
-<code>ok</code> 会得到 <code>false</code> ，否则会一直阻塞，据此可使用
-<code>for i := range c</code> ；</li>
-</ul></li>
-</ul>
-]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>Go语言</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CUDA 编程笔记</title>
     <url>/2023/12/06/CUDA-%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<p>更新：</p>
@@ -1995,141 +1847,6 @@ threads 的同步；</li>
       </categories>
       <tags>
         <tag>并行计算</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo个人网站搭建</title>
-    <url>/2023/07/13/Hexo%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA/</url>
-    <content><![CDATA[<h2 id="本机配置">本机配置</h2>
-<p><a href="https://nodejs.org/en">官网</a>下载Node.js，换成淘宝源：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 换成淘宝源（可能需要sudo su进入root模式）：</span></span><br><span class="line">npm install -g cnpm --registry==https://registry.npm.taobao.org</span><br><span class="line">cnpm -v</span><br><span class="line">cnpm install -g hexo-cli</span><br><span class="line"><span class="built_in">mkdir</span> Hexo &amp;&amp; <span class="built_in">cd</span> Hexo</span><br><span class="line">hexo init</span><br><span class="line">hexo s</span><br><span class="line"><span class="comment"># 此时可在http://localhost:4000/访问主页</span></span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<h2 id="服务器与域名配置">服务器与域名配置</h2>
-<ul>
-<li>阿里云ECS轻量应用服务器2核2G￥108/年；买域名、ICP备案</li>
-<li>选择CentOS系统镜像，设置密码；</li>
-<li>创建新用户并设置ssh免密登录<a
-href="http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html">[原理链接]</a>，方便后续hexo部署：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">adduser git</span><br><span class="line"><span class="built_in">chmod</span> 740 /etc/sudoers</span><br><span class="line">vim /etc/sudoers</span><br><span class="line"><span class="comment"># 在root ALL=(ALL) ALL下添加：</span></span><br><span class="line">git ALL=(ALL) ALL</span><br><span class="line"><span class="built_in">chmod</span> 400 /etc/sudoers</span><br><span class="line">sudo passwd git</span><br><span class="line"></span><br><span class="line">su git</span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line"><span class="built_in">mkdir</span> .ssh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查本地~/.ssh下是否已有公钥，若没有：</span></span><br><span class="line">ssh-keygen</span><br><span class="line"><span class="comment"># 在服务器git用户~/.ssh下生成authorized_key</span></span><br><span class="line">ssh-copy-id user@host</span><br></pre></td></tr></table></figure>
-<h2 id="服务器nginx配置">服务器nginx配置</h2>
-<ul>
-<li>RedHat系（RedHat、CentOS、Fedora等）包管理工具为rpm，依赖管理工具为yum，Debian系（Debian、Ubuntu等）包管理工具为dpkg，依赖管理工具为apt。</li>
-<li>安装nginx依赖环境，下载解压nginx安装包：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 确认此时在root用户下：</span></span><br><span class="line">yum install gcc-c++</span><br><span class="line">yum install -y pcre pcre-devel</span><br><span class="line">yum install -y zlib zlib-devel</span><br><span class="line">yum install -y openssl openssl-devel</span><br><span class="line"></span><br><span class="line">wget -c https://nginx.org/download/nginx-1.10.1.tar.gz</span><br><span class="line">tar -xvf nginx-1.10.1.tar.gz -C /usr/local</span><br><span class="line"><span class="built_in">cd</span> /usr/local/nginx-1.10.1</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 若Make报错：</span></span><br><span class="line">vim ./objs/Makefile</span><br><span class="line"><span class="comment"># 删除CFLAGS中的-Werror：</span></span><br><span class="line">CFLAGS =  -pipe  -O -W -Wall -Wpointer-arith -Wno-unused -g</span><br><span class="line">vim ./src/os/unix/ngx_user.c</span><br><span class="line"><span class="comment"># 注释掉此行：</span></span><br><span class="line">cd.current_salt[0] = ~salt[0];</span><br></pre></td></tr></table></figure>
-<ul>
-<li>安装、配置nginx：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 确认此时在root用户下：</span></span><br><span class="line"><span class="built_in">cd</span> /usr/local/nginx/sbin</span><br><span class="line">./nginx</span><br><span class="line"><span class="comment"># 此时可用host:80访问nginx欢迎页</span></span><br><span class="line"><span class="comment"># 可用./nginx -s stop停止服务</span></span><br><span class="line"><span class="comment"># 若服务器不开放80端口：</span></span><br><span class="line">/sbin/iptables -I INPUT -p tcp –dport 80 -j ACCEPT</span><br><span class="line"></span><br><span class="line"><span class="built_in">mkdir</span> -p /home/www/hexo</span><br><span class="line"><span class="built_in">cd</span> /usr/local/nginx/conf</span><br><span class="line">vim nginx.conf</span><br><span class="line"><span class="comment"># 将其中的部署根目录/的location的root修改为/home/www/hexo</span></span><br><span class="line"><span class="comment"># 将server_name修改为域名，若没有域名则改为公网ip</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">curl -sL https://rpm.nodesource.com/setup_10.x | bash -</span><br><span class="line">yum install -y nodejs</span><br><span class="line">node -v</span><br><span class="line">npm -v</span><br><span class="line">yum install git</span><br><span class="line">git --version</span><br></pre></td></tr></table></figure>
-<h2 id="服务器hexo配置">服务器Hexo配置</h2>
-<p>配置git仓库</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 确认此时在git用户下：</span></span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">git init --bare hexo.git</span><br><span class="line">vim ~/hexo.git/hooks/post-receive</span><br><span class="line"><span class="comment"># 写入：git --work-tree=/home/www/hexo --git-dir=/home/git/hexo.git checkout -f</span></span><br><span class="line"><span class="built_in">chmod</span> +x ~/hexo.git/hooks/post-receive</span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">sudo <span class="built_in">chmod</span> -R 777 /home/www/hexo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 回到本地对应Hexo目录：</span></span><br><span class="line"><span class="built_in">cd</span> ~/Documents/Hexo</span><br><span class="line">sudo vim _config.yml</span><br><span class="line"><span class="comment"># 将url改成https://&#123;服务器IP&#125;/</span></span><br><span class="line"><span class="comment"># 修改末尾deploy部分：</span></span><br><span class="line">deploy:</span><br><span class="line">	<span class="built_in">type</span>: git</span><br><span class="line">	repo: git@ip:/home/git/hexo.git</span><br><span class="line">	branch: master</span><br><span class="line"></span><br><span class="line">npm install hexo-deployer-git --save</span><br><span class="line">npm install hexo-server</span><br><span class="line"></span><br><span class="line"><span class="comment"># 若首次使用git：</span></span><br><span class="line">git config --global user.name <span class="string">&quot;your-username&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;your-email-address&quot;</span></span><br><span class="line"></span><br><span class="line">hexo clean &amp;&amp; hexo g -d</span><br></pre></td></tr></table></figure>
-<h2 id="next主题配置">NeXT主题配置</h2>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 更换主题：https://hexo.io/themes/</span></span><br><span class="line">git <span class="built_in">clone</span> --depth=1 https://github.com/theme-next/hexo-theme-next.git themes/next</span><br><span class="line"><span class="comment"># 将_config.yml中themes改为next</span></span><br><span class="line"></span><br><span class="line">hexo n <span class="string">&quot;name.md&quot;</span></span><br><span class="line">hexo clean &amp;&amp; hexo g -d</span><br><span class="line"><span class="comment"># 在Hexo和themes下各有一个_config.yml，在此自定义</span></span><br><span class="line"><span class="comment"># markdown中插入图片：</span></span><br><span class="line"><span class="comment"># 将Hexo根目录下_config.yml文件中post_asset_folder设为true，即可使用相对路径引用图片：</span></span><br><span class="line"><span class="comment"># 注意：.开头的隐藏文件不会被保留</span></span><br><span class="line">![](image.jpg)</span><br></pre></td></tr></table></figure>
-<p><a href="https://zhuanlan.zhihu.com/p/618864711">配置教程</a>，<a
-href="https://zhuanlan.zhihu.com/p/30836436">另一篇</a>，<a
-href="https://siriusq.top/Next%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96?tdsourcetag=s_pctim_aiomsg">另一篇</a></p>
-<ul>
-<li><p>删除文章：删除对应.md和文件夹，以及Hexo根目录下.deploy_git即可。</p></li>
-<li><p><span class="math inline">\(\LaTeX\)</span>支持：<a
-href="https://zhuanlan.zhihu.com/p/381508379">知乎</a></p></li>
-<li><p>添加置顶：</p></li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm uninstall hexo-generator-index --save</span><br><span class="line">npm instal hexo-generator-index-pin-top --save</span><br></pre></td></tr></table></figure>
-<p>在置顶文章的Front-matter中加上top: true即可。</p>
-]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>电脑配置</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java Spring 系列入门</title>
-    <url>/2024/10/11/Java-Spring-%E7%B3%BB%E5%88%97%E5%85%A5%E9%97%A8/</url>
-    <content><![CDATA[<h2 id="spring-framework">Spring Framework</h2>
-<ul>
-<li>IoC（Inversion of Control）：程序中不主动 new
-对象，而是由外部（Spring
-的容器）提供对象，实现充分解耦；这一创建权的转移称为控制反转，这些被管理的对象称为
-Bean；</li>
-<li>DI（Dependency Injection）：在容器中建立各个 Bean
-之间的依赖关系的过程，称为依赖注入；</li>
-<li>Maven Dependency 中导入 spring-context 坐标后：</li>
-</ul>
-<span id="more"></span>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 在 resources/ 中创建 applicationContext.xml：</span></span><br><span class="line"><span class="comment">// 可添加 autowire 自动注入依赖</span></span><br><span class="line">&lt;bean id=”bookService” class=”com.example.service.impl.BookServiceImpl”&gt;</span><br><span class="line">	&lt;property name=<span class="string">&quot;bookDao&quot;</span> ref=<span class="string">&quot;bookDao&quot;</span> /&gt; <span class="comment">/* Setter 注入 */</span></span><br><span class="line">	<span class="comment">// name 为构造函数形参名，可改为使用 type，或使用 index=&quot;0&quot;</span></span><br><span class="line">	&lt;constructor-arg name=<span class="string">&quot;bookDao&quot;</span> ref=<span class="string">&quot;bookDao&quot;</span> /&gt; <span class="comment">/* 构造器注入 */</span></span><br><span class="line">	&lt;property name=<span class="string">&quot;databaseName&quot;</span> value=<span class="string">&quot;mysql&quot;</span> /&gt;</span><br><span class="line">&lt;/bean&gt;</span><br><span class="line"><span class="comment">// name 起别名，scope 设置不为单例（默认为 singleton）</span></span><br><span class="line">&lt;bean id=<span class="string">&quot;bookDao&quot;</span> name=<span class="string">&quot;dao dao1&quot;</span> class=<span class="string">&quot;com.example.dao.impl.BookDaoImpl&quot;</span></span><br><span class="line">	scope=<span class="string">&quot;prototype&quot;</span> init-method=<span class="string">&quot;init&quot;</span> destroy-method=<span class="string">&quot;destroy&quot;</span> /&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 给 BookDao 定义 Setter 方法或构造方法，然后添加</span></span><br><span class="line"><span class="type">ClassPathXmlApplicationContext</span> <span class="variable">ctx</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ClassPathXmlApplicationContext</span>(<span class="string">&quot;applicationContext.xml&quot;</span>);</span><br><span class="line"><span class="type">BookService</span> <span class="variable">bookService</span> <span class="operator">=</span> (BookService)ctx.getBean(<span class="string">&quot;bookService&quot;</span>);</span><br><span class="line">ctx.close(); 或 ctx.registerShutdownHook();</span><br></pre></td></tr></table></figure>
-<ul>
-<li>Bean 的生命周期：创建对象（内存分配）→ 构造 → 属性注入（Setter）→
-初始化（继承自 InitializingBean 的 afterPropertiesSet()）→ 使用 →
-销毁（继承自 DisposableBean 的 destroy()）；</li>
-<li>Bean Factory ⇒ ApplicationContext ⇒
-ClassPathXmlApplicationContext；</li>
-</ul>
-<h2 id="spring-boot">Spring Boot</h2>
-<ul>
-<li>Spring Boot Web 内置 Tomcat，兼容 Servlet 与 JSP
-规范；三层架构：Controller（控制层）、Service（业务逻辑层）、DAO（数据访问层
-/ 持久层）；</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 注解配置 Bean</span></span><br><span class="line">&lt;context:component-scan base-<span class="keyword">package</span>=<span class="string">&quot;com.example&quot;</span> /&gt;</span><br><span class="line"><span class="comment">// 纯注解 SpringConfig.java</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ComponentScan(&quot;com.example&quot;)</span></span><br><span class="line"><span class="meta">@PropertySource(&quot;jdbc.properties&quot;)</span></span><br><span class="line"><span class="meta">@Import(&#123;JdbcConfig.class&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SpringConfig</span> &#123;</span><br><span class="line">	<span class="comment">// 用于第三方 Bean</span></span><br><span class="line">	<span class="meta">@Bean</span></span><br><span class="line">	<span class="keyword">public</span> DataSource <span class="title function_">dataSource</span><span class="params">(BookService bookService)</span> &#123;</span><br><span class="line">		<span class="type">DataSource</span> <span class="variable">ds</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DataSource</span>();</span><br><span class="line">		ds.setUsername(<span class="string">&quot;root&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span> ds;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 代码里改为</span></span><br><span class="line"><span class="type">ApplicationContext</span> <span class="variable">ctx</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AnnotationConfigApplicationContext</span>(SpringConfig.class);</span><br></pre></td></tr></table></figure>
-<ul>
-<li>通过注解开发支持无 XML 配置；纯注解开发：
-<code>@Component("bookDao")</code> ，三个与之完全等同的注解：
-<code>@Service</code> 、 <code>@Repository</code> 、
-<code>@Controller</code> ；</li>
-<li><code>@Scope("prototype")</code> ， <code>@PostConstruct</code> ，
-<code>@PreDestroy</code> ， <code>@Autowired</code>
-（默认按类型注入）；</li>
-<li><code>@Primary</code>
-（指定优先此类对象）、<code>@Qualifier("")+@AutoWired</code>
-（类型耦合）、 <code>@Resource(name="")</code>（名字耦合，不推荐）、
-<code>@Value("")</code> ；</li>
-</ul>
-<h2 id="springmvc">SpringMVC</h2>
-<ul>
-<li>使用 <code>@RestController</code> 声明 Controller 负责 Tomcat
-路由和返回；原始方法为在 <code>@RequestMapping("/")</code>方法中声明
-<code>HttpServletRequest</code> 对象参数，再通过
-<code>getParameter(name)</code>
-获得对应参数字符串；现在处理函数只需定义好参数即可获取 GET 与 POST
-方法后接的各项参数；
-<code>@RequestParam(name="username", require=false)</code>
-设置不必须的后接参数；</li>
-<li>一个 <code>@RestController</code> 类的方法的返回值即为
-<code>@ResponseBody</code> ，若为复杂类型，会转换成 JSON
-返回给客户端；</li>
-<li>前端工程化框架打包的结果存放在 /Resources 中；</li>
-<li>启动类声明注解 <code>@SpringBootApplication</code> 中包含了
-<code>@ComponentScan</code> ；</li>
-<li>过滤器、Cookie、Session 等内容属于 JavaWeb；JWT、OSS
-等技术属于解决方案；接受请求、相应数据、拦截器、全局异常处理等 Spring 内
-Web 功能属于 SpringMVC；IoC、DI、AOP、事务管理等架构理念支持属于 Spring
-Framework，JDBC 等数据库操作被封装在 MyBatis；后三者统称为
-SSM；SpringBoot 用于快捷启动整个项目的开发；</li>
-</ul>
-<h2 id="mybatis">Mybatis</h2>
-<ul>
-<li>在 application.properties
-中配置连接四要素：Driver、URL、Username、Password；</li>
-<li>接口类使用 <code>@Mapper</code> 注解，返回值变量定义前加
-<code>@Select("command")</code>
-注解，会自动将查询答案返回到此变量中，也可以定义方法；增删改的操作类似；使用
-<code>@Options</code> 返回插入后条目的主键值；可以用
-<code>@Results</code> 和 <code>@Result</code>
-字段注解手动映射返回值封装；</li>
-<li>使用 <code>getConnection()</code> 获取数据库连接池的连接；可使用
-lombok 工具包根据特定注解自动生成各类方法（getter()、toString()
-等）；</li>
-</ul>
-]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
@@ -2343,6 +2060,238 @@ class="math inline">\(n = m\)</span>）</p>
       </tags>
   </entry>
   <entry>
+    <title>Go 语法笔记</title>
+    <url>/2023/09/23/Go-%E8%AF%AD%E6%B3%95%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<ul>
+<li>Go 是静态、强类型语言；</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main <span class="comment">// 定义包名</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span> <span class="comment">// 引入包</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 没有 init() 时的程序入口，可执行程序必须包含</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123; <span class="comment">// 注意大括号不能换行</span></span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	 当标识符以一个大写字母开头，就可以被外部包的代码所使用（public），</span></span><br><span class="line"><span class="comment">	 否则对包外不可见（protected）</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	fmt.Println(<span class="string">&quot;Hello, World!&quot;</span>) <span class="comment">// 不需要分号，除非一行多条语句</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<ul>
+<li><strong>运行</strong>：
+<ul>
+<li>使用 <code>go run main.go</code> 直接执行，或使用
+<code>go build main.go</code> 生成可执行文件 ；</li>
+</ul></li>
+<li><strong>数据类型</strong>：
+<ul>
+<li><code>bool</code> 、 <code>int</code> 、 <code>uint</code> 、
+<code>float32</code> 、 <code>float64</code> 、 <code>complex64</code>
+、 <code>complex128</code> 、 <code>string</code> （UTF-8）等；</li>
+<li>指针、数组、 <code>struct</code> 、 <code>Channel</code>
+、函数、切片、接口、 <code>Map</code> ；</li>
+<li>类似 Java，基础类型为值类型，高级类型为引用；</li>
+<li>交换值： <code>a, b = b, a</code> ；</li>
+</ul></li>
+<li><strong>变量声明</strong>：
+<ul>
+<li><code>var identifier1, identifier2 [type] [= value1, value2]</code>
+（不赋初值自动赋零值），可以根据赋初值自动判定类型；</li>
+<li>可以用 <code>a := 50</code> 直接声明（只能在函数体内）；</li>
+</ul></li>
+<li><strong>表达式</strong>：
+<ul>
+<li>基本类似于 C
+语言；自增自减运算只能单独作为表达式，不能用于赋值语句；</li>
+</ul></li>
+<li><strong>常量定义</strong>：
+<ul>
+<li><code>const identifier [type] = value</code> ；</li>
+</ul></li>
+<li><strong>条件、循环语句</strong>：
+<ul>
+<li>基本相当于 C 语言删去条件括号；</li>
+<li><strong>范围（range）</strong>： for-each 型循环：
+<code>for key, value := range oldMap</code></li>
+</ul></li>
+<li><strong>函数声明</strong>：
+<ul>
+<li><code>func myFunction(a, b int, s *string) (int, string) &#123;&#125;</code>
+，无返回值则省略；</li>
+<li>传参均为传值（包括数组等，切片为传引用），想传引用只能
+<code>s *string</code> ，调用 <code>*s</code> ；</li>
+</ul></li>
+<li><strong>匿名函数作闭包</strong>：
+<ul>
+<li><code>func add(x int) func(x int)(string, int) &#123; return func(x int)(string, int) &#123; ... &#125; &#125;</code>
+；</li>
+</ul></li>
+<li><strong>方法</strong>：
+<ul>
+<li>包含了接受者的函数；</li>
+<li><code>func (c Circle) getArea() float64 &#123; ... &#125;</code> ，调用
+<code>c.getArea()</code> ；</li>
+<li>没有 <code>this</code> 指针，直接使用参数名 <code>c</code> ；</li>
+</ul></li>
+<li><strong>数组</strong>：
+<ul>
+<li><code>var value = [3][2]int&#123;&#123;1, 2&#125;, &#123;3, 4&#125;, &#123;5, 6&#125;&#125;</code> ；</li>
+<li>可以用 <code>[...]</code> 自动获取初始化列表个数；</li>
+</ul></li>
+<li><strong>指针</strong>：
+<ul>
+<li>类似 C，输出为一个整数，空值为 <code>nil</code> ；</li>
+<li>类型声明从左往右读，右侧是左侧的定语（与 C 相反）；</li>
+</ul></li>
+<li><strong>struct 类型</strong>：
+<ul>
+<li>不包含方法，可以转换为 JSON；</li>
+<li>指向 <code>struct</code> 的指针获取成员变量可以不带星号：
+<code>ptr.a</code>
+，但这个自动解引用只做了一级，多级需要手动解引用到一级；</li>
+</ul></li>
+<li><strong>切片（slice）</strong>：
+<ul>
+<li><code>var identifier []type</code> ，可以使用
+<code>make([]T, length, [capacity])</code> ，length 为实际长度（即
+r-l），capacity 为最大容量（即数组长度-l） ，对应有 <code>len()</code>
+和 <code>cap()</code> 函数；</li>
+<li>使用 <code>s := arr[:]</code>
+创建数组<strong><em>引用</em></strong>，左闭右开类似 Python Numpy；</li>
+<li>未初始化时为 <code>nil</code> ；</li>
+<li>直接修改切片会影响它相关联的其余切片或原数组，但 <code>append</code>
+会让切片和与它相关的切片和数组脱钩，而地址不变；</li>
+<li>切片的 capacity 增长<strong><em>大致</em></strong>为每次两倍；</li>
+</ul></li>
+</ul>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">slices = <span class="built_in">append</span>(slices, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>); </span><br><span class="line">slices1 = <span class="built_in">make</span>([]<span class="type">int</span>, <span class="built_in">len</span>(slices), <span class="built_in">cap</span>(slices) * <span class="number">2</span>)</span><br><span class="line"><span class="built_in">copy</span>(slices1, slices) <span class="comment">// slices 拷贝进 slices1</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>集合（Map）</strong>：无序键值对集合，</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">v1 := m[<span class="string">&quot;apple&quot;</span>]</span><br><span class="line">v2, ok := m[<span class="string">&quot;pear&quot;</span>]  <span class="comment">// 如果键不存在，ok 的值为 false，v2 的值为该类型的零值</span></span><br><span class="line">m[<span class="string">&quot;apple&quot;</span>] = <span class="number">5</span> <span class="comment">// 插入/修改</span></span><br><span class="line"><span class="keyword">for</span> key, value := <span class="keyword">range</span> m &#123;</span><br><span class="line">	<span class="built_in">delete</span>(m, key) <span class="comment">// 删除</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>接口</strong>：
+<ul>
+<li>一个类型实现了一个接口包含的所有函数，它就实现了这个接口，从而可以实现多态；</li>
+<li>本质是一个指针，可以指向任何实现了它的类对象；</li>
+</ul></li>
+</ul>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> interface_name <span class="keyword">interface</span> &#123;</span><br><span class="line">   method_name1 [return_type]</span><br><span class="line">   ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(struct_name_variable struct_name)</span></span> method_name1() [return_type] &#123; ... &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Phone <span class="keyword">interface</span> &#123; call() &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> NokiaPhone <span class="keyword">struct</span> &#123; &#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(nokiaPhone NokiaPhone)</span></span> call() &#123; ... &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> IPhone <span class="keyword">struct</span> &#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(iPhone *IPhone)</span></span> call() &#123; ... &#125; <span class="comment">// 修改 iphone 内属性</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> phone Phone</span><br><span class="line"></span><br><span class="line">phone = <span class="built_in">new</span>(NokiaPhone)</span><br><span class="line">phone.call()</span><br><span class="line"></span><br><span class="line">phone = <span class="built_in">new</span>(IPhone)</span><br><span class="line">phone.call()</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>异常</strong>：
+<ul>
+<li>是一个接口， <code>type error interface &#123; Error() string &#125;</code>
+，实现了 <code>Error()</code> 的类即可抛出异常；</li>
+<li>可通过 <code>return errors.New("...")</code> 生成错误信息；</li>
+<li><code>panic-recover</code> 机制：类似
+<code>try-catch</code>，发生异常时立即向上逐层返回并执行
+<code>defer</code>（ <code>defer</code> 中也可以抛出
+<code>panic</code>），直到被 <code>recover</code>
+捕获或退出到最外层；</li>
+<li><code>defer</code> 可以多次声明（需要在 <code>panic</code>
+之前声明），在发生异常或正常结束时执行，按先进后出（后声明的先执行）；</li>
+</ul></li>
+</ul>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 以下代码执行输出 three</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> err := <span class="built_in">recover</span>() ; err != <span class="literal">nil</span> &#123;</span><br><span class="line">            fmt.Println(err)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;()</span><br><span class="line">    <span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span>&#123; <span class="built_in">panic</span>(<span class="string">&quot;three&quot;</span>) &#125;()</span><br><span class="line">    <span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span>&#123; <span class="built_in">panic</span>(<span class="string">&quot;two&quot;</span>) &#125;()</span><br><span class="line">    <span class="built_in">panic</span>(<span class="string">&quot;one&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>并发（Goroutine）</strong>：
+<ul>
+<li><code>go func(params)</code> 开启轻量级线程；</li>
+<li><strong>通道（Channel）</strong>： <code>ch &lt;- v</code> 把
+<code>v</code> 送给通道 <code>ch</code> ，
+<code>v[, ok] := &lt;- ch</code> 从通道接收数据给 <code>v</code> ；</li>
+<li>通道声明： <code>ch := make(chan int[, 100])</code>
+，默认无缓冲区；发送方在缓冲区满时会阻塞，接收方在缓冲区为空时会阻塞；</li>
+<li><code>close(c)</code> 关闭通道（缓冲区仍然存在）后接收方的
+<code>ok</code> 会得到 <code>false</code> ，否则会一直阻塞，据此可使用
+<code>for i := range c</code> ；</li>
+</ul></li>
+</ul>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>Go语言</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java Spring 系列入门</title>
+    <url>/2024/10/11/Java-Spring-%E7%B3%BB%E5%88%97%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[<h2 id="spring-framework">Spring Framework</h2>
+<ul>
+<li>IoC（Inversion of Control）：程序中不主动 new
+对象，而是由外部（Spring
+的容器）提供对象，实现充分解耦；这一创建权的转移称为控制反转，这些被管理的对象称为
+Bean；</li>
+<li>DI（Dependency Injection）：在容器中建立各个 Bean
+之间的依赖关系的过程，称为依赖注入；</li>
+<li>Maven Dependency 中导入 spring-context 坐标后：</li>
+</ul>
+<span id="more"></span>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 在 resources/ 中创建 applicationContext.xml：</span></span><br><span class="line"><span class="comment">// 可添加 autowire 自动注入依赖</span></span><br><span class="line">&lt;bean id=”bookService” class=”com.example.service.impl.BookServiceImpl”&gt;</span><br><span class="line">	&lt;property name=<span class="string">&quot;bookDao&quot;</span> ref=<span class="string">&quot;bookDao&quot;</span> /&gt; <span class="comment">/* Setter 注入 */</span></span><br><span class="line">	<span class="comment">// name 为构造函数形参名，可改为使用 type，或使用 index=&quot;0&quot;</span></span><br><span class="line">	&lt;constructor-arg name=<span class="string">&quot;bookDao&quot;</span> ref=<span class="string">&quot;bookDao&quot;</span> /&gt; <span class="comment">/* 构造器注入 */</span></span><br><span class="line">	&lt;property name=<span class="string">&quot;databaseName&quot;</span> value=<span class="string">&quot;mysql&quot;</span> /&gt;</span><br><span class="line">&lt;/bean&gt;</span><br><span class="line"><span class="comment">// name 起别名，scope 设置不为单例（默认为 singleton）</span></span><br><span class="line">&lt;bean id=<span class="string">&quot;bookDao&quot;</span> name=<span class="string">&quot;dao dao1&quot;</span> class=<span class="string">&quot;com.example.dao.impl.BookDaoImpl&quot;</span></span><br><span class="line">	scope=<span class="string">&quot;prototype&quot;</span> init-method=<span class="string">&quot;init&quot;</span> destroy-method=<span class="string">&quot;destroy&quot;</span> /&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 给 BookDao 定义 Setter 方法或构造方法，然后添加</span></span><br><span class="line"><span class="type">ClassPathXmlApplicationContext</span> <span class="variable">ctx</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ClassPathXmlApplicationContext</span>(<span class="string">&quot;applicationContext.xml&quot;</span>);</span><br><span class="line"><span class="type">BookService</span> <span class="variable">bookService</span> <span class="operator">=</span> (BookService)ctx.getBean(<span class="string">&quot;bookService&quot;</span>);</span><br><span class="line">ctx.close(); 或 ctx.registerShutdownHook();</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Bean 的生命周期：创建对象（内存分配）→ 构造 → 属性注入（Setter）→
+初始化（继承自 InitializingBean 的 afterPropertiesSet()）→ 使用 →
+销毁（继承自 DisposableBean 的 destroy()）；</li>
+<li>Bean Factory ⇒ ApplicationContext ⇒
+ClassPathXmlApplicationContext；</li>
+</ul>
+<h2 id="spring-boot">Spring Boot</h2>
+<ul>
+<li>Spring Boot Web 内置 Tomcat，兼容 Servlet 与 JSP
+规范；三层架构：Controller（控制层）、Service（业务逻辑层）、DAO（数据访问层
+/ 持久层）；</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 注解配置 Bean</span></span><br><span class="line">&lt;context:component-scan base-<span class="keyword">package</span>=<span class="string">&quot;com.example&quot;</span> /&gt;</span><br><span class="line"><span class="comment">// 纯注解 SpringConfig.java</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ComponentScan(&quot;com.example&quot;)</span></span><br><span class="line"><span class="meta">@PropertySource(&quot;jdbc.properties&quot;)</span></span><br><span class="line"><span class="meta">@Import(&#123;JdbcConfig.class&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SpringConfig</span> &#123;</span><br><span class="line">	<span class="comment">// 用于第三方 Bean</span></span><br><span class="line">	<span class="meta">@Bean</span></span><br><span class="line">	<span class="keyword">public</span> DataSource <span class="title function_">dataSource</span><span class="params">(BookService bookService)</span> &#123;</span><br><span class="line">		<span class="type">DataSource</span> <span class="variable">ds</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DataSource</span>();</span><br><span class="line">		ds.setUsername(<span class="string">&quot;root&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span> ds;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 代码里改为</span></span><br><span class="line"><span class="type">ApplicationContext</span> <span class="variable">ctx</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AnnotationConfigApplicationContext</span>(SpringConfig.class);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>通过注解开发支持无 XML 配置；纯注解开发：
+<code>@Component("bookDao")</code> ，三个与之完全等同的注解：
+<code>@Service</code> 、 <code>@Repository</code> 、
+<code>@Controller</code> ；</li>
+<li><code>@Scope("prototype")</code> ， <code>@PostConstruct</code> ，
+<code>@PreDestroy</code> ， <code>@Autowired</code>
+（默认按类型注入）；</li>
+<li><code>@Primary</code>
+（指定优先此类对象）、<code>@Qualifier("")+@AutoWired</code>
+（类型耦合）、 <code>@Resource(name="")</code>（名字耦合，不推荐）、
+<code>@Value("")</code> ；</li>
+</ul>
+<h2 id="springmvc">SpringMVC</h2>
+<ul>
+<li>使用 <code>@RestController</code> 声明 Controller 负责 Tomcat
+路由和返回；原始方法为在 <code>@RequestMapping("/")</code>方法中声明
+<code>HttpServletRequest</code> 对象参数，再通过
+<code>getParameter(name)</code>
+获得对应参数字符串；现在处理函数只需定义好参数即可获取 GET 与 POST
+方法后接的各项参数；
+<code>@RequestParam(name="username", require=false)</code>
+设置不必须的后接参数；</li>
+<li>一个 <code>@RestController</code> 类的方法的返回值即为
+<code>@ResponseBody</code> ，若为复杂类型，会转换成 JSON
+返回给客户端；</li>
+<li>前端工程化框架打包的结果存放在 /Resources 中；</li>
+<li>启动类声明注解 <code>@SpringBootApplication</code> 中包含了
+<code>@ComponentScan</code> ；</li>
+<li>过滤器、Cookie、Session 等内容属于 JavaWeb；JWT、OSS
+等技术属于解决方案；接受请求、相应数据、拦截器、全局异常处理等 Spring 内
+Web 功能属于 SpringMVC；IoC、DI、AOP、事务管理等架构理念支持属于 Spring
+Framework，JDBC 等数据库操作被封装在 MyBatis；后三者统称为
+SSM；SpringBoot 用于快捷启动整个项目的开发；</li>
+</ul>
+<h2 id="mybatis">Mybatis</h2>
+<ul>
+<li>在 application.properties
+中配置连接四要素：Driver、URL、Username、Password；</li>
+<li>接口类使用 <code>@Mapper</code> 注解，返回值变量定义前加
+<code>@Select("command")</code>
+注解，会自动将查询答案返回到此变量中，也可以定义方法；增删改的操作类似；使用
+<code>@Options</code> 返回插入后条目的主键值；可以用
+<code>@Results</code> 和 <code>@Result</code>
+字段注解手动映射返回值封装；</li>
+<li>使用 <code>getConnection()</code> 获取数据库连接池的连接；可使用
+lombok 工具包根据特定注解自动生成各类方法（getter()、toString()
+等）；</li>
+</ul>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Makefile和CMake初级使用</title>
     <url>/2023/07/19/Makefile%E5%92%8CCMake%E5%88%9D%E7%BA%A7%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h2 id="makefile">Makefile</h2>
@@ -2380,75 +2329,6 @@ Start即可；</li>
       </categories>
       <tags>
         <tag>C++</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Mac工作环境配置</title>
-    <url>/2023/07/13/Mac%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<p>外部文件：</p>
-<p><a href="vimrc">.vimrc</a></p>
-<h2 id="基础配置">基础配置</h2>
-<p>系统偏好正常设置即可。</p>
-<p>command+shift+. 显示隐藏文件。</p>
-<p>软件：搜狗输入法，Chrome，XCode，Parallel
-Desktop/Toolbox，LaTeX，ForkLift，The Unarchiver，Steam，Github
-Desktop，Clean One Pro，WPS，MS Office，Typora，<a
-href="https://www.qbittorrent.org/download">qBittorrent</a>， <a
-href="https://help.ghelper.net/shou-ji-dai-li/clashx">ClashX</a></p>
-<span id="more"></span>
-<h2 id="shell">Shell</h2>
-<p><a
-href="https://cloud.tencent.com/developer/article/1639115">一篇教程</a>，<a
-href="https://zhuanlan.zhihu.com/p/550022490">另一篇教程</a></p>
-<ol type="1">
-<li>安装<a
-href="https://brew.sh">homebrew</a>：复制主页命令直接执行即可；</li>
-<li>安装iTerm2：brew install iterm2；</li>
-<li>安装zsh：</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cat</span> etc/shells</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$SHELL</span></span><br><span class="line"><span class="comment">#若没有zsh：</span></span><br><span class="line">brew install zsh</span><br><span class="line"><span class="comment">#若默认不是zsh：</span></span><br><span class="line">chsh -s /bin/zsh</span><br><span class="line"></span><br><span class="line">vim ~/.zshrc</span><br><span class="line"><span class="built_in">source</span> ~/.bash_profile</span><br></pre></td></tr></table></figure>
-<ol type="1">
-<li>安装<a href="ohmyz.sh">oh my zsh</a>：复制主页命令直接执行即可</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.oh-my-zsh/custom/plugins/</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-syntax-highlighting.git</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-autosuggestions.git</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-completions.git</span><br><span class="line"><span class="comment"># brew默认安装至/usr/local/Cellar/故以下命令可能无效：</span></span><br><span class="line">brew install zsh-autosuggestions zsh-syntax-highlighting zsh-completions</span><br><span class="line"></span><br><span class="line">vim ~/.zshrc <span class="comment"># 找到plugins=(git)</span></span><br><span class="line">plugins=(</span><br><span class="line">     git</span><br><span class="line">     zsh-syntax-highlighting</span><br><span class="line">     zsh-autosuggestions</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<ol type="1">
-<li>安装powerlevel10k主题：</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ./oh-my-zsh/themes</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/romkatv/powerlevel10k.git</span><br><span class="line"></span><br><span class="line">vim ~/.zshrc</span><br><span class="line"><span class="comment"># 将 ZSH_THEME 改为：</span></span><br><span class="line">ZSH_THEME=<span class="string">&quot;powerlevel10k/powerlevel10k&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 退出，重新进入配置powerlevel10k</span></span><br><span class="line"><span class="comment"># 如果powerlevel下载字体失败：</span></span><br><span class="line">brew tap homebrew/cask-fonts</span><br><span class="line">brew install --cask font-sauce-code-pro-nerd-font</span><br></pre></td></tr></table></figure>
-<ol type="1">
-<li>vim配置：</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">复制.vimrc</span><br><span class="line"></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim</span><br><span class="line"></span><br><span class="line">将 https://github.com/w0ng/vim-hybrid/blob/master/colors/hybrid.vim 复制到：</span><br><span class="line">~/.vim/colors/hybrid.vim</span><br><span class="line"></span><br><span class="line">:PluginUpdate</span><br></pre></td></tr></table></figure>
-<h2 id="语言环境">语言环境</h2>
-<h3 id="c">C++</h3>
-<p>Mac OS自带Clang+LLVM版G++。</p>
-<h3 id="python">Python</h3>
-<p>Mac自带非最新版本Python，用brew install python下载最新。</p>
-<h3 id="java">Java</h3>
-<p><a
-href="https://www.oracle.com/java/technologies/downloads/">Oracle官网</a>下载JDK，然后修改环境变量。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">/usr/libexec/java_home <span class="comment">#获取安装目录</span></span><br><span class="line">/Library/Java/JavaVirtualMachines/jdk-20.jdk/Contents/Home</span><br><span class="line"></span><br><span class="line">vim ~/.bash_profile</span><br><span class="line"><span class="built_in">export</span> JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-20.jdk/Contents/Home</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
-<h3 id="c-1">C</h3>
-<p><a href="https://dotnet.microsoft.com/zh-cn/download">下载</a>或brew
-install dotnet</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> csharp &amp;&amp; <span class="built_in">cd</span> csharp</span><br><span class="line">dotnet new console</span><br><span class="line">dotnet restore</span><br><span class="line">dotnet run</span><br><span class="line"></span><br><span class="line"><span class="comment"># 若出错：</span></span><br><span class="line">brew update</span><br><span class="line">brew install openssl</span><br><span class="line"><span class="built_in">ln</span> -s /usr/local/opt/openssl/lib/libcrypto.1.0.0.dylib /usr/local/lib/</span><br><span class="line"><span class="built_in">ln</span> -s /usr/local/opt/openssl/lib/libssl.1.0.0.dylib /usr/local/lib/</span><br><span class="line">brew <span class="built_in">link</span> --force openssl</span><br></pre></td></tr></table></figure>
-<h2 id="ide">IDE</h2>
-<h2 id="sublime">Sublime</h2>
-<p><a
-href="https://www.sublimetext.com/download_thanks?target=mac">官网下载</a></p>
-<p><a href="https://packagecontrol.io/installation">Package
-Control</a>，若失败：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ln</span> -sf /usr/local/Cellar/openssl@1.1/1.1.1o/lib/libcrypto.dylib /usr/local/lib<span class="comment">##/</span></span><br></pre></td></tr></table></figure>
-<h3 id="vscode">VScode</h3>
-<p><a href="https://code.visualstudio.com/">官网下载</a></p>
-<p>换用国内源：将下载地址中的<strong>az764295.vo.msecnd.net</strong>
-更换为  <strong>vscode.cdn.azure.cn</strong> 。</p>
-]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>电脑配置</tag>
       </tags>
   </entry>
   <entry>
@@ -5652,6 +5532,75 @@ Scheduling）；</li>
       </tags>
   </entry>
   <entry>
+    <title>Mac工作环境配置</title>
+    <url>/2023/07/13/Mac%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<p>外部文件：</p>
+<p><a href="vimrc">.vimrc</a></p>
+<h2 id="基础配置">基础配置</h2>
+<p>系统偏好正常设置即可。</p>
+<p>command+shift+. 显示隐藏文件。</p>
+<p>软件：搜狗输入法，Chrome，XCode，Parallel
+Desktop/Toolbox，LaTeX，ForkLift，The Unarchiver，Steam，Github
+Desktop，Clean One Pro，WPS，MS Office，Typora，<a
+href="https://www.qbittorrent.org/download">qBittorrent</a>， <a
+href="https://help.ghelper.net/shou-ji-dai-li/clashx">ClashX</a></p>
+<span id="more"></span>
+<h2 id="shell">Shell</h2>
+<p><a
+href="https://cloud.tencent.com/developer/article/1639115">一篇教程</a>，<a
+href="https://zhuanlan.zhihu.com/p/550022490">另一篇教程</a></p>
+<ol type="1">
+<li>安装<a
+href="https://brew.sh">homebrew</a>：复制主页命令直接执行即可；</li>
+<li>安装iTerm2：brew install iterm2；</li>
+<li>安装zsh：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cat</span> etc/shells</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$SHELL</span></span><br><span class="line"><span class="comment">#若没有zsh：</span></span><br><span class="line">brew install zsh</span><br><span class="line"><span class="comment">#若默认不是zsh：</span></span><br><span class="line">chsh -s /bin/zsh</span><br><span class="line"></span><br><span class="line">vim ~/.zshrc</span><br><span class="line"><span class="built_in">source</span> ~/.bash_profile</span><br></pre></td></tr></table></figure>
+<ol type="1">
+<li>安装<a href="ohmyz.sh">oh my zsh</a>：复制主页命令直接执行即可</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.oh-my-zsh/custom/plugins/</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-syntax-highlighting.git</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-autosuggestions.git</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-completions.git</span><br><span class="line"><span class="comment"># brew默认安装至/usr/local/Cellar/故以下命令可能无效：</span></span><br><span class="line">brew install zsh-autosuggestions zsh-syntax-highlighting zsh-completions</span><br><span class="line"></span><br><span class="line">vim ~/.zshrc <span class="comment"># 找到plugins=(git)</span></span><br><span class="line">plugins=(</span><br><span class="line">     git</span><br><span class="line">     zsh-syntax-highlighting</span><br><span class="line">     zsh-autosuggestions</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<ol type="1">
+<li>安装powerlevel10k主题：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ./oh-my-zsh/themes</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/romkatv/powerlevel10k.git</span><br><span class="line"></span><br><span class="line">vim ~/.zshrc</span><br><span class="line"><span class="comment"># 将 ZSH_THEME 改为：</span></span><br><span class="line">ZSH_THEME=<span class="string">&quot;powerlevel10k/powerlevel10k&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 退出，重新进入配置powerlevel10k</span></span><br><span class="line"><span class="comment"># 如果powerlevel下载字体失败：</span></span><br><span class="line">brew tap homebrew/cask-fonts</span><br><span class="line">brew install --cask font-sauce-code-pro-nerd-font</span><br></pre></td></tr></table></figure>
+<ol type="1">
+<li>vim配置：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">复制.vimrc</span><br><span class="line"></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim</span><br><span class="line"></span><br><span class="line">将 https://github.com/w0ng/vim-hybrid/blob/master/colors/hybrid.vim 复制到：</span><br><span class="line">~/.vim/colors/hybrid.vim</span><br><span class="line"></span><br><span class="line">:PluginUpdate</span><br></pre></td></tr></table></figure>
+<h2 id="语言环境">语言环境</h2>
+<h3 id="c">C++</h3>
+<p>Mac OS自带Clang+LLVM版G++。</p>
+<h3 id="python">Python</h3>
+<p>Mac自带非最新版本Python，用brew install python下载最新。</p>
+<h3 id="java">Java</h3>
+<p><a
+href="https://www.oracle.com/java/technologies/downloads/">Oracle官网</a>下载JDK，然后修改环境变量。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">/usr/libexec/java_home <span class="comment">#获取安装目录</span></span><br><span class="line">/Library/Java/JavaVirtualMachines/jdk-20.jdk/Contents/Home</span><br><span class="line"></span><br><span class="line">vim ~/.bash_profile</span><br><span class="line"><span class="built_in">export</span> JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-20.jdk/Contents/Home</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
+<h3 id="c-1">C</h3>
+<p><a href="https://dotnet.microsoft.com/zh-cn/download">下载</a>或brew
+install dotnet</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> csharp &amp;&amp; <span class="built_in">cd</span> csharp</span><br><span class="line">dotnet new console</span><br><span class="line">dotnet restore</span><br><span class="line">dotnet run</span><br><span class="line"></span><br><span class="line"><span class="comment"># 若出错：</span></span><br><span class="line">brew update</span><br><span class="line">brew install openssl</span><br><span class="line"><span class="built_in">ln</span> -s /usr/local/opt/openssl/lib/libcrypto.1.0.0.dylib /usr/local/lib/</span><br><span class="line"><span class="built_in">ln</span> -s /usr/local/opt/openssl/lib/libssl.1.0.0.dylib /usr/local/lib/</span><br><span class="line">brew <span class="built_in">link</span> --force openssl</span><br></pre></td></tr></table></figure>
+<h2 id="ide">IDE</h2>
+<h2 id="sublime">Sublime</h2>
+<p><a
+href="https://www.sublimetext.com/download_thanks?target=mac">官网下载</a></p>
+<p><a href="https://packagecontrol.io/installation">Package
+Control</a>，若失败：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ln</span> -sf /usr/local/Cellar/openssl@1.1/1.1.1o/lib/libcrypto.dylib /usr/local/lib<span class="comment">##/</span></span><br></pre></td></tr></table></figure>
+<h3 id="vscode">VScode</h3>
+<p><a href="https://code.visualstudio.com/">官网下载</a></p>
+<p>换用国内源：将下载地址中的<strong>az764295.vo.msecnd.net</strong>
+更换为  <strong>vscode.cdn.azure.cn</strong> 。</p>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>电脑配置</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>太空人-行前篇</title>
     <url>/2025/10/03/%E5%A4%AA%E7%A9%BA%E4%BA%BA-%E8%A1%8C%E5%89%8D%E7%AF%87/</url>
     <content><![CDATA[<blockquote>
@@ -5739,6 +5688,144 @@ refuse
 <p>万事俱备，剩下的就是抓紧享受国内的大学生活了。大四这一年，我玩了杭州、上海、苏州、无锡、合肥、南京、哈尔滨、延吉，毕业旅行去的是大连和北京。到北卡罗莱纳州最便宜的机票是从厦门出发，临走前，全家人为我送行，顺便把厦门玩了一圈。从学校到家再到厦门，跨越了黄河，跨越了长江，该跨越太平洋了。</p>
 <p>好。那么，走罢！</p>
 <p>去美国。</p>
+]]></content>
+      <categories>
+        <category>记录</category>
+      </categories>
+      <tags>
+        <tag>其它</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>留美备忘录</title>
+    <url>/2024/10/11/%E7%95%99%E7%BE%8E%E5%A4%87%E5%BF%98%E5%BD%95/</url>
+    <content><![CDATA[<h2 id="护照">护照</h2>
+<ul>
+<li>护照最好在户籍地公安局办理，在其它地区公安局会寄送到户籍地审核，所需资料也按户籍地标准要求；</li>
+<li>护照办理流程：带身份证，自助机器生成表格，拍照，填表格，在人工柜台办理，拿回执，数日后凭回执取护照；仅凭身份证也可取护照，可以选择寄送；</li>
+<li>在美国，护照充当最权威的身份证的作用，但可以使用驾照等证明文件作为大多数时间的身份证明；</li>
+</ul>
+<span id="more"></span>
+<h2 id="签证">签证</h2>
+<ul>
+<li>步骤：
+<ul>
+<li>获取对应学校 I-20，打印后签名即可；</li>
+<li>填写 <a href="https://ceac.state.gov/genniv/">DS-160
+申请表</a>；</li>
+<li>支付 <a
+href="https://www.ustraveldocs.com/cn/zh/payment-options">F-1 签证费</a>
+和 <a href="https://www.fmjfee.com/i901fee/index.html">SEVIS I-901
+费用</a>；</li>
+<li>准备文件：学校成绩单、托福 GRE
+成绩单、Offer、资产证明与关系证明、身份证、护照、DS-160
+表确认单、面签预约确认单、SEVIS I-901 缴费凭证、六个月内拍摄的 2 英寸 x
+2 英寸（5.1 厘米 x 5.1 厘米）照片、学习计划和简历；</li>
+<li>预约并参加面试；</li>
+</ul></li>
+<li>若 check 则收走护照，4-6 周后进入处理流程，再数个工作日后 issue；EMS
+邮寄护照和签证（本人签收或委托信）；</li>
+</ul>
+<h2 id="流量">流量</h2>
+<ul>
+<li>美国三大运营商：Verizon、T-Mobile、AT&amp;T；其余流量套餐：Mint
+Mobile、Visible 等；</li>
+<li>先买国内运营商的国际套餐或国际漫游（或淘宝买 Sim
+卡），到美国后买那边运营商的卡即可；</li>
+<li>我的套餐：<a href="https://www.att.com/prepaid/plans/">AT&amp;T $25
+套餐</a>；</li>
+</ul>
+<h2 id="银行卡">银行卡</h2>
+<ul>
+<li>先用家长 Visa 信用卡办一张副卡，在美国消费后由家人还款；</li>
+<li>到美国后再办一张美国信用卡（BOA 或 Chase）；</li>
+<li>有两个账户，checking account 用于日常消费，saving account
+用于存钱（年化利率仅 0.01%，消费超过 6 次每次需交
+$10，总体用处不大）；</li>
+<li>信用卡可以透支，部分消费会有返现，使用美国借记卡还款；学生由于没有稳定收入，借记卡金额需要境外汇款，过程产生的手续费可能与返现抵消，因此用处不大；</li>
+</ul>
+<h2 id="飞机">飞机</h2>
+<ul>
+<li>机票在携程上直接购买即可，注意价格变动大；</li>
+<li>准备纸质备忘录，记录常用电话、信息等，防止手机不能用；</li>
+<li>剃须刀、充电宝、电池不要放箱子里；火柴、打火机等均不能带；</li>
+<li>不需要参与行李过海关的环节，只有人过海关；</li>
+<li>廉航随身行李不收费，托运行李一般每件在 $60~$100
+左右（联乘直挂只算一次）；</li>
+<li>肉、液体、种子等管控较严，其余食品管控较松；</li>
+<li>只有两步：值机和登机；行李直挂转机无需值机，找到 transit 或 transfer
+的地点即可；非直挂需要先去 baggage claim 取行李，再去 connection
+重新值机；</li>
+</ul>
+<h2 id="生活">生活</h2>
+<ul>
+<li>租房不带家具，带家电；</li>
+<li>购物有消费税；非快餐店吃饭给最少 18% 的小费；</li>
+<li>消费使用刷卡或现金；</li>
+<li>对机动车之外的交通工具不太友好；</li>
+<li>多数情况可以用驾照 permit 代替护照证明身份；</li>
+<li>人们打招呼很热情；</li>
+<li>坐公交车在路边招手即可，想下车拉一下黄色杆即可；</li>
+<li>UPS 退货要留着快递盒，否则得买他的袋子；Whole food store
+则不需要；</li>
+</ul>
+<h2 id="其它">其它</h2>
+<ul>
+<li>Duke 直接通过校内平台在 Lancaster 租房，提前找好室友；</li>
+<li>到国际旅行卫生保健中心体检、打疫苗、填写学校要求的强制疫苗表、领小红本与小黄本；有签证可以免体检费；</li>
+<li>自行打印成绩单后找校教务处密封盖章，自行邮寄。拿到学位证和毕业证后在档案馆办理翻译证明，同样在教务处密封盖章；</li>
+</ul>
+<h2 id="单位">单位</h2>
+<ul>
+<li>华氏度：F = 32 + 1.8 * C；100 F ≈ 37.78 C；</li>
+<li>美制加仑：1 gallon-us ≈ 3.8 L；</li>
+<li>液量盎司：1 gallon-us = 8 pt = 128 fl oz；1 fl oz ≈ 30 ml；</li>
+<li>磅：1 Lb ≈ 454 g；</li>
+<li>英尺：1 ft ≈ 30.48 cm；1 ft = 12 in；</li>
+<li>英寸：1 in ≈ 2.54 cm；</li>
+</ul>
+<h2 id="找工">找工</h2>
+<p>资料：</p>
+<p>https://github.com/eliaszon/Programmers-Overseas-Job-Interview-Handbook?tab=readme-ov-file</p>
+<p>https://www.eecsresume.com/article</p>
+<h3 id="简历">简历</h3>
+<ul>
+<li>写好 Linkedin Profile，另外为每个岗位类型准备一份简历；建议使用
+Overleaf Resume 模板；</li>
+<li>简历保证不超过一页，附上自己的联系方式；</li>
+<li>实习 Bullet Point 按【目的、内容、工具、特色、提升】来写；</li>
+<li>项目 Bullet Point 按【内容、特色、工具、细节、工作量】来写；第一个
+BP 用于概述；</li>
+<li>使用“最小项目法”，思考符合当前描述的最小项目，从而丰富内容；</li>
+</ul>
+<h3 id="投递">投递</h3>
+<ul>
+<li>Github 上会有当年开放的所有岗位，包括 Intern 和
+NG，实时更新；此外主流求职平台有：<a
+href="https://www.linkedin.com/jobs/search/?currentJobId=3968882269">Linkedin</a>、<a
+href="https://www.indeed.com/?from=jobsearch-empty-whatwhere">Indeed</a>、<a
+href="https://www.google.com/search?q=software+engineer+jobs&amp;hl=en&amp;oq=software+engineer+jobs&amp;ibp=htl;jobs&amp;sa=X&amp;htivrt=jobs&amp;htichips=&amp;htischips=#htivrt=jobs&amp;htidocid=iBeBi4RlDep4KEcnAAAAAA%3D%3D&amp;fpstate=tldetail">Google
+Career</a>、<a
+href="https://www.glassdoor.com/Job/index.htm">Glassdoor</a>、<a
+href="https://app.joinhandshake.com/stu/postings">Handshake</a>；</li>
+</ul>
+<h3 id="面试">面试</h3>
+<ul>
+<li>提前了解公司，展现热情，强调自己需要这份工作；</li>
+<li>准备常问问题的回答（特别是 Behavior
+Questions）；准备反问的问题（技术栈、给员工的建议）；面试完后邮件感谢；</li>
+<li>面试写题环节要注重
+Communication，即使写不出来也要多明确需求、描述想法；</li>
+</ul>
+<h3 id="其它-1">其它</h3>
+<ul>
+<li>美国目前主要招 8+ yoe ，Entry-level 招的非常少；需要公司帮抽
+H-1B；</li>
+<li>Amazon 和 Meta 都是 General
+Hire（目前招人少），其余公司均寻求技术栈一致的；</li>
+<li>时间线：入学当年 7 月开始找第二年暑期 Summer Intern；</li>
+<li>常见 OA 平台：CodeSignal、HackerRank；</li>
+</ul>
 ]]></content>
       <categories>
         <category>记录</category>
@@ -6196,378 +6283,6 @@ D_{\mathrm{KL}} &lt; \delta / 1.5 \\ \beta &amp;\leftarrow \beta \times
       </tags>
   </entry>
   <entry>
-    <title>留美备忘录</title>
-    <url>/2024/10/11/%E7%95%99%E7%BE%8E%E5%A4%87%E5%BF%98%E5%BD%95/</url>
-    <content><![CDATA[<h2 id="护照">护照</h2>
-<ul>
-<li>护照最好在户籍地公安局办理，在其它地区公安局会寄送到户籍地审核，所需资料也按户籍地标准要求；</li>
-<li>护照办理流程：带身份证，自助机器生成表格，拍照，填表格，在人工柜台办理，拿回执，数日后凭回执取护照；仅凭身份证也可取护照，可以选择寄送；</li>
-<li>在美国，护照充当最权威的身份证的作用，但可以使用驾照等证明文件作为大多数时间的身份证明；</li>
-</ul>
-<span id="more"></span>
-<h2 id="签证">签证</h2>
-<ul>
-<li>步骤：
-<ul>
-<li>获取对应学校 I-20，打印后签名即可；</li>
-<li>填写 <a href="https://ceac.state.gov/genniv/">DS-160
-申请表</a>；</li>
-<li>支付 <a
-href="https://www.ustraveldocs.com/cn/zh/payment-options">F-1 签证费</a>
-和 <a href="https://www.fmjfee.com/i901fee/index.html">SEVIS I-901
-费用</a>；</li>
-<li>准备文件：学校成绩单、托福 GRE
-成绩单、Offer、资产证明与关系证明、身份证、护照、DS-160
-表确认单、面签预约确认单、SEVIS I-901 缴费凭证、六个月内拍摄的 2 英寸 x
-2 英寸（5.1 厘米 x 5.1 厘米）照片、学习计划和简历；</li>
-<li>预约并参加面试；</li>
-</ul></li>
-<li>若 check 则收走护照，4-6 周后进入处理流程，再数个工作日后 issue；EMS
-邮寄护照和签证（本人签收或委托信）；</li>
-</ul>
-<h2 id="流量">流量</h2>
-<ul>
-<li>美国三大运营商：Verizon、T-Mobile、AT&amp;T；其余流量套餐：Mint
-Mobile、Visible 等；</li>
-<li>先买国内运营商的国际套餐或国际漫游（或淘宝买 Sim
-卡），到美国后买那边运营商的卡即可；</li>
-<li>我的套餐：<a href="https://www.att.com/prepaid/plans/">AT&amp;T $25
-套餐</a>；</li>
-</ul>
-<h2 id="银行卡">银行卡</h2>
-<ul>
-<li>先用家长 Visa 信用卡办一张副卡，在美国消费后由家人还款；</li>
-<li>到美国后再办一张美国信用卡（BOA 或 Chase）；</li>
-<li>有两个账户，checking account 用于日常消费，saving account
-用于存钱（年化利率仅 0.01%，消费超过 6 次每次需交
-$10，总体用处不大）；</li>
-<li>信用卡可以透支，部分消费会有返现，使用美国借记卡还款；学生由于没有稳定收入，借记卡金额需要境外汇款，过程产生的手续费可能与返现抵消，因此用处不大；</li>
-</ul>
-<h2 id="飞机">飞机</h2>
-<ul>
-<li>机票在携程上直接购买即可，注意价格变动大；</li>
-<li>准备纸质备忘录，记录常用电话、信息等，防止手机不能用；</li>
-<li>剃须刀、充电宝、电池不要放箱子里；火柴、打火机等均不能带；</li>
-<li>不需要参与行李过海关的环节，只有人过海关；</li>
-<li>廉航随身行李不收费，托运行李一般每件在 $60~$100
-左右（联乘直挂只算一次）；</li>
-<li>肉、液体、种子等管控较严，其余食品管控较松；</li>
-<li>只有两步：值机和登机；行李直挂转机无需值机，找到 transit 或 transfer
-的地点即可；非直挂需要先去 baggage claim 取行李，再去 connection
-重新值机；</li>
-</ul>
-<h2 id="生活">生活</h2>
-<ul>
-<li>租房不带家具，带家电；</li>
-<li>购物有消费税；非快餐店吃饭给最少 18% 的小费；</li>
-<li>消费使用刷卡或现金；</li>
-<li>对机动车之外的交通工具不太友好；</li>
-<li>多数情况可以用驾照 permit 代替护照证明身份；</li>
-<li>人们打招呼很热情；</li>
-<li>坐公交车在路边招手即可，想下车拉一下黄色杆即可；</li>
-<li>UPS 退货要留着快递盒，否则得买他的袋子；Whole food store
-则不需要；</li>
-</ul>
-<h2 id="其它">其它</h2>
-<ul>
-<li>Duke 直接通过校内平台在 Lancaster 租房，提前找好室友；</li>
-<li>到国际旅行卫生保健中心体检、打疫苗、填写学校要求的强制疫苗表、领小红本与小黄本；有签证可以免体检费；</li>
-<li>自行打印成绩单后找校教务处密封盖章，自行邮寄。拿到学位证和毕业证后在档案馆办理翻译证明，同样在教务处密封盖章；</li>
-</ul>
-<h2 id="单位">单位</h2>
-<ul>
-<li>华氏度：F = 32 + 1.8 * C；100 F ≈ 37.78 C；</li>
-<li>美制加仑：1 gallon-us ≈ 3.8 L；</li>
-<li>液量盎司：1 gallon-us = 8 pt = 128 fl oz；1 fl oz ≈ 30 ml；</li>
-<li>磅：1 Lb ≈ 454 g；</li>
-<li>英尺：1 ft ≈ 30.48 cm；1 ft = 12 in；</li>
-<li>英寸：1 in ≈ 2.54 cm；</li>
-</ul>
-<h2 id="找工">找工</h2>
-<p>资料：</p>
-<p>https://github.com/eliaszon/Programmers-Overseas-Job-Interview-Handbook?tab=readme-ov-file</p>
-<p>https://www.eecsresume.com/article</p>
-<h3 id="简历">简历</h3>
-<ul>
-<li>写好 Linkedin Profile，另外为每个岗位类型准备一份简历；建议使用
-Overleaf Resume 模板；</li>
-<li>简历保证不超过一页，附上自己的联系方式；</li>
-<li>实习 Bullet Point 按【目的、内容、工具、特色、提升】来写；</li>
-<li>项目 Bullet Point 按【内容、特色、工具、细节、工作量】来写；第一个
-BP 用于概述；</li>
-<li>使用“最小项目法”，思考符合当前描述的最小项目，从而丰富内容；</li>
-</ul>
-<h3 id="投递">投递</h3>
-<ul>
-<li>Github 上会有当年开放的所有岗位，包括 Intern 和
-NG，实时更新；此外主流求职平台有：<a
-href="https://www.linkedin.com/jobs/search/?currentJobId=3968882269">Linkedin</a>、<a
-href="https://www.indeed.com/?from=jobsearch-empty-whatwhere">Indeed</a>、<a
-href="https://www.google.com/search?q=software+engineer+jobs&amp;hl=en&amp;oq=software+engineer+jobs&amp;ibp=htl;jobs&amp;sa=X&amp;htivrt=jobs&amp;htichips=&amp;htischips=#htivrt=jobs&amp;htidocid=iBeBi4RlDep4KEcnAAAAAA%3D%3D&amp;fpstate=tldetail">Google
-Career</a>、<a
-href="https://www.glassdoor.com/Job/index.htm">Glassdoor</a>、<a
-href="https://app.joinhandshake.com/stu/postings">Handshake</a>；</li>
-</ul>
-<h3 id="面试">面试</h3>
-<ul>
-<li>提前了解公司，展现热情，强调自己需要这份工作；</li>
-<li>准备常问问题的回答（特别是 Behavior
-Questions）；准备反问的问题（技术栈、给员工的建议）；面试完后邮件感谢；</li>
-<li>面试写题环节要注重
-Communication，即使写不出来也要多明确需求、描述想法；</li>
-</ul>
-<h3 id="其它-1">其它</h3>
-<ul>
-<li>美国目前主要招 8+ yoe ，Entry-level 招的非常少；需要公司帮抽
-H-1B；</li>
-<li>Amazon 和 Meta 都是 General
-Hire（目前招人少），其余公司均寻求技术栈一致的；</li>
-<li>时间线：入学当年 7 月开始找第二年暑期 Summer Intern；</li>
-<li>常见 OA 平台：CodeSignal、HackerRank；</li>
-</ul>
-]]></content>
-      <categories>
-        <category>记录</category>
-      </categories>
-      <tags>
-        <tag>其它</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>部分基础编程术语中英对照表</title>
-    <url>/2024/10/11/%E9%83%A8%E5%88%86%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E6%9C%AF%E8%AF%AD%E4%B8%AD%E8%8B%B1%E5%AF%B9%E7%85%A7%E8%A1%A8/</url>
-    <content><![CDATA[<h1 id="部分基础编程术语中英对照表">部分基础编程术语中英对照表</h1>
-<table>
-<colgroup>
-<col style="width: 14%" />
-<col style="width: 13%" />
-<col style="width: 15%" />
-<col style="width: 23%" />
-<col style="width: 9%" />
-<col style="width: 23%" />
-</colgroup>
-<thead>
-<tr>
-<th>中文</th>
-<th>English</th>
-<th>中文</th>
-<th>English</th>
-<th>中文</th>
-<th>English</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>逗号</td>
-<td>comma</td>
-<td>句号</td>
-<td>period</td>
-<td>波浪号</td>
-<td>tilde</td>
-</tr>
-<tr>
-<td>冒号</td>
-<td>colon</td>
-<td>分号</td>
-<td>semicolon</td>
-<td>省略号</td>
-<td>ellipsis</td>
-</tr>
-<tr>
-<td>问号</td>
-<td>question mark</td>
-<td>感叹号</td>
-<td>exclamation mark</td>
-<td>引号</td>
-<td>quotation marks</td>
-</tr>
-<tr>
-<td>小括号</td>
-<td>parentheses</td>
-<td>中括号</td>
-<td>square brackets</td>
-<td>大括号</td>
-<td>curly braces</td>
-</tr>
-<tr>
-<td>星号</td>
-<td>asterisk</td>
-<td>与号（&amp;）</td>
-<td>ampersand</td>
-<td>井号</td>
-<td>number sign / hash / pound</td>
-</tr>
-<tr>
-<td>下划线</td>
-<td>underline</td>
-<td>百分号</td>
-<td>percent sign</td>
-<td>连字符</td>
-<td>hyphen</td>
-</tr>
-<tr>
-<td>斜杠</td>
-<td>slash</td>
-<td>反斜杠</td>
-<td>backslash</td>
-<td>`</td>
-<td>back-tick</td>
-</tr>
-<tr>
-<td>取模</td>
-<td>modulus</td>
-<td>余数</td>
-<td>remainder</td>
-<td>加数</td>
-<td>addend</td>
-</tr>
-<tr>
-<td>被除数</td>
-<td>dividend</td>
-<td>除数</td>
-<td>divisor</td>
-<td>乘数</td>
-<td>multiplier</td>
-</tr>
-<tr>
-<td>被减数</td>
-<td>minuend</td>
-<td>减数</td>
-<td>subtracter</td>
-<td>操作数</td>
-<td>operand</td>
-</tr>
-<tr>
-<td>语法</td>
-<td>syntax</td>
-<td>语义</td>
-<td>semantics</td>
-<td>变量</td>
-<td>variable</td>
-</tr>
-<tr>
-<td>标识符</td>
-<td>identifier</td>
-<td>初始化</td>
-<td>initialize</td>
-<td>语句</td>
-<td>statement</td>
-</tr>
-<tr>
-<td>赋值</td>
-<td>assignment</td>
-<td>表达式</td>
-<td>expression</td>
-<td>优先级</td>
-<td>precedence</td>
-</tr>
-<tr>
-<td>形参</td>
-<td>parameter</td>
-<td>实参</td>
-<td>argument</td>
-<td>栈帧</td>
-<td>stack frame</td>
-</tr>
-<tr>
-<td>作用域</td>
-<td>scope</td>
-<td>局部</td>
-<td>local</td>
-<td>全局</td>
-<td>global</td>
-</tr>
-<tr>
-<td>转义</td>
-<td>escape</td>
-<td>短路</td>
-<td>short circuit</td>
-<td>嵌套</td>
-<td>nest</td>
-</tr>
-<tr>
-<td>语法糖</td>
-<td>syntactic sugar</td>
-<td>通配</td>
-<td>glob</td>
-<td>描述符</td>
-<td>descriptor</td>
-</tr>
-<tr>
-<td>终端</td>
-<td>terminal</td>
-<td>缓冲</td>
-<td>buffer</td>
-<td>内存</td>
-<td>memory</td>
-</tr>
-<tr>
-<td>编译</td>
-<td>compile</td>
-<td>单例</td>
-<td>singleton</td>
-<td>运算符</td>
-<td>operator</td>
-</tr>
-<tr>
-<td>一元</td>
-<td>unary</td>
-<td>二元</td>
-<td>binary</td>
-<td>三元</td>
-<td>ternary</td>
-</tr>
-<tr>
-<td>可变（数量）</td>
-<td>variadic</td>
-<td>精度</td>
-<td>precision</td>
-<td>上下文</td>
-<td>context</td>
-</tr>
-<tr>
-<td>类型转换（人为）</td>
-<td>cast</td>
-<td>类型转换（编译器）</td>
-<td>type promotion / conversion</td>
-<td>递归</td>
-<td>recursion</td>
-</tr>
-<tr>
-<td>并发</td>
-<td>concurrent</td>
-<td>并行 / 并联</td>
-<td>parallel</td>
-<td>串行 / 串联</td>
-<td>serial</td>
-</tr>
-<tr>
-<td>演绎</td>
-<td>deduction</td>
-<td>归纳</td>
-<td>induction</td>
-<td>约简</td>
-<td>reduction</td>
-</tr>
-<tr>
-<td>分隔符</td>
-<td>delimiter</td>
-<td>字典序</td>
-<td>lexicographic order</td>
-<td>字面量</td>
-<td>literal</td>
-</tr>
-</tbody>
-</table>
-]]></content>
-      <categories>
-        <category>其它</category>
-      </categories>
-      <tags>
-        <tag>其它</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>西方古近代哲学史入门</title>
     <url>/2024/11/18/%E8%A5%BF%E6%96%B9%E5%8F%A4%E8%BF%91%E4%BB%A3%E5%93%B2%E5%AD%A6%E5%8F%B2%E5%85%A5%E9%97%A8/</url>
     <content><![CDATA[<h2 id="导论">导论</h2>
@@ -6922,6 +6637,289 @@ ti），它也是独立的</em>；</li>
       </categories>
       <tags>
         <tag>哲学</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>部分基础编程术语中英对照表</title>
+    <url>/2024/10/11/%E9%83%A8%E5%88%86%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E6%9C%AF%E8%AF%AD%E4%B8%AD%E8%8B%B1%E5%AF%B9%E7%85%A7%E8%A1%A8/</url>
+    <content><![CDATA[<h1 id="部分基础编程术语中英对照表">部分基础编程术语中英对照表</h1>
+<table>
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 13%" />
+<col style="width: 15%" />
+<col style="width: 23%" />
+<col style="width: 9%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr>
+<th>中文</th>
+<th>English</th>
+<th>中文</th>
+<th>English</th>
+<th>中文</th>
+<th>English</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>逗号</td>
+<td>comma</td>
+<td>句号</td>
+<td>period</td>
+<td>波浪号</td>
+<td>tilde</td>
+</tr>
+<tr>
+<td>冒号</td>
+<td>colon</td>
+<td>分号</td>
+<td>semicolon</td>
+<td>省略号</td>
+<td>ellipsis</td>
+</tr>
+<tr>
+<td>问号</td>
+<td>question mark</td>
+<td>感叹号</td>
+<td>exclamation mark</td>
+<td>引号</td>
+<td>quotation marks</td>
+</tr>
+<tr>
+<td>小括号</td>
+<td>parentheses</td>
+<td>中括号</td>
+<td>square brackets</td>
+<td>大括号</td>
+<td>curly braces</td>
+</tr>
+<tr>
+<td>星号</td>
+<td>asterisk</td>
+<td>与号（&amp;）</td>
+<td>ampersand</td>
+<td>井号</td>
+<td>number sign / hash / pound</td>
+</tr>
+<tr>
+<td>下划线</td>
+<td>underline</td>
+<td>百分号</td>
+<td>percent sign</td>
+<td>连字符</td>
+<td>hyphen</td>
+</tr>
+<tr>
+<td>斜杠</td>
+<td>slash</td>
+<td>反斜杠</td>
+<td>backslash</td>
+<td>`</td>
+<td>back-tick</td>
+</tr>
+<tr>
+<td>取模</td>
+<td>modulus</td>
+<td>余数</td>
+<td>remainder</td>
+<td>加数</td>
+<td>addend</td>
+</tr>
+<tr>
+<td>被除数</td>
+<td>dividend</td>
+<td>除数</td>
+<td>divisor</td>
+<td>乘数</td>
+<td>multiplier</td>
+</tr>
+<tr>
+<td>被减数</td>
+<td>minuend</td>
+<td>减数</td>
+<td>subtracter</td>
+<td>操作数</td>
+<td>operand</td>
+</tr>
+<tr>
+<td>语法</td>
+<td>syntax</td>
+<td>语义</td>
+<td>semantics</td>
+<td>变量</td>
+<td>variable</td>
+</tr>
+<tr>
+<td>标识符</td>
+<td>identifier</td>
+<td>初始化</td>
+<td>initialize</td>
+<td>语句</td>
+<td>statement</td>
+</tr>
+<tr>
+<td>赋值</td>
+<td>assignment</td>
+<td>表达式</td>
+<td>expression</td>
+<td>优先级</td>
+<td>precedence</td>
+</tr>
+<tr>
+<td>形参</td>
+<td>parameter</td>
+<td>实参</td>
+<td>argument</td>
+<td>栈帧</td>
+<td>stack frame</td>
+</tr>
+<tr>
+<td>作用域</td>
+<td>scope</td>
+<td>局部</td>
+<td>local</td>
+<td>全局</td>
+<td>global</td>
+</tr>
+<tr>
+<td>转义</td>
+<td>escape</td>
+<td>短路</td>
+<td>short circuit</td>
+<td>嵌套</td>
+<td>nest</td>
+</tr>
+<tr>
+<td>语法糖</td>
+<td>syntactic sugar</td>
+<td>通配</td>
+<td>glob</td>
+<td>描述符</td>
+<td>descriptor</td>
+</tr>
+<tr>
+<td>终端</td>
+<td>terminal</td>
+<td>缓冲</td>
+<td>buffer</td>
+<td>内存</td>
+<td>memory</td>
+</tr>
+<tr>
+<td>编译</td>
+<td>compile</td>
+<td>单例</td>
+<td>singleton</td>
+<td>运算符</td>
+<td>operator</td>
+</tr>
+<tr>
+<td>一元</td>
+<td>unary</td>
+<td>二元</td>
+<td>binary</td>
+<td>三元</td>
+<td>ternary</td>
+</tr>
+<tr>
+<td>可变（数量）</td>
+<td>variadic</td>
+<td>精度</td>
+<td>precision</td>
+<td>上下文</td>
+<td>context</td>
+</tr>
+<tr>
+<td>类型转换（人为）</td>
+<td>cast</td>
+<td>类型转换（编译器）</td>
+<td>type promotion / conversion</td>
+<td>递归</td>
+<td>recursion</td>
+</tr>
+<tr>
+<td>并发</td>
+<td>concurrent</td>
+<td>并行 / 并联</td>
+<td>parallel</td>
+<td>串行 / 串联</td>
+<td>serial</td>
+</tr>
+<tr>
+<td>演绎</td>
+<td>deduction</td>
+<td>归纳</td>
+<td>induction</td>
+<td>约简</td>
+<td>reduction</td>
+</tr>
+<tr>
+<td>分隔符</td>
+<td>delimiter</td>
+<td>字典序</td>
+<td>lexicographic order</td>
+<td>字面量</td>
+<td>literal</td>
+</tr>
+</tbody>
+</table>
+]]></content>
+      <categories>
+        <category>其它</category>
+      </categories>
+      <tags>
+        <tag>其它</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo个人网站搭建</title>
+    <url>/2023/07/13/Hexo%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA/</url>
+    <content><![CDATA[<h2 id="本机配置">本机配置</h2>
+<p><a href="https://nodejs.org/en">官网</a>下载Node.js，换成淘宝源：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 换成淘宝源（可能需要sudo su进入root模式）：</span></span><br><span class="line">npm install -g cnpm --registry==https://registry.npm.taobao.org</span><br><span class="line">cnpm -v</span><br><span class="line">cnpm install -g hexo-cli</span><br><span class="line"><span class="built_in">mkdir</span> Hexo &amp;&amp; <span class="built_in">cd</span> Hexo</span><br><span class="line">hexo init</span><br><span class="line">hexo s</span><br><span class="line"><span class="comment"># 此时可在http://localhost:4000/访问主页</span></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h2 id="服务器与域名配置">服务器与域名配置</h2>
+<ul>
+<li>阿里云ECS轻量应用服务器2核2G￥108/年；买域名、ICP备案</li>
+<li>选择CentOS系统镜像，设置密码；</li>
+<li>创建新用户并设置ssh免密登录<a
+href="http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html">[原理链接]</a>，方便后续hexo部署：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">adduser git</span><br><span class="line"><span class="built_in">chmod</span> 740 /etc/sudoers</span><br><span class="line">vim /etc/sudoers</span><br><span class="line"><span class="comment"># 在root ALL=(ALL) ALL下添加：</span></span><br><span class="line">git ALL=(ALL) ALL</span><br><span class="line"><span class="built_in">chmod</span> 400 /etc/sudoers</span><br><span class="line">sudo passwd git</span><br><span class="line"></span><br><span class="line">su git</span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line"><span class="built_in">mkdir</span> .ssh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查本地~/.ssh下是否已有公钥，若没有：</span></span><br><span class="line">ssh-keygen</span><br><span class="line"><span class="comment"># 在服务器git用户~/.ssh下生成authorized_key</span></span><br><span class="line">ssh-copy-id user@host</span><br></pre></td></tr></table></figure>
+<h2 id="服务器nginx配置">服务器nginx配置</h2>
+<ul>
+<li>RedHat系（RedHat、CentOS、Fedora等）包管理工具为rpm，依赖管理工具为yum，Debian系（Debian、Ubuntu等）包管理工具为dpkg，依赖管理工具为apt。</li>
+<li>安装nginx依赖环境，下载解压nginx安装包：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 确认此时在root用户下：</span></span><br><span class="line">yum install gcc-c++</span><br><span class="line">yum install -y pcre pcre-devel</span><br><span class="line">yum install -y zlib zlib-devel</span><br><span class="line">yum install -y openssl openssl-devel</span><br><span class="line"></span><br><span class="line">wget -c https://nginx.org/download/nginx-1.10.1.tar.gz</span><br><span class="line">tar -xvf nginx-1.10.1.tar.gz -C /usr/local</span><br><span class="line"><span class="built_in">cd</span> /usr/local/nginx-1.10.1</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 若Make报错：</span></span><br><span class="line">vim ./objs/Makefile</span><br><span class="line"><span class="comment"># 删除CFLAGS中的-Werror：</span></span><br><span class="line">CFLAGS =  -pipe  -O -W -Wall -Wpointer-arith -Wno-unused -g</span><br><span class="line">vim ./src/os/unix/ngx_user.c</span><br><span class="line"><span class="comment"># 注释掉此行：</span></span><br><span class="line">cd.current_salt[0] = ~salt[0];</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装、配置nginx：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 确认此时在root用户下：</span></span><br><span class="line"><span class="built_in">cd</span> /usr/local/nginx/sbin</span><br><span class="line">./nginx</span><br><span class="line"><span class="comment"># 此时可用host:80访问nginx欢迎页</span></span><br><span class="line"><span class="comment"># 可用./nginx -s stop停止服务</span></span><br><span class="line"><span class="comment"># 若服务器不开放80端口：</span></span><br><span class="line">/sbin/iptables -I INPUT -p tcp –dport 80 -j ACCEPT</span><br><span class="line"></span><br><span class="line"><span class="built_in">mkdir</span> -p /home/www/hexo</span><br><span class="line"><span class="built_in">cd</span> /usr/local/nginx/conf</span><br><span class="line">vim nginx.conf</span><br><span class="line"><span class="comment"># 将其中的部署根目录/的location的root修改为/home/www/hexo</span></span><br><span class="line"><span class="comment"># 将server_name修改为域名，若没有域名则改为公网ip</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">curl -sL https://rpm.nodesource.com/setup_10.x | bash -</span><br><span class="line">yum install -y nodejs</span><br><span class="line">node -v</span><br><span class="line">npm -v</span><br><span class="line">yum install git</span><br><span class="line">git --version</span><br></pre></td></tr></table></figure>
+<h2 id="服务器hexo配置">服务器Hexo配置</h2>
+<p>配置git仓库</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 确认此时在git用户下：</span></span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">git init --bare hexo.git</span><br><span class="line">vim ~/hexo.git/hooks/post-receive</span><br><span class="line"><span class="comment"># 写入：git --work-tree=/home/www/hexo --git-dir=/home/git/hexo.git checkout -f</span></span><br><span class="line"><span class="built_in">chmod</span> +x ~/hexo.git/hooks/post-receive</span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">sudo <span class="built_in">chmod</span> -R 777 /home/www/hexo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 回到本地对应Hexo目录：</span></span><br><span class="line"><span class="built_in">cd</span> ~/Documents/Hexo</span><br><span class="line">sudo vim _config.yml</span><br><span class="line"><span class="comment"># 将url改成https://&#123;服务器IP&#125;/</span></span><br><span class="line"><span class="comment"># 修改末尾deploy部分：</span></span><br><span class="line">deploy:</span><br><span class="line">	<span class="built_in">type</span>: git</span><br><span class="line">	repo: git@ip:/home/git/hexo.git</span><br><span class="line">	branch: master</span><br><span class="line"></span><br><span class="line">npm install hexo-deployer-git --save</span><br><span class="line">npm install hexo-server</span><br><span class="line"></span><br><span class="line"><span class="comment"># 若首次使用git：</span></span><br><span class="line">git config --global user.name <span class="string">&quot;your-username&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;your-email-address&quot;</span></span><br><span class="line"></span><br><span class="line">hexo clean &amp;&amp; hexo g -d</span><br></pre></td></tr></table></figure>
+<h2 id="next主题配置">NeXT主题配置</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 更换主题：https://hexo.io/themes/</span></span><br><span class="line">git <span class="built_in">clone</span> --depth=1 https://github.com/theme-next/hexo-theme-next.git themes/next</span><br><span class="line"><span class="comment"># 将_config.yml中themes改为next</span></span><br><span class="line"></span><br><span class="line">hexo n <span class="string">&quot;name.md&quot;</span></span><br><span class="line">hexo clean &amp;&amp; hexo g -d</span><br><span class="line"><span class="comment"># 在Hexo和themes下各有一个_config.yml，在此自定义</span></span><br><span class="line"><span class="comment"># markdown中插入图片：</span></span><br><span class="line"><span class="comment"># 将Hexo根目录下_config.yml文件中post_asset_folder设为true，即可使用相对路径引用图片：</span></span><br><span class="line"><span class="comment"># 注意：.开头的隐藏文件不会被保留</span></span><br><span class="line">![](image.jpg)</span><br></pre></td></tr></table></figure>
+<p><a href="https://zhuanlan.zhihu.com/p/618864711">配置教程</a>，<a
+href="https://zhuanlan.zhihu.com/p/30836436">另一篇</a>，<a
+href="https://siriusq.top/Next%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96?tdsourcetag=s_pctim_aiomsg">另一篇</a></p>
+<ul>
+<li><p>删除文章：删除对应.md和文件夹，以及Hexo根目录下.deploy_git即可。</p></li>
+<li><p><span class="math inline">\(\LaTeX\)</span>支持：<a
+href="https://zhuanlan.zhihu.com/p/381508379">知乎</a></p></li>
+<li><p>添加置顶：</p></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm uninstall hexo-generator-index --save</span><br><span class="line">npm instal hexo-generator-index-pin-top --save</span><br></pre></td></tr></table></figure>
+<p>在置顶文章的Front-matter中加上top: true即可。</p>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>电脑配置</tag>
       </tags>
   </entry>
 </search>
