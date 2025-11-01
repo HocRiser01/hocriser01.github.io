@@ -1,0 +1,17 @@
+.content-wrap,
+.sidebar {
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+}
+.sidebar-inner {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+.site-author {
+  background: rgba(255,255,255,0.2) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 10px;
+}
