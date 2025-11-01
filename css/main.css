@@ -1292,7 +1292,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #9cfaff;
+  background: #f19624;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2573,7 +2573,7 @@ mjx-container + br {
 .content-wrap,
 .sidebar {
   background: rgba(255,255,255,0.6);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(10px);
   border-radius: 10px;
 }
 .sidebar-inner {
@@ -2582,7 +2582,7 @@ mjx-container + br {
   border: none !important;
 }
 .site-author {
-  background: rgba(255,255,255,0.2) !important;
+  background: rgba(255,255,255,0) !important;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-radius: 10px;
