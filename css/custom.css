@@ -4,14 +4,9 @@
   backdrop-filter: blur(10px);
   border-radius: 10px;
 }
-.sidebar-inner {
+.sidebar-inner,
+.header-inner {
   background: transparent !important;
   box-shadow: none !important;
   border: none !important;
-}
-.site-author {
-  background: rgba(255,255,255,0) !important;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 10px;
 }
