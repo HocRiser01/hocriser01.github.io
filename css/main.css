@@ -1292,7 +1292,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #ff06ff;
+  background: #fe5d6b;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2571,9 +2571,40 @@ mjx-container + br {
   margin-top: 16px;
 }
 .content-wrap,
+.sidebar,
 .sidebar-inner,
-.sidebar {
+.sidebar-panel {
   background: rgba(255,255,255,0.6);
   backdrop-filter: blur(8px);
   border-radius: 10px;
+}
+/* === Pisces 侧边栏透明方案 === */
+.sidebar {
+  background: rgba(255,255,255,0.2) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: none !important;
+  border: none !important;
+}
+/* 内部容器透明 */
+.sidebar-inner {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+/* 作者信息卡片透明 */
+.site-author {
+  background: rgba(255,255,255,0.2) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 10px;
+}
+/* 侧边栏其他小部件透明 */
+.sidebar-panel,
+.site-state,
+.feed-link,
+.links-of-author {
+  background: rgba(255,255,255,0.15) !important;
+  box-shadow: none !important;
+  border: none !important;
 }
