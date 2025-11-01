@@ -20,6 +20,36 @@
     var CONFIG = {"hostname":"47.99.133.133","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
+<script>
+  (function() {
+    const images = [
+      '/images/homepage_bg/Landscapes 01.jpg',
+      '/images/homepage_bg/Landscapes 02.jpg',
+      '/images/homepage_bg/Landscapes 03.jpg',
+      '/images/homepage_bg/Landscapes 04.jpg',
+      '/images/homepage_bg/Landscapes 05.jpg',
+      '/images/homepage_bg/Landscapes 06.jpg',
+      '/images/homepage_bg/Landscapes 07.jpg',
+      '/images/homepage_bg/Sierras 01.jpg',
+      '/images/homepage_bg/Sierras 02.jpg',
+      '/images/homepage_bg/Sierras 03.jpg',
+      '/images/homepage_bg/Sierras 04.jpg',
+      '/images/homepage_bg/Sierras 05.jpg',
+      '/images/homepage_bg/Sierras 06.jpg',
+      '/images/homepage_bg/Sierras 07.jpg',
+      '/images/homepage_bg/Sierras 08.jpg'
+    ];
+
+    const randomImage = images[Math.floor(Math.random() * images.length)];
+
+    document.addEventListener('DOMContentLoaded', function() {
+      document.body.style.backgroundImage = `url('${randomImage}')`;
+      document.body.style.backgroundSize = 'cover';
+      document.body.style.backgroundPosition = 'center';
+      document.body.style.backgroundAttachment = 'fixed';
+    });
+  })();
+</script>
   <meta name="description" content="What happens in Vegas, stays in Vegas.  最纸醉金迷的罪恶之城。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Acts of an Ordinary Man (7) - Las Vegas">

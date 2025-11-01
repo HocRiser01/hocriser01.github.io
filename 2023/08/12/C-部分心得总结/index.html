@@ -20,6 +20,36 @@
     var CONFIG = {"hostname":"47.99.133.133","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
+<script>
+  (function() {
+    const images = [
+      '/images/homepage_bg/Landscapes 01.jpg',
+      '/images/homepage_bg/Landscapes 02.jpg',
+      '/images/homepage_bg/Landscapes 03.jpg',
+      '/images/homepage_bg/Landscapes 04.jpg',
+      '/images/homepage_bg/Landscapes 05.jpg',
+      '/images/homepage_bg/Landscapes 06.jpg',
+      '/images/homepage_bg/Landscapes 07.jpg',
+      '/images/homepage_bg/Sierras 01.jpg',
+      '/images/homepage_bg/Sierras 02.jpg',
+      '/images/homepage_bg/Sierras 03.jpg',
+      '/images/homepage_bg/Sierras 04.jpg',
+      '/images/homepage_bg/Sierras 05.jpg',
+      '/images/homepage_bg/Sierras 06.jpg',
+      '/images/homepage_bg/Sierras 07.jpg',
+      '/images/homepage_bg/Sierras 08.jpg'
+    ];
+
+    const randomImage = images[Math.floor(Math.random() * images.length)];
+
+    document.addEventListener('DOMContentLoaded', function() {
+      document.body.style.backgroundImage = `url('${randomImage}')`;
+      document.body.style.backgroundSize = 'cover';
+      document.body.style.backgroundPosition = 'center';
+      document.body.style.backgroundAttachment = 'fixed';
+    });
+  })();
+</script>
   <meta name="description" content="代码书写  代码书写规范基本遵循 谷歌代码书写规范，中文版； 不使用using namespace std，不使用goto，不使用vector&lt;bool&gt;，使用using代替typedef； 谨慎使用宏定义（尽可能使用const代替宏），#代表将宏参数内容转换成字符串，##代表将两个参数内容连接成为一个字符串； 一个可参考的 C++ 工程目录结构：https:&#x2F;&#x2F;github.com&#x2F;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++ 部分心得总结">
