@@ -5,8 +5,7 @@
   backdrop-filter: blur(10px);
   border-radius: 10px;
 }
-.sidebar-inner affix,
-.sidebar-inner affix-top {
+.sidebar-inner {
   background: transparent !important;
   box-shadow: none !important;
   border: none !important;

@@ -1292,7 +1292,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #ff37ff;
+  background: #3b1fff;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2577,8 +2577,7 @@ mjx-container + br {
   backdrop-filter: blur(10px);
   border-radius: 10px;
 }
-.sidebar-inner affix,
-.sidebar-inner affix-top {
+.sidebar-inner {
   background: transparent !important;
   box-shadow: none !important;
   border: none !important;
