@@ -6332,135 +6332,6 @@ unique_ptr<Connection>&gt;，以及由程序员指定的 on_connect() 与 on_rec
       </tags>
   </entry>
   <entry>
-    <title>Rust 笔记</title>
-    <url>/2023/11/20/Rust-%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<p><strong>参考</strong>：</p>
-<p><em>《Rust Primer》</em></p>
-<p><em>《Rust 编程之道》</em></p>
-<p><em>《Rust Course》（Rust 语言圣经）</em></p>
-<p>THU<em>《程序设计训练（Rust）》</em>课件</p>
-<ul>
-<li>裸指针（不安全）： <code>*const T</code> 和 <code>*mut T</code>
-；</li>
-<li>单字节字符 <code>b'H'</code> ，单字节字符串 <code>b'Hello'</code>
-，仅限 ASCII 字符； <code>r#"..."#</code> 表示不转义字符串；</li>
-<li><code>String</code> → <code>&amp;str</code>
-很廉价，而反之涉及分配内存，代价相对更高；</li>
-<li>即使结构体是公有的，成员仍然默认私有；枚举如果是公有的则其成员均为公有；</li>
-<li>可以在 <code>match</code> 中通过 <code>ref</code> 和
-<code>ref mut</code> 获取对应变量的引用；</li>
-<li><code>try!</code> 宏在 <code>Ok</code> 时提取内部值，否则直接
-<code>return</code> 期望返回的 Error 类型；现在可以直接使用
-<code>?</code> ；</li>
-<li>使用 <code>io::stdin.read_line(&amp;mut String)</code> 读入；</li>
-<li>Rust 项目结构：</li>
-</ul>
-<span id="more"></span>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line">Project/</span><br><span class="line">|-- cargo.toml</span><br><span class="line">|-- cargo.lock</span><br><span class="line">|-- src/</span><br><span class="line">|-- |-- main.rs</span><br><span class="line">|-- |-- lib.rs</span><br><span class="line">|-- |-- bin/</span><br><span class="line">|-- tests/</span><br><span class="line">|-- examples/</span><br></pre></td></tr></table></figure>
-<ul>
-<li><code>for (i, j) in (5..10).enumerate()</code> 使 <code>i</code>
-为循环次数下标；</li>
-<li>使用 <code>#derive[(...)]</code> 为类型自动添加一些 trait，常用：
-<code>Clone</code> ， <code>Copy</code> ， <code>Debug</code> ，
-<code>Default</code> ， <code>Eq</code> ， <code>PartiaEq</code> ，
-<code>Ord</code> ， <code>PartialOrd</code> ， <code>Hash</code> ；</li>
-<li><code>Eq</code> trait 表示任意两个值要么 <code>==</code> 要么
-<code>!=</code> ，它不包含方法，仅用作标记； <code>PartialEq</code>
-提供部分等价关系，包含一个 <code>eq</code> 方法；实现了 <code>Eq</code>
-的必然实现了 <code>PartialEq</code> ； <code>&lt;</code> 、
-<code>&gt;</code> 、 <code>&gt;=</code> 、 <code>&lt;=</code> 实现的是
-<code>PartialOrd</code> ； <code>PartialEq</code> 满足对称性与传递性，
-<code>Eq</code> 还满足自反性；</li>
-<li>所有硬编码字符串均为 <code>&amp;'static str</code> ；</li>
-<li><code>+</code> 、 <code>-</code> 、 <code>*</code> 、 <code>/</code>
-、 <code>%</code> 分别实现在 <code>std::ops::Add/Sub/Mul/Div/Rem</code>
-； <code>&amp;</code> 、 <code>|</code> 、 <code>^</code> 、
-<code>&lt;&lt;</code> 、 <code>&gt;&gt;</code> 分别实现在
-<code>std::ops::BitAnd/BitOr/BitXor/Shl/Shr</code>；</li>
-<li>函数参数支持模式匹配：
-<code>fn print_age((_, age): (&amp;str, i32));</code> ；</li>
-<li>发散函数（Diverging function）不返回值，返回值处使用 <code>!</code>
-；</li>
-<li>trait 可以继承： <code>trait Son : Parent</code> ，之后实现
-<code>Son</code> 的类型也要实现 <code>Parent</code> ；</li>
-<li><code>Copy</code> trait 继承 <code>Clone</code> trait：
-<code>pub trait Copy: Clone;</code> ；</li>
-<li>Rust 为 <code>Vec</code> 、 <code>HashMap</code> 实现了
-<code>IntoIterator</code> trait，从而支持直接 <code>for a in vec</code>
-循环；无限迭代器： <code>let inf_seq = (1..).into_iter();</code> ；
-<code>Vec</code> 、 <code>HashMap</code> 实现了
-<code>FromIterator</code> trait，以支持 <code>(1..10).collect()</code>
-等操作；</li>
-<li><code>fold</code> 和 <code>reduce</code> 的区别：后者带初始值；取前
-n 个：
-<code>let v_take = v.iter().cloned().take(2).collect::&lt;Vec&lt;_&gt;&gt;();</code>
-， <code>skip(n)</code> 跳过前 n 个；</li>
-<li>Prelude 的一部分：</li>
-</ul>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line">std::marker::&#123;<span class="built_in">Copy</span>, <span class="built_in">Send</span>, <span class="built_in">Sized</span>, <span class="built_in">Sync</span>&#125;</span><br><span class="line">std::ops::&#123;<span class="built_in">Drop</span>, <span class="built_in">Fn</span>, <span class="built_in">FnMut</span>, <span class="built_in">FnOnce</span>&#125;</span><br><span class="line">std::mem::drop</span><br><span class="line">std::boxed::<span class="type">Box</span></span><br><span class="line">std::borrow::<span class="built_in">ToOwned</span></span><br><span class="line">std::clone::<span class="built_in">Clone</span></span><br><span class="line">std::cmp::&#123;<span class="built_in">PartialEq</span>, <span class="built_in">PartialOrd</span>, <span class="built_in">Eq</span>, <span class="built_in">Ord</span>&#125;</span><br><span class="line">std::convert::&#123;<span class="built_in">AsRef</span>, <span class="built_in">AsMut</span>, <span class="built_in">Into</span>, <span class="built_in">From</span>&#125;</span><br><span class="line">std::default::<span class="built_in">Default</span></span><br><span class="line">std::iter::&#123;<span class="built_in">Iterator</span>, <span class="built_in">Extend</span>, <span class="built_in">IntoIterator</span>, <span class="built_in">DoubleEndedIterator</span>, <span class="built_in">ExactSizeIterator</span>&#125;</span><br><span class="line">std::option::<span class="type">Option</span>::&#123;<span class="keyword">self</span>, <span class="literal">Some</span>, <span class="literal">None</span>&#125;</span><br><span class="line">std::result::<span class="type">Result</span>::&#123;<span class="keyword">self</span>, <span class="literal">Ok</span>, <span class="literal">Err</span>&#125;</span><br><span class="line">std::slice::<span class="built_in">SliceConcatExt</span></span><br><span class="line">std::string::&#123;<span class="type">String</span>, <span class="built_in">ToString</span>&#125;</span><br><span class="line">std::vec::<span class="type">Vec</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li><code>Into/From</code> trait 分别实现了 <code>U::from(T)</code> 和
-<code>U::into(T)</code> ，会消耗所有权；实现了 <code>From</code>
-会自动实现 <code>Into</code> ； <code>TryFrom</code> 和
-<code>TryInto</code> 返回 <code>Result</code> ；同样还有
-<code>ToString</code> 和 <code>FromStr</code> ；</li>
-<li><code>AsRef&lt;U&gt;</code> 实现了将 <code>T</code> 类型对象
-<code>a</code> 通过 <code>a.as_ref()</code> 得到 <code>&amp;U</code>
-，不消耗所有权； <code>AsMut</code> 同理；</li>
-<li>实现了 <code>Deref&lt;Target=U&gt;</code> 的类型 <code>T</code>
-可以通过 <code>&amp;T</code> 传参给 <code>&amp;U</code>
-；调用函数时，Rust 会提供任意多层自动解引用；</li>
-<li>不可以使用 <code>i32/i64</code> 作为下标，需要 <code>as usize</code>
-；</li>
-<li>不同于 C++，Rust 的块注释 <code>/* */</code> 可以嵌套；</li>
-<li>变量有引用存在时，不能移交其绑定数据的所有权；</li>
-<li>结构体有域级的访问控制，但没有域级的可变性控制，因此可以对内部变量标记
-<code>pub</code> 而不能标记 <code>mut</code>
-；结构体的域访问控制是针对模块而非结构体本身的，即其私有成员可以被同模块的其它函数访问；</li>
-<li>使用 <code>s.chars().nth(i)</code> 访问 <code>String</code> ；</li>
-<li>常用 <code>Option&lt;T&gt;</code> 相关函数：</li>
-</ul>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">unwrap</span>&lt;T&gt;(<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> T &#123;</span><br><span class="line">	<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">		<span class="literal">None</span> =&gt; <span class="built_in">panic!</span>(<span class="string">&quot;Called `Option::unwrap()` on a `None` value&quot;</span>),</span><br><span class="line">		<span class="title function_ invoke__">Some</span>(value) =&gt; value,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">map</span>&lt;U, F&gt;(<span class="keyword">self</span>, f: F) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;U&gt;</span><br><span class="line">		<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>(T) <span class="punctuation">-&gt;</span> U &#123;</span><br><span class="line">	<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">		<span class="literal">None</span> =&gt; <span class="literal">None</span>,</span><br><span class="line">		<span class="title function_ invoke__">Some</span>(x) =&gt; <span class="title function_ invoke__">Some</span>(<span class="title function_ invoke__">f</span>(x))</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">and_then</span>&lt;U, F&gt;(<span class="keyword">self</span>, f: F) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;U&gt;</span><br><span class="line">		<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>(T) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;U&gt; &#123;</span><br><span class="line">	<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">		<span class="title function_ invoke__">Some</span>(x) =&gt; <span class="title function_ invoke__">f</span>(x),</span><br><span class="line">		<span class="literal">None</span> =&gt; <span class="literal">None</span>,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T&gt; <span class="type">Option</span>&lt;T&gt; &#123;</span><br><span class="line">	<span class="keyword">fn</span> <span class="title function_">unwrap_or</span>&lt;T&gt;(<span class="keyword">self</span>, default: T) <span class="punctuation">-&gt;</span> T &#123;</span><br><span class="line">		<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">			<span class="literal">None</span> =&gt; default,</span><br><span class="line">			<span class="title function_ invoke__">Some</span>(value) =&gt; value,</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T&gt; <span class="type">Option</span>&lt;T&gt; &#123;</span><br><span class="line">	<span class="keyword">fn</span> <span class="title function_">unwrap_or_else</span>&lt;T&gt;(<span class="keyword">self</span>, f: F) <span class="punctuation">-&gt;</span> T</span><br><span class="line">			<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>() <span class="punctuation">-&gt;</span> T &#123;</span><br><span class="line">		<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">			<span class="literal">None</span> =&gt; <span class="title function_ invoke__">f</span>(),</span><br><span class="line">			<span class="title function_ invoke__">Some</span>(value) =&gt; value,</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">is_some</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">bool</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">is_none</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">bool</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">map_or</span>&lt;U, F&gt;(<span class="keyword">self</span>, default: U, f: F) <span class="punctuation">-&gt;</span> U <span class="comment">// U 类型的默认值</span></span><br><span class="line">		<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>(T) <span class="punctuation">-&gt;</span> U</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">map_or_else</span>&lt;U, D, F&gt;(<span class="keyword">self</span>, default: D, f: F) <span class="punctuation">-&gt;</span> U <span class="comment">// D 类型的闭包用于计算默认值</span></span><br><span class="line">		<span class="keyword">where</span> D: <span class="title function_ invoke__">FnOnce</span>() <span class="punctuation">-&gt;</span> U, F: <span class="title function_ invoke__">FnOnce</span>(T) <span class="punctuation">-&gt;</span> U</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">ok_or</span>(<span class="keyword">self</span>, err: E) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;T, E&gt;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">ok_or_else</span>(<span class="keyword">self</span>, default: F) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;T, E&gt; <span class="comment">// 与 unwrap_or 相似，用于错误处理。</span></span><br><span class="line">		<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>() <span class="punctuation">-&gt;</span> E</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">and</span>&lt;U&gt;(<span class="keyword">self</span>, optb: <span class="type">Option</span>&lt;U&gt;) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;U&gt; <span class="comment">// 如果 self 是 None，则返回 None，否则返回 optb。</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">or</span>(<span class="keyword">self</span>, optb: <span class="type">Option</span>&lt;T&gt;) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;T&gt; <span class="comment">// 如果 self 是 Some(_)，则返回 self，否则返回 optb。</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">xor</span>(<span class="keyword">self</span>, optb: <span class="type">Option</span>&lt;T&gt;) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;T&gt; <span class="comment">// 如果 self 和 optb 恰好有一个是 Some(_)，则返回这个 Some，否则返回 None。</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>Rust 提供的容器： <code>Vec&lt;T&gt;</code> ，
-<code>VecDeque&lt;T&gt;</code> ， <code>LinkedList&lt;T&gt;</code> ，
-<code>HashMap&lt;K, V&gt;</code> ， <code>BTreeMap&lt;K, V&gt;</code> ，
-<code>HashSet&lt;T&gt;</code> ， <code>BTreeSet&lt;T&gt;</code> ，
-<code>BinaryHeap&lt;T&gt;</code> ；</li>
-<li>Rust
-的线程发生恐慌，和创建此线程的线程无关，其它线程能读取恐慌线程的信息；</li>
-<li>所有不带内部可变性的类型和只包含 Sync 类型的复合类型会自动获得
-Sync；</li>
-<li>为一个结构体实现 <code>Hash</code> trait，会将 <code>name</code> 和
-<code>age</code> 传播给一个实现了 Hasher
-的对象的可变引用（state）中，state 将它们组合后算出对应哈希值：</li>
-</ul>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">impl</span> <span class="title class_">Hash</span> <span class="keyword">for</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">hash</span>&lt;H: Hasher&gt;(&amp;<span class="keyword">self</span>, state: &amp;<span class="keyword">mut</span> H) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name.<span class="title function_ invoke__">hash</span>(state);</span><br><span class="line">        <span class="keyword">self</span>.age.<span class="title function_ invoke__">hash</span>(state);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>有时需要用大括号制造一个新域来使用某变量可变引用，从而不妨碍之后再获得某变量的其它引用；</li>
-<li><code>for line in &amp;texts</code> 是
-<code>for line in texts.iter()</code> 的语法糖；</li>
-<li>Trait 对象隐式具有 <code>'static</code>
-生命周期，但当闭包捕获的变量具有更短生命周期时，闭包生命周期也随之缩小；</li>
-<li>编译器只考虑被调用函数的签名而不会深入函数体，因此改变函数实现而不改变签名不会影响编译结果；</li>
-<li>迭代器的 <code>clone()</code>
-仅拷贝一个栈上的引用，因此非常高效；</li>
-<li>枚举成员占用的内存空间大小跟最大的成员对齐；</li>
-<li><code>borrow</code> 得到的是 <code>Ref</code>
-类型，其生命周期与调用者（可能是引用）的生命周期相同；它通过
-<code>Deref</code> 实现和 <code>&amp;T</code>
-相同效果的自动解引用；</li>
-</ul>
-<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">borrow</span>&lt;<span class="symbol">&#x27;a</span>&gt;(&amp;<span class="symbol">&#x27;a</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> Ref&lt;<span class="symbol">&#x27;a</span>, T&gt;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">borrow_mut</span>&lt;<span class="symbol">&#x27;a</span>&gt;(&amp;<span class="symbol">&#x27;a</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> RefMut&lt;<span class="symbol">&#x27;a</span>, T&gt;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>Rust</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Per-block 量化混合精度卷积实现与 GEMM、GEMV 优化</title>
     <url>/2025/07/04/Per-block-%E9%87%8F%E5%8C%96%E6%B7%B7%E5%90%88%E7%B2%BE%E5%BA%A6%E5%8D%B7%E7%A7%AF%E5%AE%9E%E7%8E%B0%E4%B8%8E-GEMM%E3%80%81GEMV-%E4%BC%98%E5%8C%96/</url>
     <content><![CDATA[<h2 id="问题定义">问题定义</h2>
@@ -6803,6 +6674,135 @@ ISA，但 Cutlass 并没有很好地集成相应能力。而 s4.s4 的 wmma 和 
       </tags>
   </entry>
   <entry>
+    <title>Rust 笔记</title>
+    <url>/2023/11/20/Rust-%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<p><strong>参考</strong>：</p>
+<p><em>《Rust Primer》</em></p>
+<p><em>《Rust 编程之道》</em></p>
+<p><em>《Rust Course》（Rust 语言圣经）</em></p>
+<p>THU<em>《程序设计训练（Rust）》</em>课件</p>
+<ul>
+<li>裸指针（不安全）： <code>*const T</code> 和 <code>*mut T</code>
+；</li>
+<li>单字节字符 <code>b'H'</code> ，单字节字符串 <code>b'Hello'</code>
+，仅限 ASCII 字符； <code>r#"..."#</code> 表示不转义字符串；</li>
+<li><code>String</code> → <code>&amp;str</code>
+很廉价，而反之涉及分配内存，代价相对更高；</li>
+<li>即使结构体是公有的，成员仍然默认私有；枚举如果是公有的则其成员均为公有；</li>
+<li>可以在 <code>match</code> 中通过 <code>ref</code> 和
+<code>ref mut</code> 获取对应变量的引用；</li>
+<li><code>try!</code> 宏在 <code>Ok</code> 时提取内部值，否则直接
+<code>return</code> 期望返回的 Error 类型；现在可以直接使用
+<code>?</code> ；</li>
+<li>使用 <code>io::stdin.read_line(&amp;mut String)</code> 读入；</li>
+<li>Rust 项目结构：</li>
+</ul>
+<span id="more"></span>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line">Project/</span><br><span class="line">|-- cargo.toml</span><br><span class="line">|-- cargo.lock</span><br><span class="line">|-- src/</span><br><span class="line">|-- |-- main.rs</span><br><span class="line">|-- |-- lib.rs</span><br><span class="line">|-- |-- bin/</span><br><span class="line">|-- tests/</span><br><span class="line">|-- examples/</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>for (i, j) in (5..10).enumerate()</code> 使 <code>i</code>
+为循环次数下标；</li>
+<li>使用 <code>#derive[(...)]</code> 为类型自动添加一些 trait，常用：
+<code>Clone</code> ， <code>Copy</code> ， <code>Debug</code> ，
+<code>Default</code> ， <code>Eq</code> ， <code>PartiaEq</code> ，
+<code>Ord</code> ， <code>PartialOrd</code> ， <code>Hash</code> ；</li>
+<li><code>Eq</code> trait 表示任意两个值要么 <code>==</code> 要么
+<code>!=</code> ，它不包含方法，仅用作标记； <code>PartialEq</code>
+提供部分等价关系，包含一个 <code>eq</code> 方法；实现了 <code>Eq</code>
+的必然实现了 <code>PartialEq</code> ； <code>&lt;</code> 、
+<code>&gt;</code> 、 <code>&gt;=</code> 、 <code>&lt;=</code> 实现的是
+<code>PartialOrd</code> ； <code>PartialEq</code> 满足对称性与传递性，
+<code>Eq</code> 还满足自反性；</li>
+<li>所有硬编码字符串均为 <code>&amp;'static str</code> ；</li>
+<li><code>+</code> 、 <code>-</code> 、 <code>*</code> 、 <code>/</code>
+、 <code>%</code> 分别实现在 <code>std::ops::Add/Sub/Mul/Div/Rem</code>
+； <code>&amp;</code> 、 <code>|</code> 、 <code>^</code> 、
+<code>&lt;&lt;</code> 、 <code>&gt;&gt;</code> 分别实现在
+<code>std::ops::BitAnd/BitOr/BitXor/Shl/Shr</code>；</li>
+<li>函数参数支持模式匹配：
+<code>fn print_age((_, age): (&amp;str, i32));</code> ；</li>
+<li>发散函数（Diverging function）不返回值，返回值处使用 <code>!</code>
+；</li>
+<li>trait 可以继承： <code>trait Son : Parent</code> ，之后实现
+<code>Son</code> 的类型也要实现 <code>Parent</code> ；</li>
+<li><code>Copy</code> trait 继承 <code>Clone</code> trait：
+<code>pub trait Copy: Clone;</code> ；</li>
+<li>Rust 为 <code>Vec</code> 、 <code>HashMap</code> 实现了
+<code>IntoIterator</code> trait，从而支持直接 <code>for a in vec</code>
+循环；无限迭代器： <code>let inf_seq = (1..).into_iter();</code> ；
+<code>Vec</code> 、 <code>HashMap</code> 实现了
+<code>FromIterator</code> trait，以支持 <code>(1..10).collect()</code>
+等操作；</li>
+<li><code>fold</code> 和 <code>reduce</code> 的区别：后者带初始值；取前
+n 个：
+<code>let v_take = v.iter().cloned().take(2).collect::&lt;Vec&lt;_&gt;&gt;();</code>
+， <code>skip(n)</code> 跳过前 n 个；</li>
+<li>Prelude 的一部分：</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line">std::marker::&#123;<span class="built_in">Copy</span>, <span class="built_in">Send</span>, <span class="built_in">Sized</span>, <span class="built_in">Sync</span>&#125;</span><br><span class="line">std::ops::&#123;<span class="built_in">Drop</span>, <span class="built_in">Fn</span>, <span class="built_in">FnMut</span>, <span class="built_in">FnOnce</span>&#125;</span><br><span class="line">std::mem::drop</span><br><span class="line">std::boxed::<span class="type">Box</span></span><br><span class="line">std::borrow::<span class="built_in">ToOwned</span></span><br><span class="line">std::clone::<span class="built_in">Clone</span></span><br><span class="line">std::cmp::&#123;<span class="built_in">PartialEq</span>, <span class="built_in">PartialOrd</span>, <span class="built_in">Eq</span>, <span class="built_in">Ord</span>&#125;</span><br><span class="line">std::convert::&#123;<span class="built_in">AsRef</span>, <span class="built_in">AsMut</span>, <span class="built_in">Into</span>, <span class="built_in">From</span>&#125;</span><br><span class="line">std::default::<span class="built_in">Default</span></span><br><span class="line">std::iter::&#123;<span class="built_in">Iterator</span>, <span class="built_in">Extend</span>, <span class="built_in">IntoIterator</span>, <span class="built_in">DoubleEndedIterator</span>, <span class="built_in">ExactSizeIterator</span>&#125;</span><br><span class="line">std::option::<span class="type">Option</span>::&#123;<span class="keyword">self</span>, <span class="literal">Some</span>, <span class="literal">None</span>&#125;</span><br><span class="line">std::result::<span class="type">Result</span>::&#123;<span class="keyword">self</span>, <span class="literal">Ok</span>, <span class="literal">Err</span>&#125;</span><br><span class="line">std::slice::<span class="built_in">SliceConcatExt</span></span><br><span class="line">std::string::&#123;<span class="type">String</span>, <span class="built_in">ToString</span>&#125;</span><br><span class="line">std::vec::<span class="type">Vec</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>Into/From</code> trait 分别实现了 <code>U::from(T)</code> 和
+<code>U::into(T)</code> ，会消耗所有权；实现了 <code>From</code>
+会自动实现 <code>Into</code> ； <code>TryFrom</code> 和
+<code>TryInto</code> 返回 <code>Result</code> ；同样还有
+<code>ToString</code> 和 <code>FromStr</code> ；</li>
+<li><code>AsRef&lt;U&gt;</code> 实现了将 <code>T</code> 类型对象
+<code>a</code> 通过 <code>a.as_ref()</code> 得到 <code>&amp;U</code>
+，不消耗所有权； <code>AsMut</code> 同理；</li>
+<li>实现了 <code>Deref&lt;Target=U&gt;</code> 的类型 <code>T</code>
+可以通过 <code>&amp;T</code> 传参给 <code>&amp;U</code>
+；调用函数时，Rust 会提供任意多层自动解引用；</li>
+<li>不可以使用 <code>i32/i64</code> 作为下标，需要 <code>as usize</code>
+；</li>
+<li>不同于 C++，Rust 的块注释 <code>/* */</code> 可以嵌套；</li>
+<li>变量有引用存在时，不能移交其绑定数据的所有权；</li>
+<li>结构体有域级的访问控制，但没有域级的可变性控制，因此可以对内部变量标记
+<code>pub</code> 而不能标记 <code>mut</code>
+；结构体的域访问控制是针对模块而非结构体本身的，即其私有成员可以被同模块的其它函数访问；</li>
+<li>使用 <code>s.chars().nth(i)</code> 访问 <code>String</code> ；</li>
+<li>常用 <code>Option&lt;T&gt;</code> 相关函数：</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">unwrap</span>&lt;T&gt;(<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> T &#123;</span><br><span class="line">	<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">		<span class="literal">None</span> =&gt; <span class="built_in">panic!</span>(<span class="string">&quot;Called `Option::unwrap()` on a `None` value&quot;</span>),</span><br><span class="line">		<span class="title function_ invoke__">Some</span>(value) =&gt; value,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">map</span>&lt;U, F&gt;(<span class="keyword">self</span>, f: F) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;U&gt;</span><br><span class="line">		<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>(T) <span class="punctuation">-&gt;</span> U &#123;</span><br><span class="line">	<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">		<span class="literal">None</span> =&gt; <span class="literal">None</span>,</span><br><span class="line">		<span class="title function_ invoke__">Some</span>(x) =&gt; <span class="title function_ invoke__">Some</span>(<span class="title function_ invoke__">f</span>(x))</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">and_then</span>&lt;U, F&gt;(<span class="keyword">self</span>, f: F) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;U&gt;</span><br><span class="line">		<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>(T) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;U&gt; &#123;</span><br><span class="line">	<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">		<span class="title function_ invoke__">Some</span>(x) =&gt; <span class="title function_ invoke__">f</span>(x),</span><br><span class="line">		<span class="literal">None</span> =&gt; <span class="literal">None</span>,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T&gt; <span class="type">Option</span>&lt;T&gt; &#123;</span><br><span class="line">	<span class="keyword">fn</span> <span class="title function_">unwrap_or</span>&lt;T&gt;(<span class="keyword">self</span>, default: T) <span class="punctuation">-&gt;</span> T &#123;</span><br><span class="line">		<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">			<span class="literal">None</span> =&gt; default,</span><br><span class="line">			<span class="title function_ invoke__">Some</span>(value) =&gt; value,</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T&gt; <span class="type">Option</span>&lt;T&gt; &#123;</span><br><span class="line">	<span class="keyword">fn</span> <span class="title function_">unwrap_or_else</span>&lt;T&gt;(<span class="keyword">self</span>, f: F) <span class="punctuation">-&gt;</span> T</span><br><span class="line">			<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>() <span class="punctuation">-&gt;</span> T &#123;</span><br><span class="line">		<span class="keyword">match</span> <span class="keyword">self</span> &#123;</span><br><span class="line">			<span class="literal">None</span> =&gt; <span class="title function_ invoke__">f</span>(),</span><br><span class="line">			<span class="title function_ invoke__">Some</span>(value) =&gt; value,</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">is_some</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">bool</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">is_none</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">bool</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">map_or</span>&lt;U, F&gt;(<span class="keyword">self</span>, default: U, f: F) <span class="punctuation">-&gt;</span> U <span class="comment">// U 类型的默认值</span></span><br><span class="line">		<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>(T) <span class="punctuation">-&gt;</span> U</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">map_or_else</span>&lt;U, D, F&gt;(<span class="keyword">self</span>, default: D, f: F) <span class="punctuation">-&gt;</span> U <span class="comment">// D 类型的闭包用于计算默认值</span></span><br><span class="line">		<span class="keyword">where</span> D: <span class="title function_ invoke__">FnOnce</span>() <span class="punctuation">-&gt;</span> U, F: <span class="title function_ invoke__">FnOnce</span>(T) <span class="punctuation">-&gt;</span> U</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">ok_or</span>(<span class="keyword">self</span>, err: E) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;T, E&gt;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">ok_or_else</span>(<span class="keyword">self</span>, default: F) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;T, E&gt; <span class="comment">// 与 unwrap_or 相似，用于错误处理。</span></span><br><span class="line">		<span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>() <span class="punctuation">-&gt;</span> E</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">and</span>&lt;U&gt;(<span class="keyword">self</span>, optb: <span class="type">Option</span>&lt;U&gt;) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;U&gt; <span class="comment">// 如果 self 是 None，则返回 None，否则返回 optb。</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">or</span>(<span class="keyword">self</span>, optb: <span class="type">Option</span>&lt;T&gt;) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;T&gt; <span class="comment">// 如果 self 是 Some(_)，则返回 self，否则返回 optb。</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">xor</span>(<span class="keyword">self</span>, optb: <span class="type">Option</span>&lt;T&gt;) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;T&gt; <span class="comment">// 如果 self 和 optb 恰好有一个是 Some(_)，则返回这个 Some，否则返回 None。</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Rust 提供的容器： <code>Vec&lt;T&gt;</code> ，
+<code>VecDeque&lt;T&gt;</code> ， <code>LinkedList&lt;T&gt;</code> ，
+<code>HashMap&lt;K, V&gt;</code> ， <code>BTreeMap&lt;K, V&gt;</code> ，
+<code>HashSet&lt;T&gt;</code> ， <code>BTreeSet&lt;T&gt;</code> ，
+<code>BinaryHeap&lt;T&gt;</code> ；</li>
+<li>Rust
+的线程发生恐慌，和创建此线程的线程无关，其它线程能读取恐慌线程的信息；</li>
+<li>所有不带内部可变性的类型和只包含 Sync 类型的复合类型会自动获得
+Sync；</li>
+<li>为一个结构体实现 <code>Hash</code> trait，会将 <code>name</code> 和
+<code>age</code> 传播给一个实现了 Hasher
+的对象的可变引用（state）中，state 将它们组合后算出对应哈希值：</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">impl</span> <span class="title class_">Hash</span> <span class="keyword">for</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">hash</span>&lt;H: Hasher&gt;(&amp;<span class="keyword">self</span>, state: &amp;<span class="keyword">mut</span> H) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name.<span class="title function_ invoke__">hash</span>(state);</span><br><span class="line">        <span class="keyword">self</span>.age.<span class="title function_ invoke__">hash</span>(state);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>有时需要用大括号制造一个新域来使用某变量可变引用，从而不妨碍之后再获得某变量的其它引用；</li>
+<li><code>for line in &amp;texts</code> 是
+<code>for line in texts.iter()</code> 的语法糖；</li>
+<li>Trait 对象隐式具有 <code>'static</code>
+生命周期，但当闭包捕获的变量具有更短生命周期时，闭包生命周期也随之缩小；</li>
+<li>编译器只考虑被调用函数的签名而不会深入函数体，因此改变函数实现而不改变签名不会影响编译结果；</li>
+<li>迭代器的 <code>clone()</code>
+仅拷贝一个栈上的引用，因此非常高效；</li>
+<li>枚举成员占用的内存空间大小跟最大的成员对齐；</li>
+<li><code>borrow</code> 得到的是 <code>Ref</code>
+类型，其生命周期与调用者（可能是引用）的生命周期相同；它通过
+<code>Deref</code> 实现和 <code>&amp;T</code>
+相同效果的自动解引用；</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">borrow</span>&lt;<span class="symbol">&#x27;a</span>&gt;(&amp;<span class="symbol">&#x27;a</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> Ref&lt;<span class="symbol">&#x27;a</span>, T&gt;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">borrow_mut</span>&lt;<span class="symbol">&#x27;a</span>&gt;(&amp;<span class="symbol">&#x27;a</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> RefMut&lt;<span class="symbol">&#x27;a</span>, T&gt;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>Rust</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Swift &amp; SwiftUI 学习笔记</title>
     <url>/2024/10/11/Swift-SwiftUI-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<p>参考：</p>
@@ -7043,6 +7043,121 @@ $ 符号；</li>
       </categories>
       <tags>
         <tag>Swift</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Unity 远程真机调试插件开发</title>
+    <url>/2023/08/12/Unity-%E8%BF%9C%E7%A8%8B%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/</url>
+    <content><![CDATA[<p><strong>项目目标</strong>：完成远程真机调试插件，实现对端侧 3D/XR
+场景的 Unity 实时场景部署与调试；</p>
+<p><strong>具体内容</strong>：</p>
+<ol type="1">
+<li>在端侧构建调试 SDK，用于接收 Unity 发送的命令，和向 Unity
+同步状态；</li>
+<li>在 Unity 中基于插件实现Debug Server，用于和端侧进行实时通信（Unity
+场景快速导出并推送到端侧）和同步状态（Unity
+场景双向状态同步调试）；</li>
+<li>PC端：MacOS，移动端：iOS；</li>
+</ol>
+<span id="more"></span>
+<p>阶段任务概要：</p>
+<ul>
+<li>端侧 DebugSDK 技术选型 - Unity / <strong>C++</strong>，Unity
+插件技术选型 - OC / <strong>C++</strong></li>
+<li>通信协议选型：Socket Raw Packet / <strong>gRPC + Protobuf</strong> /
+Hybrid (Raw Packet + RPC)</li>
+<li>基础 Socket 通道搭建：Unity Socket Server (nc test)、Socket
+Client</li>
+<li>RPC 通道搭建：Unity RPC、iOS gRPC、C/S 双端互调</li>
+</ul>
+<h2 id="unity-c插件开发基础">Unity C++插件开发基础</h2>
+<p>参考：</p>
+<ul>
+<li>官网介绍：<a
+href="https://learn.microsoft.com/en-us/dotnet/fundamentals/">.NET</a>，<a
+href="https://docs.unity.cn/2023.2/Documentation/Manual/Plugins.html">Plugin，</a><a
+href="https://learn.microsoft.com/zh-cn/dotnet/standard/managed-code">托管代码，</a><a
+href="https://learn.microsoft.com/zh-cn/dotnet/standard/native-interop/pinvoke">P/Invoke</a>，<a
+href="https://www.mono-project.com/docs/advanced/pinvoke/">Mono
+Runtime官网对P/Invoke的介绍</a>；</li>
+<li>P/Invoke：<a href="https://www.jacksondunstan.com/articles/3938">C++
+Scripting: Part 1 – C#/C++ Communication</a>，<a
+href="https://www.cnblogs.com/herenzhiming/articles/6688804.html">C#与C/C++的交互（PInvoke）</a>，<a
+href="https://www.jianshu.com/p/06db6d0109db">Create A Native Plugin For
+Unity</a>，<a
+href="https://kyochow.github.io/articles/2020/10/12/1602495480321.html">关于Unity
+Native插件的开发</a>，<a
+href="https://www.jianshu.com/p/65bb18513f19">Unity与C++交互入门(1)</a>，<a
+href="https://rafalwilinski.medium.com/tutorial-create-c-c-plugins-for-unity3d-dbde7f67454#.hqsjain5e">Tutorial
+— Create C/C++ plugins for Unity3D</a>，<a
+href="https://rustcc.cn/article?id=3b8241d0-c4ca-4f49-8e07-0a5142b00f59">Rust
+FFI 编程 - FFI 概述</a></li>
+<li>插件开发：<a href="https://www.jianshu.com/p/183695196f02">Unity
+3D编辑器插件开发</a>，<a
+href="https://www.cnblogs.com/yzx885059439/p/14497026.html">Unity3D插件开发教程</a>，<a
+href="https://developer.aliyun.com/article/69190">开发unity插件——一次搞定unity编辑器常用功能</a></li>
+</ul>
+<p>.NET使用CIL作为高级语言与机器语言的中间层以实现跨平台，且使用公共语言运行时CLR（支持提前AOT和实时JIT类型），无论使用的是Mono、.NET
+Framework还是.NET
+Core。将执行过程交由运行时管理（如自动内存管理、安全边界、类型安全等）的代码称为托管代码（Managed
+Code）；直接运行编译出的机器语言而不依赖运行时的代码称为原生代码（Native
+Code）。二者各有优势和局限性，具体见官网介绍。Unity最常用的托管代码形式插件使用C#语言，原生插件可以使用C/C++/Objective-C等。.NET中，C#与C++的互操作（Interop）可以通过P/Invoke实现（也可以使用C++/CLI作为中间层，但Mono不支持）。</p>
+<p>Unity native 插件开发流程：C++ → C API → 打包 → C# 封装接口。</p>
+<p>在 Safe Mode 下 C# 与 C++ 无法直接交互，C++ 需要包装成 C API，由 C#
+调用 C API。 插件包：Android 打包成 <code>so</code>，IOS 打包成
+framework 或者 <code>.a</code>，macOS 打包成
+<code>.bundle</code>，Windows 打包成 dll。Windows 放在
+<code>Plugins/x86(x64)</code> 目录下，Mac 直接放在 <code>Plugins</code>
+目录下，iOS 放在 <code>Plugins/iOS</code> 目录下，Android 放在
+<code>Plugins/Android/libs/armeabi-v7a</code>
+目录下。如果修改了本地插件，需要将 dll 或者 bundle 覆盖了之后重启 Unity,
+不然还是会使用老的 Native Plugin。</p>
+<p>CMakeLists.txt：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cmake_minimum_required</span>(VERSION <span class="number">3.5</span>)</span><br><span class="line"><span class="built_in">project</span>(UnityPlugin)</span><br><span class="line"></span><br><span class="line"><span class="built_in">aux_source_directory</span>(. src) # 搜索当前目录下所有.cpp文件放入$&#123;src&#125;</span><br><span class="line"><span class="built_in">aux_source_directory</span>(channel.cpp lib) # 需要编成.dylib的文件</span><br><span class="line"></span><br><span class="line"># C++编译标准</span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_STANDARD <span class="number">11</span>)</span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_STANDARD_REQUIRED ON)</span><br><span class="line"># 添加编译选项</span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -fms-extensions&quot;</span>)</span><br><span class="line"></span><br><span class="line"># 生成可执行文件</span><br><span class="line"></span><br><span class="line"><span class="built_in">add_executable</span>(main $&#123;src&#125;)</span><br><span class="line"></span><br><span class="line"># 生成.bundle文件</span><br><span class="line"></span><br><span class="line"># <span class="built_in">add_library</span>(project1 MODULE $&#123;lib&#125;) #编译为程序资源包 *.bundle</span><br><span class="line"># <span class="built_in">set_target_properties</span>(project1 PROPERTIES BUNDLE TRUE)</span><br><span class="line"></span><br><span class="line"># 设置生成.bundle文件的相关参数</span><br><span class="line"><span class="built_in">set</span>(MACOSX_BUNDLE_BUNDLE_NAME <span class="string">&quot;ChannelPlugin&quot;</span>)</span><br><span class="line"><span class="built_in">set</span>(MACOSX_BUNDLE_BUNDLE_VERSION <span class="string">&quot;1.0.0&quot;</span>)</span><br><span class="line"></span><br><span class="line"># 添加源文件生成共享库</span><br><span class="line"><span class="built_in">add_library</span>(ChannelPlugin SHARED channel.cpp)</span><br><span class="line"></span><br><span class="line"># 设置.bundle文件的输出路径</span><br><span class="line"><span class="built_in">set_target_properties</span>(ChannelPlugin PROPERTIES</span><br><span class="line">  OUTPUT_NAME ChannelPlugin</span><br><span class="line">  LIBRARY_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  ARCHIVE_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  RUNTIME_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  BUNDLE_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"># 设置.bundle文件的资源文件</span><br><span class="line"><span class="built_in">set_source_files_properties</span>(</span><br><span class="line">  <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  PROPERTIES MACOSX_PACKAGE_LOCATION <span class="string">&quot;/&quot;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>channel.h头文件：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> CHANNEL_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> CHANNEL_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> __cplusplus</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXTERN_C extern <span class="string">&quot;C&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXTERN_C</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> EXPORT_API</span></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> UNITY_METRO </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXPORT_API EXTERN_C __declspec(dllexport) __stdcall </span></span><br><span class="line"><span class="meta">#<span class="keyword">elif</span> UNITY_WIN </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXPORT_API EXTERN_C __declspec(dllexport) </span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span> </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXPORT_API EXTERN_C</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* EXPORT_API*/</span></span></span><br><span class="line"></span><br><span class="line"><span class="function">EXPORT_API <span class="type">int</span> <span class="title">func</span><span class="params">(<span class="type">int</span> x)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* CHANNEL_H*/</span></span></span><br></pre></td></tr></table></figure>
+<p>在所有出现 <code>func</code> 声明或定义的时候都要带
+<code>EXPORT_API</code> ；将 /bundles 中的 .dylib
+文件复制到Unity的Assets/Plugins下，将 C#
+插件放入Assets/Editor下即可。</p>
+<p>注意：Unity
+改变C#脚本后会实时重编译，但在移入新.dylib文件并不会，需要退出重新进入
+Unity 项目。</p>
+<h2 id="rpc-协议选型与通道搭建">RPC 协议选型与通道搭建</h2>
+<p>参考：<a
+href="https://doc.oschina.net/grpc">gRPC官方文档中文版</a>，<a
+href="https://grpc.io/docs/">gRPC官方文档</a>，<a
+href="https://protobuf.dev/overview/">Protocol Buffer官方文档</a></p>
+<p>gRPC是一个高性能、通用的开源RPC框架，其由Google
+2015年主要面向移动应用开发并基于HTTP/2协议标准而设计，基于ProtoBuf序列化协议开发，且支持众多开发语言。</p>
+<p>RPC
+的主要目的是让客户端可以像调用函数一样直接与服务端通信，尽可能使网络交互过程变得透明。使用时，首先需要在
+.proto
+文件中定义各个函数原型与数据结构（将作为函数参数传递，也就是网络传输的数据），然后
+Protobuf 会根据 .proto 生成桩程序 demo.pb.cc 和
+demo.pb.h（这两个文件不应被用户修改），gRPC 再生成 demo.grpc.pb.cc 和
+demo.grpc.pb.h（这两个文件也一般无需修改），最后用户在自定义程序
+demo.client 和 demo.server 中自定义需要的操作和传递的信息。</p>
+<p>具体安装使用方法：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install autoconf automake libtool pkg-config <span class="comment"># 安装依赖库</span></span><br><span class="line">brew install protobuf grpc</span><br><span class="line"><span class="built_in">export</span> MY_INSTALL_DIR=<span class="variable">$HOME</span>/.local/share <span class="comment"># 自定义安装路径</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="string">&quot;<span class="variable">$MY_INSTALL_DIR</span>/bin:<span class="variable">$PATH</span>&quot;</span></span><br><span class="line">git <span class="built_in">clone</span> --recurse-submodules -b v1.56.0 --depth 1 --shallow-submodules https://github.com/grpc/grpc</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> grpc</span><br><span class="line"><span class="built_in">mkdir</span> -p cmake/build</span><br><span class="line"><span class="built_in">pushd</span> cmake/build</span><br><span class="line">cmake -DgRPC_INSTALL=ON -DgRPC_BUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=<span class="variable">$MY_INSTALL_DIR</span> ../..</span><br><span class="line">make -j 4</span><br><span class="line">make install</span><br><span class="line"><span class="built_in">popd</span></span><br></pre></td></tr></table></figure>
+<p>重新生成gRPC代码：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> examples/cpp/helloworld/cmake/build</span><br><span class="line"><span class="comment"># 重新生成 helloworld.pb.&#123;h,cc&#125; 和 helloworld.grpc.pb.&#123;h,cc&#125;</span></span><br><span class="line">make helloworld.grpc.pb.o</span><br><span class="line"><span class="comment"># 实际运行的是以下两条命令：</span></span><br><span class="line">protoc -I ../../protos --grpc_out=. --plugin=protoc-gen-grpc=`<span class="built_in">which</span> grpc_cpp_plugin` ../../protos/helloworld.proto</span><br><span class="line">protoc -I ../../protos --cpp_out=. ../../protos/helloworld.proto</span><br><span class="line"><span class="comment"># 用户自行修改my_project/下的.cc代码</span></span><br><span class="line">make -j 4</span><br><span class="line">./greeter_server</span><br><span class="line">./greeter_client</span><br></pre></td></tr></table></figure>
+<p>目录结构：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cpp/</span><br><span class="line">	my_project/</span><br><span class="line">		cmake/</span><br><span class="line">			build/</span><br><span class="line">		greeter_client.cc</span><br><span class="line">		greeter_server.cc</span><br><span class="line">proto/</span><br><span class="line">	my_project.proto</span><br></pre></td></tr></table></figure>
+<p>调通后，同样依照官方手册调通 Objective-C 语言的 gRPC
+（仅支持客户端）。然后修改 CMakeLists.txt 文件以得到 .dylib
+文件，从而导入到 Unity 中被插件调用。</p>
+<p>至此，我们已经能够实现在 Unity 上通过 C#
+脚本实时获取场景树信息（Unity 序列化方案目前采用<a
+href="https://kuroha.vip/unity/unity_jsonutility.html">JsonUtility</a>），并通过跨语言互操作将信息传递给
+C++ gRPC，再通过 gRPC 实时传输至客户端（可以由客户端每 0.1
+秒发送一次请求），最后客户端拿到 Unity 场景树信息后在本地重建场景。</p>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>Unity</tag>
       </tags>
   </entry>
   <entry>
@@ -7593,121 +7708,6 @@ trait 返回：</li>
       </tags>
   </entry>
   <entry>
-    <title>Unity 远程真机调试插件开发</title>
-    <url>/2023/08/12/Unity-%E8%BF%9C%E7%A8%8B%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/</url>
-    <content><![CDATA[<p><strong>项目目标</strong>：完成远程真机调试插件，实现对端侧 3D/XR
-场景的 Unity 实时场景部署与调试；</p>
-<p><strong>具体内容</strong>：</p>
-<ol type="1">
-<li>在端侧构建调试 SDK，用于接收 Unity 发送的命令，和向 Unity
-同步状态；</li>
-<li>在 Unity 中基于插件实现Debug Server，用于和端侧进行实时通信（Unity
-场景快速导出并推送到端侧）和同步状态（Unity
-场景双向状态同步调试）；</li>
-<li>PC端：MacOS，移动端：iOS；</li>
-</ol>
-<span id="more"></span>
-<p>阶段任务概要：</p>
-<ul>
-<li>端侧 DebugSDK 技术选型 - Unity / <strong>C++</strong>，Unity
-插件技术选型 - OC / <strong>C++</strong></li>
-<li>通信协议选型：Socket Raw Packet / <strong>gRPC + Protobuf</strong> /
-Hybrid (Raw Packet + RPC)</li>
-<li>基础 Socket 通道搭建：Unity Socket Server (nc test)、Socket
-Client</li>
-<li>RPC 通道搭建：Unity RPC、iOS gRPC、C/S 双端互调</li>
-</ul>
-<h2 id="unity-c插件开发基础">Unity C++插件开发基础</h2>
-<p>参考：</p>
-<ul>
-<li>官网介绍：<a
-href="https://learn.microsoft.com/en-us/dotnet/fundamentals/">.NET</a>，<a
-href="https://docs.unity.cn/2023.2/Documentation/Manual/Plugins.html">Plugin，</a><a
-href="https://learn.microsoft.com/zh-cn/dotnet/standard/managed-code">托管代码，</a><a
-href="https://learn.microsoft.com/zh-cn/dotnet/standard/native-interop/pinvoke">P/Invoke</a>，<a
-href="https://www.mono-project.com/docs/advanced/pinvoke/">Mono
-Runtime官网对P/Invoke的介绍</a>；</li>
-<li>P/Invoke：<a href="https://www.jacksondunstan.com/articles/3938">C++
-Scripting: Part 1 – C#/C++ Communication</a>，<a
-href="https://www.cnblogs.com/herenzhiming/articles/6688804.html">C#与C/C++的交互（PInvoke）</a>，<a
-href="https://www.jianshu.com/p/06db6d0109db">Create A Native Plugin For
-Unity</a>，<a
-href="https://kyochow.github.io/articles/2020/10/12/1602495480321.html">关于Unity
-Native插件的开发</a>，<a
-href="https://www.jianshu.com/p/65bb18513f19">Unity与C++交互入门(1)</a>，<a
-href="https://rafalwilinski.medium.com/tutorial-create-c-c-plugins-for-unity3d-dbde7f67454#.hqsjain5e">Tutorial
-— Create C/C++ plugins for Unity3D</a>，<a
-href="https://rustcc.cn/article?id=3b8241d0-c4ca-4f49-8e07-0a5142b00f59">Rust
-FFI 编程 - FFI 概述</a></li>
-<li>插件开发：<a href="https://www.jianshu.com/p/183695196f02">Unity
-3D编辑器插件开发</a>，<a
-href="https://www.cnblogs.com/yzx885059439/p/14497026.html">Unity3D插件开发教程</a>，<a
-href="https://developer.aliyun.com/article/69190">开发unity插件——一次搞定unity编辑器常用功能</a></li>
-</ul>
-<p>.NET使用CIL作为高级语言与机器语言的中间层以实现跨平台，且使用公共语言运行时CLR（支持提前AOT和实时JIT类型），无论使用的是Mono、.NET
-Framework还是.NET
-Core。将执行过程交由运行时管理（如自动内存管理、安全边界、类型安全等）的代码称为托管代码（Managed
-Code）；直接运行编译出的机器语言而不依赖运行时的代码称为原生代码（Native
-Code）。二者各有优势和局限性，具体见官网介绍。Unity最常用的托管代码形式插件使用C#语言，原生插件可以使用C/C++/Objective-C等。.NET中，C#与C++的互操作（Interop）可以通过P/Invoke实现（也可以使用C++/CLI作为中间层，但Mono不支持）。</p>
-<p>Unity native 插件开发流程：C++ → C API → 打包 → C# 封装接口。</p>
-<p>在 Safe Mode 下 C# 与 C++ 无法直接交互，C++ 需要包装成 C API，由 C#
-调用 C API。 插件包：Android 打包成 <code>so</code>，IOS 打包成
-framework 或者 <code>.a</code>，macOS 打包成
-<code>.bundle</code>，Windows 打包成 dll。Windows 放在
-<code>Plugins/x86(x64)</code> 目录下，Mac 直接放在 <code>Plugins</code>
-目录下，iOS 放在 <code>Plugins/iOS</code> 目录下，Android 放在
-<code>Plugins/Android/libs/armeabi-v7a</code>
-目录下。如果修改了本地插件，需要将 dll 或者 bundle 覆盖了之后重启 Unity,
-不然还是会使用老的 Native Plugin。</p>
-<p>CMakeLists.txt：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cmake_minimum_required</span>(VERSION <span class="number">3.5</span>)</span><br><span class="line"><span class="built_in">project</span>(UnityPlugin)</span><br><span class="line"></span><br><span class="line"><span class="built_in">aux_source_directory</span>(. src) # 搜索当前目录下所有.cpp文件放入$&#123;src&#125;</span><br><span class="line"><span class="built_in">aux_source_directory</span>(channel.cpp lib) # 需要编成.dylib的文件</span><br><span class="line"></span><br><span class="line"># C++编译标准</span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_STANDARD <span class="number">11</span>)</span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_STANDARD_REQUIRED ON)</span><br><span class="line"># 添加编译选项</span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -fms-extensions&quot;</span>)</span><br><span class="line"></span><br><span class="line"># 生成可执行文件</span><br><span class="line"></span><br><span class="line"><span class="built_in">add_executable</span>(main $&#123;src&#125;)</span><br><span class="line"></span><br><span class="line"># 生成.bundle文件</span><br><span class="line"></span><br><span class="line"># <span class="built_in">add_library</span>(project1 MODULE $&#123;lib&#125;) #编译为程序资源包 *.bundle</span><br><span class="line"># <span class="built_in">set_target_properties</span>(project1 PROPERTIES BUNDLE TRUE)</span><br><span class="line"></span><br><span class="line"># 设置生成.bundle文件的相关参数</span><br><span class="line"><span class="built_in">set</span>(MACOSX_BUNDLE_BUNDLE_NAME <span class="string">&quot;ChannelPlugin&quot;</span>)</span><br><span class="line"><span class="built_in">set</span>(MACOSX_BUNDLE_BUNDLE_VERSION <span class="string">&quot;1.0.0&quot;</span>)</span><br><span class="line"></span><br><span class="line"># 添加源文件生成共享库</span><br><span class="line"><span class="built_in">add_library</span>(ChannelPlugin SHARED channel.cpp)</span><br><span class="line"></span><br><span class="line"># 设置.bundle文件的输出路径</span><br><span class="line"><span class="built_in">set_target_properties</span>(ChannelPlugin PROPERTIES</span><br><span class="line">  OUTPUT_NAME ChannelPlugin</span><br><span class="line">  LIBRARY_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  ARCHIVE_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  RUNTIME_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  BUNDLE_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"># 设置.bundle文件的资源文件</span><br><span class="line"><span class="built_in">set_source_files_properties</span>(</span><br><span class="line">  <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;/bundles&quot;</span></span><br><span class="line">  PROPERTIES MACOSX_PACKAGE_LOCATION <span class="string">&quot;/&quot;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<p>channel.h头文件：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> CHANNEL_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> CHANNEL_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> __cplusplus</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXTERN_C extern <span class="string">&quot;C&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXTERN_C</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> EXPORT_API</span></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> UNITY_METRO </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXPORT_API EXTERN_C __declspec(dllexport) __stdcall </span></span><br><span class="line"><span class="meta">#<span class="keyword">elif</span> UNITY_WIN </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXPORT_API EXTERN_C __declspec(dllexport) </span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span> </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EXPORT_API EXTERN_C</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* EXPORT_API*/</span></span></span><br><span class="line"></span><br><span class="line"><span class="function">EXPORT_API <span class="type">int</span> <span class="title">func</span><span class="params">(<span class="type">int</span> x)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* CHANNEL_H*/</span></span></span><br></pre></td></tr></table></figure>
-<p>在所有出现 <code>func</code> 声明或定义的时候都要带
-<code>EXPORT_API</code> ；将 /bundles 中的 .dylib
-文件复制到Unity的Assets/Plugins下，将 C#
-插件放入Assets/Editor下即可。</p>
-<p>注意：Unity
-改变C#脚本后会实时重编译，但在移入新.dylib文件并不会，需要退出重新进入
-Unity 项目。</p>
-<h2 id="rpc-协议选型与通道搭建">RPC 协议选型与通道搭建</h2>
-<p>参考：<a
-href="https://doc.oschina.net/grpc">gRPC官方文档中文版</a>，<a
-href="https://grpc.io/docs/">gRPC官方文档</a>，<a
-href="https://protobuf.dev/overview/">Protocol Buffer官方文档</a></p>
-<p>gRPC是一个高性能、通用的开源RPC框架，其由Google
-2015年主要面向移动应用开发并基于HTTP/2协议标准而设计，基于ProtoBuf序列化协议开发，且支持众多开发语言。</p>
-<p>RPC
-的主要目的是让客户端可以像调用函数一样直接与服务端通信，尽可能使网络交互过程变得透明。使用时，首先需要在
-.proto
-文件中定义各个函数原型与数据结构（将作为函数参数传递，也就是网络传输的数据），然后
-Protobuf 会根据 .proto 生成桩程序 demo.pb.cc 和
-demo.pb.h（这两个文件不应被用户修改），gRPC 再生成 demo.grpc.pb.cc 和
-demo.grpc.pb.h（这两个文件也一般无需修改），最后用户在自定义程序
-demo.client 和 demo.server 中自定义需要的操作和传递的信息。</p>
-<p>具体安装使用方法：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install autoconf automake libtool pkg-config <span class="comment"># 安装依赖库</span></span><br><span class="line">brew install protobuf grpc</span><br><span class="line"><span class="built_in">export</span> MY_INSTALL_DIR=<span class="variable">$HOME</span>/.local/share <span class="comment"># 自定义安装路径</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="string">&quot;<span class="variable">$MY_INSTALL_DIR</span>/bin:<span class="variable">$PATH</span>&quot;</span></span><br><span class="line">git <span class="built_in">clone</span> --recurse-submodules -b v1.56.0 --depth 1 --shallow-submodules https://github.com/grpc/grpc</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> grpc</span><br><span class="line"><span class="built_in">mkdir</span> -p cmake/build</span><br><span class="line"><span class="built_in">pushd</span> cmake/build</span><br><span class="line">cmake -DgRPC_INSTALL=ON -DgRPC_BUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=<span class="variable">$MY_INSTALL_DIR</span> ../..</span><br><span class="line">make -j 4</span><br><span class="line">make install</span><br><span class="line"><span class="built_in">popd</span></span><br></pre></td></tr></table></figure>
-<p>重新生成gRPC代码：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> examples/cpp/helloworld/cmake/build</span><br><span class="line"><span class="comment"># 重新生成 helloworld.pb.&#123;h,cc&#125; 和 helloworld.grpc.pb.&#123;h,cc&#125;</span></span><br><span class="line">make helloworld.grpc.pb.o</span><br><span class="line"><span class="comment"># 实际运行的是以下两条命令：</span></span><br><span class="line">protoc -I ../../protos --grpc_out=. --plugin=protoc-gen-grpc=`<span class="built_in">which</span> grpc_cpp_plugin` ../../protos/helloworld.proto</span><br><span class="line">protoc -I ../../protos --cpp_out=. ../../protos/helloworld.proto</span><br><span class="line"><span class="comment"># 用户自行修改my_project/下的.cc代码</span></span><br><span class="line">make -j 4</span><br><span class="line">./greeter_server</span><br><span class="line">./greeter_client</span><br></pre></td></tr></table></figure>
-<p>目录结构：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cpp/</span><br><span class="line">	my_project/</span><br><span class="line">		cmake/</span><br><span class="line">			build/</span><br><span class="line">		greeter_client.cc</span><br><span class="line">		greeter_server.cc</span><br><span class="line">proto/</span><br><span class="line">	my_project.proto</span><br></pre></td></tr></table></figure>
-<p>调通后，同样依照官方手册调通 Objective-C 语言的 gRPC
-（仅支持客户端）。然后修改 CMakeLists.txt 文件以得到 .dylib
-文件，从而导入到 Unity 中被插件调用。</p>
-<p>至此，我们已经能够实现在 Unity 上通过 C#
-脚本实时获取场景树信息（Unity 序列化方案目前采用<a
-href="https://kuroha.vip/unity/unity_jsonutility.html">JsonUtility</a>），并通过跨语言互操作将信息传递给
-C++ gRPC，再通过 gRPC 实时传输至客户端（可以由客户端每 0.1
-秒发送一次请求），最后客户端拿到 Unity 场景树信息后在本地重建场景。</p>
-]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>Unity</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>圣经读书笔记</title>
     <url>/2024/10/02/%E5%9C%A3%E7%BB%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<h2 id="概况">概况</h2>
@@ -8115,6 +8115,102 @@ Agent，因此取代程序员的进程会相对更快，但也要求前文四个
 ]]></content>
       <tags>
         <tag>机器学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>太空人-行前篇</title>
+    <url>/2025/10/03/%E5%A4%AA%E7%A9%BA%E4%BA%BA-%E8%A1%8C%E5%89%8D%E7%AF%87/</url>
+    <content><![CDATA[<blockquote>
+<p><em>必死に　ただ閃雲に空に手を伸ばして</em></p>
+<p><em>拼命地，只是向着闪光的云空伸出手去</em></p>
+</blockquote>
+<p>本系列为个人美国留学生活记录，分为行前篇、校园篇和旅行篇。</p>
+<p>标题《太空人》取自新海诚电影《秒速五厘米》人生三部曲第二篇章
+<em>コスモナウト</em>，源自俄语
+<em>Cosmonaut</em>（宇航员），讲述成长后、毕业前这个阶段的，青春独有的迷茫、期许和无奈。</p>
+<p>让我们从 2023 年夏说起。</p>
+<span id="more"></span>
+<h2 id="第一段实习">第一段实习</h2>
+<p>2023
+年，在大家都为了各个保研夏令营天南海北奔走的夏天，随着我在杭州阿里总部食堂里远程遥控我的同学帮我签了放弃保研承诺书，我知道自己已经没有回头路了。要等到十月才开始出国申请，次年四月才能知道结果，这意味着无论申请结果如何，我都必须全盘接受并押上家里七位数资产，去追逐自己这个虚无缥缈的太空人的梦。</p>
+<p>简单讲一下我的本科四年，总体来看是非常轻松悠闲的四年。由于高中的竞赛经历，大一上选择进校队打
+ACM，不到一学期因对竞赛无感、且与教练不合退役；大一下进组做科研，因为完全没有人指导，浑浑噩噩做了两年，几乎没有成果，认定自己不是这块料，因而决定从此不碰科研；除此之外零零散散参加了一些
+CTF
+竞赛（因为队友网线坏了用了我的而睡了一整场的觉）、混了些社团、办了些编程比赛。长期摆烂导致
+GPA 比较难看（靠着刷分勉强刷上 3.8，最后 WES 认证没上
+3.9），同时了解到保研大部分情况下最后的去向都是由导师和实验室安排好的，而我极其不适合在导师要求下学习，也希望能给自己将来的研究领域更大的选择权。另一方面，我是疫情三年完整的亲历者（长春是当时全国最严重的区域之一），其间种种也给了我三观不小的震撼。总而言之，由于各个方面的因素，在大三下我最终决定赴美留学。</p>
+<p>具体是怎么决定下来的，我一直没有印象。可能是想着想着，某一天就不再考虑保研了。北美硕士申请无非看三个因素：标化（GPA、语言成绩），经历（论文、实习），文书（SoP、CV、推荐信）。语言方面我用两个暑假分别把
+Toefl、GRE
+考上门槛线（现在来看托福完全应该再多考几次，虽然当时考了一次就完全不想碰了也没办法）。GPA
+上我完全不想努力，也没有花什么功夫；文书之类的基本上就是中文写好一份模板，把其中几个关键地方改成目标学校的特色，翻译成英文，再找个软件润色一下就结束了。</p>
+<p>最后还能努力的空间只剩实习，于是我把自己听说过的互联网公司列了张表，开始挨个投递。当时并不了解什么日常、暑期实习，更不了解不同岗位的区别和要求，几乎是闭着眼睛乱投。大部分公司都有投递上限（那是正好是阿里拆分前两个月，还是非独立招聘的，整个集团只能投三个志愿），对于没有上限的比如字节，我花了一天时间把所有开放的实习岗位全投了一遍（88
+个岗位），最后一个面试也没拿到。</p>
+<p>运气非常好，唯一拿到的面试就是阿里淘天集团的 C++
+开发岗，意外地很顺利地三轮面试都通过了。工作是为淘宝的 AR/VR 3D
+引擎写插件，技术栈非常多样，是个很有挑战性也很有趣的项目。后来进去后才知道，其实我当时排序第三，只有一个
+HC，第一名把阿里鸽了，第二名组里小老板非常看好，但大老板一票否决了，最后才很幸运地轮到了我。可惜让老板们失望了，整个实习期间我几乎全部都在背
+GRE 单词、学 Modern C++ 和
+C#，加上对组里业务和技术栈完全不熟，最后几乎没有多少产出。老板说，产出完全不够留用，不想转正的话就走人，于是我只干了两个月就被迫走人了。</p>
+<p>话说回来，这两个月过得还是非常精彩的，头一次进到一线城市的顶级大厂，头一次对计算机这个行业有了一个比较全面的认知，也是头一次了解到业界真实的样貌，眼界大开。只不过当时我不知道，就像《中国太阳》里水娃头一回进京城一样，之后有的是眼界大开的时刻，这才刚刚开始。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="ali-1.jpg" alt="ali-1" /></div><div class="group-picture-column" style="width: 50%;"><img src="ali-2.jpg" alt="ali-2" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="ali-3.jpg" alt="ali-3" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="ali-4.jpg" alt="ali-4" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="ali-5.jpg" alt="ali-5" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="ali-6.jpg" alt="ali-6" /></div><div class="group-picture-column" style="width: 50%;"><img src="ali-7.jpg" alt="ali-7" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="ali-8.jpg" alt="ali-8" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="ali-9.jpg" alt="ali-9" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="ali-10.jpg" alt="ali-10" /></div></div></div></div>
+<h2 id="第二段实习">第二段实习</h2>
+<p>时间来到 23
+年底，此时我已完成所有学校的申请，大四也没有别的事情，毕业论文我直接用之前失败的论文作品稍作修改，总共只花了两天。于是，虽然对申请已无作用，我还是决定用大四的时间再进行一段实习。</p>
+<p>这一次，我的目标更明确些，不再关注国内互联网大厂，而是转而关注一些美国公司。当时正值寒假，几乎没有公司开放，我破罐子破摔地在牛客上找到一家叫英伟达的公司正在招
+25 届的实习生。23 年底正是 LLM 的爆发期，NVIDIA
+毫无疑问是这一波红利的受益者。因为经常看科技新闻的缘故，我对它的印象也从一家游戏芯片公司变成了一家
+AI 芯片公司。我完全没报希望地给数月没上线的猎头留了言，问 24
+届本科生是否能做一段时间日常实习。完全没想到的是，这一无心之举完全改变了我今后的人生。经过三轮不痛不痒的面试（问的几乎都是游戏显卡的问题，我从来不玩主机游戏，但凭着平时看科技新闻的见识竟然基本都应付了下来），和多次邮件催促，我竟然拿到了这次不可思议的实习的机会。</p>
+<p>现在回头看，24
+年春在上海张江的这三个月的实习经历，可以说是几乎毫无收获。岗位是最水的测试开发（JD
+并没有写，我也没在意），每天的工作就是将实验室里的各种 GPU
+插到测试机上，用现成的脚本测试各种视频软件、游戏、AI
+应用的显卡性能。脚本挂了的时候就手动测试，或者修一修代码的 bug，调一调
+OCR 等插件的参数。大部分时间就是在内部平台的 GUI 上部署
+task，然后监控每台机子，再不然就是组装测试机、修电脑、重装显卡驱动等等杂活。</p>
+<p>但是，实习之外对我的影响就太大了。首先是上海这座城市，虽然我以前来过很多次，但这是第一次我单独从一个打工人而不是一个单纯的游客的世界去感受它。我感受到它的繁华、多元和激情，也被它所震撼。在这里定居成了年少的我心中的第一个真实的梦想，虽然它是那么的遥不可及。这三个月，我几乎玩遍了上海的所有大小景点，感受着它的每一次呼吸，也第一次如此想清楚自己究竟想要什么，为了什么而前进。</p>
+<p>另一方面，我在公司楼下一条人工河的对面租了个单间，不行上班只需 5
+分钟。一个合租人也是 NV
+的正式员工，从华为跳槽的，能力非常强。有一天晚上我门敞开着，他便到我的房间来闲聊几句。发现我们都看日本动漫作品、都打过计算机竞赛，便有了一些共同话题。然后我抓住机会问了他的工作，他便向我介绍了国内负责的
+NV
+高性能计算库和编译器部分。那个晚上总共聊了不到一个小时，我也完全没意识到这次对话有什么价值，但它将在一年后彻底改变我的人生轨迹。</p>
+<p><em>题外话，在我入职前一个月的 NV
+年会上黄仁勋来上海给所有员工都拍了合照、签了 to
+签，当时老板邀请我，但我因为不在上海，且以为只是普通的饭局，于是痛失这个与老黄零距离接触的机会，懊悔至今
+:)</em></p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="nv-1.jpg" alt="nv-1" /></div><div class="group-picture-column" style="width: 50%;"><img src="nv-2.jpg" alt="nv-2" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-3.jpg" alt="nv-3" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-4.jpg" alt="nv-4" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-5.jpg" alt="nv-5" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-6.jpg" alt="nv-6" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-7.jpg" alt="nv-7" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-8.jpg" alt="nv-8" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="nv-9.jpg" alt="nv-9" /></div><div class="group-picture-column" style="width: 50%;"><img src="nv-10.jpg" alt="nv-10" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-11.jpg" alt="nv-11" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-12.jpg" alt="nv-12" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-13.jpg" alt="nv-13" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="nv-14.jpg" alt="nv-14" /></div><div class="group-picture-column" style="width: 50%;"><img src="nv-15.jpg" alt="nv-15" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="nv-16.jpg" alt="nv-16" /></div><div class="group-picture-column" style="width: 50%;"><img src="nv-17.jpg" alt="nv-17" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-18.jpg" alt="nv-18" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-19.jpg" alt="nv-19" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-20.jpg" alt="nv-20" /></div></div></div></div>
+<h2 id="行前准备">行前准备</h2>
+<p>随着第二段实习结束，我的申请季也宣告结束。总结下来，我的申请策略总体没有什么问题，总共是拿了
+6 个 offer。根据专排、总排、OpenCS 评级等指标最后综合选择了 Duke MS
+ECE（小插曲：由于漏看了邮件，起初我一直不知道自己拿了 Duke MS ECE 的
+offer，直到决定回复 Duke ECE MEng 的时候才在 Portal 上看到 MS ECE
+也录取了）。</p>
+<p><img src="app-result.png" /></p>
+<p>整个申请过程不可谓不繁琐，需要找到每个院校项目的官方网站并仔细阅读，了解院系的偏好、主要的教授与他们研究的方向。每个学院都要专门准备一份
+SoP，很多像 CMU
+这种学校还需要专门为它设置的繁多问答题分别写回复，还有的项目需要录一个
+video interview
+甚至需要远程面试。二十多个项目全部申下来工作量巨大，更不用提语言考试（GRE
+第一次考试没上门槛线）、成绩认证的各种麻烦，以及为了防止敏感行业签证问题而额外做的各类书面工作。为了省钱和锻炼克服对英文网页的恐惧，我坚持
+DIY
+而不找中介，只是打电话给几个中介咨询了一下选项方案。事实证明，中介给的目标院校档次会明显虚高，现在
+AI 工具的成熟也让中介的定位愈发尴尬，唯一所谓的优势“信息差”也被 OpenCS
+和一亩三分地等网站所替代。站在现在这个时间点，我不建议任何人找中介。</p>
+<p>我的文书策略是，将自己包装成对人工智能和人机交互相关的研究者。一方面是因为我之前的科研项目都与此有关，另一方面是这些方向适合引导至美国最爱的政治正确、人文关怀、理想抱负等等方面的表达（当时正值民主党执政，且院校内意识形态明显比平均水平更左）。</p>
+<p>签证最后还是毫无悬念地 check
+了，我护照是在上海办的，签证在沈阳，抽到了一个态度一般的黑女，见面的第一眼我就猜到会先
+refuse
+了，好在后续让我邮件提交了一系列本科导师材料和证明，又等了一个多月成功下签，虽然只有一年（正常学签是五年）。</p>
+<p>万事俱备，剩下的就是抓紧享受国内的大学生活了。大四这一年，我玩了杭州、上海、苏州、无锡、合肥、南京、哈尔滨、延吉，毕业旅行去的是大连和北京。到北卡罗莱纳州最便宜的机票是从厦门出发，临走前，全家人为我送行，顺便把厦门玩了一圈。从学校到家再到厦门，跨越了黄河，跨越了长江，该跨越太平洋了。</p>
+<p>好。那么，走罢！</p>
+<p>去美国。</p>
+]]></content>
+      <categories>
+        <category>记录</category>
+      </categories>
+      <tags>
+        <tag>其它</tag>
       </tags>
   </entry>
   <entry>
@@ -8565,93 +8661,135 @@ Scheduling）；</li>
       </tags>
   </entry>
   <entry>
-    <title>太空人-行前篇</title>
-    <url>/2025/10/03/%E5%A4%AA%E7%A9%BA%E4%BA%BA-%E8%A1%8C%E5%89%8D%E7%AF%87/</url>
-    <content><![CDATA[<blockquote>
-<p><em>必死に　ただ閃雲に空に手を伸ばして</em></p>
-<p><em>拼命地，只是向着闪光的云空伸出手去</em></p>
-</blockquote>
-<p>本系列为个人美国留学生活记录，分为行前篇、校园篇和旅行篇。</p>
-<p>标题《太空人》取自新海诚电影《秒速五厘米》人生三部曲第二篇章
-<em>コスモナウト</em>，源自俄语
-<em>Cosmonaut</em>（宇航员），讲述成长后、毕业前这个阶段的，青春独有的迷茫、期许和无奈。</p>
-<p>让我们从 2023 年夏说起。</p>
+    <title>留美备忘录</title>
+    <url>/2024/10/11/%E7%95%99%E7%BE%8E%E5%A4%87%E5%BF%98%E5%BD%95/</url>
+    <content><![CDATA[<h2 id="护照">护照</h2>
+<ul>
+<li>护照最好在户籍地公安局办理，在其它地区公安局会寄送到户籍地审核，所需资料也按户籍地标准要求；</li>
+<li>护照办理流程：带身份证，自助机器生成表格，拍照，填表格，在人工柜台办理，拿回执，数日后凭回执取护照；仅凭身份证也可取护照，可以选择寄送；</li>
+<li>在美国，护照充当最权威的身份证的作用，但可以使用驾照等证明文件作为大多数时间的身份证明；</li>
+</ul>
 <span id="more"></span>
-<h2 id="第一段实习">第一段实习</h2>
-<p>2023
-年，在大家都为了各个保研夏令营天南海北奔走的夏天，随着我在杭州阿里总部食堂里远程遥控我的同学帮我签了放弃保研承诺书，我知道自己已经没有回头路了。要等到十月才开始出国申请，次年四月才能知道结果，这意味着无论申请结果如何，我都必须全盘接受并押上家里七位数资产，去追逐自己这个虚无缥缈的太空人的梦。</p>
-<p>简单讲一下我的本科四年，总体来看是非常轻松悠闲的四年。由于高中的竞赛经历，大一上选择进校队打
-ACM，不到一学期因对竞赛无感、且与教练不合退役；大一下进组做科研，因为完全没有人指导，浑浑噩噩做了两年，几乎没有成果，认定自己不是这块料，因而决定从此不碰科研；除此之外零零散散参加了一些
-CTF
-竞赛（因为队友网线坏了用了我的而睡了一整场的觉）、混了些社团、办了些编程比赛。长期摆烂导致
-GPA 比较难看（靠着刷分勉强刷上 3.8，最后 WES 认证没上
-3.9），同时了解到保研大部分情况下最后的去向都是由导师和实验室安排好的，而我极其不适合在导师要求下学习，也希望能给自己将来的研究领域更大的选择权。另一方面，我是疫情三年完整的亲历者（长春是当时全国最严重的区域之一），其间种种也给了我三观不小的震撼。总而言之，由于各个方面的因素，在大三下我最终决定赴美留学。</p>
-<p>具体是怎么决定下来的，我一直没有印象。可能是想着想着，某一天就不再考虑保研了。北美硕士申请无非看三个因素：标化（GPA、语言成绩），经历（论文、实习），文书（SoP、CV、推荐信）。语言方面我用两个暑假分别把
-Toefl、GRE
-考上门槛线（现在来看托福完全应该再多考几次，虽然当时考了一次就完全不想碰了也没办法）。GPA
-上我完全不想努力，也没有花什么功夫；文书之类的基本上就是中文写好一份模板，把其中几个关键地方改成目标学校的特色，翻译成英文，再找个软件润色一下就结束了。</p>
-<p>最后还能努力的空间只剩实习，于是我把自己听说过的互联网公司列了张表，开始挨个投递。当时并不了解什么日常、暑期实习，更不了解不同岗位的区别和要求，几乎是闭着眼睛乱投。大部分公司都有投递上限（那是正好是阿里拆分前两个月，还是非独立招聘的，整个集团只能投三个志愿），对于没有上限的比如字节，我花了一天时间把所有开放的实习岗位全投了一遍（88
-个岗位），最后一个面试也没拿到。</p>
-<p>运气非常好，唯一拿到的面试就是阿里淘天集团的 C++
-开发岗，意外地很顺利地三轮面试都通过了。工作是为淘宝的 AR/VR 3D
-引擎写插件，技术栈非常多样，是个很有挑战性也很有趣的项目。后来进去后才知道，其实我当时排序第三，只有一个
-HC，第一名把阿里鸽了，第二名组里小老板非常看好，但大老板一票否决了，最后才很幸运地轮到了我。可惜让老板们失望了，整个实习期间我几乎全部都在背
-GRE 单词、学 Modern C++ 和
-C#，加上对组里业务和技术栈完全不熟，最后几乎没有多少产出。老板说，产出完全不够留用，不想转正的话就走人，于是我只干了两个月就被迫走人了。</p>
-<p>话说回来，这两个月过得还是非常精彩的，头一次进到一线城市的顶级大厂，头一次对计算机这个行业有了一个比较全面的认知，也是头一次了解到业界真实的样貌，眼界大开。只不过当时我不知道，就像《中国太阳》里水娃头一回进京城一样，之后有的是眼界大开的时刻，这才刚刚开始。</p>
-<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="ali-1.jpg" alt="ali-1" /></div><div class="group-picture-column" style="width: 50%;"><img src="ali-2.jpg" alt="ali-2" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="ali-3.jpg" alt="ali-3" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="ali-4.jpg" alt="ali-4" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="ali-5.jpg" alt="ali-5" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="ali-6.jpg" alt="ali-6" /></div><div class="group-picture-column" style="width: 50%;"><img src="ali-7.jpg" alt="ali-7" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="ali-8.jpg" alt="ali-8" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="ali-9.jpg" alt="ali-9" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="ali-10.jpg" alt="ali-10" /></div></div></div></div>
-<h2 id="第二段实习">第二段实习</h2>
-<p>时间来到 23
-年底，此时我已完成所有学校的申请，大四也没有别的事情，毕业论文我直接用之前失败的论文作品稍作修改，总共只花了两天。于是，虽然对申请已无作用，我还是决定用大四的时间再进行一段实习。</p>
-<p>这一次，我的目标更明确些，不再关注国内互联网大厂，而是转而关注一些美国公司。当时正值寒假，几乎没有公司开放，我破罐子破摔地在牛客上找到一家叫英伟达的公司正在招
-25 届的实习生。23 年底正是 LLM 的爆发期，NVIDIA
-毫无疑问是这一波红利的受益者。因为经常看科技新闻的缘故，我对它的印象也从一家游戏芯片公司变成了一家
-AI 芯片公司。我完全没报希望地给数月没上线的猎头留了言，问 24
-届本科生是否能做一段时间日常实习。完全没想到的是，这一无心之举完全改变了我今后的人生。经过三轮不痛不痒的面试（问的几乎都是游戏显卡的问题，我从来不玩主机游戏，但凭着平时看科技新闻的见识竟然基本都应付了下来），和多次邮件催促，我竟然拿到了这次不可思议的实习的机会。</p>
-<p>现在回头看，24
-年春在上海张江的这三个月的实习经历，可以说是几乎毫无收获。岗位是最水的测试开发（JD
-并没有写，我也没在意），每天的工作就是将实验室里的各种 GPU
-插到测试机上，用现成的脚本测试各种视频软件、游戏、AI
-应用的显卡性能。脚本挂了的时候就手动测试，或者修一修代码的 bug，调一调
-OCR 等插件的参数。大部分时间就是在内部平台的 GUI 上部署
-task，然后监控每台机子，再不然就是组装测试机、修电脑、重装显卡驱动等等杂活。</p>
-<p>但是，实习之外对我的影响就太大了。首先是上海这座城市，虽然我以前来过很多次，但这是第一次我单独从一个打工人而不是一个单纯的游客的世界去感受它。我感受到它的繁华、多元和激情，也被它所震撼。在这里定居成了年少的我心中的第一个真实的梦想，虽然它是那么的遥不可及。这三个月，我几乎玩遍了上海的所有大小景点，感受着它的每一次呼吸，也第一次如此想清楚自己究竟想要什么，为了什么而前进。</p>
-<p>另一方面，我在公司楼下一条人工河的对面租了个单间，不行上班只需 5
-分钟。一个合租人也是 NV
-的正式员工，从华为跳槽的，能力非常强。有一天晚上我门敞开着，他便到我的房间来闲聊几句。发现我们都看日本动漫作品、都打过计算机竞赛，便有了一些共同话题。然后我抓住机会问了他的工作，他便向我介绍了国内负责的
-NV
-高性能计算库和编译器部分。那个晚上总共聊了不到一个小时，我也完全没意识到这次对话有什么价值，但它将在一年后彻底改变我的人生轨迹。</p>
-<p><em>题外话，在我入职前一个月的 NV
-年会上黄仁勋来上海给所有员工都拍了合照、签了 to
-签，当时老板邀请我，但我因为不在上海，且以为只是普通的饭局，于是痛失这个与老黄零距离接触的机会，懊悔至今
-:)</em></p>
-<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="nv-1.jpg" alt="nv-1" /></div><div class="group-picture-column" style="width: 50%;"><img src="nv-2.jpg" alt="nv-2" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-3.jpg" alt="nv-3" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-4.jpg" alt="nv-4" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-5.jpg" alt="nv-5" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-6.jpg" alt="nv-6" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-7.jpg" alt="nv-7" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-8.jpg" alt="nv-8" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="nv-9.jpg" alt="nv-9" /></div><div class="group-picture-column" style="width: 50%;"><img src="nv-10.jpg" alt="nv-10" /></div></div></div></div>
-<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-11.jpg" alt="nv-11" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-12.jpg" alt="nv-12" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-13.jpg" alt="nv-13" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="nv-14.jpg" alt="nv-14" /></div><div class="group-picture-column" style="width: 50%;"><img src="nv-15.jpg" alt="nv-15" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="nv-16.jpg" alt="nv-16" /></div><div class="group-picture-column" style="width: 50%;"><img src="nv-17.jpg" alt="nv-17" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-18.jpg" alt="nv-18" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-19.jpg" alt="nv-19" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-20.jpg" alt="nv-20" /></div></div></div></div>
-<h2 id="行前准备">行前准备</h2>
-<p>随着第二段实习结束，我的申请季也宣告结束。总结下来，我的申请策略总体没有什么问题，总共是拿了
-6 个 offer。根据专排、总排、OpenCS 评级等指标最后综合选择了 Duke MS
-ECE（小插曲：由于漏看了邮件，起初我一直不知道自己拿了 Duke MS ECE 的
-offer，直到决定回复 Duke ECE MEng 的时候才在 Portal 上看到 MS ECE
-也录取了）。</p>
-<p><img src="app-result.png" /></p>
-<p>整个申请过程不可谓不繁琐，需要找到每个院校项目的官方网站并仔细阅读，了解院系的偏好、主要的教授与他们研究的方向。每个学院都要专门准备一份
-SoP，很多像 CMU
-这种学校还需要专门为它设置的繁多问答题分别写回复，还有的项目需要录一个
-video interview
-甚至需要远程面试。二十多个项目全部申下来工作量巨大，更不用提语言考试（GRE
-第一次考试没上门槛线）、成绩认证的各种麻烦，以及为了防止敏感行业签证问题而额外做的各类书面工作。为了省钱和锻炼克服对英文网页的恐惧，我坚持
-DIY
-而不找中介，只是打电话给几个中介咨询了一下选项方案。事实证明，中介给的目标院校档次会明显虚高，现在
-AI 工具的成熟也让中介的定位愈发尴尬，唯一所谓的优势“信息差”也被 OpenCS
-和一亩三分地等网站所替代。站在现在这个时间点，我不建议任何人找中介。</p>
-<p>我的文书策略是，将自己包装成对人工智能和人机交互相关的研究者。一方面是因为我之前的科研项目都与此有关，另一方面是这些方向适合引导至美国最爱的政治正确、人文关怀、理想抱负等等方面的表达（当时正值民主党执政，且院校内意识形态明显比平均水平更左）。</p>
-<p>签证最后还是毫无悬念地 check
-了，我护照是在上海办的，签证在沈阳，抽到了一个态度一般的黑女，见面的第一眼我就猜到会先
-refuse
-了，好在后续让我邮件提交了一系列本科导师材料和证明，又等了一个多月成功下签，虽然只有一年（正常学签是五年）。</p>
-<p>万事俱备，剩下的就是抓紧享受国内的大学生活了。大四这一年，我玩了杭州、上海、苏州、无锡、合肥、南京、哈尔滨、延吉，毕业旅行去的是大连和北京。到北卡罗莱纳州最便宜的机票是从厦门出发，临走前，全家人为我送行，顺便把厦门玩了一圈。从学校到家再到厦门，跨越了黄河，跨越了长江，该跨越太平洋了。</p>
-<p>好。那么，走罢！</p>
-<p>去美国。</p>
+<h2 id="签证">签证</h2>
+<ul>
+<li>步骤：
+<ul>
+<li>获取对应学校 I-20，打印后签名即可；</li>
+<li>填写 <a href="https://ceac.state.gov/genniv/">DS-160
+申请表</a>；</li>
+<li>支付 <a
+href="https://www.ustraveldocs.com/cn/zh/payment-options">F-1 签证费</a>
+和 <a href="https://www.fmjfee.com/i901fee/index.html">SEVIS I-901
+费用</a>；</li>
+<li>准备文件：学校成绩单、托福 GRE
+成绩单、Offer、资产证明与关系证明、身份证、护照、DS-160
+表确认单、面签预约确认单、SEVIS I-901 缴费凭证、六个月内拍摄的 2 英寸 x
+2 英寸（5.1 厘米 x 5.1 厘米）照片、学习计划和简历；</li>
+<li>预约并参加面试；</li>
+</ul></li>
+<li>若 check 则收走护照，4-6 周后进入处理流程，再数个工作日后 issue；EMS
+邮寄护照和签证（本人签收或委托信）；</li>
+</ul>
+<h2 id="流量">流量</h2>
+<ul>
+<li>美国三大运营商：Verizon、T-Mobile、AT&amp;T；其余流量套餐：Mint
+Mobile、Visible 等；</li>
+<li>先买国内运营商的国际套餐或国际漫游（或淘宝买 Sim
+卡），到美国后买那边运营商的卡即可；</li>
+<li>我的套餐：<a href="https://www.att.com/prepaid/plans/">AT&amp;T $25
+套餐</a>；</li>
+</ul>
+<h2 id="银行卡">银行卡</h2>
+<ul>
+<li>先用家长 Visa 信用卡办一张副卡，在美国消费后由家人还款；</li>
+<li>到美国后再办一张美国信用卡（BOA 或 Chase）；</li>
+<li>有两个账户，checking account 用于日常消费，saving account
+用于存钱（年化利率仅 0.01%，消费超过 6 次每次需交
+$10，总体用处不大）；</li>
+<li>信用卡可以透支，部分消费会有返现，使用美国借记卡还款；学生由于没有稳定收入，借记卡金额需要境外汇款，过程产生的手续费可能与返现抵消，因此用处不大；</li>
+</ul>
+<h2 id="飞机">飞机</h2>
+<ul>
+<li>机票在携程上直接购买即可，注意价格变动大；</li>
+<li>准备纸质备忘录，记录常用电话、信息等，防止手机不能用；</li>
+<li>剃须刀、充电宝、电池不要放箱子里；火柴、打火机等均不能带；</li>
+<li>不需要参与行李过海关的环节，只有人过海关；</li>
+<li>廉航随身行李不收费，托运行李一般每件在 $60~$100
+左右（联乘直挂只算一次）；</li>
+<li>肉、液体、种子等管控较严，其余食品管控较松；</li>
+<li>只有两步：值机和登机；行李直挂转机无需值机，找到 transit 或 transfer
+的地点即可；非直挂需要先去 baggage claim 取行李，再去 connection
+重新值机；</li>
+</ul>
+<h2 id="生活">生活</h2>
+<ul>
+<li>租房不带家具，带家电；</li>
+<li>购物有消费税；非快餐店吃饭给最少 18% 的小费；</li>
+<li>消费使用刷卡或现金；</li>
+<li>对机动车之外的交通工具不太友好；</li>
+<li>多数情况可以用驾照 permit 代替护照证明身份；</li>
+<li>人们打招呼很热情；</li>
+<li>坐公交车在路边招手即可，想下车拉一下黄色杆即可；</li>
+<li>UPS 退货要留着快递盒，否则得买他的袋子；Whole food store
+则不需要；</li>
+</ul>
+<h2 id="其它">其它</h2>
+<ul>
+<li>Duke 直接通过校内平台在 Lancaster 租房，提前找好室友；</li>
+<li>到国际旅行卫生保健中心体检、打疫苗、填写学校要求的强制疫苗表、领小红本与小黄本；有签证可以免体检费；</li>
+<li>自行打印成绩单后找校教务处密封盖章，自行邮寄。拿到学位证和毕业证后在档案馆办理翻译证明，同样在教务处密封盖章；</li>
+</ul>
+<h2 id="单位">单位</h2>
+<ul>
+<li>华氏度：F = 32 + 1.8 * C；100 F ≈ 37.78 C；</li>
+<li>美制加仑：1 gallon-us ≈ 3.8 L；</li>
+<li>液量盎司：1 gallon-us = 8 pt = 128 fl oz；1 fl oz ≈ 30 ml；</li>
+<li>磅：1 Lb ≈ 454 g；</li>
+<li>英尺：1 ft ≈ 30.48 cm；1 ft = 12 in；</li>
+<li>英寸：1 in ≈ 2.54 cm；</li>
+</ul>
+<h2 id="找工">找工</h2>
+<p>资料：</p>
+<p>https://github.com/eliaszon/Programmers-Overseas-Job-Interview-Handbook?tab=readme-ov-file</p>
+<p>https://www.eecsresume.com/article</p>
+<h3 id="简历">简历</h3>
+<ul>
+<li>写好 Linkedin Profile，另外为每个岗位类型准备一份简历；建议使用
+Overleaf Resume 模板；</li>
+<li>简历保证不超过一页，附上自己的联系方式；</li>
+<li>实习 Bullet Point 按【目的、内容、工具、特色、提升】来写；</li>
+<li>项目 Bullet Point 按【内容、特色、工具、细节、工作量】来写；第一个
+BP 用于概述；</li>
+<li>使用“最小项目法”，思考符合当前描述的最小项目，从而丰富内容；</li>
+</ul>
+<h3 id="投递">投递</h3>
+<ul>
+<li>Github 上会有当年开放的所有岗位，包括 Intern 和
+NG，实时更新；此外主流求职平台有：<a
+href="https://www.linkedin.com/jobs/search/?currentJobId=3968882269">Linkedin</a>、<a
+href="https://www.indeed.com/?from=jobsearch-empty-whatwhere">Indeed</a>、<a
+href="https://www.google.com/search?q=software+engineer+jobs&amp;hl=en&amp;oq=software+engineer+jobs&amp;ibp=htl;jobs&amp;sa=X&amp;htivrt=jobs&amp;htichips=&amp;htischips=#htivrt=jobs&amp;htidocid=iBeBi4RlDep4KEcnAAAAAA%3D%3D&amp;fpstate=tldetail">Google
+Career</a>、<a
+href="https://www.glassdoor.com/Job/index.htm">Glassdoor</a>、<a
+href="https://app.joinhandshake.com/stu/postings">Handshake</a>；</li>
+</ul>
+<h3 id="面试">面试</h3>
+<ul>
+<li>提前了解公司，展现热情，强调自己需要这份工作；</li>
+<li>准备常问问题的回答（特别是 Behavior
+Questions）；准备反问的问题（技术栈、给员工的建议）；面试完后邮件感谢；</li>
+<li>面试写题环节要注重
+Communication，即使写不出来也要多明确需求、描述想法；</li>
+</ul>
+<h3 id="其它-1">其它</h3>
+<ul>
+<li>美国目前主要招 8+ yoe ，Entry-level 招的非常少；需要公司帮抽
+H-1B；</li>
+<li>Amazon 和 Meta 都是 General
+Hire（目前招人少），其余公司均寻求技术栈一致的；</li>
+<li>时间线：入学当年 7 月开始找第二年暑期 Summer Intern；</li>
+<li>常见 OA 平台：CodeSignal、HackerRank；</li>
+</ul>
 ]]></content>
       <categories>
         <category>记录</category>
@@ -9109,138 +9247,234 @@ D_{\mathrm{KL}} &lt; \delta / 1.5 \\ \beta &amp;\leftarrow \beta \times
       </tags>
   </entry>
   <entry>
-    <title>留美备忘录</title>
-    <url>/2024/10/11/%E7%95%99%E7%BE%8E%E5%A4%87%E5%BF%98%E5%BD%95/</url>
-    <content><![CDATA[<h2 id="护照">护照</h2>
-<ul>
-<li>护照最好在户籍地公安局办理，在其它地区公安局会寄送到户籍地审核，所需资料也按户籍地标准要求；</li>
-<li>护照办理流程：带身份证，自助机器生成表格，拍照，填表格，在人工柜台办理，拿回执，数日后凭回执取护照；仅凭身份证也可取护照，可以选择寄送；</li>
-<li>在美国，护照充当最权威的身份证的作用，但可以使用驾照等证明文件作为大多数时间的身份证明；</li>
-</ul>
-<span id="more"></span>
-<h2 id="签证">签证</h2>
-<ul>
-<li>步骤：
-<ul>
-<li>获取对应学校 I-20，打印后签名即可；</li>
-<li>填写 <a href="https://ceac.state.gov/genniv/">DS-160
-申请表</a>；</li>
-<li>支付 <a
-href="https://www.ustraveldocs.com/cn/zh/payment-options">F-1 签证费</a>
-和 <a href="https://www.fmjfee.com/i901fee/index.html">SEVIS I-901
-费用</a>；</li>
-<li>准备文件：学校成绩单、托福 GRE
-成绩单、Offer、资产证明与关系证明、身份证、护照、DS-160
-表确认单、面签预约确认单、SEVIS I-901 缴费凭证、六个月内拍摄的 2 英寸 x
-2 英寸（5.1 厘米 x 5.1 厘米）照片、学习计划和简历；</li>
-<li>预约并参加面试；</li>
-</ul></li>
-<li>若 check 则收走护照，4-6 周后进入处理流程，再数个工作日后 issue；EMS
-邮寄护照和签证（本人签收或委托信）；</li>
-</ul>
-<h2 id="流量">流量</h2>
-<ul>
-<li>美国三大运营商：Verizon、T-Mobile、AT&amp;T；其余流量套餐：Mint
-Mobile、Visible 等；</li>
-<li>先买国内运营商的国际套餐或国际漫游（或淘宝买 Sim
-卡），到美国后买那边运营商的卡即可；</li>
-<li>我的套餐：<a href="https://www.att.com/prepaid/plans/">AT&amp;T $25
-套餐</a>；</li>
-</ul>
-<h2 id="银行卡">银行卡</h2>
-<ul>
-<li>先用家长 Visa 信用卡办一张副卡，在美国消费后由家人还款；</li>
-<li>到美国后再办一张美国信用卡（BOA 或 Chase）；</li>
-<li>有两个账户，checking account 用于日常消费，saving account
-用于存钱（年化利率仅 0.01%，消费超过 6 次每次需交
-$10，总体用处不大）；</li>
-<li>信用卡可以透支，部分消费会有返现，使用美国借记卡还款；学生由于没有稳定收入，借记卡金额需要境外汇款，过程产生的手续费可能与返现抵消，因此用处不大；</li>
-</ul>
-<h2 id="飞机">飞机</h2>
-<ul>
-<li>机票在携程上直接购买即可，注意价格变动大；</li>
-<li>准备纸质备忘录，记录常用电话、信息等，防止手机不能用；</li>
-<li>剃须刀、充电宝、电池不要放箱子里；火柴、打火机等均不能带；</li>
-<li>不需要参与行李过海关的环节，只有人过海关；</li>
-<li>廉航随身行李不收费，托运行李一般每件在 $60~$100
-左右（联乘直挂只算一次）；</li>
-<li>肉、液体、种子等管控较严，其余食品管控较松；</li>
-<li>只有两步：值机和登机；行李直挂转机无需值机，找到 transit 或 transfer
-的地点即可；非直挂需要先去 baggage claim 取行李，再去 connection
-重新值机；</li>
-</ul>
-<h2 id="生活">生活</h2>
-<ul>
-<li>租房不带家具，带家电；</li>
-<li>购物有消费税；非快餐店吃饭给最少 18% 的小费；</li>
-<li>消费使用刷卡或现金；</li>
-<li>对机动车之外的交通工具不太友好；</li>
-<li>多数情况可以用驾照 permit 代替护照证明身份；</li>
-<li>人们打招呼很热情；</li>
-<li>坐公交车在路边招手即可，想下车拉一下黄色杆即可；</li>
-<li>UPS 退货要留着快递盒，否则得买他的袋子；Whole food store
-则不需要；</li>
-</ul>
-<h2 id="其它">其它</h2>
-<ul>
-<li>Duke 直接通过校内平台在 Lancaster 租房，提前找好室友；</li>
-<li>到国际旅行卫生保健中心体检、打疫苗、填写学校要求的强制疫苗表、领小红本与小黄本；有签证可以免体检费；</li>
-<li>自行打印成绩单后找校教务处密封盖章，自行邮寄。拿到学位证和毕业证后在档案馆办理翻译证明，同样在教务处密封盖章；</li>
-</ul>
-<h2 id="单位">单位</h2>
-<ul>
-<li>华氏度：F = 32 + 1.8 * C；100 F ≈ 37.78 C；</li>
-<li>美制加仑：1 gallon-us ≈ 3.8 L；</li>
-<li>液量盎司：1 gallon-us = 8 pt = 128 fl oz；1 fl oz ≈ 30 ml；</li>
-<li>磅：1 Lb ≈ 454 g；</li>
-<li>英尺：1 ft ≈ 30.48 cm；1 ft = 12 in；</li>
-<li>英寸：1 in ≈ 2.54 cm；</li>
-</ul>
-<h2 id="找工">找工</h2>
-<p>资料：</p>
-<p>https://github.com/eliaszon/Programmers-Overseas-Job-Interview-Handbook?tab=readme-ov-file</p>
-<p>https://www.eecsresume.com/article</p>
-<h3 id="简历">简历</h3>
-<ul>
-<li>写好 Linkedin Profile，另外为每个岗位类型准备一份简历；建议使用
-Overleaf Resume 模板；</li>
-<li>简历保证不超过一页，附上自己的联系方式；</li>
-<li>实习 Bullet Point 按【目的、内容、工具、特色、提升】来写；</li>
-<li>项目 Bullet Point 按【内容、特色、工具、细节、工作量】来写；第一个
-BP 用于概述；</li>
-<li>使用“最小项目法”，思考符合当前描述的最小项目，从而丰富内容；</li>
-</ul>
-<h3 id="投递">投递</h3>
-<ul>
-<li>Github 上会有当年开放的所有岗位，包括 Intern 和
-NG，实时更新；此外主流求职平台有：<a
-href="https://www.linkedin.com/jobs/search/?currentJobId=3968882269">Linkedin</a>、<a
-href="https://www.indeed.com/?from=jobsearch-empty-whatwhere">Indeed</a>、<a
-href="https://www.google.com/search?q=software+engineer+jobs&amp;hl=en&amp;oq=software+engineer+jobs&amp;ibp=htl;jobs&amp;sa=X&amp;htivrt=jobs&amp;htichips=&amp;htischips=#htivrt=jobs&amp;htidocid=iBeBi4RlDep4KEcnAAAAAA%3D%3D&amp;fpstate=tldetail">Google
-Career</a>、<a
-href="https://www.glassdoor.com/Job/index.htm">Glassdoor</a>、<a
-href="https://app.joinhandshake.com/stu/postings">Handshake</a>；</li>
-</ul>
-<h3 id="面试">面试</h3>
-<ul>
-<li>提前了解公司，展现热情，强调自己需要这份工作；</li>
-<li>准备常问问题的回答（特别是 Behavior
-Questions）；准备反问的问题（技术栈、给员工的建议）；面试完后邮件感谢；</li>
-<li>面试写题环节要注重
-Communication，即使写不出来也要多明确需求、描述想法；</li>
-</ul>
-<h3 id="其它-1">其它</h3>
-<ul>
-<li>美国目前主要招 8+ yoe ，Entry-level 招的非常少；需要公司帮抽
-H-1B；</li>
-<li>Amazon 和 Meta 都是 General
-Hire（目前招人少），其余公司均寻求技术栈一致的；</li>
-<li>时间线：入学当年 7 月开始找第二年暑期 Summer Intern；</li>
-<li>常见 OA 平台：CodeSignal、HackerRank；</li>
-</ul>
+    <title>部分基础编程术语中英对照表</title>
+    <url>/2024/10/11/%E9%83%A8%E5%88%86%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E6%9C%AF%E8%AF%AD%E4%B8%AD%E8%8B%B1%E5%AF%B9%E7%85%A7%E8%A1%A8/</url>
+    <content><![CDATA[<h1 id="部分基础编程术语中英对照表">部分基础编程术语中英对照表</h1>
+<table>
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 13%" />
+<col style="width: 15%" />
+<col style="width: 23%" />
+<col style="width: 9%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr>
+<th>中文</th>
+<th>English</th>
+<th>中文</th>
+<th>English</th>
+<th>中文</th>
+<th>English</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>逗号</td>
+<td>comma</td>
+<td>句号</td>
+<td>period</td>
+<td>波浪号</td>
+<td>tilde</td>
+</tr>
+<tr>
+<td>冒号</td>
+<td>colon</td>
+<td>分号</td>
+<td>semicolon</td>
+<td>省略号</td>
+<td>ellipsis</td>
+</tr>
+<tr>
+<td>问号</td>
+<td>question mark</td>
+<td>感叹号</td>
+<td>exclamation mark</td>
+<td>引号</td>
+<td>quotation marks</td>
+</tr>
+<tr>
+<td>小括号</td>
+<td>parentheses</td>
+<td>中括号</td>
+<td>square brackets</td>
+<td>大括号</td>
+<td>curly braces</td>
+</tr>
+<tr>
+<td>星号</td>
+<td>asterisk</td>
+<td>与号（&amp;）</td>
+<td>ampersand</td>
+<td>井号</td>
+<td>number sign / hash / pound</td>
+</tr>
+<tr>
+<td>下划线</td>
+<td>underline</td>
+<td>百分号</td>
+<td>percent sign</td>
+<td>连字符</td>
+<td>hyphen</td>
+</tr>
+<tr>
+<td>斜杠</td>
+<td>slash</td>
+<td>反斜杠</td>
+<td>backslash</td>
+<td>`</td>
+<td>back-tick</td>
+</tr>
+<tr>
+<td>取模</td>
+<td>modulus</td>
+<td>余数</td>
+<td>remainder</td>
+<td>加数</td>
+<td>addend</td>
+</tr>
+<tr>
+<td>被除数</td>
+<td>dividend</td>
+<td>除数</td>
+<td>divisor</td>
+<td>乘数</td>
+<td>multiplier</td>
+</tr>
+<tr>
+<td>被减数</td>
+<td>minuend</td>
+<td>减数</td>
+<td>subtracter</td>
+<td>操作数</td>
+<td>operand</td>
+</tr>
+<tr>
+<td>语法</td>
+<td>syntax</td>
+<td>语义</td>
+<td>semantics</td>
+<td>变量</td>
+<td>variable</td>
+</tr>
+<tr>
+<td>标识符</td>
+<td>identifier</td>
+<td>初始化</td>
+<td>initialize</td>
+<td>语句</td>
+<td>statement</td>
+</tr>
+<tr>
+<td>赋值</td>
+<td>assignment</td>
+<td>表达式</td>
+<td>expression</td>
+<td>优先级</td>
+<td>precedence</td>
+</tr>
+<tr>
+<td>形参</td>
+<td>parameter</td>
+<td>实参</td>
+<td>argument</td>
+<td>栈帧</td>
+<td>stack frame</td>
+</tr>
+<tr>
+<td>作用域</td>
+<td>scope</td>
+<td>局部</td>
+<td>local</td>
+<td>全局</td>
+<td>global</td>
+</tr>
+<tr>
+<td>转义</td>
+<td>escape</td>
+<td>短路</td>
+<td>short circuit</td>
+<td>嵌套</td>
+<td>nest</td>
+</tr>
+<tr>
+<td>语法糖</td>
+<td>syntactic sugar</td>
+<td>通配</td>
+<td>glob</td>
+<td>描述符</td>
+<td>descriptor</td>
+</tr>
+<tr>
+<td>终端</td>
+<td>terminal</td>
+<td>缓冲</td>
+<td>buffer</td>
+<td>内存</td>
+<td>memory</td>
+</tr>
+<tr>
+<td>编译</td>
+<td>compile</td>
+<td>单例</td>
+<td>singleton</td>
+<td>运算符</td>
+<td>operator</td>
+</tr>
+<tr>
+<td>一元</td>
+<td>unary</td>
+<td>二元</td>
+<td>binary</td>
+<td>三元</td>
+<td>ternary</td>
+</tr>
+<tr>
+<td>可变（数量）</td>
+<td>variadic</td>
+<td>精度</td>
+<td>precision</td>
+<td>上下文</td>
+<td>context</td>
+</tr>
+<tr>
+<td>类型转换（人为）</td>
+<td>cast</td>
+<td>类型转换（编译器）</td>
+<td>type promotion / conversion</td>
+<td>递归</td>
+<td>recursion</td>
+</tr>
+<tr>
+<td>并发</td>
+<td>concurrent</td>
+<td>并行 / 并联</td>
+<td>parallel</td>
+<td>串行 / 串联</td>
+<td>serial</td>
+</tr>
+<tr>
+<td>演绎</td>
+<td>deduction</td>
+<td>归纳</td>
+<td>induction</td>
+<td>约简</td>
+<td>reduction</td>
+</tr>
+<tr>
+<td>分隔符</td>
+<td>delimiter</td>
+<td>字典序</td>
+<td>lexicographic order</td>
+<td>字面量</td>
+<td>literal</td>
+</tr>
+</tbody>
+</table>
 ]]></content>
       <categories>
-        <category>记录</category>
+        <category>其它</category>
       </categories>
       <tags>
         <tag>其它</tag>
@@ -9601,240 +9835,6 @@ ti），它也是独立的</em>；</li>
       </categories>
       <tags>
         <tag>哲学</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>部分基础编程术语中英对照表</title>
-    <url>/2024/10/11/%E9%83%A8%E5%88%86%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E6%9C%AF%E8%AF%AD%E4%B8%AD%E8%8B%B1%E5%AF%B9%E7%85%A7%E8%A1%A8/</url>
-    <content><![CDATA[<h1 id="部分基础编程术语中英对照表">部分基础编程术语中英对照表</h1>
-<table>
-<colgroup>
-<col style="width: 14%" />
-<col style="width: 13%" />
-<col style="width: 15%" />
-<col style="width: 23%" />
-<col style="width: 9%" />
-<col style="width: 23%" />
-</colgroup>
-<thead>
-<tr>
-<th>中文</th>
-<th>English</th>
-<th>中文</th>
-<th>English</th>
-<th>中文</th>
-<th>English</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>逗号</td>
-<td>comma</td>
-<td>句号</td>
-<td>period</td>
-<td>波浪号</td>
-<td>tilde</td>
-</tr>
-<tr>
-<td>冒号</td>
-<td>colon</td>
-<td>分号</td>
-<td>semicolon</td>
-<td>省略号</td>
-<td>ellipsis</td>
-</tr>
-<tr>
-<td>问号</td>
-<td>question mark</td>
-<td>感叹号</td>
-<td>exclamation mark</td>
-<td>引号</td>
-<td>quotation marks</td>
-</tr>
-<tr>
-<td>小括号</td>
-<td>parentheses</td>
-<td>中括号</td>
-<td>square brackets</td>
-<td>大括号</td>
-<td>curly braces</td>
-</tr>
-<tr>
-<td>星号</td>
-<td>asterisk</td>
-<td>与号（&amp;）</td>
-<td>ampersand</td>
-<td>井号</td>
-<td>number sign / hash / pound</td>
-</tr>
-<tr>
-<td>下划线</td>
-<td>underline</td>
-<td>百分号</td>
-<td>percent sign</td>
-<td>连字符</td>
-<td>hyphen</td>
-</tr>
-<tr>
-<td>斜杠</td>
-<td>slash</td>
-<td>反斜杠</td>
-<td>backslash</td>
-<td>`</td>
-<td>back-tick</td>
-</tr>
-<tr>
-<td>取模</td>
-<td>modulus</td>
-<td>余数</td>
-<td>remainder</td>
-<td>加数</td>
-<td>addend</td>
-</tr>
-<tr>
-<td>被除数</td>
-<td>dividend</td>
-<td>除数</td>
-<td>divisor</td>
-<td>乘数</td>
-<td>multiplier</td>
-</tr>
-<tr>
-<td>被减数</td>
-<td>minuend</td>
-<td>减数</td>
-<td>subtracter</td>
-<td>操作数</td>
-<td>operand</td>
-</tr>
-<tr>
-<td>语法</td>
-<td>syntax</td>
-<td>语义</td>
-<td>semantics</td>
-<td>变量</td>
-<td>variable</td>
-</tr>
-<tr>
-<td>标识符</td>
-<td>identifier</td>
-<td>初始化</td>
-<td>initialize</td>
-<td>语句</td>
-<td>statement</td>
-</tr>
-<tr>
-<td>赋值</td>
-<td>assignment</td>
-<td>表达式</td>
-<td>expression</td>
-<td>优先级</td>
-<td>precedence</td>
-</tr>
-<tr>
-<td>形参</td>
-<td>parameter</td>
-<td>实参</td>
-<td>argument</td>
-<td>栈帧</td>
-<td>stack frame</td>
-</tr>
-<tr>
-<td>作用域</td>
-<td>scope</td>
-<td>局部</td>
-<td>local</td>
-<td>全局</td>
-<td>global</td>
-</tr>
-<tr>
-<td>转义</td>
-<td>escape</td>
-<td>短路</td>
-<td>short circuit</td>
-<td>嵌套</td>
-<td>nest</td>
-</tr>
-<tr>
-<td>语法糖</td>
-<td>syntactic sugar</td>
-<td>通配</td>
-<td>glob</td>
-<td>描述符</td>
-<td>descriptor</td>
-</tr>
-<tr>
-<td>终端</td>
-<td>terminal</td>
-<td>缓冲</td>
-<td>buffer</td>
-<td>内存</td>
-<td>memory</td>
-</tr>
-<tr>
-<td>编译</td>
-<td>compile</td>
-<td>单例</td>
-<td>singleton</td>
-<td>运算符</td>
-<td>operator</td>
-</tr>
-<tr>
-<td>一元</td>
-<td>unary</td>
-<td>二元</td>
-<td>binary</td>
-<td>三元</td>
-<td>ternary</td>
-</tr>
-<tr>
-<td>可变（数量）</td>
-<td>variadic</td>
-<td>精度</td>
-<td>precision</td>
-<td>上下文</td>
-<td>context</td>
-</tr>
-<tr>
-<td>类型转换（人为）</td>
-<td>cast</td>
-<td>类型转换（编译器）</td>
-<td>type promotion / conversion</td>
-<td>递归</td>
-<td>recursion</td>
-</tr>
-<tr>
-<td>并发</td>
-<td>concurrent</td>
-<td>并行 / 并联</td>
-<td>parallel</td>
-<td>串行 / 串联</td>
-<td>serial</td>
-</tr>
-<tr>
-<td>演绎</td>
-<td>deduction</td>
-<td>归纳</td>
-<td>induction</td>
-<td>约简</td>
-<td>reduction</td>
-</tr>
-<tr>
-<td>分隔符</td>
-<td>delimiter</td>
-<td>字典序</td>
-<td>lexicographic order</td>
-<td>字面量</td>
-<td>literal</td>
-</tr>
-</tbody>
-</table>
-]]></content>
-      <categories>
-        <category>其它</category>
-      </categories>
-      <tags>
-        <tag>其它</tag>
       </tags>
   </entry>
   <entry>
