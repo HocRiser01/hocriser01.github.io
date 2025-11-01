@@ -7,3 +7,21 @@
   background: rgba(255,255,255,0.7);
   backdrop-filter: blur(6px);
 }
+.container {
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(4px);
+}
+.header {
+  background: rgba(255,255,255,0.5);
+  backdrop-filter: blur(5px);
+  box-shadow: none;
+}
+.body {
+  background-attachment: fixed;
+  background-size: cover;
+}
+.main,
+.sidebar,
+.header {
+  transition: background 0.3s ease;
+}
