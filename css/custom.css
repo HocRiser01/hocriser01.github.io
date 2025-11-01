@@ -1,7 +1,11 @@
 .content-wrap,
-.sidebar,
 .header-inner {
   background: rgba(255,255,255,0.6);
   backdrop-filter: blur(10px);
   border-radius: 10px;
+}
+.sidebar-inner {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
 }
