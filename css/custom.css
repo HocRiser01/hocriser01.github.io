@@ -1,5 +1,9 @@
-body {
-  background: url("/images/bg.jpg") no-repeat center center fixed;
-  background-size: cover;
-  background-attachment: fixed;
+.main {
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(6px);
+  border-radius: 10px;
+}
+.sidebar {
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(6px);
 }
