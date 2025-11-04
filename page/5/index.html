@@ -53,27 +53,27 @@
   <meta name="description" content="平凡即是喜乐">
 <meta property="og:type" content="website">
 <meta property="og:title" content="朝汐">
-<meta property="og:url" content="http://47.99.133.133/categories/%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:url" content="http://47.99.133.133/page/5/index.html">
 <meta property="og:site_name" content="朝汐">
 <meta property="og:description" content="平凡即是喜乐">
 <meta property="og:locale" content="en_US">
 <meta property="article:author" content="HocRiser">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://47.99.133.133/categories/%E7%AC%94%E8%AE%B0/">
+<link rel="canonical" href="http://47.99.133.133/page/5/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : false,
+    isHome : true,
     isPost : false,
     lang   : 'en'
   };
 </script>
 
-  <title>Category: 笔记 | 朝汐</title>
+  <title>朝汐</title>
   
 
 
@@ -192,240 +192,109 @@
         <div class="content-wrap">
           
 
-          <div class="content category">
+          <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://47.99.133.133/2023/07/13/Hexo%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA/">
 
-  
-  
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">笔记
-          <small>Category</small>
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="HocRiser">
+      <meta itemprop="description" content="平凡即是喜乐">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="朝汐">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/07/13/Hexo%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA/" class="post-title-link" itemprop="url">Hexo个人网站搭建</a>
         </h2>
-      </div>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-07-13 10:43:54" itemprop="dateCreated datePublished" datetime="2023-07-13T10:43:54-04:00">2023-07-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-11-04 16:50:12" itemprop="dateModified" datetime="2024-11-04T16:50:12-05:00">2024-11-04</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>2.7k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>5 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2025</span>
+          <h2 id="本机配置">本机配置</h2>
+<p><a target="_blank" rel="noopener" href="https://nodejs.org/en">官网</a>下载Node.js，换成淘宝源：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 换成淘宝源（可能需要sudo su进入root模式）：</span></span><br><span class="line">npm install -g cnpm --registry==https://registry.npm.taobao.org</span><br><span class="line">cnpm -v</span><br><span class="line">cnpm install -g hexo-cli</span><br><span class="line"><span class="built_in">mkdir</span> Hexo &amp;&amp; <span class="built_in">cd</span> Hexo</span><br><span class="line">hexo init</span><br><span class="line">hexo s</span><br><span class="line"><span class="comment"># 此时可在http://localhost:4000/访问主页</span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/07/13/Hexo%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2025-07-04T19:13:30-04:00"
-              content="2025-07-04">
-          07-04
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2025/07/04/Per-block-%E9%87%8F%E5%8C%96%E6%B7%B7%E5%90%88%E7%B2%BE%E5%BA%A6%E5%8D%B7%E7%A7%AF%E5%AE%9E%E7%8E%B0%E4%B8%8E-GEMM%E3%80%81GEMV-%E4%BC%98%E5%8C%96/" itemprop="url">
-            <span itemprop="name">Per-block 量化混合精度卷积实现与 GEMM、GEMV 优化</span>
-          </a>
-      </div>
-
-    </header>
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
   </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2025-04-21T14:00:15-04:00"
-              content="2025-04-21">
-          04-21
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2025/04/21/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/" itemprop="url">
-            <span itemprop="name">强化学习入门笔记</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-    <div class="collection-year">
-      <span class="collection-header">2024</span>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2024-11-18T11:36:25-05:00"
-              content="2024-11-18">
-          11-18
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2024/11/18/%E8%A5%BF%E6%96%B9%E5%8F%A4%E8%BF%91%E4%BB%A3%E5%93%B2%E5%AD%A6%E5%8F%B2%E5%85%A5%E9%97%A8/" itemprop="url">
-            <span itemprop="name">西方古近代哲学史入门</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2024-10-11T23:33:35-04:00"
-              content="2024-10-11">
-          10-11
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2024/10/11/Java-Spring-%E7%B3%BB%E5%88%97%E5%85%A5%E9%97%A8/" itemprop="url">
-            <span itemprop="name">Java Spring 系列入门</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2024-10-11T22:21:36-04:00"
-              content="2024-10-11">
-          10-11
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2024/10/11/Swift-SwiftUI-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url">
-            <span itemprop="name">Swift & SwiftUI 学习笔记</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2024-10-02T22:21:53-04:00"
-              content="2024-10-02">
-          10-02
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2024/10/02/%E5%9C%A3%E7%BB%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" itemprop="url">
-            <span itemprop="name">圣经读书笔记</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-    <div class="collection-year">
-      <span class="collection-header">2023</span>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2023-12-06T23:35:26-05:00"
-              content="2023-12-06">
-          12-06
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2023/12/06/CUDA-%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/" itemprop="url">
-            <span itemprop="name">CUDA 编程笔记</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2023-11-20T17:51:23-05:00"
-              content="2023-11-20">
-          11-20
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2023/11/20/Rust-%E7%AC%94%E8%AE%B0/" itemprop="url">
-            <span itemprop="name">Rust 笔记</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2023-11-20T17:50:13-05:00"
-              content="2023-11-20">
-          11-20
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2023/11/20/Pine-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" itemprop="url">
-            <span itemprop="name">Pine 源码阅读笔记</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2023-11-20T17:48:44-05:00"
-              content="2023-11-20">
-          11-20
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2023/11/20/Modern-C-%EF%BC%8811-26%EF%BC%89%E7%AC%94%E8%AE%B0/" itemprop="url">
-            <span itemprop="name">Modern C++（11~26）笔记</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-    </div>
-  </div>
   
   
   
+
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/categories/%E7%AC%94%E8%AE%B0/page/2/">2</a><a class="page-number" href="/categories/%E7%AC%94%E8%AE%B0/page/3/">3</a><a class="extend next" rel="next" href="/categories/%E7%AC%94%E8%AE%B0/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
   </nav>
 
 
