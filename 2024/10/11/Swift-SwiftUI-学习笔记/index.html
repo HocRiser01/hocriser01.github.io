@@ -5,7 +5,7 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.3.0">
+<meta name="generator" content="Hexo 8.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg">
@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"47.99.133.133","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"47.99.133.133","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
 <script>
@@ -135,6 +135,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -179,11 +180,38 @@
     <a href="/duke/" rel="section"><i class="fa fa fa-university fa-fw"></i>Duke</a>
 
   </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
 
 </div>
     </header>
@@ -249,14 +277,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>6.5k</span>
+              <span>7.3k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>12 mins.</span>
+              <span>13 mins.</span>
             </span>
 
         </div>
@@ -309,8 +337,8 @@ Optional （隐式解包可选类型）值，此后取值不再需要加 <code>!
 <li>在确定不为空时使用 <code>!</code> 强制解包；显式类型转换会返回一个
 Optional 已处理转换失败的情况；</li>
 <li>可选绑定（Optional
-Binding）：<code>if let name=optionalName &#123;&#125; else &#123;&#125;</code> ；
-<code>guard let name=optionalName else &#123;&#125;</code> ；</li>
+Binding）：<code>if let name=optionalName {} else {}</code> ；
+<code>guard let name=optionalName else {}</code> ；</li>
 <li>合并空值运算符： <code>a ?? b</code> 在 a 有值时展开，a 为
 <code>nil</code> 时返回 b；b 表达式返回值必须与 a 中存储值同类型；</li>
 <li>可选链： <code>if let a = A.B?.C</code> ；</li>
@@ -331,7 +359,7 @@ Binding）：<code>if let name=optionalName &#123;&#125; else &#123;&#125;</code
 </ul>
 <h3 id="函数与闭包">函数与闭包</h3>
 <ul>
-<li>函数声明：<code>func doSomething() -&gt; returnType &#123;&#125;</code>
+<li>函数声明：<code>func doSomething() -&gt; returnType {}</code>
 ；</li>
 <li>调用函数时，第一个参数无需写明形参名，其余参数均需写明，除非函数定义中使用
 <code>_</code> 作为 argumentLabel（不指定的话默认使用 parameterName 作为
@@ -351,7 +379,7 @@ Item 类型，在实现时使用 <code>typealias Item = Int</code>
 <li>可变参数（Variadic Parameters）： <code>Double...</code> ，使用
 for-in 遍历；</li>
 <li>Trailing Closures：若函数最后一个参数是闭包，则可以写到 () 之后：
-<code>aFunc()&#123; ... &#125;</code> ；</li>
+<code>aFunc(){ ... }</code> ；</li>
 <li>Completion Handler：函数末尾回调，通常使用 Trailing Closures
 写；</li>
 <li>逃逸闭包（Escaping
@@ -366,9 +394,9 @@ Closures）：闭包可能在函数返回后被调用，如异步操作或被存
 关键字，不使用将编译错误；不允许 overwrite；</li>
 <li><code>lazy</code> 成员属性在第一次使用时才计算器初始值；</li>
 <li>构造器（Initializer）：
-<code>init(name:String) &#123; self.name = name &#125;</code>
+<code>init(name:String) { self.name = name }</code>
 ；调用构造器时所有参数均需写明形参名；可失败构造器： <code>init?</code>
-；析构器： <code>deinit &#123;...&#125;</code> ，没有小括号；</li>
+；析构器： <code>deinit {...}</code> ，没有小括号；</li>
 <li>自定义构造器后便不再提供默认构造器，且要求所有属性均被初始化；</li>
 <li>使用 <code>super.init(name: name)</code> 调用父类构造函数；
 <code>final</code> 可防止 override；便利（
@@ -445,7 +473,7 @@ MVVM（Model-View-ViewModel）软件架构模式；声明式语言，用户不�
 <li>原先的 MVC 架构：ViewController 创建 View 并将其显示，或使用
 Outlet（ <code>@IBOutlet weak var myLabel: UILabel!</code> ）引用
 storyboard 或 xib 界面组件，使用 Action（
-<code>@IBAction func buttonClicked(_ sender: UIButton) &#123; myLabel.text = "1"; &#125;</code>
+<code>@IBAction func buttonClicked(_ sender: UIButton) { myLabel.text = "1"; }</code>
 ) 接收组件消息并控制组件行为；</li>
 <li>MVC 架构初始默认文件：
 <ul>
@@ -682,13 +710,13 @@ $ 符号；</li>
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">217k</span>
+    <span title="Symbols count total">238k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">6:35</span>
+    <span title="Reading time total">7:12</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
   </div>
@@ -749,6 +777,10 @@ setInterval("createtime()",250);
   
 
 
+
+
+  
+<script src="/js/local-search.js"></script>
 
 
 

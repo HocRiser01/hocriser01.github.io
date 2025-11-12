@@ -5,7 +5,7 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.3.0">
+<meta name="generator" content="Hexo 8.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg">
@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"47.99.133.133","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"47.99.133.133","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
 <script>
@@ -135,6 +135,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -179,11 +180,38 @@
     <a href="/duke/" rel="section"><i class="fa fa fa-university fa-fw"></i>Duke</a>
 
   </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
 
 </div>
     </header>
@@ -255,14 +283,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>13k</span>
+              <span>15k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>24 mins.</span>
+              <span>26 mins.</span>
             </span>
 
         </div>
@@ -372,7 +400,7 @@ SCREAMING_SNAKE_CASE；</li>
 <li><code>loop</code> 语句支持使用循环标签 <code>'lable</code> 以供
 <code>continue</code> 和 <code>break</code> 使用， <code>break</code>
 还可以后跟一个值作为表达式的返回值；</li>
-<li>另外两种循环：<code>while condition &#123;...&#125;</code> ，
+<li>另外两种循环：<code>while condition {...}</code> ，
 <code>for element in a</code> ；</li>
 </ul></li>
 </ul>
@@ -458,7 +486,7 @@ crate，可以包含任意多个二进制 crate；</li>
 引入模块路径，使用 <code>as</code> 给引入模块起别名；</li>
 <li>使用 <code>pub use</code> 重导出；</li>
 </ul></li>
-<li>使用嵌套路径：<code>use std::io::&#123;self, Write&#125;;</code> ，通过 glob
+<li>使用嵌套路径：<code>use std::io::{self, Write};</code> ，通过 glob
 运算符 <code>*</code> 引入所有公有定义（不推荐）；</li>
 </ul>
 <h2 id="第八章-常见集合">第八章 常见集合</h2>
@@ -541,8 +569,8 @@ panic；</li>
 <code>assert_eq!</code> 和 <code>assert_ne!</code> 测试相等（还需要
 <code>derive(PartialEq)</code>），三种 <code>assert</code>
 均支持附带一个显示出错信息参数；</li>
-<li><code>Debug</code> trait 提供使用 <code>&#123;:?&#125;</code>
-打印类型调试格式，使用 <code>&#123;:#?&#125;</code> 打印更美观的调试格式；</li>
+<li><code>Debug</code> trait 提供使用 <code>{:?}</code>
+打印类型调试格式，使用 <code>{:#?}</code> 打印更美观的调试格式；</li>
 <li>使用 <code>#[test]</code>后跟 <code>#[should_panic]</code> 使 panic
 时通过测试，使用 <code>#[should_panic(expected = "...")]</code>
 限定接收到的 panic 信息；</li>
@@ -578,9 +606,9 @@ panic；</li>
 <li>测试驱动开发（Test Driven Development,
 TDD）：编写期望失败的测试，再编写代码使其通过，然后重构增加的代码；</li>
 <li>使用 <code>eprintln!</code> 打印信息到标准错误流；</li>
-<li><code>fmt::Debug</code>：使用 <code>&#123;:?&#125;</code> 或
-<code>&#123;:#?&#125;</code> 标记，格式化文本以供调试使用，可以直接
-derive；<code>fmt::Display</code>：使用 <code>&#123;&#125;</code> 标记，以更优雅和友好的风格来格式化文本，需要手动实现；</li>
+<li><code>fmt::Debug</code>：使用 <code>{:?}</code> 或
+<code>{:#?}</code> 标记，格式化文本以供调试使用，可以直接
+derive；<code>fmt::Display</code>：使用 <code>{}</code> 标记，以更优雅和友好的风格来格式化文本，需要手动实现；</li>
 </ul>
 <h2 id="第十三章-rust-中的函数式语言功能迭代器与闭包">第十三章
 <strong>Rust 中的函数式语言功能：迭代器与闭包</strong></h2>
@@ -997,13 +1025,13 @@ Cargo 和 Crates.io 的内容</span></a></li><li class="nav-item nav-level-2"><a
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">217k</span>
+    <span title="Symbols count total">238k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">6:35</span>
+    <span title="Reading time total">7:12</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
   </div>
@@ -1064,6 +1092,10 @@ setInterval("createtime()",250);
   
 
 
+
+
+  
+<script src="/js/local-search.js"></script>
 
 
 

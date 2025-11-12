@@ -5,7 +5,7 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.3.0">
+<meta name="generator" content="Hexo 8.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg">
@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"47.99.133.133","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"47.99.133.133","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
 <script>
@@ -135,6 +135,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -179,11 +180,38 @@
     <a href="/duke/" rel="section"><i class="fa fa fa-university fa-fw"></i>Duke</a>
 
   </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
 
 </div>
     </header>
@@ -262,7 +290,7 @@
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>22 mins.</span>
+              <span>23 mins.</span>
             </span>
 
         </div>
@@ -374,8 +402,8 @@ const；<code>auto it = v.cbegin();</code>
 <li>函数最外层作用域中的局部变量不能与形参重名；</li>
 <li>最佳实践：定义函数的源文件应包含声明函数的头文件；尽量使用常量引用作为形参；</li>
 <li>C++允许用字面值初始化常量引用；</li>
-<li>【11】实参数量未知但类型都相同，C++11支持<code>initializer_list</code>类型，内存常量值，用法类似<code>vector</code>：<code>initializer_list&lt;T&gt; lst&#123;a, b, c&#125;;</code>
-如：<code>void msg(initializer_list&lt;string&gt; il)&#123; … &#125;</code>，调用：<code>msg(&#123;"a", "b"&#125;</code>；</li>
+<li>【11】实参数量未知但类型都相同，C++11支持<code>initializer_list</code>类型，内存常量值，用法类似<code>vector</code>：<code>initializer_list&lt;T&gt; lst{a, b, c};</code>
+如：<code>void msg(initializer_list&lt;string&gt; il){ … }</code>，调用：<code>msg({"a", "b"}</code>；</li>
 <li>省略符形参<code>...</code>只能用于形参列表的最后一个，且仅用于C和C++通用的类型；</li>
 <li>不使用<code>typedef</code>让函数返回数组指针：<code>Type (*function(parameter_list))[dimension]</code>
 ，或使用<code>decltype(arr) *arrPtr(int i)</code>，<code>*</code>表示返回数组指针（这点函数指针同理）。</li>
@@ -404,7 +432,7 @@ const；<code>auto it = v.cbegin();</code>
 <li>友元声明：<code>friend</code>后接声明即可（并非真正的声明）；外类的友元函数要写对应类<code>classtype::</code>；若有函数重载则每种均应分别声明；</li>
 <li>若类中已使用外层作用域定义的类型，则类内不可再定义此类型覆盖外层定义；</li>
 <li>构造函数初始化列表为初始化，但函数体内为赋值；若一个成员变量同时在定义时被初始化和在初始化列表中，则以初始化列表为准（不推荐）；<code>const</code>或引用类型必须初始化；</li>
-<li>委托构造函数，即直接在初始化列表调用其它构造函数：<code>Type():Type(...)&#123;...&#125;</code>，此处<code>Type()</code>委托了<code>Type(...)</code>；</li>
+<li>委托构造函数，即直接在初始化列表调用其它构造函数：<code>Type():Type(...){...}</code>，此处<code>Type()</code>委托了<code>Type(...)</code>；</li>
 <li>函数传参遵循最佳匹配原则，不匹配时会做一次（且仅一次）类类型转换；</li>
 <li>用初始化列表初始化类时需要所有成员均为<code>public</code>；</li>
 <li>字面值常量类必须定义至少一个<code>constexpr</code>的构造函数，而普通类不能定义<code>const</code>的构造函数；</li>
@@ -439,7 +467,7 @@ const；<code>auto it = v.cbegin();</code>
 <h3 id="第十章-泛型算法">第十章 泛型算法</h3>
 <ul>
 <li>迭代器令算法不依赖于容器而是依赖于元素类型的操作，泛型算法永远不会执行容器的操作，只会运行与迭代器之上；</li>
-<li>【11】lambda表达式：<code>[capture list](parameter list) -&gt; return type &#123;...&#125;</code>
+<li>【11】lambda表达式：<code>[capture list](parameter list) -&gt; return type {...}</code>
 参数列表和返回类型可省略（代表指定空参数列表和自动推断返回类型）；捕获值在lambda创建时而非调用时拷贝，引用捕获需要保证对应变量存在；</li>
 <li><code>[]</code>不捕获变量；<code>[names]</code>规定捕获列表，默认为值拷贝，加<code>&amp;</code>表示引用捕获；<code>[&amp;]</code>和<code>[=]</code>表示自动隐式捕获；<code>[&amp;, identifier_list]</code>和<code>[=, identifier_list]</code>，后者变量前必须加&amp;；</li>
 <li>若函数体包含<code>return</code>外任何语句，编译器假定此<code>lambda</code>返回<code>void</code>，可使用尾置<code>-&gt;</code>指定返回类型；</li>
@@ -769,13 +797,13 @@ target="_blank" rel="noopener" href="https://changkun.de/modern-cpp/zh-cn/01-int
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">217k</span>
+    <span title="Symbols count total">238k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">6:35</span>
+    <span title="Reading time total">7:12</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
   </div>
@@ -836,6 +864,10 @@ setInterval("createtime()",250);
   
 
 
+
+
+  
+<script src="/js/local-search.js"></script>
 
 
 
