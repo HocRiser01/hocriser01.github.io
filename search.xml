@@ -2360,6 +2360,1860 @@ GDP 直接腾飞。</p>
       </tags>
   </entry>
   <entry>
+    <title>太空人-学业篇</title>
+    <url>/2025/11/05/%E5%A4%AA%E7%A9%BA%E4%BA%BA-%E5%AD%A6%E4%B8%9A%E7%AF%87/</url>
+    <content><![CDATA[<p>本篇回归这两年间“学习”和“找工”的主旋律，简单聊聊这一路。</p>
+<span id="more"></span>
+<h2 id="学校">学校</h2>
+<p>我就读的是 Duke 的 MS ECE 项目（24
+fall），学制为一年半或两年，总学分要求为 30 credits，一门专业课 3
+学分，科研工作可以抵 3 学分或 6
+学分（即可以少上一或两门课）。我选择读两年（4 semesters），无科研，上满
+10 门课，四个学期课程数分别为 3 + 3 + 4 + 0；</p>
+<p>首先评价一下这个项目。这是一个标准的转码项目，提供非常完备的零基础转码课程。但是，如果一个转码同学，坚定选择以实用性高而非压力小的课程（即不选水课），且不抄往届代码、不使用
+AI、不进行任何作弊行为，那么这些课程想拿 A
+以上的难度是相当高的。换句话说，一个中上 985
+学习能力的零基础学生，将一个学期的绝大部分精力全部放在课内，才基本能保证三门课的学期全
+A（当然，如果这样坚持下来了，收获必然也是巨大的）。如果想兼顾生活、娱乐、就业等其他方面，就只能要么牺牲成绩，要么用
+AI
+或抄作业（或在小组任务中选择摆烂），要么牺牲睡眠。我自己作为一个基础相当扎实（自认为）的完全科班学生，遵循不选水课原则，同时想兼顾生活和找工，还希望全
+A，就只能仰仗 AI
+了。另一方面，和国内一样，只学习课内就想找到大厂工作是很困难的，还需要大量的课外工作。</p>
+<p>开销方面，项目总学费在 10~12
+万美元之间，算上生活费等开销的话，两年总费用在 16~18
+万美元之间。开销总体来看在所有美国常规 CS
+硕士项目中属于中上（私立学校学费太高）。</p>
+<p>我选的十门课分别为：</p>
+<p>第一学期：</p>
+<ul>
+<li>ECE 550D（Fundamentals of Computer Systems and
+Engineering）：相当于国内的计组课，附带 TA 主导的实验课程，是 verilog
+写处理器。</li>
+<li>ECE 551D（Programming, Data Structures, and Algorithms in C++）：C++
+程序设计基础，整个学期有一百二十多次小作业练习（一次作业是十道选择题或几道代码补全题的题量，且作业仍在不断增加中），以及三个大作业（用
+C++ 从头构建一个完整的功能性程序）、三次学期中测验和一次 Final
+Exam。采用翻转课堂形式，老师不讲课，靠学生课下自己读
+textbook，上课写作业和提问。workload 巨大，特别是对于无 C++
+基础的同学，还需要精读授课老师的英文教科书，应该可以说是 ECE
+最硬核的一门课了。</li>
+<li>ECE 564（Mobile Application Development）：iOS APP 开发和 Swift
+语言，总体难度不大，但 workload 不算小。每两周就要迭代一个 App
+产品，不借助 AI 的话需要自己了解 API、踩坑，借助 AI
+能大幅缩短用时，代价是练习不到位。</li>
+<li>总结：550D
+由于我本科上过几乎一样的课，最后又蹭了一个很卷的小组作业的附加分，最后不光彩地拿了
+A+。551D 由于我 C++ 本身非常熟练，也理所当然地拿了 A+。564 我即使借助了
+AI（GPT-4 时代，代码不靠谱但也能大幅提速），还是由于花费精力不足落了个
+A-。</li>
+</ul>
+<p>第二学期：</p>
+<ul>
+<li>ECE 568（Engineering Robust Server Software）：workload
+巨大，贯穿整个学期的四个大作业和一个小组合作的 Final Project
+非常耗时。Python、Java、C++ 都会涉及，还需要使用 Docker、MongoDB
+等业界常用技术。总的来说是最合适的与业界接轨的好课。其中两项作业我实在觉得太麻烦，让队友解决了绝大部分，想来实在惭愧。我有个毛病，不想做的东西，除非有强制约束力，否则无论如何也不想碰，这点非常麻烦。</li>
+<li>ECE 590（Advanced Topics in ECE: Cross-Platform Mobile APP
+Programming）：教 React Native。workload 相对小些（特别是有 AI
+辅助的情况下），一堂中规中矩的技术课程。</li>
+<li>ECE 651（Software Engineering）：Java
+编程和软件工程二合一课程（偏后者），workload 中等，Final Project
+小组合作写一个带图形界面的系统，耗时非常长。总体也是中规中矩，Prof. Drew
+的教学质量很高，非常平稳地讲完了所有软件工程的重要原则和最佳实践，作业帮助练习了
+Java 编程（虽然我还是用 AI 逃了课）。</li>
+<li>总结：三门课中没有特别恐怖的硬核课程，但总体 workload
+还是不小。我最终 651 拿了 A+，其余两门 A。</li>
+</ul>
+<p>第三学期：</p>
+<ul>
+<li>ECE 560（Computer and Information Security）：Prof. Tyler
+上课风趣幽默，充满激情，还会给参与课堂活动的学生发糖。教学内容是比较基础的网络安全内容，上课内容偏理论、概述，作业负责具体实践和理解，耗时的都是其中的实操课程（比如搭建
+tunnel、暴力破译密码、挖掘代码漏洞、改写 malware
+等等）。作业设置非常精美，看得出和 651 一样花费了海量精力。总体 workload
+偏大，但如果作业都是亲手思考并完成的话收获也不小。</li>
+<li>ECE 565（Performance Optimization &amp; Parallelism）：讲 C++
+程序优化和 CPU 并行编程。所有课中 workload
+最小的一门，考试内容也较简单。教授非常佛系，经常不上课。</li>
+<li>ECE 661（Comp. Eng. Machine Learning &amp; Deep Neural Nets）：Li
+Hai 和 Yiran Chen
+的一门令人情感非常复杂的课。讲述的内容和我的领域非常相关，但课程设置非常不合理。前面花了一个多月时间比较透彻地讲解了
+DNN 和 CNN 的基本概念，然后仅用两周时间就飞速讲完了
+RNN、LSTM、Attention、Transformer、LLM
+的概念，令我大为震撼。剩下时间主要关注模型量化、稀疏化、剪枝、加速等偏
+Infra 内容，经常一页 PPT
+就是一篇论文。我恰好是做这个领域的才能勉强跟上，零基础同学应该上课与听天书无异。另外，学期中课堂上随机散布
+6 次 quiz，计入 20% 总成绩，使得不爱出勤的我非常被动。workload
+中等，每个月一次 PyTorch 作业，对应课上讲解的技术的代码实现。</li>
+<li>COMPSCI 512（Distributed Systems）：教授是非常权威的前 CMU
+教授，算得上分布式和 CDN 网络的元老了。课程列表基本对标 MIT
+6.824/6.5840，但讲的要浅一些，只讲思想，不会带着深入研究论文中具体的算法流程。作业也没有
+6.824 那样的硬核分布式编程，主要是简单的理论问答题。总体来说是大幅弱化版
+6.824，workload 不大，且因为有录播可以不出勤。</li>
+</ul>
+<p>总体来说，课程选择的自由度不高，ECE
+学生选的大部分也都是这些课（这两年课程大纲要求也逐年严格），适合学习能力强、意愿高的转码同学，或对学习内容没什么要求、重点放在找工上的科班同学（我）。我几乎没去过
+office hour，自己+AI 解决不了的问题基本就放弃了。</p>
+<p>以上便是硕士项目的主要情况。课内工作占我有效工作时长的 50%
+左右吧，剩下一半都用来找工（我的有效工作时长实在不多）。</p>
+<h2 id="实习">实习</h2>
+<p>找工一直是我这两年的主基调，从踏上美国土地的第一天起，我就一直在找工作。</p>
+<p>个人情况：C++ 熟练（前 NOI/ICPC 选手），计算机科班，坚定不做 MLE
+科研。</p>
+<p>24 fall
+一整个学期，我基本都在修改英文简历、投递各家公司实习。每天两眼一睁就开始投简历，总共投了大约
+300~500 份，最后均以失败告终。一方面是大环境确实不好，2022
+年后就业市场就再也不复曾经的繁荣，通过美国留学获得美国工作的门槛越来越高；另一方面，由于我之前大部分精力都用于准备国内找工，完全没有针对美国这边的招聘模式做足够的准备。最关键的问题是，大部分岗位需求是
+Java backend 或者 full stack 的技术栈，少部分是前端、大数据的，几乎没有
+C++ 相关的岗位。而我这个时候已经几乎没有可能（不再有精力和热情）转到
+Java 后端了（其实我把后端八股已经背了多轮，我只是没有 Java
+项目，也不想做。如之前提到的，我不想做的事情，没有外力强制的话是绝对不会做的）。最后，只有
+NVIDIA 和 Samsung（都是硬件公司）给了面试机会，且最后都没有给
+offer，也消磨光了我最后一点期待和热情。可以说这一整个学期的美国找工是彻底的失败，我甚至怀疑是不是我不理解某些政策导致投递表填得有问题。</p>
+<p>到了寒假，我已经完全不报美国找工的希望了。</p>
+<p>一方面我的技术栈在美国很难找到合适的岗，即使我自认为技术积累甚至敢说
+Duke ECE
+近年第一，也丝毫不改变没公司要的问题。同时我的英文水平完全不够用，听力口语仅限必要的日常交流和与
+Uber
+司机（同样非英文母语者）闲谈，完全没到商务英语的水平。这也是一大问题，但我已经耐不下心去从头练英语了。最要命的是我还是非常严重的英文恐惧症（自创词，只看到英文就害怕）患者，以及内向+敏感+轻度自卑的标准小镇性格，这就更加重了我和整个英文世界沟通的障碍。</p>
+<p>另一方面，如上面所说，不仅语言问题已经严重影响到我，饮食、文化等方面我也完全没办法适应。饮食上，我是典型的中国胃，吃了
+22
+年纯正的中国菜，完全吃不了一点白人饭，更别说顿顿吃了。这一年来我基本每一顿都是自己做的，只能说属于不是办法的办法。文化上，我对美国社会的文化形式完全没有兴趣，对这边华人硕士留学生强社交、随性自由的娱乐和交往方式也感到格格不入，小镇做题家（并非做题家，只有小镇属性）思维和性格使我完全无法融入这些现充小年轻的生活（我在这边最熟的朋友竟然是一位做
+neuro 的
+postdoc）。此外，没车=没腿的交通问题等等问题也使我对美国生活并没有好感，在这边完全找不到一点归属感。再加上各种“留美工作几年再回国是伪命题”之类的网络讨论风向，这一切使我成了一个坚定的毕业回国党。</p>
+<p>于是，25 spring 开学我便开始了寻找 25 summer 国内暑期 C++
+开发实习的进程。由于本科阶段已经有过两段实习，我找国内实习可以说轻车熟路。但是，24
+年在 NVIDIA
+的经历，以及当时与合租的室友的交谈突然在我脑中浮现，直到此时我才猛然警觉：或许我可以改行到
+AI Infra，搭上 LLM
+这趟快车！立刻行动，即使我当时并不知道具体的技术路线是怎样的，但我手上有一些资源（B
+站视频、知乎文章等），也有一些之前零零散散听过的领域内技术名词，因此我知道我该学什么。这里既要感谢我之前实习的积累和大四时对各个领域的考察，也得感谢父亲对希望我进入
+AI 行业的推波助澜。总之，在一段时间的高强度学习后，我基本算是入门了 AI
+Infra（主要在算子层和推理引擎层），尽管其实学的非常浅，但至少可以半只脚踏入了门槛。这一改变也影响了我第三学期的选课，让我更关注
+AI
+和底层加速相关的课程。由于此时这个行业还是一片蓝海，应届做这个领域的人并不多（不到一年后就很多了），所以我竟然阴差阳错了成了某种稀缺资源，甚至还有机构请我给学员做讲座。</p>
+<p>但是，等到开始投递实习时，我又一次犹豫了。</p>
+<p>如果是传统 C++ 开发，虽然 hc
+不多，但至少我有把握和经验，而且竞争相对来说不是那么激烈。但是 AI Infra
+完全相反，从业者和入行的都是个顶个的高手，我又缺乏经验。最后，我选择支持三个以上投递志愿的公司，留一个位置给
+C++，防止自己全军覆没。经过两个月的面试后，我拿到了 T1 厂的 C++ 岗和 T2
+厂的 AI Infra 岗的
+offer，迟迟做不出选择。直到有一天突发奇想，找到了大三阿里实习的朋友，让他帮我直接内推了隔壁组的
+AI Infra 岗位，并最终顺利拿到
+offer。又经过一系列的思想斗争和家人的鼓励，我最后终于选择踏出舒适圈，尝试到
+AI Infra 领域闯一闯。</p>
+<p>至此，我的前两次实习、这两年积累的人脉和认知、大四对各个领域的调研，加上选择留学给我创造的可以自由支配的学习时间，都无一例外地派上了用场，并最后汇成这最后一次实习。</p>
+<p>于是在 25
+年的暑假，我再次跨越一万公里，回到淘天，回到大三那个梦开始的地方。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9870.jpg"
+alt="IMG_9870" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9871.jpg"
+alt="IMG_9871" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9873.jpg"
+alt="IMG_9873" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9875.jpg"
+alt="IMG_9875" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9877.jpg"
+alt="IMG_9877" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9882.jpg"
+alt="IMG_9882" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9889.jpg"
+alt="IMG_9889" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9891.jpg"
+alt="IMG_9891" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9897.jpg"
+alt="IMG_9897" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_0048.jpg"
+alt="IMG_0048" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_0050.jpg"
+alt="IMG_0050" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_0059.jpg"
+alt="IMG_0059" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_0061.jpg"
+alt="IMG_0061" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_0070.jpg"
+alt="IMG_0070" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_0074.jpg"
+alt="IMG_0074" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_0081.jpg"
+alt="IMG_0081" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_0084.jpg"
+alt="IMG_0084" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_0087.jpg"
+alt="IMG_0087" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_0096.jpg"
+alt="IMG_0096" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_0098.jpg"
+alt="IMG_0098" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_0102.jpg"
+alt="IMG_0102" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_0104.jpg"
+alt="IMG_0104" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_0109.jpg"
+alt="IMG_0109" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_0112.jpg"
+alt="IMG_0112" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_0115.jpg"
+alt="IMG_0115" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_0122.jpg"
+alt="IMG_0122" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_0158.jpg"
+alt="IMG_0158" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_0792.jpg"
+alt="IMG_0792" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_0793.jpg"
+alt="IMG_0793" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_0845.jpg"
+alt="IMG_0845" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_0937.jpg"
+alt="IMG_0847" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_0941.jpg"
+alt="IMG_0941" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_1115.jpg"
+alt="IMG_1115" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_1116.jpg"
+alt="IMG_1116" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_1131.jpg"
+alt="IMG_1131" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_1140.jpg"
+alt="IMG_1140" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_1184.jpg"
+alt="IMG_1184" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_1233.jpg"
+alt="IMG_1233" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_1235.jpg"
+alt="IMG_1235" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_1251.jpg"
+alt="IMG_1251" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_1401.jpg"
+alt="IMG_1265" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_1406.jpg"
+alt="IMG_1406" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_1419.jpg"
+alt="IMG_1419" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_1482.jpg"
+alt="IMG_1482" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_1500.jpg"
+alt="IMG_1500" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_1502.jpg"
+alt="IMG_1502" /></div></div></div></div>
+<h2 id="秋招">秋招</h2>
+<p>暑期实习时间从五月初到八月初，相对来说进展顺利。得益于 Gemini 2.5 Pro
+超强的数学、代码、推理能力，为我节省了海量时间。很多接到任务时完全不觉得能完成的工作，在堆砌时间之后也都误打误撞地解决了。老板人很好，同事也都很友善，距离业务很远因此从来不需要加班或
+oncall，工作内容既有技术深度，又和最前沿的工作接轨，能接触算子层、引擎层的实现，也能了解模型算法层的研究和探索。总体来看是一个几乎完美的工作。和我同期进来的另一名实习生是华科的，与我非常聊得来，我在交谈中也“偷”了他不少思路和研究工作，为秋招简历充实了很多内容。</p>
+<p>令人意外的是，好几家公司七月中旬就开启了提前批，比我以为的早了整整一个月。于是完全没有准备的我推迟了周末各地旅游的计划，优先改简历、投递。毫无疑问，有了阿里这段
+AI Infra
+的实习，我已不再需要担心没有经验或者认可度的问题，于是便放心大胆地全力投递
+AI Infra
+了。接下来两个月便塞满了各家的面试，实习期间我就找一个别的楼层的隔间偷着面，回美国后则是约一个两边都可以接受的时间（只有北京时间早十点、晚八点和晚九点在我的正常作息时间之内）。</p>
+<p>更令人意外的是，原本我的全部精力都放在国内秋招上，誓要拿一个对得起自己十年计算机生涯的
+offer 时，整个事情的根基却突然不存在了。7
+月中旬，我开始投递提前批简历的这一天，字节 AML
+约我进行暑期实习一面。我完全不记得自己是否投过这个岗位的暑期实习，以至于前两面我都以为在面应届秋招。二面结尾的反问环节，我按照惯例询问了一下
+base 地，对方说除了北京杭州外，在圣何塞和西雅图也有
+office，我感觉挺新奇，说那我能选美国 base
+吗，对方说那可以，接下来三面就转到美国 leader
+面试了。接着对方问“那你大概什么时候能来实习”，我直接懵了，说我一直以为在面秋招，好在得到的回答是“哦那没事，秋招我们也有
+hc”。于是，这个国内实习的面试，就这么阴差阳错变成了美国应届招聘的面试。</p>
+<p>其实我面试表现很一般，因为当时已经实习两个月，之前的准备已经忘得一干二净，秋招又没开始（面试当天才开始投递秋招提前批的简历），没有做过任何准备，所以其实发挥并不好。前两面主要问的是算子层的技术，我能扯几句，但都没有系统地准备过。手撕环节是
+CUDA LayerNorm，我早忘光了，只能凭自己对 LeetCUDA
+最后一点点印象现场推现场写。不知道前两面是按实习要求还是什么原因，总之还是顺利让我进入了美国
+leader 的三面。三面发挥仍然很一般，Persistent Kernel、Triton
+的内容我都没怎么答上来，之后最后面试官现场出的一道智力代码题答得还可以，follow-up
+也答出来了。最后进入 HR
+面我自己也很意外，不过并没有什么波澜。那个时候，我还只是当这次面试是我即将开始的秋招大战的预演，殊不知自己秋招其实已经结束了。</p>
+<p>8
+月，秋招火热进行中，我基本每个工作日都有至少一个面试，加上自己还在实习中，整个人处于火力全开的状态。7
+日晚，字节来 offer call
+了，对面是一个说英文的亚洲小哥，态度很友好。我已经三个月没讲过英语了，突然切换语言感觉有点跟不上。但是零零散散地，我还是能听到什么
+base、bonus、RSU
+这些字眼。此时我才猛然反应过来，他竟然在跟我谈薪。这又一次打了我一个措手不及，我不但没有了解过任何谈薪话术，甚至连美国薪资的基本构成都不知道。整场通话下来我基本上一句自己的话都没说，连该问些什么都不知道，更别提谈薪了。之后靠着录屏回放大致听清了数字，是一个比较标准的美国
+SDE NG 包。我从来没想过自己能拿到美国工作，早在年初 2
+月份我就已经完全放弃在美国找工作的念头，美国秋招岗位更是连有什么信息渠道都不知道。但第一个
+offer 就这么来了，甚至比国内秋招的 offer 来得还早得多。</p>
+<p>但是，虽然我有点激动，毕竟是第一份美国工作
+offer，也并不打算接。因为我早已决定回国，根本没打算留美。如之前所述，我的美国生活体验并不好，跟国内完全没法比。在我的计划里，美国这两年就像一场梦一样，毕业便是梦醒时分。尽管花了非常非常多的钱，但比起国内保研对我的时间和选择权的剥夺，这笔账算下来其实也并不很亏。出于好奇，我让
+Gemini
+帮我算了一下上完税、刨去生活开支之后，一年还能剩多少。最后得到的数字虽然比国内还是高得多，但也没有很夸张，也就差不多弥补了我留美后的精神损失费。因此我还是继续埋头面着国内公司。</p>
+<p>8 月 25 日，字节那边又来信，说 offer
+审核流程给我放错队列了，要重新审。我并不很急，反而觉得它让我失去继续面国内字节的机会（字节岗位之间互斥）。第二天字节又来约
+meeting，说 we got good news to
+share，我并不知道指的是什么。这回，一切都变了。meeting 里多了两位 HRBP
+的人，告知我的定级从 1-2 升到了 2-1，并将 sign on 并入 base
+里。我一味闷头做着笔记，尽可能多地理解并记住对方说的每句话，然后就稀里糊涂地结束了
+meeting。下来后我整理了一下笔记，才意识到，字节给我开了一个超出我认知的、远超普通
+SDE NG
+平均水平的、让我几乎没有理由再考虑是回国还是留美的数字。我用计算器算了三遍才确认无误，根本没有这种事能发生在我自己身上的实感。</p>
+<p>那之后，虽然我还在面着国内公司，但都是以保底的心态。我也停止了国内公司的投递，转而开始每天规律地刷一亩三分地论坛，开始收集美国职场、开放岗位的各种信息来源。一切变得太快、太突然，根本没有一点准备。我开始说服自己适应美国的生活，发现自己竟然神奇地开始一点点接受这种生活了（虽然生活质量和国内肯定还是不能比），或许真的和心理作用有关吧。到了十月，国内的面试也陆续结束了，我有幸接到美国
+Akuna Capital、Tesla、小鹏美国的面试，但也都是以保底的心态参加的。</p>
+<p>这件事对我接下来有三个比较大的影响。首先必然是一切行动都需要改为留美工作而服务了，其次是让我更加坚定不要放弃任何一个可能的机会的信念，最后是让我更深刻地意识到提升认知的必要性。base
+地选择西雅图还是圣何塞让我纠结了非常久，从各个意义上来说（税、生活成本、都市感、生活便利程度、H1B
+wage level
+等等），几乎都没有理由选择湾区。但我思考再三后还是选择了后者，正因为我开始相信机会是无价的，对于计算机从业者来说，硅谷就是世界上机会最多的地方。当然这个选择我也不知道是否正确，就交给三年后的我来回答吧。</p>
+<p>说回国内。十一月，国内的 offer 也陆陆续续开奖了。虽然因为字节的
+offer，我基本没再花多少精力在国内秋招上，但这些 offer
+也着实把我吓了一跳。国内开的奖大部分在 60w 左右，最高的有
+90w。另一方面，特朗普大幅收缩的移民政策使得整个 2025
+年充斥着各种利空技术移民的政策和提案，并最终实打实地通过了 H1B 100k 和
+wage level
+概率分配提案，使我的工作签证获得难度大幅增加，一度让我重新纠结是否回国的问题，但最后还是决定先留在美国，走一步看一步。这件事也又一次加深了我对“选择大于努力”的理解，抓住风口行业，及格线上的努力带来的回报就足以大幅超越其他行业多得多的努力的预期收获。</p>
+]]></content>
+      <categories>
+        <category>记录</category>
+      </categories>
+      <tags>
+        <tag>其它</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>太空人-校园生活篇</title>
+    <url>/2025/11/04/%E5%A4%AA%E7%A9%BA%E4%BA%BA-%E6%A0%A1%E5%9B%AD%E7%94%9F%E6%B4%BB%E7%AF%87/</url>
+    <content><![CDATA[<p>这里以流水账的形式记录下研究生这两年的留学生活。</p>
+<span id="more"></span>
+<h2 id="启程">启程</h2>
+<p>24 年暑假，开始办理赴美各项事宜。订了机票，开通了国际漫游，办了张
+Visa 信用卡的副卡，然后上宜家定了床和桌椅。Duke 给 graduates
+新生提供一年低价租房，但是要抢。在微信群里匹配到一个不错的室友（生活相当随意，但人很好，极其
+self-motivated），最后一块抢到了 2b2b 的房型，解决了租房问题。</p>
+<p>头一回出国，完全不知道是怎么个事，连要准备什么都不懂。稀里糊涂地上网搜了一些机场常见英语就出发了。计划在厦门和室友汇合，从厦门起飞，中转菲律宾和
+SF，落地 Raleigh，最后再打二十分钟 Uber 到 Durham，总共大概 30+ h。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0001.jpeg"
+alt="IMG_0001" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0002.jpeg"
+alt="IMG_0002" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0003.jpeg"
+alt="IMG_0003" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0004.jpeg"
+alt="IMG_0004" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0005.jpeg"
+alt="IMG_0005" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0006.jpeg"
+alt="IMG_0006" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0007.jpeg"
+alt="IMG_0007" /></div></div></div></div>
+<p>到了住处便是经典留学生开局，家徒四壁，家具全靠自己装，好在一切都比较顺利。第二天火速去办了
+AT&amp;T 的电话和 BoA 的 debit
+card，结果发现这个流量套餐加不进我现在的红米手机。眼看一直用国际漫游也不是事，只得又去线下
+Apple Store 买了个苹果手机和一个 Airtag，顺带入了我心心念念的 MacBook
+Air M3 15'。</p>
+<p>给家里办了 Spectrum 家的 WiFi（不好用，一开 Torrent
+下载就断网，第二年换成 AT&amp;T 了）
+，打电话的过程极其折磨，信道音质极差，报英文字母我都听不清。最后对面不得不用北约音标字母表（NATO/ICAO
+Phonetic Alphabet）挨个给我报 "C of
+Charlie"，但我又没背过这个表，导致一个邮箱地址报了快十分钟。好在客服极有耐心，最后还是顺利办成了。</p>
+<p>至此终于基本安顿下来，剩下时间逛了逛学校，就准备开学了。其实开学前有好几个
+welcome dinner，我由于当时找 intern 的任务很重，一个也没参加，错失了不少
+social 的机会，成为我研究生期间最后悔的几件事之一。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0008.jpeg"
+alt="IMG_0008" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0009.jpeg"
+alt="IMG_0009" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0010.jpeg"
+alt="IMG_0010" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0011.jpeg"
+alt="IMG_0011" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0215.jpeg"
+alt="IMG_0215" /></div></div></div></div>
+<p>住的是三层楼的
+apartment，每层五户人家。这种郊区（suburb）人口密度并不高，house
+也不少。</p>
+<p>严重怀疑美国人的耳朵听力很弱，各种东西声音都巨大，比如一些黑哥的车内音响。我被分到了一楼，床头正对着三个空调外机，一到冬天就挨个叫，晚上根本睡不着，后来搬家坚决要求住三楼了。室内布置也非常反人类，租的两个房子偌大的客厅都不装一个灯；中央空调只在客厅有效果，两个卧室开了空调和没开几乎一个温度；卧室铺着最能藏污纳垢的地毯，只能用吸尘器清理（我一直没买，得过且过了）。唯一的好处就是配有很方便的烤箱、洗碗机、烘干机，虽然前两者我不用。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9735.jpg"
+alt="IMG_9735" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0852.jpg"
+alt="IMG_0852" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0222.jpeg"
+alt="IMG_0222" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0223.jpeg"
+alt="IMG_0223" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0224.jpeg"
+alt="IMG_0224" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9123.jpeg"
+alt="IMG_9123" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0012.jpeg"
+alt="IMG_0012" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_2088.jpeg"
+alt="IMG_2088" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0013.jpeg"
+alt="IMG_0013" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0014.jpeg"
+alt="IMG_0014" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0223.jpg"
+alt="IMG_0223" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0224.jpg"
+alt="IMG_0224" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0227.jpg"
+alt="IMG_0227" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1081.jpg"
+alt="IMG_1081" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1086.jpg"
+alt="IMG_1086" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1082.jpg"
+alt="IMG_1082" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0018.jpeg"
+alt="IMG_0018" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1564.jpg"
+alt="IMG_1564" /></div></div></div></div>
+<p>由于这个学校合作的房子只能住一年，第二年租了个更近更贵的，跟之前相比又小又老又破，虫类巨多，生态极其丰富。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_1539.jpg"
+alt="IMG_1539" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_1801.jpg"
+alt="IMG_1801" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2311.jpg"
+alt="IMG_2311" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2312.jpg"
+alt="IMG_2312" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2313.jpg"
+alt="IMG_2313" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2320.jpg"
+alt="IMG_2320" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_3835.jpeg"
+alt="IMG_3835" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_4098.jpeg"
+alt="IMG_4098" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6204.jpeg"
+alt="IMG_6204" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6564.jpeg"
+alt="IMG_6564" /></div></div></div></div>
+<p>无论是印度、意大利、墨西哥菜，还是正宗美食汉堡，都是以肉作为主食，碳水和蔬菜都只是配菜，这令我完全无法接受。所幸校内麦当劳有个穷鬼套餐
+5 dollars meal，一个
+McDouble，一个鸡块，一盒薯条，一杯饮料，吃不饱但可以勉强对付一顿（第二年就涨价了）。这边麦当劳远不如国内，没有各类炸鸡或者其它小食，只有汉堡、鸡块和冷饮。还好平时不算特别忙，研一一整年绝大部分饭都是我自己在家做的。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9215.jpg"
+alt="IMG_9215" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0225.jpeg"
+alt="IMG_0225" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0463.jpg"
+alt="IMG_0463" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0034.jpeg"
+alt="IMG_0034" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0035.jpeg"
+alt="IMG_0035" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9584.jpg"
+alt="IMG_9584" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9666.jpg"
+alt="IMG_9666" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9707.jpg"
+alt="IMG_9707" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9712.jpg"
+alt="IMG_9712" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9725.jpg"
+alt="IMG_9725" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_3982.jpeg"
+alt="IMG_3982" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_3983.jpeg"
+alt="IMG_3983" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0037.jpeg"
+alt="IMG_0037" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0038.jpeg"
+alt="IMG_0038" /></div></div></div></div>
+<h2 id="宗教">宗教</h2>
+<p>机缘巧合，落地美国的第一刻就和基督教产生了联系。在 SF 转机时遇到了
+NCSU 的一个同学，发现同为粥友便聊了一路，发现她是名基督徒。落地 Raleigh
+后便坐上了她的基督弟兄的车，这位弟兄便是 NCSU
+周边华人基督教会的主要组织者。一周后他们便邀请我去唱诗念经，我听说有非常丰盛的晚饭便去了（那晚饭也确实是极其丰盛的，给当时天天只能吃白人饭的我带来了巨大的震撼）。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0135.jpg"
+alt="IMG_0135" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1336.jpg"
+alt="IMG_1336" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1337.jpg"
+alt="IMG_1337" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1338.jpg"
+alt="IMG_1338" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1339.jpg"
+alt="IMG_1339" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1340.jpg"
+alt="IMG_1340" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0138.jpg"
+alt="IMG_0138" /></div></div></div></div>
+<p>华人基督教会里的人来自各行各业，大部分是已经在此安家的美国公民及其子女们，也有一些组织者在校园里蹲守传教盛情拉进来的学生，还有一些
+Duke 的博士，单纯对基督文化感兴趣来学习的。</p>
+<p>活动流程就是，大家一起收拾准备晚餐，接着餐前祷告、吃饭聊天，然后唱诗三五遍，最后在新约圣经里选一个章节来读，并分享感受、释经。我参加的几次读的基本都是四福音书的部分。我发现他们完全是用阅读理解的思维在释经，也不关心相应上下文是否已经有了更权威的解，只求最后得到一个大家都接受的共识，便感到“幸福、安宁”。</p>
+<p>那之后，我便自己买了本圣经双语对照版在家看。和那位组织者大哥也一直保持着联系，遇到不懂时还会连麦向他请教。在此期间也做了自己的<a
+href="https://hocriser01.github.io/2024/10/02/%E5%9C%A3%E7%BB%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">笔记</a>。后来课业逐渐繁忙，我也逐渐厌倦了这个效率极低、只有最浅层思考、从不反思、对着答案找过程的释经活动（说来也是，信徒交流会难道还指望能质疑不成），便将参加频率从一周一次降到两周一次，大半个学期后也就不再去了。</p>
+<p>美国有 65%
+都是基督徒，其中大概四成的新教（其中两成是福音派），两成的天主教，是个不折不扣的基督教国家。在接触了基督教徒和教义之后，我也做过不少思考，认为目前的基督信仰对美国社会是利大于弊的（正如佛教之于中国）。尽管基督教群体思想普遍守旧，但确实对维护社会稳定、构建凝聚力起到了很大的作用。不过如今精英阶层普遍没有信仰，使得美国内部的文化鸿沟也越来越大；基督教福音派等群体也是
+Trump 民粹基本盘的中坚力量，当然这些便不是我能分析的了。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0583.jpg"
+alt="IMG_0583" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1222.jpg"
+alt="IMG_1222" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0586.jpg"
+alt="IMG_0586" /></div></div></div></div>
+<p>华人在美国生根后也发展了自己的佛教，这是位于
+Cary（北卡另一个城市）的佛光山寺，缘起于台湾的星云大师。佛光山寺在全球
+50 多个国家有 300 余座寺院，170
+余个道场和分会。他基于大乘佛教发展出自己的理念“人间佛教”，广为传播。</p>
+<p>研究生期间我去了三次，主要活动便是听经、读书、正坐冥想、围坐讨论。我个人对佛教的情感比较复杂，但多接触一些信仰总归不是坏事。我一个朋友是
+Duke
+宗教研究专业的，主攻东亚文学和人类学。据她说，他研究了上十个宗教，最后认定佛教是最智慧、最包容的，并最后将佛教作为了自己的信仰。她还有美国朋友也信佛，甚至将自己的口头禅从
+Oh my God 改成了 Oh my
+Buddhism。不过她家是佛教世家，也是先信的佛再进行的宗教研究，因此对于她是不是对着结论找论据我暂且也不确定。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1496.jpg"
+alt="IMG_1496" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1497.jpg"
+alt="IMG_1497" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1499.jpg"
+alt="IMG_1499" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1501.jpg"
+alt="IMG_1501" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1503.jpg"
+alt="IMG_1503" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1504.jpg"
+alt="IMG_1504" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1505.jpg"
+alt="IMG_1505" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1506.jpg"
+alt="IMG_1506" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9311.jpeg"
+alt="IMG_9311" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9313.jpeg"
+alt="IMG_9313" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9315.jpeg"
+alt="IMG_9315" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9320.jpeg"
+alt="IMG_9320" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1507.jpg"
+alt="IMG_1507" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1508.jpg"
+alt="IMG_1508" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9310.jpg"
+alt="IMG_9310" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9314.jpg"
+alt="IMG_9314" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9324.jpg"
+alt="IMG_9324" /></div></div></div></div>
+<h2 id="校园">校园</h2>
+<p>杜克校园美得没话说，每天只要在其中漫步就不由自主地掏出手机拍上几张。积累了太多这里根本放不下，我单独将相关照片汇总成
+Duke Campus Gallery 了，这里就放一些边角料。</p>
+<p>校园随处可见上下倒腾的松鼠，很可爱，但比我之前的印象要更粗犷些，有着啮齿动物特有的敏捷。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0443.jpg"
+alt="IMG_0443" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6572.jpeg"
+alt="IMG_6572" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1970.jpg"
+alt="IMG_1970" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1972.jpg"
+alt="IMG_1972" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0465.jpg"
+alt="IMG_0465" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0452.jpg"
+alt="IMG_0452" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1280.jpg"
+alt="IMG_1280" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0469.jpg"
+alt="IMG_0461" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0472.jpg"
+alt="IMG_0472" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0233.jpeg"
+alt="IMG_0233" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1784.jpg"
+alt="IMG_1784" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9748.jpg"
+alt="IMG_9748" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9762.jpg"
+alt="IMG_9762" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1687.jpg"
+alt="IMG_1687" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1689.jpg"
+alt="IMG_1689" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1690.jpg"
+alt="IMG_1690" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1692.jpg"
+alt="IMG_1692" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1919.jpg"
+alt="IMG_1919" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6410.jpeg"
+alt="IMG_6410" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6412.jpeg"
+alt="IMG_6412" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6467.jpeg"
+alt="IMG_6467" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6469.jpeg"
+alt="IMG_6469" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6470.jpeg"
+alt="IMG_6470" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6472.jpeg"
+alt="IMG_6472" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6474.jpeg"
+alt="IMG_6474" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6475.jpeg"
+alt="IMG_6475" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6477.jpeg"
+alt="IMG_6477" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6478.jpeg"
+alt="IMG_6478" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6415.jpeg"
+alt="IMG_6415" /></div></div></div></div>
+<p>学校图书馆有很多很有趣的书籍，其中包括一些“禁书”。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0236.jpeg"
+alt="IMG_0236" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_3918.jpeg"
+alt="IMG_3918" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_3919.jpeg"
+alt="IMG_3919" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_3920.jpeg"
+alt="IMG_3920" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_3921.jpeg"
+alt="IMG_3921" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_3923.jpeg"
+alt="IMG_3923" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_3924.jpeg"
+alt="IMG_3924" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_3925.jpeg"
+alt="IMG_3925" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_3926.jpeg"
+alt="IMG_3926" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_3927.jpeg"
+alt="IMG_3927" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_3928.jpeg"
+alt="IMG_3928" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_3944.jpeg"
+alt="IMG_3944" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_3945.jpeg"
+alt="IMG_3945" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_3946.jpeg"
+alt="IMG_3946" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_3947.jpeg"
+alt="IMG_3947" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_3948.jpeg"
+alt="IMG_3948" /></div></div></div></div>
+<p>追星 Yiran Chen 和 Hai Li
+成功。很厉害的教授夫妻档。就是他们的课强制用 quiz
+签到整得向来爱翘课的我非常难受。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2352.jpg"
+alt="IMG_2352" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2385.jpg"
+alt="IMG_2385" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_4020.jpg"
+alt="IMG_4020" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_4027.jpg"
+alt="IMG_4027" /></div></div></div></div>
+<p>东校区的“百团纳新”活动，本科生的游戏我就不掺和了。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0487.jpg"
+alt="IMG_0487" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0492.jpg"
+alt="IMG_0492" /></div></div></div></div>
+<p>Duke Chapel 下各个战争阵亡的美国公民纪念碑。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0494.jpg"
+alt="IMG_0494" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0495.jpg"
+alt="IMG_0495" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0496.jpg"
+alt="IMG_0496" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0498.jpg"
+alt="IMG_0498" /></div></div></div></div>
+<p>最后半年才发现学校里还有个艺术馆。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_4086.jpeg"
+alt="IMG_4086" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_4087.jpeg"
+alt="IMG_4087" /></div></div></div></div>
+<h2 id="做饭">做饭</h2>
+<p>不得已学着做了点饭，但我实在只是个日子人，对品相、色香之类的并无讲究，对付自己的中国胃足矣。番茄炒蛋是最简单美味的必做。</p>
+<p>但也闹过不少笑话，最经典的莫过于留学生保留节目之和烟雾报警器的战斗，还有面粉买成淀粉。</p>
+<p>但令我印象最深的还是我做了整整半年的夹生饭，几乎顿顿都要吃到干呕，但我一直以为日本稻米就是这个样子。直到有一天阴差阳错地加了很多水，才知道这就是正常的大米。那顿饭吃得我百感交集。不过我这种缺根筋的情况远不止这一个了，还在努力学习做个正常人。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0525.jpeg"
+alt="IMG_0525" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0530.jpeg"
+alt="IMG_0530" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1096.jpg"
+alt="IMG_1096" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0597.jpg"
+alt="IMG_0597" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0610.jpg"
+alt="IMG_0610" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0795.jpg"
+alt="IMG_0795" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0824.jpg"
+alt="IMG_0824" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0837.jpg"
+alt="IMG_0837" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0845.jpg"
+alt="IMG_0845" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1079.jpg"
+alt="IMG_1079" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1218.jpg"
+alt="IMG_1218" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0258.jpeg"
+alt="IMG_0258" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0440.jpeg"
+alt="IMG_0440" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1239.jpg"
+alt="IMG_1239" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1240.jpg"
+alt="IMG_1240" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1283.jpg"
+alt="IMG_1283" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1306.jpg"
+alt="IMG_1306" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1554.jpg"
+alt="IMG_1554" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1917.jpg"
+alt="IMG_1917" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1978.jpg"
+alt="IMG_1978" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_2087.jpg"
+alt="IMG_2087" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_8943.jpeg"
+alt="IMG_8943" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_8957.jpeg"
+alt="IMG_8957" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_8969.jpeg"
+alt="IMG_8969" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_8970.jpeg"
+alt="IMG_8970" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9109.jpeg"
+alt="IMG_9109" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9132.jpeg"
+alt="IMG_9132" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9134.jpeg"
+alt="IMG_9134" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9364.jpg"
+alt="IMG_9364" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6367.jpeg"
+alt="IMG_6367" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_7597.jpeg"
+alt="IMG_7597" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_7600.jpeg"
+alt="IMG_7600" /></div></div></div></div>
+<p>好在隔壁的中超
+Liming（亚洲超市黎明）有九块九三菜一饭的档口，量大管饱，一份顶两顿。尽管福建老板态度很一般，每次去购物我都会怒买三盒。旁边商业区也有几家还可以的中餐，虽然根据美国人的口味进行了大幅度的本土化“改良”。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1089.jpg"
+alt="IMG_1089" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1090.jpg"
+alt="IMG_1090" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1226.jpg"
+alt="IMG_1226" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6223.jpeg"
+alt="IMG_6223" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6400.jpeg"
+alt="IMG_6400" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6531.jpeg"
+alt="IMG_6531" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6536.jpeg"
+alt="IMG_6536" /></div></div></div></div>
+<h2 id="研学">研学</h2>
+<p>ECE
+学院组织过两次郊游，内容就是到一个风景优美的地方放松，然后通过讲座和
+poster
+的形式加强跨实验室交流。三天两夜，有将近天是留给各类度假村活动的。本意是给
+PhD 和有研究项目的 MS
+准备的，我虽然不做研究但也凑热闹报名了。运气很好，两次都选上了，而且两次的目的地还不一样（总共就这两个地点每年随机）。</p>
+<p>第一次是在 Virginia Mountains 里的一个 resort
+度假村，运气爆棚，抽到了一个背靠群山的绝佳视角。早上起来和印度 PhD
+老哥一块披了条毛毯躺在阳台上看日出，悠哉美哉。social
+认识了几个朋友，至于讲座当然就没怎么听了。</p>
+<p>晚上还碰上一堆夫妻在这里办婚礼，非常罗曼蒂克。第二天活动选了个
+hiking，剩下时间就躺在酒店放松。</p>
+<p>美国酒店不配备拖鞋、洗漱用品，但床头柜里都会有至少一本圣经。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0622.jpg"
+alt="IMG_0622" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0626.jpg"
+alt="IMG_0626" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0627.jpg"
+alt="IMG_0627" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0641.jpg"
+alt="IMG_0641" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0657.jpg"
+alt="IMG_0657" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0662.jpg"
+alt="IMG_0662" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0664.jpg"
+alt="IMG_0664" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0666.jpg"
+alt="IMG_0666" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0667.jpg"
+alt="IMG_0667" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0668.jpg"
+alt="IMG_0668" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0669.jpg"
+alt="IMG_0669" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0671.jpg"
+alt="IMG_0671" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0673.jpg"
+alt="IMG_0673" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0676.jpg"
+alt="IMG_0676" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0681.jpg"
+alt="IMG_0681" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0690.jpg"
+alt="IMG_0690" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0692.jpg"
+alt="IMG_0692" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0708.jpg"
+alt="IMG_0708" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0710.jpg"
+alt="IMG_0710" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0712.jpg"
+alt="IMG_0712" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0718.jpg"
+alt="IMG_0718" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0721.jpg"
+alt="IMG_0721" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0731.jpg"
+alt="IMG_0731" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0746.jpg"
+alt="IMG_0746" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0747.jpg"
+alt="IMG_0747" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0750.jpg"
+alt="IMG_0750" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0754.jpg"
+alt="IMG_0754" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0761.jpg"
+alt="IMG_0761" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0770.jpg"
+alt="IMG_0770" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0773.jpg"
+alt="IMG_0773" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0779.jpg"
+alt="IMG_0779" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0780.jpg"
+alt="IMG_0780" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0781.jpg"
+alt="IMG_0781" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0782.jpg"
+alt="IMG_0782" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0785.jpg"
+alt="IMG_0785" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0789.jpg"
+alt="IMG_0789" /></div></div></div></div>
+<p>第二年在北卡东南的一个海滨酒店看海。景色很美（美国各地环境都很美），唯一不足是天气很一般。活动就参加了个
+kayak，讲座也翘掉了，大部分时间仍然是躺在酒店里放松。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2184.jpg"
+alt="IMG_2184" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2189.jpg"
+alt="IMG_2189" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2192.jpg"
+alt="IMG_2192" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2199.jpg"
+alt="IMG_2199" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2200.jpg"
+alt="IMG_2200" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2202.jpg"
+alt="IMG_2202" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2206.jpg"
+alt="IMG_2206" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2209.jpg"
+alt="IMG_2209" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2212.jpg"
+alt="IMG_2212" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2219.jpg"
+alt="IMG_2219" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2222.jpg"
+alt="IMG_2222" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2229.jpg"
+alt="IMG_2229" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2231.jpg"
+alt="IMG_2231" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2233.jpg"
+alt="IMG_2233" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2235.jpg"
+alt="IMG_2235" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2236.jpg"
+alt="IMG_2236" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2239.jpg"
+alt="IMG_2239" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2242.jpg"
+alt="IMG_2242" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2247.jpg"
+alt="IMG_2247" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2253.jpg"
+alt="IMG_2253" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2254.jpg"
+alt="IMG_2254" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2263.jpg"
+alt="IMG_2263" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2268.jpg"
+alt="IMG_2268" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2271.jpg"
+alt="IMG_2271" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2274.jpg"
+alt="IMG_2274" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2280.jpg"
+alt="IMG_2280" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2284.jpg"
+alt="IMG_2284" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2291.jpg"
+alt="IMG_2291" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2294.jpg"
+alt="IMG_2294" /></div></div></div></div>
+<h2 id="校园活动">校园活动</h2>
+<p>2024 正好是 Duke 正式命名成立 100 周年（1838 年建校后多次改名，1924
+年被 Duke 家族大力赞助），校方请了我最爱的民谣歌手 Ed Sheeran
+来唱，我也是第一时间就抢到了票。</p>
+<p>但我不知道的是老美根本不安套路出牌，虽然票上给没人分了座位号但实际上是彻底的先到先得，我第二排正面的黄金位置早就被占了，只得作罢。虽然最后离歌手很远但主要图个氛围，那个夜晚毫无疑问还是令人难忘的。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0860.jpg"
+alt="IMG_0860" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0863.jpg"
+alt="IMG_0863" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0874.jpg"
+alt="IMG_0874" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0883.jpg"
+alt="IMG_0883" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0887.jpg"
+alt="IMG_0887" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0901.jpg"
+alt="IMG_0901" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0903.jpg"
+alt="IMG_0903" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0915.jpg"
+alt="IMG_0915" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0917.jpg"
+alt="IMG_0917" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0929.jpg"
+alt="IMG_0929" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0942.jpg"
+alt="IMG_0942" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0955.jpg"
+alt="IMG_0955" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0963.jpg"
+alt="IMG_0963" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0978.jpg"
+alt="IMG_0978" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1001.jpg"
+alt="IMG_1001" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1006.jpg"
+alt="IMG_1006" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1010.jpg"
+alt="IMG_1010" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1053.jpg"
+alt="IMG_1053" /></div></div></div></div>
+<p>这里集中放一些零散的学院、学校组织的一些活动照片。</p>
+<p>这是去 Duke Forest
+踏青，和一些很优秀的人聊了国内清北华五的教学质量，以及大家的未来规划。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1056.jpg"
+alt="IMG_1056" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1058.jpg"
+alt="IMG_1058" /></div></div></div></div>
+<p>这是我们硬件编程课的实验。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1098.jpg"
+alt="IMG_1098" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1100.jpg"
+alt="IMG_1100" /></div></div></div></div>
+<p>其它一些活动。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0205.jpeg"
+alt="IMG_0205" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0212.jpeg"
+alt="IMG_0212" /></div></div></div></div>
+<p>我在国内是一个“共享单车骑行”爱好者，平时最爱的事就是扫一辆单车，带上降噪耳机播放最爱的音乐，出去骑个十来公里。这让我误认为自己是一个骑行爱好者（事实上我似乎只喜欢骑共享单车）。</p>
+<p>一些机缘让我认识了 Durham 骑行社团的一位大姐头（Duke
+PhD），正好骑行社团的组织者换了一辆新车，便把老的车打一折（原价一千多现在只象征性收我一百刀）给了我。这位大姐头极度热爱骑行，而且是竞速骑行，水平非常高。就在我和她认识的一个多月之前，她在社团骑行活动中被一辆货车肇事逃逸直接撞住院了一个月（头部损伤），后来又花了几个月才勉强康复到能再次竞速骑行的水平。好在美国医保还算有用，抓不到肇事者也能几乎全额报销所有住院费用。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1169.jpg" /></p>
+<p>可惜，美国的道路交通并不适合骑行，特别是非组织骑行。因为美国是一个纯粹的车轮上的国家，公路没有非机动车道，也没有给不开车的人提供的路灯，所以独自骑行变成了一件比国内危险几十倍的事情（北卡法律要求骑行者在车前后都加装车灯，且佩戴头盔等护具）。其次，美国的道路起伏比国内大得多，使得频繁上坡成为独自骑行者的噩梦。</p>
+<p>因此，骑行并不作为一种交通方式，而是作为一种社交健身运动的形式存在。群体骑行活动的参与者会开车带上自己的自行车，到目的地后成群地在机动车道骑行，并遵守机动车的交通规则。一般几位老手会在前后确保群体安全、用手势向路上的机动车示意、表达感谢等。总体是一个休闲娱乐的健身活动。</p>
+<p>由于我实在社恐+英文恐惧症+极度不自信，和 native speaker
+交流起来障碍太大。一次外向换来终生内向，经此一役，再没参加过全是外国人的社交活动。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1251.jpg"
+alt="IMG_1251" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1254.jpg"
+alt="IMG_1254" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1256.jpg"
+alt="IMG_1256" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1262.jpg"
+alt="IMG_1262" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1265.jpg"
+alt="IMG_1265" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1270.jpg"
+alt="IMG_1270" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1271.jpg"
+alt="IMG_1271" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1274.jpg"
+alt="IMG_1274" /></div></div></div></div>
+<p>节日氛围</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_3733.jpeg"
+alt="IMG_3733" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_3734.jpeg"
+alt="IMG_3734" /></div></div></div></div>
+<h2 id="竞技体育">竞技体育</h2>
+<p>美国人的运动热情非常高，而且从老年到青年，年龄分布很均匀。到了比赛日，大家会穿上自己支持的队的队衣，成群结队地入场、狂欢。</p>
+<p>这是学院组织的冰上曲棍球（ice
+hockey）观赛活动，我记得我们主场队叫什么 Hurricane。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1119.jpg"
+alt="IMG_1119" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1119.jpg"
+alt="IMG_1119" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1120.jpg"
+alt="IMG_1120" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1122.jpg"
+alt="IMG_1122" /></div></div></div></div>
+<p>这是美国最火的运动之一 Football。Duke 和 UNC
+一直是宿敌，无论哪个运动都是。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1347.jpg"
+alt="IMG_1347" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1357.jpg"
+alt="IMG_1357" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1359.jpg"
+alt="IMG_1359" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1372.jpg"
+alt="IMG_1372" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1374.jpg"
+alt="IMG_1374" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1392.jpg"
+alt="IMG_1392" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1393.jpg"
+alt="IMG_1393" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1396.jpg"
+alt="IMG_1396" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1399.jpg"
+alt="IMG_1399" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1415.jpg"
+alt="IMG_1415" /></div></div></div></div>
+<p><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1436.jpg" /></p>
+<p>相比之下 soccer 的关注度就小得多了，Duke 又不是足球强校。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1470.jpg"
+alt="IMG_1470" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1472.jpg"
+alt="IMG_1472" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1486.jpg"
+alt="IMG_1486" /></div></div></div></div>
+<p>女子看垒球（Softball），男子看棒球（Baseball）。棒球算是国内比较冷门但我比较感兴趣的为数不多的竞技运动了，虽然绝大部分时间都很无聊，但一旦出现一个全垒打，大家都会很兴奋。主要是本科生看得多，带本作业本边写边看。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9241.jpg"
+alt="IMG_9241" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9253.jpg"
+alt="IMG_9253" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9271.jpg"
+alt="IMG_9271" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8016.jpeg"
+alt="IMG_8016" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8020.jpeg"
+alt="IMG_8020" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8021.jpeg"
+alt="IMG_8021" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8029.jpeg"
+alt="IMG_8029" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8189.jpeg"
+alt="IMG_8189" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8190.jpeg"
+alt="IMG_8190" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8192.jpeg"
+alt="IMG_8192" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8193.jpeg"
+alt="IMG_8193" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8197.jpeg"
+alt="IMG_8197" /></div></div></div></div>
+<p>长曲棍球（lacrosse）很有意思，一群人拿着个长杆，用上面的网兜住球互相传递射门。这场是
+Duke 对
+Princeton，对面带了一大帮亲友团来助威，我不知怎么的和他们坐到一块了。Duke
+全程被吊着打，对面进球全场欢呼的时候我只能尴尬地干坐着，旁边老哥还问我怎么不兴奋。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9277.jpg"
+alt="IMG_9277" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9290.jpg"
+alt="IMG_9290" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9297.jpg"
+alt="IMG_9297" /></div></div></div></div>
+<p>摔跤</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9356.jpg"
+alt="IMG_9356" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9363.jpg"
+alt="IMG_9363" /></div></div></div></div>
+<p>学院里还组织学了一回冰球的打法。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_3789.jpeg"
+alt="IMG_3789" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_3798.jpeg"
+alt="IMG_3798" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_3802.jpeg"
+alt="IMG_3802" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_3803.jpeg"
+alt="IMG_3803" /></div></div></div></div>
+<p>这种平民高尔夫叫做 Top Golf，挺有意思。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_7488.jpeg"
+alt="IMG_7488" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_7491.jpeg"
+alt="IMG_7491" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_7493.jpeg"
+alt="IMG_7493" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_7494.jpeg"
+alt="IMG_7494" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_7495.jpeg"
+alt="IMG_7495" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_7499.jpeg"
+alt="IMG_7499" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_7501.jpeg"
+alt="IMG_7501" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_7510.jpeg"
+alt="IMG_7510" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_7513.jpeg"
+alt="IMG_7513" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_7516.jpeg"
+alt="IMG_7516" /></div></div></div></div>
+<p>滑冰，发现自己有一点点天赋（五分钟从扶墙站不稳到能快速前进），但不多（平衡性不够）。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_7535.jpeg"
+alt="IMG_7535" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_7536.jpeg"
+alt="IMG_7536" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_7540.jpeg"
+alt="IMG_7540" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_7543.jpeg"
+alt="IMG_7543" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_7545.jpeg"
+alt="IMG_7545" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_7552.jpeg"
+alt="IMG_7552" /></div></div></div></div>
+<p>自从滑冰之后，对花样滑冰更加感兴趣（以前曾关注过日本花滑，但没深坑）。机缘巧合去了隔壁城市的花滑表演，大半个美国国家队都来了，包括刘美贤、马里宁等巨型和一众花滑顶级选手。整场下来氛围热烈，体验极佳，而且票价仅需低得不可思议的
+50 美元。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8095.jpeg"
+alt="IMG_8095" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8097.jpeg"
+alt="IMG_8097" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8111.jpeg"
+alt="IMG_8111" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8115.jpeg"
+alt="IMG_8115" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8116.jpeg"
+alt="IMG_8116" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8117.jpeg"
+alt="IMG_8117" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8120.jpeg"
+alt="IMG_8120" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8127.jpeg"
+alt="IMG_8127" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8138.jpeg"
+alt="IMG_8138" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8140.jpeg"
+alt="IMG_8140" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8142.jpeg"
+alt="IMG_8142" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8143.jpeg"
+alt="IMG_8143" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8145.jpeg"
+alt="IMG_8145" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8148.jpeg"
+alt="IMG_8148" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8158.jpeg"
+alt="IMG_8158" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8164.jpeg"
+alt="IMG_8164" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8165.jpeg"
+alt="IMG_8165" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8167.jpeg"
+alt="IMG_8167" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8170.jpeg"
+alt="IMG_8170" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8172.jpeg"
+alt="IMG_8172" /></div></div></div></div>
+<p>唯一没看的反倒是篮球。因为 Duke
+是篮球强校，非常火爆，需要学期初露营一天一夜排队抢年票。不过每次去
+Wilson 体育馆都能看到纪念“老 K”的地方。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_3967.jpeg"
+alt="IMG_3967" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_3968.jpeg"
+alt="IMG_3968" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6437.jpeg"
+alt="IMG_6437" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6439.jpeg"
+alt="IMG_6439" /></div></div></div></div>
+<h2 id="华人活动">华人活动</h2>
+<p>这是北卡一年一度的中华文化美食节，有小吃一条街、演出、花灯，好不热闹。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1515.jpg"
+alt="IMG_1515" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1516.jpg"
+alt="IMG_1516" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1519.jpg"
+alt="IMG_1519" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1531.jpg"
+alt="IMG_1531" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1533.jpg"
+alt="IMG_1533" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1536.jpg"
+alt="IMG_1536" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1539.jpg"
+alt="IMG_1539" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1548.jpg"
+alt="IMG_1548" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1549.jpg"
+alt="IMG_1549" /></div></div></div></div>
+<p>研二去了龙舟节，几乎是整个亚洲文化大杂烩的节日，很多白人也乐在其中。龙舟甚至基本上都是白人在划。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2038.jpg"
+alt="IMG_2038" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2048.jpg"
+alt="IMG_2048" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2054.jpg"
+alt="IMG_2054" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2068.jpg"
+alt="IMG_2068" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2070.jpg"
+alt="IMG_2070" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2073.jpg"
+alt="IMG_2073" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2080.jpg"
+alt="IMG_2080" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2083.jpg"
+alt="IMG_2083" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2086.jpg"
+alt="IMG_2086" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2089.jpg"
+alt="IMG_2089" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2094.jpg"
+alt="IMG_2094" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2103.jpg"
+alt="IMG_2103" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2109.jpg"
+alt="IMG_2109" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2115.jpg"
+alt="IMG_2115" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2117.jpg"
+alt="IMG_2117" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2121.jpg"
+alt="IMG_2121" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2124.jpg"
+alt="IMG_2124" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2130.jpg"
+alt="IMG_2130" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2134.jpg"
+alt="IMG_2134" /></div></div></div></div>
+<h2 id="其它">其它</h2>
+<p>经常有一些高官来 Duke
+参加活动，比如澳大利亚前总理、一些小国领导人。这是 24
+年大选期间哈里斯的竞选助手来 Duke
+演讲时的蹲守警力。由于北卡是摇摆州，竞选高峰期基本上路边都会插上各种 ALL
+CAPS 的竞选人的小旗子。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1310.jpg"
+alt="IMG_1310" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1319.jpg"
+alt="IMG_1319" /></div></div></div></div>
+<p>这是标准的
+house，类似国内的别墅。每家有自己的后院、草坪、车库等。当年的硅谷就发源于这样的车库实验室（Garage
+Culture）。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1321.jpg"
+alt="IMG_1321" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1328.jpg"
+alt="IMG_1328" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1332.jpg"
+alt="IMG_1332" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9807.jpg"
+alt="IMG_9807" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9808.jpg"
+alt="IMG_9808" /></div></div></div></div>
+<p>去了不远处的一个休闲公园，忘了哪一个了。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1569.jpg"
+alt="IMG_1569" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1574.jpg"
+alt="IMG_1574" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1580.jpg"
+alt="IMG_1580" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1582.jpg"
+alt="IMG_1582" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1585.jpg"
+alt="IMG_1585" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1588.jpg"
+alt="IMG_1588" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1593.jpg"
+alt="IMG_1593" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1614.jpg"
+alt="IMG_1614" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1637.jpg"
+alt="IMG_1637" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1644.jpg"
+alt="IMG_1644" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1647.jpg"
+alt="IMG_1647" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1659.jpg"
+alt="IMG_1659" /></div></div></div></div>
+<p>去学院负责人家里做
+Cookies。这边很多美国人对中华文化都挺有好感，可能是整个 Duke
+中国人相对较多形成的吧。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1725.jpg"
+alt="IMG_1725" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1729.jpg"
+alt="IMG_1729" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1732.jpg"
+alt="IMG_1732" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1735.jpg"
+alt="IMG_1735" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1738.jpg"
+alt="IMG_1738" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1739.jpg"
+alt="IMG_1739" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1742.jpg"
+alt="IMG_1742" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1746.jpg"
+alt="IMG_1746" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1748.jpg"
+alt="IMG_1748" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1754.jpg"
+alt="IMG_1754" /></div></div></div></div>
+<p>Duke 周边的公交/铁路。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1825.jpg"
+alt="IMG_1825" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1835.jpg"
+alt="IMG_1835" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1837.jpg"
+alt="IMG_1837" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1840.jpg"
+alt="IMG_1840" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1847.jpg"
+alt="IMG_1847" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1848.jpg"
+alt="IMG_1848" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_1850.jpg"
+alt="IMG_1850" /></div></div></div></div>
+<p>听了个 Duke
+为保护环境募捐的音乐会，虽不是最高级别的交响音乐厅，但也足够享受。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_2048.jpg"
+alt="IMG_2048" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_2052.jpg"
+alt="IMG_2052" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_2056.jpg"
+alt="IMG_2056" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_2059.jpg"
+alt="IMG_2059" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_2065.jpg"
+alt="IMG_2065" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_2078.jpg"
+alt="IMG_2078" /></div></div></div></div>
+<p>AMC
+是美国最大的连锁电影院，我一般都去这里，除非有一些已经下映的需要去更远的小影院。不得不提能在美国看各种国内无法上映的电影也是出国的一大好处之一，特别是类似鬼灭、电锯人蕾塞篇这种专为院线而生的大制作。电影开场一般都会先放满半个小时的广告才会真正开始，一般英语电影不会配字母，即使买带
+subtitle
+的也是那种给听障人士用的，其它语言则是原版配音+英文字幕。中文电影我不需要字幕；日本电影主要靠直接听日语，字幕用来辅助理解，总体也没什么问题；唯一比较难跟上的反而是英文电影，语速快又没有字幕，稍一放松很多关键词都听不到，容易错失细节（听力基础太差）。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9192.jpg" /></p>
+<p>Duke 华人自己组织的春晚，感觉挺不错。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9009.jpeg"
+alt="IMG_9009" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9016.jpeg"
+alt="IMG_9016" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9025.jpeg"
+alt="IMG_9025" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9029.jpeg"
+alt="IMG_9029" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9036.jpeg"
+alt="IMG_9036" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9047.jpeg"
+alt="IMG_9047" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9051.jpeg"
+alt="IMG_9051" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9056.jpeg"
+alt="IMG_9056" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9060.jpeg"
+alt="IMG_9060" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9080.jpeg"
+alt="IMG_9080" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9085.jpeg"
+alt="IMG_9085" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9089.jpeg"
+alt="IMG_9089" /></div></div></div></div>
+<p>去 Duke
+Farm（用于教学和实验）体验一下种地。中途实在太无聊就溜了，但没想到带队老师一路跟上来问我情况。我谎称学校有急事，她竟然毫不怀疑，而是非常关切地询问是否需要帮忙。这使我一个在国内学校混了十几年的混子大受震撼，从那以后我也再也没做过这档子事。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9379.jpg"
+alt="IMG_9379" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9383.jpg"
+alt="IMG_9383" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9387.jpg"
+alt="IMG_9387" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9390.jpg"
+alt="IMG_9390" /></div></div></div></div>
+<p>只从 office 门口就能区分是不是华人教授。老外教授 office 门口的 poster
+上全是 Lab 全员团建、冲浪之类的照片。华人教授的则贴满了
+paper（字面义）。</p>
+<p>和一位读博的朋友聊到这件事，他说后者这种反而会更吸引他。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-2/IMG_9854.jpg" /></p>
+<p>美国中超的纸钱。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0016.jpeg"
+alt="IMG_0016" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0017.jpeg"
+alt="IMG_0017" /></div></div></div></div>
+<p>去一个湖上划 kayak。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_1862.jpg" /></p>
+<p>最后一个学期报名了口语练习项目，收获颇丰。这是作为社恐+完美主义者的我唯一一次敞开心扉地、自由地与一个英语母语者畅聊所有话题的机会。语言伙伴
+Kurt
+不仅让我有机会每周进行一个小时的线下一对一交流，还带我参加了当地社区教堂的复活节、带我去农场摘草莓。毫无疑问，在今后相当长的时间，这段独特经历和友情都会令我印象深刻。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8201.jpeg"
+alt="IMG_8201" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8203.jpeg"
+alt="IMG_8203" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8206.jpeg"
+alt="IMG_8206" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8208.jpeg"
+alt="IMG_8208" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8209.jpeg"
+alt="IMG_8209" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8211.jpeg"
+alt="IMG_8211" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8212.jpeg"
+alt="IMG_8212" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8214.jpeg"
+alt="IMG_8214" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8216.jpeg"
+alt="IMG_8216" /></div></div></div></div>
+<p>去蹭隔壁 NCSU 的 career fair，比本校的正式多了，虽然来的基本都是只招
+citizen 的本土企业。这时候我已经有工作了，只在里面逛了 5
+分钟，大部分时间都在逛学校。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_1890.jpg"
+alt="IMG_1890" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_1898.jpg"
+alt="IMG_1898" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_1902.jpg"
+alt="IMG_1902" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_1907.jpg"
+alt="IMG_1907" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_1911.jpg"
+alt="IMG_1911" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_1913.jpg"
+alt="IMG_1913" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_1923.jpg"
+alt="IMG_1923" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_1925.jpg"
+alt="IMG_1925" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_1926.jpg"
+alt="IMG_1926" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_1927.jpg"
+alt="IMG_1927" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_1933.jpg"
+alt="IMG_1933" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_1934.jpg"
+alt="IMG_1934" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_1936.jpg"
+alt="IMG_1936" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_1943.jpg"
+alt="IMG_1943" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_1944.jpg"
+alt="IMG_1944" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_1946.jpg"
+alt="IMG_1946" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_1952.jpg"
+alt="IMG_1952" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_1955.jpg"
+alt="IMG_1955" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_1962.jpg"
+alt="IMG_1962" /></div></div></div></div>
+<p>Y Combinator 来我校做的交流活动。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2146.jpg"
+alt="IMG_2146" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2154.jpg"
+alt="IMG_2154" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2161.jpg"
+alt="IMG_2161" /></div></div></div></div>
+<p>Fuqua
+商学院华人组织的中秋活动，从没在校内见过这么高密度的中国人。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2365.jpg"
+alt="IMG_2365" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2368.jpg"
+alt="IMG_2368" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2372.jpg"
+alt="IMG_2372" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2373.jpg"
+alt="IMG_2373" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-1/IMG_2375.jpg"
+alt="IMG_2375" /></div></div></div></div>
+<p>学校组织观看百老汇节目。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_7826.jpeg"
+alt="IMG_7826" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_7831.jpeg"
+alt="IMG_7831" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_7839.jpeg"
+alt="IMG_7839" /></div></div></div></div>
+<p>Duke 的 career fair
+是真不行，地理位置太差，根本没几家公司愿意来。而且感觉很不正规，大家都很随意，没几个西装革履的。</p>
+<p>除了 SpaceX 和 Navy 这种只招 citizen 的公司之外，比较友好的就只有
+Nvidia 和 Google
+两家了（甚至第二年连这两家都没来）。流程基本就是排大队，然后和摊位上的工作人员象征性地咨询几个早就知道的问题，然后把自己的纸质简历放到那一垛简历堆的最上层，尽管他们几乎肯定不会碰这一垛简历的。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0806.jpg"
+alt="IMG_0806" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0807.jpg"
+alt="IMG_0807" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0812.jpg"
+alt="IMG_0812" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-1/IMG_0815.jpg"
+alt="IMG_0815" /></div></div></div></div>
+<p>朋友在 Red Hat 总部工作（就在 Raleigh），去 campus tour 一下。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6487.jpeg"
+alt="IMG_6487" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6489.jpeg"
+alt="IMG_6489" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6491.jpeg"
+alt="IMG_6491" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6492.jpeg"
+alt="IMG_6492" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6497.jpeg"
+alt="IMG_6497" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6498.jpeg"
+alt="IMG_6498" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6500.jpeg"
+alt="IMG_6500" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6501.jpeg"
+alt="IMG_6501" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6505.jpeg"
+alt="IMG_6505" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6506.jpeg"
+alt="IMG_6506" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6507.jpeg"
+alt="IMG_6507" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6509.jpeg"
+alt="IMG_6509" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6510.jpeg"
+alt="IMG_6510" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6512.jpeg"
+alt="IMG_6512" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6513.jpeg"
+alt="IMG_6513" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6517.jpeg"
+alt="IMG_6517" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6518.jpeg"
+alt="IMG_6518" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6522.jpeg"
+alt="IMG_6522" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6526.jpeg"
+alt="IMG_6526" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6527.jpeg"
+alt="IMG_6527" /></div></div></div></div>
+<h2 id="旁听">旁听</h2>
+<p>我前三个学期就修完了全部课程，因此最后一个学期没课。于是我去旁听了很多其它学院的课程。大部分研究生课程人数都非常少，根本混不进去，只能混进一些本科生课程，或者金融、数学等理科的研究生课。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6231.jpeg"
+alt="IMG_6231" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6246.jpeg"
+alt="IMG_6246" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6250.jpeg"
+alt="IMG_6250" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6252.jpeg"
+alt="IMG_6252" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6255.jpeg"
+alt="IMG_6255" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6257.jpeg"
+alt="IMG_6257" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6288.jpeg"
+alt="IMG_6288" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6295.jpeg"
+alt="IMG_6295" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6298.jpeg"
+alt="IMG_6298" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6301.jpeg"
+alt="IMG_6301" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6304.jpeg"
+alt="IMG_6304" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6309.jpeg"
+alt="IMG_6309" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6311.jpeg"
+alt="IMG_6311" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6315.jpeg"
+alt="IMG_6315" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6318.jpeg"
+alt="IMG_6318" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6320.jpeg"
+alt="IMG_6320" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6323.jpeg"
+alt="IMG_6323" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6328.jpeg"
+alt="IMG_6328" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6331.jpeg"
+alt="IMG_6331" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6338.jpeg"
+alt="IMG_6338" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6340.jpeg"
+alt="IMG_6340" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6342.jpeg"
+alt="IMG_6342" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6344.jpeg"
+alt="IMG_6344" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6346.jpeg"
+alt="IMG_6346" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6348.jpeg"
+alt="IMG_6348" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6349.jpeg"
+alt="IMG_6349" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6351.jpeg"
+alt="IMG_6351" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6353.jpeg"
+alt="IMG_6353" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6357.jpeg"
+alt="IMG_6357" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6358.jpeg"
+alt="IMG_6358" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6359.jpeg"
+alt="IMG_6359" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6360.jpeg"
+alt="IMG_6360" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6361.jpeg"
+alt="IMG_6361" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6377.jpeg"
+alt="IMG_6377" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6381.jpeg"
+alt="IMG_6381" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6385.jpeg"
+alt="IMG_6385" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6465.jpeg"
+alt="IMG_6465" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6543.jpeg"
+alt="IMG_6543" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6548.jpeg"
+alt="IMG_6548" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6555.jpeg"
+alt="IMG_6555" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6558.jpeg"
+alt="IMG_6558" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6562.jpeg"
+alt="IMG_6562" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_6567.jpeg"
+alt="IMG_6567" /></div></div></div></div>
+<h2 id="毕业">毕业</h2>
+<p>毕业考核最后一站：Poster 报告。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_7996.jpeg"
+alt="IMG_7996" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_7997.jpeg"
+alt="IMG_7997" /></div></div></div></div>
+<p>LDOC：Last Day of Class。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8050.jpeg"
+alt="IMG_8050" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8056.jpeg"
+alt="IMG_8056" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8058.jpeg"
+alt="IMG_8058" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8063.jpeg"
+alt="IMG_8063" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8065.jpeg"
+alt="IMG_8065" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8066.jpeg"
+alt="IMG_8066" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8069.jpeg"
+alt="IMG_8069" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8070.jpeg"
+alt="IMG_8070" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8074.jpeg"
+alt="IMG_8074" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8077.jpeg"
+alt="IMG_8077" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8078.jpeg"
+alt="IMG_8078" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8081.jpeg"
+alt="IMG_8081" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8084.jpeg"
+alt="IMG_8084" /></div></div></div></div>
+<p>毕业社交活动。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8240.jpeg"
+alt="IMG_8240" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8244.jpeg"
+alt="IMG_8244" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8250.jpeg"
+alt="IMG_8250" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8251.jpeg"
+alt="IMG_8251" /></div></div></div></div>
+<p>毕业典礼。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8294.jpeg"
+alt="IMG_8294" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8295.jpeg"
+alt="IMG_8295" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8297.jpeg"
+alt="IMG_8297" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8298.jpeg"
+alt="IMG_8298" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8302.jpeg"
+alt="IMG_8302" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8303.jpeg"
+alt="IMG_8303" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8307.jpeg"
+alt="IMG_8307" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8308.jpeg"
+alt="IMG_8308" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8309.jpeg"
+alt="IMG_8309" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8311.jpeg"
+alt="IMG_8311" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8312.jpeg"
+alt="IMG_8312" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8317.jpeg"
+alt="IMG_8317" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8319.jpeg"
+alt="IMG_8319" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8323.jpeg"
+alt="IMG_8323" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8327.jpeg"
+alt="IMG_8327" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8329.jpeg"
+alt="IMG_8329" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8330.jpeg"
+alt="IMG_8330" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8338.jpeg"
+alt="IMG_8338" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8343.jpeg"
+alt="IMG_8343" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8349.jpeg"
+alt="IMG_8349" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8354.jpeg"
+alt="IMG_8354" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8362.jpeg"
+alt="IMG_8362" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8385.jpeg"
+alt="IMG_8385" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8386.jpeg"
+alt="IMG_8386" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8388.jpeg"
+alt="IMG_8388" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8394.jpeg"
+alt="IMG_8394" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8397.jpeg"
+alt="IMG_8397" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8398.jpeg"
+alt="IMG_8398" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8399.jpeg"
+alt="IMG_8399" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8400.jpeg"
+alt="IMG_8400" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8403.jpeg"
+alt="IMG_8403" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8405.jpeg"
+alt="IMG_8405" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8407.jpeg"
+alt="IMG_8407" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8409.jpeg"
+alt="IMG_8409" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8412.jpeg"
+alt="IMG_8412" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8416.jpeg"
+alt="IMG_8416" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8419.jpeg"
+alt="IMG_8419" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8420.jpeg"
+alt="IMG_8420" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8422.jpeg"
+alt="IMG_8422" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8430.jpeg"
+alt="IMG_8430" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8438.jpeg"
+alt="IMG_8438" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8446.jpeg"
+alt="IMG_8446" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8448.jpeg"
+alt="IMG_8448" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8451.jpeg"
+alt="IMG_8451" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8454.jpeg"
+alt="IMG_8454" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8468.jpeg"
+alt="IMG_8468" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8471.jpeg"
+alt="IMG_8471" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8475.jpeg"
+alt="IMG_8475" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8478.jpeg"
+alt="IMG_8478" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8479.jpeg"
+alt="IMG_8479" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8481.jpeg"
+alt="IMG_8481" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8546.jpeg"
+alt="IMG_8546" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8547.jpeg"
+alt="IMG_8547" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8548.jpeg"
+alt="IMG_8548" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8549.jpeg"
+alt="IMG_8549" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8554.jpeg"
+alt="IMG_8554" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8562.jpeg"
+alt="IMG_8562" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8568.jpeg"
+alt="IMG_8568" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8575.jpeg"
+alt="IMG_8575" /></div><div class="group-picture-column" style="width: 50%;"><img
+src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/6-2/IMG_8587.jpeg"
+alt="IMG_8587" /></div></div></div></div>
+]]></content>
+      <categories>
+        <category>记录</category>
+      </categories>
+      <tags>
+        <tag>其它</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Acts of an Ordinary Man (12) - Chicago</title>
     <url>/2025/11/04/Acts-of-an-Ordinary-Man-12-Chicago/</url>
     <content><![CDATA[<blockquote>
@@ -6216,6 +8070,102 @@ src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-3/西雅图/IMG_2848.
 alt="IMG_2848" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img
 src="https://cdn.jsdelivr.net/gh/HocRiser01/Gallery@main/5-3/西雅图/IMG_2851.jpg"
 alt="IMG_2851" /></div></div></div></div>
+]]></content>
+      <categories>
+        <category>记录</category>
+      </categories>
+      <tags>
+        <tag>其它</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>太空人-行前篇</title>
+    <url>/2025/10/03/%E5%A4%AA%E7%A9%BA%E4%BA%BA-%E8%A1%8C%E5%89%8D%E7%AF%87/</url>
+    <content><![CDATA[<blockquote>
+<p><em>必死に　ただ閃雲に空に手を伸ばして</em></p>
+<p><em>拼命地，只是向着闪光的云空伸出手去</em></p>
+</blockquote>
+<p>本系列为个人美国留学生活记录，分为行前篇、校园篇和旅行篇。</p>
+<p>标题《太空人》取自新海诚电影《秒速五厘米》人生三部曲第二篇章
+<em>コスモナウト</em>，源自俄语
+<em>Cosmonaut</em>（宇航员），讲述成长后、毕业前这个阶段的，青春独有的迷茫、期许和无奈。</p>
+<p>让我们从 2023 年夏说起。</p>
+<span id="more"></span>
+<h2 id="第一段实习">第一段实习</h2>
+<p>2023
+年，在大家都为了各个保研夏令营天南海北奔走的夏天，随着我在杭州阿里总部食堂里远程遥控我的同学帮我签了放弃保研承诺书，我知道自己已经没有回头路了。要等到十月才开始出国申请，次年四月才能知道结果，这意味着无论申请结果如何，我都必须全盘接受并押上家里七位数资产，去追逐自己这个虚无缥缈的太空人的梦。</p>
+<p>简单讲一下我的本科四年，总体来看是非常轻松悠闲的四年。由于高中的竞赛经历，大一上选择进校队打
+ACM，不到一学期因对竞赛无感、且与教练不合退役；大一下进组做科研，因为完全没有人指导，浑浑噩噩做了两年，几乎没有成果，认定自己不是这块料，因而决定从此不碰科研；除此之外零零散散参加了一些
+CTF
+竞赛（因为队友网线坏了用了我的而睡了一整场的觉）、混了些社团、办了些编程比赛。长期摆烂导致
+GPA 比较难看（靠着刷分勉强刷上 3.8，最后 WES 认证没上
+3.9），同时了解到保研大部分情况下最后的去向都是由导师和实验室安排好的，而我极其不适合在导师要求下学习，也希望能给自己将来的研究领域更大的选择权。另一方面，我是疫情三年完整的亲历者（长春是当时全国最严重的区域之一），其间种种也给了我三观不小的震撼。总而言之，由于各个方面的因素，在大三下我最终决定赴美留学。</p>
+<p>具体是怎么决定下来的，我一直没有印象。可能是想着想着，某一天就不再考虑保研了。北美硕士申请无非看三个因素：标化（GPA、语言成绩），经历（论文、实习），文书（SoP、CV、推荐信）。语言方面我用两个暑假分别把
+Toefl、GRE
+考上门槛线（现在来看托福完全应该再多考几次，虽然当时考了一次就完全不想碰了也没办法）。GPA
+上我完全不想努力，也没有花什么功夫；文书之类的基本上就是中文写好一份模板，把其中几个关键地方改成目标学校的特色，翻译成英文，再找个软件润色一下就结束了。</p>
+<p>最后还能努力的空间只剩实习，于是我把自己听说过的互联网公司列了张表，开始挨个投递。当时并不了解什么日常、暑期实习，更不了解不同岗位的区别和要求，几乎是闭着眼睛乱投。大部分公司都有投递上限（那是正好是阿里拆分前两个月，还是非独立招聘的，整个集团只能投三个志愿），对于没有上限的比如字节，我花了一天时间把所有开放的实习岗位全投了一遍（88
+个岗位），最后一个面试也没拿到。</p>
+<p>运气非常好，唯一拿到的面试就是阿里淘天集团的 C++
+开发岗，意外地很顺利地三轮面试都通过了。工作是为淘宝的 AR/VR 3D
+引擎写插件，技术栈非常多样，是个很有挑战性也很有趣的项目。后来进去后才知道，其实我当时排序第三，只有一个
+HC，第一名把阿里鸽了，第二名组里小老板非常看好，但大老板一票否决了，最后才很幸运地轮到了我。可惜让老板们失望了，整个实习期间我几乎全部都在背
+GRE 单词、学 Modern C++ 和
+C#，加上对组里业务和技术栈完全不熟，最后几乎没有多少产出。老板说，产出完全不够留用，不想转正的话就走人，于是我只干了两个月就被迫走人了。</p>
+<p>话说回来，这两个月过得还是非常精彩的，头一次进到一线城市的顶级大厂，头一次对计算机这个行业有了一个比较全面的认知，也是头一次了解到业界真实的样貌，眼界大开。只不过当时我不知道，就像《中国太阳》里水娃头一回进京城一样，之后有的是眼界大开的时刻，这才刚刚开始。</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="ali-1.jpg" alt="ali-1" /></div><div class="group-picture-column" style="width: 50%;"><img src="ali-2.jpg" alt="ali-2" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="ali-3.jpg" alt="ali-3" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="ali-4.jpg" alt="ali-4" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="ali-5.jpg" alt="ali-5" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="ali-6.jpg" alt="ali-6" /></div><div class="group-picture-column" style="width: 50%;"><img src="ali-7.jpg" alt="ali-7" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="ali-8.jpg" alt="ali-8" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="ali-9.jpg" alt="ali-9" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="ali-10.jpg" alt="ali-10" /></div></div></div></div>
+<h2 id="第二段实习">第二段实习</h2>
+<p>时间来到 23
+年底，此时我已完成所有学校的申请，大四也没有别的事情，毕业论文我直接用之前失败的论文作品稍作修改，总共只花了两天。于是，虽然对申请已无作用，我还是决定用大四的时间再进行一段实习。</p>
+<p>这一次，我的目标更明确些，不再关注国内互联网大厂，而是转而关注一些美国公司。当时正值寒假，几乎没有公司开放，我破罐子破摔地在牛客上找到一家叫英伟达的公司正在招
+25 届的实习生。23 年底正是 LLM 的爆发期，NVIDIA
+毫无疑问是这一波红利的受益者。因为经常看科技新闻的缘故，我对它的印象也从一家游戏芯片公司变成了一家
+AI 芯片公司。我完全没报希望地给数月没上线的猎头留了言，问 24
+届本科生是否能做一段时间日常实习。完全没想到的是，这一无心之举完全改变了我今后的人生。经过三轮不痛不痒的面试（问的几乎都是游戏显卡的问题，我从来不玩主机游戏，但凭着平时看科技新闻的见识竟然基本都应付了下来），和多次邮件催促，我竟然拿到了这次不可思议的实习的机会。</p>
+<p>现在回头看，24
+年春在上海张江的这三个月的实习经历，可以说是几乎毫无收获。岗位是最水的测试开发（JD
+并没有写，我也没在意），每天的工作就是将实验室里的各种 GPU
+插到测试机上，用现成的脚本测试各种视频软件、游戏、AI
+应用的显卡性能。脚本挂了的时候就手动测试，或者修一修代码的 bug，调一调
+OCR 等插件的参数。大部分时间就是在内部平台的 GUI 上部署
+task，然后监控每台机子，再不然就是组装测试机、修电脑、重装显卡驱动等等杂活。</p>
+<p>但是，实习之外对我的影响就太大了。首先是上海这座城市，虽然我以前来过很多次，但这是第一次我单独从一个打工人而不是一个单纯的游客的世界去感受它。我感受到它的繁华、多元和激情，也被它所震撼。在这里定居成了年少的我心中的第一个真实的梦想，虽然它是那么的遥不可及。这三个月，我几乎玩遍了上海的所有大小景点，感受着它的每一次呼吸，也第一次如此想清楚自己究竟想要什么，为了什么而前进。</p>
+<p>另一方面，我在公司楼下一条人工河的对面租了个单间，不行上班只需 5
+分钟。一个合租人也是 NV
+的正式员工，从华为跳槽的，能力非常强。有一天晚上我门敞开着，他便到我的房间来闲聊几句。发现我们都看日本动漫作品、都打过计算机竞赛，便有了一些共同话题。然后我抓住机会问了他的工作，他便向我介绍了国内负责的
+NV
+高性能计算库和编译器部分。那个晚上总共聊了不到一个小时，我也完全没意识到这次对话有什么价值，但它将在一年后彻底改变我的人生轨迹。</p>
+<p><em>题外话，在我入职前一个月的 NV
+年会上黄仁勋来上海给所有员工都拍了合照、签了 to
+签，当时老板邀请我，但我因为不在上海，且以为只是普通的饭局，于是痛失这个与老黄零距离接触的机会，懊悔至今
+:)</em></p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="nv-1.jpg" alt="nv-1" /></div><div class="group-picture-column" style="width: 50%;"><img src="nv-2.jpg" alt="nv-2" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-3.jpg" alt="nv-3" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-4.jpg" alt="nv-4" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-5.jpg" alt="nv-5" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-6.jpg" alt="nv-6" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-7.jpg" alt="nv-7" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-8.jpg" alt="nv-8" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="nv-9.jpg" alt="nv-9" /></div><div class="group-picture-column" style="width: 50%;"><img src="nv-10.jpg" alt="nv-10" /></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-11.jpg" alt="nv-11" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-12.jpg" alt="nv-12" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-13.jpg" alt="nv-13" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="nv-14.jpg" alt="nv-14" /></div><div class="group-picture-column" style="width: 50%;"><img src="nv-15.jpg" alt="nv-15" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="nv-16.jpg" alt="nv-16" /></div><div class="group-picture-column" style="width: 50%;"><img src="nv-17.jpg" alt="nv-17" /></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-18.jpg" alt="nv-18" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-19.jpg" alt="nv-19" /></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="nv-20.jpg" alt="nv-20" /></div></div></div></div>
+<h2 id="行前准备">行前准备</h2>
+<p>随着第二段实习结束，我的申请季也宣告结束。总结下来，我的申请策略总体没有什么问题，总共是拿了
+6 个 offer。根据专排、总排、OpenCS 评级等指标最后综合选择了 Duke MS
+ECE（小插曲：由于漏看了邮件，起初我一直不知道自己拿了 Duke MS ECE 的
+offer，直到决定回复 Duke ECE MEng 的时候才在 Portal 上看到 MS ECE
+也录取了）。</p>
+<p><img src="app-result.png" /></p>
+<p>整个申请过程不可谓不繁琐，需要找到每个院校项目的官方网站并仔细阅读，了解院系的偏好、主要的教授与他们研究的方向。每个学院都要专门准备一份
+SoP，很多像 CMU
+这种学校还需要专门为它设置的繁多问答题分别写回复，还有的项目需要录一个
+video interview
+甚至需要远程面试。二十多个项目全部申下来工作量巨大，更不用提语言考试（GRE
+第一次考试没上门槛线）、成绩认证的各种麻烦，以及为了防止敏感行业签证问题而额外做的各类书面工作。为了省钱和锻炼克服对英文网页的恐惧，我坚持
+DIY
+而不找中介，只是打电话给几个中介咨询了一下选项方案。事实证明，中介给的目标院校档次会明显虚高，现在
+AI 工具的成熟也让中介的定位愈发尴尬，唯一所谓的优势“信息差”也被 OpenCS
+和一亩三分地等网站所替代。站在现在这个时间点，我不建议任何人找中介。</p>
+<p>我的文书策略是，将自己包装成对人工智能和人机交互相关的研究者。一方面是因为我之前的科研项目都与此有关，另一方面是这些方向适合引导至美国最爱的政治正确、人文关怀、理想抱负等等方面的表达（当时正值民主党执政，且院校内意识形态明显比平均水平更左）。</p>
+<p>签证最后还是毫无悬念地 check
+了，我护照是在上海办的，签证在沈阳，抽到了一个态度一般的黑女，见面的第一眼我就猜到会先
+refuse
+了，好在后续让我邮件提交了一系列本科导师材料和证明，又等了一个多月成功下签，虽然只有一年（正常学签是五年）。</p>
+<p>万事俱备，剩下的就是抓紧享受国内的大学生活了。大四这一年，我玩了杭州、上海、苏州、无锡、合肥、南京、哈尔滨、延吉，毕业旅行去的是大连和北京。到北卡罗莱纳州最便宜的机票是从厦门出发，临走前，全家人为我送行，顺便把厦门玩了一圈。从学校到家再到厦门，跨越了黄河，跨越了长江，该跨越太平洋了。</p>
+<p>好。那么，走罢！</p>
+<p>去美国。</p>
 ]]></content>
       <categories>
         <category>记录</category>
